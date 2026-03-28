@@ -508,8 +508,30 @@ with open(path, 'r+') as f:
 # ---------------------------------------------------------------------------
 cmd_watch() {
     load_context
-    local ctx
+    local ctx mode="crd"
     ctx=$(_current_context_name)
+
+    # Check for --stream flag
+    for arg in "$@"; do
+        [[ "$arg" == "--stream" ]] && mode="stream"
+    done
+
+    if [[ "$mode" == "stream" ]]; then
+        # SSE stream mode — subscribe to Redis events directly
+        log "Streaming pipeline events (Ctrl-C to stop)..."
+        kubectl exec -n paperclip-v3 redis-pc-ng-master-0 -- \
+            redis-cli -a "$(_redis_pass)" --no-auth-warning \
+            SUBSCRIBE "pipeline:events" 2>/dev/null | \
+        while IFS= read -r line; do
+            if [[ "$line" == "{"* ]]; then
+                local ts type app
+                ts=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('ts',''))" 2>/dev/null || echo "")
+                type=$(echo "$line" | python3 -c "import json,sys; print(json.load(sys.stdin).get('type',''))" 2>/dev/null || echo "")
+                printf "%s[%s]%s %s%s%s %s\n" "$C_CYAN" "${ts##*T}" "$C_RESET" "$C_BOLD" "$type" "$C_RESET" "$line"
+            fi
+        done
+        return
+    fi
 
     # Try CRDs first
     if kubectl get crd paperclipbuilds.paperclip.istayintek.com &>/dev/null; then
@@ -581,10 +603,134 @@ cmd_dashboard() {
 }
 
 # ---------------------------------------------------------------------------
-# Subcommand: queue (stubs)
+# Subcommand: queue
 # ---------------------------------------------------------------------------
+_redis_pass() {
+    local pass_file="/tmp/pc-autopilot/.redis-pass"
+    if [[ -f "$pass_file" ]]; then
+        cat "$pass_file"
+    else
+        local pass
+        pass=$(kubectl get secret redis-credentials -n paperclip-v3 -o jsonpath='{.data.password}' | base64 -d)
+        echo "$pass" > "$pass_file"
+        chmod 600 "$pass_file"
+        echo "$pass"
+    fi
+}
+
+_rcli() {
+    kubectl exec -n paperclip-v3 redis-pc-ng-master-0 -- \
+        redis-cli -a "$(_redis_pass)" --no-auth-warning "$@" 2>/dev/null
+}
+
 cmd_queue() {
-    warn "Queue commands require Redis (Phase 3). Run 'pc doctor' to check."
+    load_context
+    local sub="${1:-help}"; shift 2>/dev/null || true
+    local ctx
+    ctx=$(_current_context_name)
+    if [[ "$ctx" == "all" ]]; then
+        err "Queue commands require a specific context (v1 or tech). Run: pc context use v1"
+        return 1
+    fi
+    local queue_key="${PC_PIPELINE}:builds"
+
+    case "$sub" in
+        list)
+            log "Queue: $queue_key"
+            local items
+            items=$(_rcli ZRANGE "$queue_key" 0 -1 WITHSCORES 2>/dev/null)
+            if [[ -z "$items" ]]; then
+                echo "  (empty)"
+                return
+            fi
+            local count=0
+            while IFS= read -r entry; do
+                IFS= read -r score || true
+                local name prefix id
+                name=$(echo "$entry" | python3 -c "import json,sys; e=json.load(sys.stdin); print(f'[{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})')" 2>/dev/null || echo "$entry")
+                printf "  %s[%s]%s %s\n" "$C_YELLOW" "$score" "$C_RESET" "$name"
+                count=$((count + 1))
+            done <<< "$items"
+            echo ""
+            log "Total: $count items"
+            ;;
+        length|len)
+            local len
+            len=$(_rcli ZCARD "$queue_key" 2>/dev/null)
+            echo "${len:-0}"
+            ;;
+        priority)
+            # pc queue priority <app-id> <new-priority>
+            local app_id="${1:-}"; local new_pri="${2:-}"
+            [[ -z "$app_id" || -z "$new_pri" ]] && { err "Usage: pc queue priority <app-id> <new-priority>"; return 1; }
+
+            # Find the entry, remove it, re-add with new score
+            local items
+            items=$(_rcli ZRANGE "$queue_key" 0 -1)
+            local found=false
+            while IFS= read -r entry; do
+                [[ -z "$entry" ]] && continue
+                local eid
+                eid=$(echo "$entry" | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])" 2>/dev/null || echo "")
+                if [[ "$eid" == "$app_id" ]]; then
+                    _rcli ZREM "$queue_key" "$entry" >/dev/null
+                    _rcli ZADD "$queue_key" "$new_pri" "$entry" >/dev/null
+                    log "App #$app_id priority changed to $new_pri"
+                    found=true
+                    break
+                fi
+            done <<< "$items"
+            $found || err "App #$app_id not found in queue"
+            ;;
+        move-to-front|mtf)
+            # pc queue move-to-front <app-id>
+            local app_id="${1:-}"
+            [[ -z "$app_id" ]] && { err "Usage: pc queue move-to-front <app-id>"; return 1; }
+
+            # Get current min score, set to min-1
+            local min_score
+            min_score=$(_rcli ZRANGE "$queue_key" 0 0 WITHSCORES 2>/dev/null | tail -1)
+            [[ -z "$min_score" ]] && min_score=1
+            local new_score=$((min_score - 1))
+            (( new_score < 0 )) && new_score=0
+
+            # Find and re-add
+            local items
+            items=$(_rcli ZRANGE "$queue_key" 0 -1)
+            local found=false
+            while IFS= read -r entry; do
+                [[ -z "$entry" ]] && continue
+                local eid
+                eid=$(echo "$entry" | python3 -c "import json,sys; print(json.load(sys.stdin)['id'])" 2>/dev/null || echo "")
+                if [[ "$eid" == "$app_id" ]]; then
+                    _rcli ZREM "$queue_key" "$entry" >/dev/null
+                    _rcli ZADD "$queue_key" "$new_score" "$entry" >/dev/null
+                    log "App #$app_id moved to front (score=$new_score)"
+                    found=true
+                    break
+                fi
+            done <<< "$items"
+            $found || err "App #$app_id not found in queue"
+            ;;
+        drain)
+            local len
+            len=$(_rcli ZCARD "$queue_key" 2>/dev/null)
+            _rcli DEL "$queue_key" >/dev/null 2>&1
+            log "Drained $queue_key ($len items removed)"
+            ;;
+        help|*)
+            echo "Usage: pc queue <command>"
+            echo ""
+            echo "Commands:"
+            echo "  list              List queued apps with priorities"
+            echo "  length            Show queue length"
+            echo "  priority <id> <p> Change app priority (lower=higher)"
+            echo "  move-to-front <id> Move app to front of queue"
+            echo "  drain             Remove all items from queue"
+            echo ""
+            echo "Current queue: $queue_key"
+            ;;
+    esac
 }
 
 # ---------------------------------------------------------------------------

@@ -56,6 +56,48 @@ pc retry --all-failed    # Mark ALL failed apps in current context for retry
 # if you restart the pipeline.
 ```
 
+## Queue Management (Phase 3)
+
+```bash
+pc context use v1            # Queue commands require specific context
+pc queue list                # Show all queued apps with priority scores
+pc queue length              # Queue length
+pc queue priority 221 1      # Change app #221 priority to 1 (highest)
+pc queue move-to-front 221   # Move app #221 to front of queue
+pc queue drain               # Clear entire queue
+```
+
+## Queue Mode Pipeline
+
+```bash
+# Enqueue apps from manifest into Redis sorted set
+./autopilot-build.sh --queue-mode --enqueue \
+  --manifest /tmp/pc-autopilot/manifests/use-cases-201-400.json \
+  --pipeline-id v1
+
+# Start queue worker (dequeues by priority, auto-remediation when empty)
+./autopilot-build.sh --queue-mode --worker \
+  --concurrency 2 --pipeline-id v1
+```
+
+## Streaming Events (Phase 3)
+
+```bash
+pc watch --stream            # Live Redis pub/sub event stream (Ctrl-C to stop)
+# Or start SSE bridge for HTTP clients:
+/tmp/pc-autopilot/scripts/sse-bridge.sh --port 8484
+curl -N http://localhost:8484/events   # SSE client
+```
+
+## Circuit Breaker
+
+```bash
+# View/reset fail streak
+cat /tmp/pc-autopilot/.control/v1.fail_streak
+echo 0 > /tmp/pc-autopilot/.control/v1.fail_streak   # Manual reset
+# Breaker triggers after 5 consecutive failures, exponential backoff 60-300s
+```
+
 ## Kubernetes (CRDs)
 
 ```bash
