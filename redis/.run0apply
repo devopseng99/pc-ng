@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Redis deploy command for pc-ng
+# Pre-reqs: namespace created, PV applied, secrets created, node dir provisioned
+
+helm repo add bitnami https://charts.bitnami.com/bitnami 2>/dev/null || true
+helm repo update bitnami
+
+helm upgrade --install redis-pc-ng bitnami/redis \
+  --namespace paperclip-v3 \
+  --create-namespace \
+  -f "$(dirname "$0")/overrides.yaml" \
+  --wait --timeout 5m
+
+echo ""
+echo "Redis deployed. Verify:"
+echo "  kubectl get pods -n paperclip-v3 -l app.kubernetes.io/name=redis"
+echo "  kubectl exec -n paperclip-v3 redis-pc-ng-master-0 -- redis-cli -a \$(kubectl get secret redis-credentials -n paperclip-v3 -o jsonpath='{.data.password}' | base64 -d) ping"

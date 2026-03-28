@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pc-ng-pipeline
+  namespace: paperclip-v3
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pc-ng-pipeline-role
+rules:
+  - apiGroups: ["paperclip.istayintek.com"]
+    resources: ["paperclipbuilds", "paperclipbuilds/status"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: pc-ng-pipeline-binding
+subjects:
+  - kind: ServiceAccount
+    name: pc-ng-pipeline
+    namespace: paperclip-v3
+roleRef:
+  kind: ClusterRole
+  name: pc-ng-pipeline-role
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: paperclip-v3
+  labels:
+    app: pc-ng
+    purpose: pipeline-control-plane

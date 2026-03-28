@@ -1,0 +1,47 @@
+# PC-NG Redis — BullMQ queue backend
+# Namespace: paperclip-v3
+# Chart: bitnami/redis
+
+architecture: standalone
+
+auth:
+  existingSecret: redis-credentials
+  existingSecretPasswordKey: password
+
+master:
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 100m
+    limits:
+      memory: 256Mi
+      cpu: 500m
+
+  nodeSelector:
+    kubernetes.io/hostname: mgplcb05
+
+  persistence:
+    enabled: true
+    storageClass: my-local-storage
+    accessMode: ReadWriteOnce
+    size: 2Gi
+    existingClaim: redis-pc-ng-claim
+
+  # BullMQ needs notify-keyspace-events for delayed jobs
+  configuration: |
+    notify-keyspace-events AKE
+    maxmemory 200mb
+    maxmemory-policy noeviction
+    save 900 1
+    save 300 10
+    save 60 10000
+    appendonly yes
+    appendfsync everysec
+
+# Disable replicas, sentinel, metrics for minimal footprint
+replica:
+  replicaCount: 0
+sentinel:
+  enabled: false
+metrics:
+  enabled: false

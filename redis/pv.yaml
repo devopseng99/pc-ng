@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pc-ng-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: my-local-storage
+  claimRef:
+    namespace: paperclip-v3
+    name: redis-pc-ng-claim
+  local:
+    path: /opt/k8s-pers/vol1/redis-pc-ng
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - mgplcb05
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pc-ng-claim
+  namespace: paperclip-v3
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: my-local-storage
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: redis-pc-ng-pv

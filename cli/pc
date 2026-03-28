@@ -1,0 +1,740 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PC_VERSION="pc-ng v0.1.0"
+PC_HOME="${HOME}/.pc"
+PC_CONTEXT_FILE="${PC_HOME}/context"
+PC_CONTEXTS_DIR="${PC_HOME}/contexts"
+PC_ACTIVE_ENV="${PC_HOME}/active.env"
+PC_SOURCE_CONTEXTS="/var/lib/rancher/ansible/db/pc-ng/contexts"
+
+# ---------------------------------------------------------------------------
+# Colors / helpers
+# ---------------------------------------------------------------------------
+if [[ -t 1 ]]; then
+    C_RESET=$(tput sgr0)
+    C_BOLD=$(tput bold)
+    C_RED=$(tput setaf 1)
+    C_GREEN=$(tput setaf 2)
+    C_YELLOW=$(tput setaf 3)
+    C_CYAN=$(tput setaf 6)
+else
+    C_RESET="" C_BOLD="" C_RED="" C_GREEN="" C_YELLOW="" C_CYAN=""
+fi
+
+log()   { printf "%s%s%s\n" "$C_CYAN" "$*" "$C_RESET"; }
+warn()  { printf "%s%s%s\n" "$C_YELLOW" "$*" "$C_RESET" >&2; }
+err()   { printf "%s%s%s\n" "$C_RED" "$*" "$C_RESET" >&2; }
+ok()    { printf " %s[✓]%s %s\n" "$C_GREEN" "$C_RESET" "$*"; }
+fail()  { printf " %s[✗]%s %s\n" "$C_RED" "$C_RESET" "$*"; }
+bold()  { printf "%s%s%s" "$C_BOLD" "$*" "$C_RESET"; }
+hline() { printf "%s────────────────────────────────────────────────────%s\n" "$C_CYAN" "$C_RESET"; }
+
+# ---------------------------------------------------------------------------
+# Context loader
+# ---------------------------------------------------------------------------
+_current_context_name() {
+    if [[ -f "$PC_CONTEXT_FILE" ]]; then
+        cat "$PC_CONTEXT_FILE"
+    else
+        echo "all"
+    fi
+}
+
+_ensure_contexts_dir() {
+    mkdir -p "$PC_CONTEXTS_DIR"
+    for f in v1.env tech.env; do
+        if [[ ! -f "${PC_CONTEXTS_DIR}/${f}" ]] && [[ -f "${PC_SOURCE_CONTEXTS}/${f}" ]]; then
+            cp "${PC_SOURCE_CONTEXTS}/${f}" "${PC_CONTEXTS_DIR}/${f}"
+        fi
+    done
+}
+
+load_context() {
+    _ensure_contexts_dir
+    local ctx
+    ctx=$(_current_context_name)
+    if [[ "$ctx" != "all" ]]; then
+        local envfile="${PC_CONTEXTS_DIR}/${ctx}.env"
+        if [[ ! -f "$envfile" ]]; then
+            err "Context file not found: $envfile"
+            exit 1
+        fi
+        # shellcheck disable=SC1090
+        source "$envfile"
+    fi
+}
+
+# Source a specific context into env (used by "all" iteration)
+_source_ctx() {
+    local envfile="${PC_CONTEXTS_DIR}/${1}.env"
+    if [[ -f "$envfile" ]]; then
+        # shellcheck disable=SC1090
+        source "$envfile"
+    fi
+}
+
+# Run a callback for each context. If context=all, iterate v1 then tech.
+# Usage: _for_each_context callback_fn
+_for_each_context() {
+    local fn="$1"; shift
+    local ctx
+    ctx=$(_current_context_name)
+    if [[ "$ctx" == "all" ]]; then
+        _source_ctx v1; "$fn" "$@"
+        _source_ctx tech; "$fn" "$@"
+    else
+        "$fn" "$@"
+    fi
+}
+
+_require_single_context() {
+    local ctx
+    ctx=$(_current_context_name)
+    if [[ "$ctx" == "all" ]]; then
+        err "This command requires a single context. Run: pc context use v1|tech"
+        exit 1
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Registry helpers (deployed.json)
+# ---------------------------------------------------------------------------
+_filter_expr() {
+    # Returns a jq select expression to filter by pipeline id range
+    local pipeline="${1:-}"
+    case "$pipeline" in
+        v1)   echo 'select((.id // 0) <= 400)' ;;
+        tech) echo 'select((.id // 0) > 400)' ;;
+        *)    echo '.' ;;
+    esac
+}
+
+_registry_entries() {
+    local reg="${PC_REGISTRY:-/tmp/pc-autopilot/registry/deployed.json}"
+    if [[ ! -f "$reg" ]]; then
+        echo '[]'
+        return
+    fi
+    local filt
+    filt=$(_filter_expr "${PC_PIPELINE:-}")
+    jq -r "[(.apps // .)[] | $filt]" "$reg" 2>/dev/null || echo '[]'
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: context
+# ---------------------------------------------------------------------------
+cmd_context() {
+    local sub="${1:-}"; shift || true
+    case "$sub" in
+        use)
+            local name="${1:-}"
+            if [[ -z "$name" ]] || [[ ! "$name" =~ ^(v1|tech|all)$ ]]; then
+                err "Usage: pc context use v1|tech|all"
+                exit 1
+            fi
+            mkdir -p "$PC_HOME"
+            _ensure_contexts_dir
+            echo "$name" > "$PC_CONTEXT_FILE"
+            if [[ "$name" != "all" ]]; then
+                cp "${PC_CONTEXTS_DIR}/${name}.env" "$PC_ACTIVE_ENV"
+            else
+                : > "$PC_ACTIVE_ENV"
+            fi
+            log "Context switched to: $name"
+            ;;
+        show)
+            local ctx
+            ctx=$(_current_context_name)
+            printf "%sContext:%s %s\n" "$C_BOLD" "$C_RESET" "$ctx"
+            if [[ "$ctx" == "all" ]]; then
+                for c in v1 tech; do
+                    printf "\n%s--- %s ---%s\n" "$C_CYAN" "$c" "$C_RESET"
+                    if [[ -f "${PC_CONTEXTS_DIR}/${c}.env" ]]; then
+                        cat "${PC_CONTEXTS_DIR}/${c}.env"
+                    fi
+                done
+            else
+                local envfile="${PC_CONTEXTS_DIR}/${ctx}.env"
+                if [[ -f "$envfile" ]]; then
+                    cat "$envfile"
+                fi
+            fi
+            ;;
+        list)
+            local ctx
+            ctx=$(_current_context_name)
+            for c in v1 tech all; do
+                if [[ "$c" == "$ctx" ]]; then
+                    printf " %s* %s%s\n" "$C_GREEN" "$c" "$C_RESET"
+                else
+                    printf "   %s\n" "$c"
+                fi
+            done
+            ;;
+        *)
+            err "Usage: pc context use|show|list"
+            exit 1
+            ;;
+    esac
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: status
+# ---------------------------------------------------------------------------
+_print_status_block() {
+    local pipeline="${PC_PIPELINE:-unknown}"
+    local ns="${PC_NS:-unknown}"
+    local concurrency_file="${PC_CONTROL_DIR:-/tmp}/${pipeline}.concurrency"
+    local pause_file="${PC_CONTROL_DIR:-/tmp}/${pipeline}.paused"
+    local status_file="${PC_STATUS_FILE:-}"
+
+    local conc="?"
+    [[ -f "$concurrency_file" ]] && conc=$(cat "$concurrency_file")
+    local paused="false"
+    [[ -f "$pause_file" ]] && paused=$(cat "$pause_file")
+    local state="RUNNING"
+    [[ "$paused" == "true" ]] && state="PAUSED"
+
+    local entries
+    entries=$(_registry_entries)
+
+    local deployed failed building queued total
+    deployed=$(echo "$entries" | jq '[.[] | select(.status == "deployed")] | length')
+    failed=$(echo "$entries" | jq '[.[] | select(.status | test("failed";"i"))] | length')
+    building=$(echo "$entries" | jq '[.[] | select(.status == "building")] | length')
+    queued=$(echo "$entries" | jq '[.[] | select(.status == "queued" or .status == "pending" or .status == "pending_retry")] | length')
+    total=$(echo "$entries" | jq 'length')
+
+    local state_color="$C_GREEN"
+    [[ "$state" == "PAUSED" ]] && state_color="$C_YELLOW"
+
+    printf "%sPipeline:%s %s (%s)  %sStatus:%s %s%s%s  %sConcurrency:%s %s\n" \
+        "$C_BOLD" "$C_RESET" "$pipeline" "$ns" \
+        "$C_BOLD" "$C_RESET" "$state_color" "$state" "$C_RESET" \
+        "$C_BOLD" "$C_RESET" "$conc"
+    hline
+    printf "  Deployed:  %4s\n" "$deployed"
+    printf "  Failed:    %4s\n" "$failed"
+    printf "  Building:  %4s\n" "$building"
+    printf "  Queued:    %4s\n" "$queued"
+    printf "  Total:     %4s\n" "$total"
+}
+
+cmd_status() {
+    _for_each_context _print_status_block
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: list
+# ---------------------------------------------------------------------------
+cmd_list() {
+    local filter_pipeline="" filter_status="" json_out=false
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --pipeline) filter_pipeline="$2"; shift 2 ;;
+            --status)   filter_status="$2"; shift 2 ;;
+            --json)     json_out=true; shift ;;
+            *) err "Unknown flag: $1"; exit 1 ;;
+        esac
+    done
+
+    local ctx
+    ctx=$(_current_context_name)
+
+    _do_list() {
+        local entries
+        entries=$(_registry_entries)
+
+        # Apply pipeline override if given
+        if [[ -n "$filter_pipeline" ]]; then
+            local filt
+            filt=$(_filter_expr "$filter_pipeline")
+            entries=$(echo "$entries" | jq "[.[] | $filt]")
+        fi
+
+        if [[ -n "$filter_status" ]]; then
+            entries=$(echo "$entries" | jq --arg s "$filter_status" '[.[] | select(.status | test($s;"i"))]')
+        fi
+
+        if $json_out; then
+            echo "$entries" | jq .
+        else
+            printf "%sID\tPREFIX\tNAME\tSTATUS\tURL\tDATE%s\n" "$C_BOLD" "$C_RESET"
+            echo "$entries" | jq -r '.[] | [
+                (.id // "-" | tostring),
+                (.prefix // "-"),
+                (.name // "-"),
+                (.status // "-"),
+                (.url // "-"),
+                (.date // .timestamp // "-")
+            ] | @tsv' | column -t -s $'\t'
+        fi
+    }
+
+    _for_each_context _do_list
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: logs
+# ---------------------------------------------------------------------------
+cmd_logs() {
+    load_context
+    local target="${1:-}"; shift || true
+    local follow=false
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --follow|-f) follow=true; shift ;;
+            *) shift ;;
+        esac
+    done
+
+    if [[ -z "$target" ]]; then
+        err "Usage: pc logs <id|prefix> [--follow]"
+        exit 1
+    fi
+
+    local log_dir="${PC_LOG_DIR:-/tmp/pc-autopilot/logs}"
+    if [[ ! -d "$log_dir" ]]; then
+        err "Log directory not found: $log_dir"
+        exit 1
+    fi
+
+    # Try to find matching log file: by id or prefix substring
+    local found=""
+    for f in "$log_dir"/*; do
+        [[ -f "$f" ]] || continue
+        local base
+        base=$(basename "$f")
+        if [[ "$base" == *"$target"* ]]; then
+            found="$f"
+            break
+        fi
+    done
+
+    if [[ -z "$found" ]]; then
+        err "No log file matching '$target' in $log_dir"
+        exit 1
+    fi
+
+    log "Log: $found"
+    if $follow; then
+        tail -f "$found"
+    else
+        cat "$found"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: inspect
+# ---------------------------------------------------------------------------
+cmd_inspect() {
+    load_context
+    local target="${1:-}"
+    if [[ -z "$target" ]]; then
+        err "Usage: pc inspect <id|prefix>"
+        exit 1
+    fi
+
+    local reg="${PC_REGISTRY:-/tmp/pc-autopilot/registry/deployed.json}"
+    if [[ ! -f "$reg" ]]; then
+        err "Registry not found: $reg"
+        exit 1
+    fi
+
+    local entry
+    entry=$(jq --arg t "$target" '
+        .[] | select(
+            (.id // 0 | tostring) == $t or
+            (.prefix // "") == $t
+        )
+    ' "$reg" | head -1)
+
+    if [[ -z "$entry" || "$entry" == "null" ]]; then
+        err "No entry found for: $target"
+        exit 1
+    fi
+
+    log "=== Registry Entry ==="
+    echo "$entry" | jq .
+
+    # Try CRD lookup
+    local app_id
+    app_id=$(echo "$entry" | jq -r '.id // empty')
+    if [[ -n "$app_id" ]]; then
+        log "=== CRD Status ==="
+        if kubectl get pb "pb-${app_id}" -n paperclip-v3 -o yaml 2>/dev/null; then
+            :
+        else
+            warn "CRD not found or kubectl unavailable"
+        fi
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: concurrency
+# ---------------------------------------------------------------------------
+cmd_concurrency() {
+    local sub="${1:-}"; shift || true
+    case "$sub" in
+        get)
+            _conc_get() {
+                local f="${PC_CONTROL_DIR:-/tmp}/${PC_PIPELINE:-unknown}.concurrency"
+                local val="(not set)"
+                [[ -f "$f" ]] && val=$(cat "$f")
+                printf "%s%s%s concurrency: %s\n" "$C_BOLD" "${PC_PIPELINE:-unknown}" "$C_RESET" "$val"
+            }
+            _for_each_context _conc_get
+            ;;
+        set)
+            _require_single_context
+            load_context
+            local n="${1:-}"
+            if [[ -z "$n" ]] || ! [[ "$n" =~ ^[0-9]+$ ]] || (( n < 1 || n > 10 )); then
+                err "Usage: pc concurrency set <1-10>"
+                exit 1
+            fi
+            mkdir -p "${PC_CONTROL_DIR}"
+            echo "$n" > "${PC_CONTROL_DIR}/${PC_PIPELINE}.concurrency"
+            log "Concurrency for ${PC_PIPELINE} set to $n"
+            ;;
+        *)
+            err "Usage: pc concurrency get|set <N>"
+            exit 1
+            ;;
+    esac
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: pause / resume
+# ---------------------------------------------------------------------------
+cmd_pause() {
+    _require_single_context
+    load_context
+    mkdir -p "${PC_CONTROL_DIR}"
+    echo "true" > "${PC_CONTROL_DIR}/${PC_PIPELINE}.paused"
+    log "Pipeline ${PC_PIPELINE} paused"
+}
+
+cmd_resume() {
+    _require_single_context
+    load_context
+    mkdir -p "${PC_CONTROL_DIR}"
+    echo "false" > "${PC_CONTROL_DIR}/${PC_PIPELINE}.paused"
+    log "Pipeline ${PC_PIPELINE} resumed"
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: retry
+# ---------------------------------------------------------------------------
+cmd_retry() {
+    load_context
+    local target="${1:-}"
+    local all_failed=false
+
+    if [[ "$target" == "--all-failed" ]]; then
+        all_failed=true
+    elif [[ -z "$target" ]]; then
+        err "Usage: pc retry <id|prefix> | --all-failed"
+        exit 1
+    fi
+
+    local reg="${PC_REGISTRY:-/tmp/pc-autopilot/registry/deployed.json}"
+    if [[ ! -f "$reg" ]]; then
+        err "Registry not found: $reg"
+        exit 1
+    fi
+
+    local filt
+    filt=$(_filter_expr "${PC_PIPELINE:-}")
+
+    if $all_failed; then
+        python3 -c "
+import json, fcntl, sys
+
+path = '$reg'
+pipeline_filter = '${PC_PIPELINE:-}'
+
+with open(path, 'r+') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
+    data = json.load(f)
+    count = 0
+    for entry in data:
+        eid = entry.get('id', 0)
+        if pipeline_filter == 'v1' and eid > 400: continue
+        if pipeline_filter == 'tech' and eid <= 400: continue
+        if 'failed' in entry.get('status', ''):
+            entry['status'] = 'pending_retry'
+            count += 1
+    f.seek(0)
+    f.truncate()
+    json.dump(data, f, indent=2)
+    fcntl.flock(f, fcntl.LOCK_UN)
+    print(f'Marked {count} failed app(s) for retry')
+"
+    else
+        python3 -c "
+import json, fcntl, sys
+
+path = '$reg'
+target = '$target'
+
+with open(path, 'r+') as f:
+    fcntl.flock(f, fcntl.LOCK_EX)
+    data = json.load(f)
+    found = False
+    for entry in data:
+        if str(entry.get('id', '')) == target or entry.get('prefix', '') == target:
+            if 'failed' not in entry.get('status', ''):
+                print(f'App {target} status is \"{entry[\"status\"]}\" — not failed, skipping')
+                sys.exit(1)
+            entry['status'] = 'pending_retry'
+            found = True
+            print(f'Marked app {target} for retry')
+            break
+    if not found:
+        print(f'App {target} not found in registry', file=sys.stderr)
+        sys.exit(1)
+    f.seek(0)
+    f.truncate()
+    json.dump(data, f, indent=2)
+    fcntl.flock(f, fcntl.LOCK_UN)
+"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: watch
+# ---------------------------------------------------------------------------
+cmd_watch() {
+    load_context
+    local ctx
+    ctx=$(_current_context_name)
+
+    # Try CRDs first
+    if kubectl get crd paperclipbuilds.paperclip.istayintek.com &>/dev/null; then
+        if [[ "$ctx" == "all" ]]; then
+            exec kubectl get pb -n paperclip-v3 --watch
+        else
+            exec kubectl get pb -n paperclip-v3 -l "pipeline=${PC_PIPELINE}" --watch
+        fi
+    else
+        warn "CRDs not available, falling back to log tail"
+        local log_dir="${PC_LOG_DIR:-/tmp/pc-autopilot/logs}"
+        if [[ -d "$log_dir" ]]; then
+            local latest
+            latest=$(ls -t "$log_dir"/* 2>/dev/null | head -1)
+            if [[ -n "$latest" ]]; then
+                exec tail -f "$latest"
+            fi
+        fi
+        err "No logs found in $log_dir"
+        exit 1
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: dashboard
+# ---------------------------------------------------------------------------
+cmd_dashboard() {
+    load_context
+    while true; do
+        clear
+        printf "%s%s  pc dashboard  %s\n" "$C_BOLD" "$C_CYAN" "$C_RESET"
+        date "+%Y-%m-%d %H:%M:%S"
+        echo ""
+
+        # Status
+        _for_each_context _print_status_block
+        echo ""
+
+        # Last 10 builds
+        log "=== Recent Builds ==="
+        local reg="${PC_REGISTRY:-/tmp/pc-autopilot/registry/deployed.json}"
+        if [[ -f "$reg" ]]; then
+            jq -r '
+                sort_by(.date // .timestamp // "") | reverse | .[0:10] | .[] |
+                [(.id // "-" | tostring), (.prefix // "-"), (.status // "-"), (.date // .timestamp // "-")]
+                | @tsv
+            ' "$reg" 2>/dev/null | column -t -s $'\t' || echo "(none)"
+        else
+            echo "(registry not found)"
+        fi
+        echo ""
+
+        # Active claude processes
+        log "=== Active Processes ==="
+        if pgrep -fa "claude.*dangerously" 2>/dev/null | head -5; then
+            :
+        else
+            echo "(none)"
+        fi
+        echo ""
+
+        # Disk usage
+        log "=== Disk ==="
+        df -h /tmp /var/lib/rancher 2>/dev/null | head -5
+        echo ""
+
+        sleep 5
+    done
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: queue (stubs)
+# ---------------------------------------------------------------------------
+cmd_queue() {
+    warn "Queue commands require Redis (Phase 3). Run 'pc doctor' to check."
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: doctor
+# ---------------------------------------------------------------------------
+cmd_doctor() {
+    load_context
+    local ctx
+    ctx=$(_current_context_name)
+    printf "%s%spc doctor%s  (context: %s)\n\n" "$C_BOLD" "$C_CYAN" "$C_RESET" "$ctx"
+
+    # Context configured
+    if [[ -f "$PC_CONTEXT_FILE" ]]; then ok "Context configured ($ctx)"
+    else fail "Context not configured (defaulting to 'all')"; fi
+
+    _doctor_checks() {
+        local pipeline="${PC_PIPELINE:-unknown}"
+        local ns="${PC_NS:-unknown}"
+        local svc="${PC_SVC:-unknown}"
+
+        log "--- ${pipeline} (${ns}) ---"
+
+        # Control directory
+        if [[ -d "${PC_CONTROL_DIR:-}" ]]; then ok "Control directory exists (${PC_CONTROL_DIR})"
+        else fail "Control directory missing (${PC_CONTROL_DIR:-not set})"; fi
+
+        # Registry file
+        if [[ -f "${PC_REGISTRY:-}" ]]; then ok "Registry file exists (${PC_REGISTRY})"
+        else fail "Registry file missing (${PC_REGISTRY:-not set})"; fi
+
+        # Tmux session
+        if tmux has-session -t "${PC_TMUX_SESSION:-none}" 2>/dev/null; then
+            ok "Autopilot tmux session running (${PC_TMUX_SESSION})"
+        else
+            fail "Autopilot tmux session not found (${PC_TMUX_SESSION:-not set})"
+        fi
+
+        # Pod running
+        if kubectl get deploy "$svc" -n "$ns" &>/dev/null; then
+            ok "Paperclip deploy $svc running in $ns"
+        else
+            fail "Paperclip deploy $svc not found in $ns"
+        fi
+    }
+
+    _for_each_context _doctor_checks
+
+    echo ""
+
+    # Global checks
+    if kubectl get crd paperclipbuilds.paperclip.istayintek.com &>/dev/null; then
+        ok "CRDs installed (paperclipbuilds.paperclip.istayintek.com)"
+    else
+        fail "CRDs not installed"
+    fi
+
+    if kubectl get deploy -n paperclip-v3 -l app.kubernetes.io/name=redis &>/dev/null 2>&1 \
+       && [[ -n "$(kubectl get deploy -n paperclip-v3 -l app.kubernetes.io/name=redis -o name 2>/dev/null)" ]]; then
+        ok "Redis running in paperclip-v3"
+    else
+        fail "Redis not found in paperclip-v3"
+    fi
+
+    if kubectl get ns paperclip-v3 &>/dev/null; then
+        ok "paperclip-v3 namespace exists"
+    else
+        fail "paperclip-v3 namespace not found"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# Subcommand: version
+# ---------------------------------------------------------------------------
+cmd_version() {
+    echo "$PC_VERSION"
+}
+
+# ---------------------------------------------------------------------------
+# Help
+# ---------------------------------------------------------------------------
+usage() {
+    cat <<'USAGE'
+pc - multi-tenant pipeline management CLI (pc-ng)
+
+Usage:
+  pc <command> [args...]
+
+Context:
+  context use v1|tech|all   Switch active context
+  context show              Show current context and config
+  context list              List available contexts
+
+Pipeline:
+  status                    Pipeline overview (counts, state)
+  list [--pipeline v1|tech] [--status STATUS] [--json]
+                            List apps from registry
+  logs <id|prefix> [-f]     View build logs
+  inspect <id|prefix>       Detailed app info + CRD status
+  watch                     Live watch (CRDs or log tail)
+  dashboard                 Full-screen monitor (refreshes 5s)
+
+Control:
+  concurrency get           Show current concurrency
+  concurrency set <1-10>    Set concurrency
+  pause                     Pause pipeline
+  resume                    Resume pipeline
+  retry <id|prefix>         Retry a failed app
+  retry --all-failed        Retry all failed apps
+
+Queue (Phase 3):
+  queue list|priority|move-to-front|drain
+
+System:
+  doctor                    Health checks
+  version                   Print version
+  --help, help              This message
+USAGE
+}
+
+# ---------------------------------------------------------------------------
+# Main dispatch
+# ---------------------------------------------------------------------------
+main() {
+    local cmd="${1:-}"; shift || true
+
+    # Load context for commands that use _for_each_context
+    case "$cmd" in
+        context|version|--help|help|"") ;;
+        *) load_context ;;
+    esac
+
+    case "$cmd" in
+        context)      cmd_context "$@" ;;
+        status)       cmd_status "$@" ;;
+        list)         cmd_list "$@" ;;
+        logs)         cmd_logs "$@" ;;
+        inspect)      cmd_inspect "$@" ;;
+        concurrency)  cmd_concurrency "$@" ;;
+        pause)        cmd_pause "$@" ;;
+        resume)       cmd_resume "$@" ;;
+        retry)        cmd_retry "$@" ;;
+        watch)        cmd_watch "$@" ;;
+        dashboard)    cmd_dashboard "$@" ;;
+        queue)        cmd_queue "$@" ;;
+        doctor)       cmd_doctor "$@" ;;
+        version)      cmd_version ;;
+        --help|help)  usage ;;
+        "")           usage ;;
+        *)            err "Unknown command: $cmd"; usage; exit 1 ;;
+    esac
+}
+
+main "$@"

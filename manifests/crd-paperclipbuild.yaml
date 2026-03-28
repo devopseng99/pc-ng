@@ -1,0 +1,139 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: paperclipbuilds.paperclip.istayintek.com
+spec:
+  group: paperclip.istayintek.com
+  names:
+    kind: PaperclipBuild
+    listKind: PaperclipBuildList
+    plural: paperclipbuilds
+    singular: paperclipbuild
+    shortNames:
+      - pb
+    categories:
+      - paperclip
+  scope: Namespaced
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+      subresources:
+        status: {}
+      additionalPrinterColumns:
+        - name: PIPELINE
+          type: string
+          jsonPath: .spec.pipeline
+          description: Pipeline tenant (v1 or tech)
+        - name: PHASE
+          type: string
+          jsonPath: .status.phase
+          description: Current build phase
+        - name: APP
+          type: string
+          jsonPath: .spec.appName
+          description: Human-readable app name
+        - name: CATEGORY
+          type: string
+          jsonPath: .spec.category
+          description: Build category
+        - name: URL
+          type: string
+          jsonPath: .status.deployUrl
+          description: Deployment URL
+          priority: 1
+        - name: AGE
+          type: date
+          jsonPath: .metadata.creationTimestamp
+          description: Time since creation
+      schema:
+        openAPIV3Schema:
+          type: object
+          description: PaperclipBuild represents a single application build and deployment lifecycle.
+          properties:
+            spec:
+              type: object
+              description: Desired state of the PaperclipBuild.
+              required:
+                - appId
+                - appName
+                - prefix
+                - pipeline
+                - repo
+              properties:
+                appId:
+                  type: integer
+                  description: Unique numeric identifier for the application.
+                appName:
+                  type: string
+                  description: Human-readable application name.
+                prefix:
+                  type: string
+                  description: Short prefix code used in naming conventions.
+                category:
+                  type: string
+                  description: Build category for grouping related applications.
+                pipeline:
+                  type: string
+                  description: Which pipeline tenant this build belongs to.
+                  enum:
+                    - v1
+                    - tech
+                repo:
+                  type: string
+                  description: GitHub repository name.
+                priority:
+                  type: integer
+                  description: Queue priority (1=highest, 10=lowest).
+                  default: 5
+                  minimum: 1
+                  maximum: 10
+            status:
+              type: object
+              description: Observed state of the PaperclipBuild, managed by the controller.
+              properties:
+                phase:
+                  type: string
+                  description: Current phase of the build lifecycle.
+                  enum:
+                    - Pending
+                    - Queued
+                    - Onboarding
+                    - Building
+                    - Deploying
+                    - Deployed
+                    - Failed
+                deployUrl:
+                  type: string
+                  description: URL where the application is deployed.
+                errorMessage:
+                  type: string
+                  description: Error details if the build has failed.
+                startedAt:
+                  type: string
+                  format: date-time
+                  description: Timestamp when the build started.
+                completedAt:
+                  type: string
+                  format: date-time
+                  description: Timestamp when the build completed or failed.
+                checkpoints:
+                  type: array
+                  description: Ordered list of pipeline stage checkpoints.
+                  items:
+                    type: object
+                    properties:
+                      stage:
+                        type: string
+                        description: Name of the pipeline stage.
+                      status:
+                        type: string
+                        description: Current status of this stage.
+                        enum:
+                          - pending
+                          - running
+                          - complete
+                          - failed
+                      completedAt:
+                        type: string
+                        description: Timestamp when this stage completed.
