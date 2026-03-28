@@ -641,8 +641,7 @@ cmd_doctor() {
         fail "CRDs not installed"
     fi
 
-    if kubectl get deploy -n paperclip-v3 -l app.kubernetes.io/name=redis &>/dev/null 2>&1 \
-       && [[ -n "$(kubectl get deploy -n paperclip-v3 -l app.kubernetes.io/name=redis -o name 2>/dev/null)" ]]; then
+    if kubectl get pods -n paperclip-v3 -l app.kubernetes.io/name=redis --field-selector=status.phase=Running -o name 2>/dev/null | grep -q .; then
         ok "Redis running in paperclip-v3"
     else
         fail "Redis not found in paperclip-v3"
