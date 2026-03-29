@@ -17,7 +17,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORKSPACE="/tmp/pc-autopilot"
 WORKER_DIR="$WORKSPACE/.workers"
-CONCURRENCY=4
+CONCURRENCY=2
 PIPELINE=""
 STOP=false
 TIMEOUT=300
