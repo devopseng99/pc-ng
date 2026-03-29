@@ -14,7 +14,7 @@ fi
 [[ ! -f "$MANIFEST" ]] && { echo "ERROR: Manifest not found: $MANIFEST — run bootstrap.sh first"; exit 1; }
 
 tmux new-session -d -s "$SESSION" \
-  "$SCRIPT_DIR/phase-a-codegen.sh --manifest $MANIFEST --pipeline-id v1 --concurrency 4 --timeout 300; echo 'Phase A complete. Run batch-deploy-k8s.sh for Phase B. Press Enter to close.'; read"
+  "$SCRIPT_DIR/phase-a-codegen.sh --manifest $MANIFEST --pipeline-id v1 --concurrency 2 --timeout 300; echo 'Phase A complete. Run batch-deploy-k8s.sh for Phase B. Press Enter to close.'; read"
 
 echo "Phase A (codegen) v1 launched in tmux: $SESSION"
 echo "  Concurrency: 4  |  Timeout: 300s  |  Stall: 90s"

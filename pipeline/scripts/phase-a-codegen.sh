@@ -22,7 +22,7 @@ PC_DIR="/var/lib/rancher/ansible/db/pc"
 STATUS_FILE="$WORKSPACE/.codegen-status"
 READY_DIR="$WORKSPACE/.ready-to-deploy"
 
-CONCURRENCY=4
+CONCURRENCY=2
 MANIFEST=""
 BUILD_TIMEOUT=300
 PIPELINE_ID="v1"
@@ -293,15 +293,34 @@ for i in issues:
   redis_publish "build_start" "\"app\":\"$prefix\",\"id\":$id,\"category\":\"$category\""
 
   local build_ok=false
-  if run_build_with_watchdog "$repo" "$prompt" "$logfile"; then
-    build_ok=true
-  elif has_build_output "$repo"; then
-    log_app "$prefix" "Build process failed but output exists — recovering"
-    build_ok=true
-  fi
+  local max_retries=3
+  for attempt in $(seq 1 $max_retries); do
+    local build_start_ts
+    build_start_ts=$(date +%s)
+
+    if run_build_with_watchdog "$repo" "$prompt" "$logfile"; then
+      build_ok=true
+      break
+    elif has_build_output "$repo"; then
+      log_app "$prefix" "Build process failed but output exists — recovering"
+      build_ok=true
+      break
+    fi
+
+    # If it failed in <30s, it's likely rate-limited — wait and retry
+    local elapsed=$(( $(date +%s) - build_start_ts ))
+    if (( elapsed < 30 )) && (( attempt < max_retries )); then
+      local backoff=$(( 30 * attempt ))
+      log_app "$prefix" "Build failed in ${elapsed}s (likely rate-limited) — retry $attempt/$max_retries in ${backoff}s..."
+      sleep "$backoff"
+      rm -rf "/tmp/$repo" 2>/dev/null
+    else
+      break
+    fi
+  done
 
   if [[ "$build_ok" != "true" ]]; then
-    log_app "$prefix" "BUILD FAILED (see $logfile)"
+    log_app "$prefix" "BUILD FAILED after $max_retries attempts (see $logfile)"
     update_crd_status "$id" "$prefix" "Failed" "ai-codegen" "\"errorMessage\":\"Build failed or timed out\""
     redis_publish "build_complete" "\"app\":\"$prefix\",\"id\":$id,\"status\":\"failed\""
     rm -rf "/tmp/$repo" 2>/dev/null
