@@ -153,6 +153,36 @@ circuit_breaker_reset() {
   echo 0 > "$streak_file"
 }
 
+# --- Resource utilization gate ---
+RESOURCE_THRESHOLD=70  # halt deploys at 70% utilization
+RESOURCE_BUILD_ONLY=false
+
+check_resource_utilization() {
+  local node="${1:-mgplcb05}"
+  local result
+  result=$(kubectl top node "$node" --no-headers 2>/dev/null) || return 0
+  local cpu_pct mem_pct
+  cpu_pct=$(echo "$result" | awk '{gsub(/%/,"",$3); print $3}')
+  mem_pct=$(echo "$result" | awk '{gsub(/%/,"",$5); print $5}')
+
+  if (( cpu_pct >= RESOURCE_THRESHOLD )) || (( mem_pct >= RESOURCE_THRESHOLD )); then
+    if [[ "$RESOURCE_BUILD_ONLY" != "true" ]]; then
+      log "RESOURCE GATE: ${node} at CPU=${cpu_pct}% MEM=${mem_pct}% (threshold=${RESOURCE_THRESHOLD}%)"
+      log "  Switching to BUILD-ONLY mode — deploys halted until utilization drops"
+      RESOURCE_BUILD_ONLY=true
+      redis_publish "resource_gate" "\"node\":\"$node\",\"cpu\":$cpu_pct,\"mem\":$mem_pct,\"mode\":\"build_only\""
+    fi
+    return 1
+  else
+    if [[ "$RESOURCE_BUILD_ONLY" == "true" ]]; then
+      log "RESOURCE GATE: ${node} recovered to CPU=${cpu_pct}% MEM=${mem_pct}% — resuming deploys"
+      RESOURCE_BUILD_ONLY=false
+      redis_publish "resource_gate" "\"node\":\"$node\",\"cpu\":$cpu_pct,\"mem\":$mem_pct,\"mode\":\"normal\""
+    fi
+    return 0
+  fi
+}
+
 # --- Phase 3d: Remediation queue ---
 remediation_loop() {
   log "=== Entering remediation sweep ==="
@@ -171,9 +201,8 @@ for a in data.get('apps', []):
   for repo in $orphans; do
     if [[ -d "/tmp/$repo/out" ]] || [[ -d "/tmp/$repo/dist" ]] || [[ -d "/tmp/$repo/.next" ]]; then
       log "Remediation: deploying orphaned build /tmp/$repo"
-      if "$SCRIPT_DIR/deploy-cf.sh" --repo "$repo" --name "$repo" 2>/dev/null; then
-        local url="https://${repo}.pages.dev"
-        # Update registry status
+      local url
+      if url=$("$SCRIPT_DIR/deploy-k8s-static.sh" --repo "$repo" --name "$repo" 2>/dev/null | tail -1); then
         python3 -c "
 import json
 with open('$REGISTRY') as f: data = json.load(f)
@@ -206,8 +235,8 @@ for a in data.get('apps', []):
     repo=$(echo "$entry" | python3 -c "import json,sys; print(json.load(sys.stdin)['repo'])")
     prefix=$(echo "$entry" | python3 -c "import json,sys; print(json.load(sys.stdin)['prefix'])")
     log "Remediation: retrying deploy for $prefix ($repo)"
-    if "$SCRIPT_DIR/deploy-cf.sh" --repo "$repo" --name "$repo" 2>/dev/null; then
-      local url="https://${repo}.pages.dev"
+    local url
+    if url=$("$SCRIPT_DIR/deploy-k8s-static.sh" --repo "$repo" --name "$repo" 2>/dev/null | tail -1); then
       if validate_deploy "$url" "$prefix"; then
         python3 -c "
 import json
@@ -325,6 +354,7 @@ queue_worker_loop() {
   while true; do
     reload_concurrency
     circuit_breaker_check
+    check_resource_utilization || true  # updates RESOURCE_BUILD_ONLY flag
 
     # Reap finished jobs
     local new_pids=() new_names=()
@@ -665,29 +695,44 @@ for i in issues:
   fi
 
   if [[ "$SKIP_DEPLOY" != "true" ]]; then
-    # Step 6: Deploy to Cloudflare Pages
-    update_crd_status "$id" "$prefix" "Deploying" "cloudflare-deploy"
-    log_app "$prefix" "Deploying to CF Pages..."
-    if ! "$SCRIPT_DIR/deploy-cf.sh" --repo "$repo" --name "$repo" 2>&1 | tee -a "$logfile"; then
-      log_app "$prefix" "DEPLOY FAILED — see $logfile"
-      update_crd_status "$id" "$prefix" "Failed" "cloudflare-deploy" "\"errorMessage\":\"Deploy failed\""
-      register_app "$id" "$name" "$prefix" "$repo" "" "$company_id" "deploy_failed"
-      return 1
+    # Resource utilization check — if over threshold, skip deploy (build-only mode)
+    if ! check_resource_utilization; then
+      log_app "$prefix" "DEPLOY DEFERRED — cluster at capacity (build-only mode)"
+      update_crd_status "$id" "$prefix" "Deploying" "k8s-static-deploy" "\"errorMessage\":\"Deferred: cluster at capacity\""
+      register_app "$id" "$name" "$prefix" "$repo" "" "$company_id" "build_complete"
+      return 0
     fi
 
-    local url="https://${repo}.pages.dev"
+    # Step 6: Deploy to K8s (static nginx) with CF tunnel
+    update_crd_status "$id" "$prefix" "Deploying" "k8s-static-deploy"
+    log_app "$prefix" "Deploying to K8s..."
+    local deploy_output
+    if deploy_output=$("$SCRIPT_DIR/deploy-k8s-static.sh" --repo "$repo" --name "$name" --app-id "$id" 2>&1 | tee -a "$logfile" | tail -1); then
+      local url="$deploy_output"
+      # If deploy-k8s-static.sh returned an empty line or internal URL, construct the public one
+      if [[ -z "$url" ]] || [[ "$url" == http://* ]]; then
+        local k8s_name
+        k8s_name=$(echo "$name" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | sed 's/--*/-/g' | sed 's/-$//' | head -c 63)
+        url="https://${k8s_name}.istayintek.com"
+      fi
 
-    # Step 6b: Validate deploy (Phase 3b)
-    if validate_deploy "$url" "$prefix"; then
-      update_crd_status "$id" "$prefix" "Deployed" "cloudflare-deploy" "\"deployUrl\":\"$url\",\"completedAt\":\"$(date -Iseconds)\""
-      register_app "$id" "$name" "$prefix" "$repo" "$url" "$company_id" "deployed"
-      log_app "$prefix" "DEPLOYED & VERIFIED: $url"
-      redis_publish "app_deployed" "\"app\":\"$prefix\",\"id\":$id,\"url\":\"$url\""
+      # Step 6b: Validate deploy (Phase 3b)
+      if validate_deploy "$url" "$prefix"; then
+        update_crd_status "$id" "$prefix" "Deployed" "k8s-static-deploy" "\"deployUrl\":\"$url\",\"completedAt\":\"$(date -Iseconds)\""
+        register_app "$id" "$name" "$prefix" "$repo" "$url" "$company_id" "deployed"
+        log_app "$prefix" "DEPLOYED & VERIFIED: $url"
+        redis_publish "app_deployed" "\"app\":\"$prefix\",\"id\":$id,\"url\":\"$url\""
+      else
+        update_crd_status "$id" "$prefix" "DeployUnverified" "k8s-static-deploy" "\"deployUrl\":\"$url\",\"completedAt\":\"$(date -Iseconds)\""
+        register_app "$id" "$name" "$prefix" "$repo" "$url" "$company_id" "deploy_unverified"
+        log_app "$prefix" "DEPLOYED but UNVERIFIED: $url (will retry in remediation)"
+        redis_publish "app_deploy_unverified" "\"app\":\"$prefix\",\"id\":$id,\"url\":\"$url\""
+      fi
     else
-      update_crd_status "$id" "$prefix" "DeployUnverified" "cloudflare-deploy" "\"deployUrl\":\"$url\",\"completedAt\":\"$(date -Iseconds)\""
-      register_app "$id" "$name" "$prefix" "$repo" "$url" "$company_id" "deploy_unverified"
-      log_app "$prefix" "DEPLOYED but UNVERIFIED: $url (will retry in remediation)"
-      redis_publish "app_deploy_unverified" "\"app\":\"$prefix\",\"id\":$id,\"url\":\"$url\""
+      log_app "$prefix" "DEPLOY FAILED — see $logfile"
+      update_crd_status "$id" "$prefix" "Failed" "k8s-static-deploy" "\"errorMessage\":\"Deploy failed\""
+      register_app "$id" "$name" "$prefix" "$repo" "" "$company_id" "deploy_failed"
+      return 1
     fi
   fi
 
