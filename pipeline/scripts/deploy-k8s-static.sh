@@ -273,7 +273,6 @@ public_url=""
 if [[ "$SKIP_TUNNEL" != "true" ]]; then
   HOSTNAME="${K8S_NAME}.${DOMAIN}"
   SERVICE_URL="${local_url}:80"
-  log "Adding Cloudflare tunnel route: $HOSTNAME -> $SERVICE_URL"
 
   # Fetch current tunnel config
   CURRENT_CONFIG=$(curl -sf \
@@ -281,14 +280,30 @@ if [[ "$SKIP_TUNNEL" != "true" ]]; then
     "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/cfd_tunnel/${CF_TUNNEL_ID}/configurations" \
     | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin)['result']['config']))")
 
-  # Add new ingress rule (before the catch-all 404)
-  UPDATED_CONFIG=$(echo "$CURRENT_CONFIG" | python3 -c "
+  # Check if tunnel route already exists for this hostname+service
+  ROUTE_EXISTS=$(echo "$CURRENT_CONFIG" | python3 -c "
+import json, sys
+config = json.load(sys.stdin)
+hostname = '${HOSTNAME}'
+service = '${SERVICE_URL}'
+for r in config.get('ingress', []):
+    if r.get('hostname') == hostname and r.get('service') == service:
+        print('yes'); break
+else:
+    print('no')
+")
+
+  if [[ "$ROUTE_EXISTS" == "yes" ]]; then
+    log "Tunnel route already exists: $HOSTNAME -> $SERVICE_URL (skipping)"
+  else
+    log "Adding Cloudflare tunnel route: $HOSTNAME -> $SERVICE_URL"
+    UPDATED_CONFIG=$(echo "$CURRENT_CONFIG" | python3 -c "
 import json, sys
 config = json.load(sys.stdin)
 hostname = '${HOSTNAME}'
 service = '${SERVICE_URL}'
 ingress = config.get('ingress', [])
-# Remove existing rule for this hostname if present
+# Remove existing rule for this hostname if present (stale service URL)
 ingress = [r for r in ingress if r.get('hostname') != hostname]
 # Remove catch-all (last rule), add new rule, re-add catch-all
 catch_all = {'service': 'http_status:404'}
@@ -300,32 +315,42 @@ config['ingress'] = ingress
 print(json.dumps({'config': config}))
 ")
 
-  # Push updated config
-  TUNNEL_RESP=$(curl -sf -X PUT \
-    -H "Authorization: Bearer $CF_API_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d "$UPDATED_CONFIG" \
-    "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/cfd_tunnel/${CF_TUNNEL_ID}/configurations")
+    TUNNEL_RESP=$(curl -sf -X PUT \
+      -H "Authorization: Bearer $CF_API_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "$UPDATED_CONFIG" \
+      "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/cfd_tunnel/${CF_TUNNEL_ID}/configurations")
 
-  if echo "$TUNNEL_RESP" | python3 -c "import json,sys; assert json.load(sys.stdin)['success']" 2>/dev/null; then
-    log "  Tunnel route added"
-  else
-    log "  WARNING: Tunnel route update failed"
-    log "  Response: $TUNNEL_RESP"
+    if echo "$TUNNEL_RESP" | python3 -c "import json,sys; assert json.load(sys.stdin)['success']" 2>/dev/null; then
+      log "  Tunnel route added"
+    else
+      log "  WARNING: Tunnel route update failed"
+      log "  Response: $TUNNEL_RESP"
+    fi
   fi
 
-  # Create DNS CNAME record
-  log "Creating DNS CNAME: $HOSTNAME -> ${CF_TUNNEL_ID}.cfargotunnel.com"
-  DNS_RESP=$(curl -sf -X POST \
+  # Check if DNS CNAME already exists
+  DNS_EXISTS=$(curl -sf \
     -H "Authorization: Bearer $CF_API_TOKEN" \
-    -H "Content-Type: application/json" \
-    -d "{\"type\":\"CNAME\",\"name\":\"${HOSTNAME}\",\"content\":\"${CF_TUNNEL_ID}.cfargotunnel.com\",\"proxied\":true}" \
-    "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records")
+    "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records?type=CNAME&name=${HOSTNAME}" \
+    | python3 -c "import json,sys; d=json.load(sys.stdin); print('yes' if d.get('result_info',{}).get('count',0)>0 else 'no')" 2>/dev/null || echo "no")
 
-  if echo "$DNS_RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['success'] or any('already' in str(e) for e in d.get('errors',[]))" 2>/dev/null; then
-    log "  DNS record created"
+  if [[ "$DNS_EXISTS" == "yes" ]]; then
+    log "DNS CNAME already exists: $HOSTNAME (skipping)"
   else
-    log "  WARNING: DNS record creation may have failed (could already exist)"
+    log "Creating DNS CNAME: $HOSTNAME -> ${CF_TUNNEL_ID}.cfargotunnel.com"
+    DNS_RESP=$(curl -sf -X POST \
+      -H "Authorization: Bearer $CF_API_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "{\"type\":\"CNAME\",\"name\":\"${HOSTNAME}\",\"content\":\"${CF_TUNNEL_ID}.cfargotunnel.com\",\"proxied\":true}" \
+      "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records")
+
+    if echo "$DNS_RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['success']" 2>/dev/null; then
+      log "  DNS record created"
+    else
+      log "  WARNING: DNS record creation failed"
+      log "  Response: $DNS_RESP"
+    fi
   fi
 
   public_url="https://${HOSTNAME}"
