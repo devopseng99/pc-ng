@@ -224,11 +224,12 @@ push_to_github() {
 # --- Verify code actually reached GitHub ---
 verify_on_github() {
   local repo="$1"
-  local api_resp size
-  api_resp=$(curl -sf -H "Authorization: token ${GH_TOKEN}" \
-    "https://api.github.com/repos/devopseng99/${repo}" 2>/dev/null) || return 1
-  size=$(echo "$api_resp" | python3 -c "import json,sys; print(json.load(sys.stdin).get('size',0))" 2>/dev/null)
-  [[ "$size" -gt 0 ]] 2>/dev/null
+  local http_code
+  # Check if main branch exists (faster + more reliable than repo size which lags)
+  http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token ${GH_TOKEN}" \
+    "https://api.github.com/repos/devopseng99/${repo}/git/ref/heads/main" 2>/dev/null)
+  [[ "$http_code" == "200" ]]
 }
 
 # --- Process single app (codegen only) ---
@@ -367,7 +368,7 @@ for i in issues:
   # Attempt 1: normal push
   if push_to_github "$repo" "$name" >> "$logfile" 2>&1; then
     # Verify code actually reached GitHub (catches silent push failures)
-    sleep 2
+    sleep 5
     if verify_on_github "$repo"; then
       push_ok=true
     else
@@ -390,7 +391,7 @@ for i in issues:
       git branch -M main
       git push -f origin main
     ) >> "$logfile" 2>&1
-    sleep 2
+    sleep 5
     if verify_on_github "$repo"; then
       push_ok=true
       log_app "$prefix" "Retry push succeeded — verified on GitHub"
