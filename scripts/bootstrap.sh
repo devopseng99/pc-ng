@@ -36,6 +36,14 @@ for script in "$REPO_DIR"/pipeline/scripts/*.sh; do
   log "  $(basename "$script") → repo"
 done
 
+# Symlink manifests
+log "Linking manifests from repo..."
+for manifest in "$REPO_DIR"/pipeline/manifests/*.json; do
+  local_name="$WORKSPACE/manifests/$(basename "$manifest")"
+  ln -sf "$manifest" "$local_name"
+  log "  $(basename "$manifest") → repo"
+done
+
 # Also link the SSE bridge
 if [[ -f "$REPO_DIR/scripts/sse-bridge.sh" ]]; then
   ln -sf "$REPO_DIR/scripts/sse-bridge.sh" "$WORKSPACE/scripts/sse-bridge.sh"

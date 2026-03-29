@@ -15,12 +15,12 @@ set -euo pipefail
 # ============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(dirname "$SCRIPT_DIR")"
-REGISTRY="$ROOT_DIR/registry/deployed.json"
-LOG_DIR="$ROOT_DIR/logs"
+WORKSPACE="/tmp/pc-autopilot"
+REGISTRY="$WORKSPACE/registry/deployed.json"
+LOG_DIR="$WORKSPACE/logs"
 PC_DIR="/var/lib/rancher/ansible/db/pc"
-STATUS_FILE="$ROOT_DIR/.codegen-status"
-READY_DIR="$ROOT_DIR/.ready-to-deploy"
+STATUS_FILE="$WORKSPACE/.codegen-status"
+READY_DIR="$WORKSPACE/.ready-to-deploy"
 
 CONCURRENCY=4
 MANIFEST=""
@@ -356,7 +356,7 @@ print(f'  [{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})  [{e.get(\"category\",\"
   fi
 
   # PID guard
-  local pidfile="$ROOT_DIR/.pid-codegen-${PIPELINE_ID}"
+  local pidfile="$WORKSPACE/.pid-codegen-${PIPELINE_ID}"
   if [[ -f "$pidfile" ]] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
     log "ERROR: Codegen $PIPELINE_ID already running (PID $(cat "$pidfile"))"
     exit 1
