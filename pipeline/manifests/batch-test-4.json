@@ -1,0 +1,102 @@
+{
+  "use_cases": [
+    {
+      "id": 235,
+      "name": "HealLink Telemedicine",
+      "prefix": "HLT",
+      "type": "Telemedicine",
+      "repo": "heallink-telemedicine",
+      "budget": 450,
+      "description": "HIPAA-compliant telemedicine platform connecting patients with board-certified physicians for virtual consultations and prescriptions.",
+      "email": "client@heallink.com",
+      "features": [
+        "video-consult",
+        "e-prescriptions",
+        "medical-records",
+        "appointment-scheduler",
+        "symptom-checker",
+        "insurance-verify"
+      ],
+      "category": "Healthcare Tech",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0284C7",
+        "accent": "#10B981",
+        "vibe": "Clinical sky blue with health green, modern care"
+      }
+    },
+    {
+      "id": 283,
+      "name": "PipeForge CI/CD",
+      "prefix": "PFC",
+      "type": "CI/CD Platform",
+      "repo": "pipeforge-cicd",
+      "budget": 450,
+      "description": "Developer-first CI/CD platform with YAML pipelines, parallel builds, artifact caching, and native container registry integration.",
+      "email": "client@pipeforge.dev",
+      "features": [
+        "pipeline-editor",
+        "build-cache",
+        "artifact-store",
+        "container-registry",
+        "deployment-targets",
+        "build-insights"
+      ],
+      "category": "SaaS & Developer Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#22D3EE",
+        "accent": "#A78BFA",
+        "vibe": "Terminal dark with pipeline cyan and merge purple, dev flow"
+      }
+    },
+    {
+      "id": 331,
+      "name": "PhantomKitchen Ghost Kitchen",
+      "prefix": "PKG",
+      "type": "Ghost Kitchen",
+      "repo": "phantomkitchen-ghost",
+      "budget": 350,
+      "description": "Multi-brand ghost kitchen operating virtual restaurant concepts with centralized ordering, delivery integration, and kitchen analytics.",
+      "email": "client@phantomkitchen.com",
+      "features": [
+        "brand-manager",
+        "order-aggregation",
+        "delivery-integration",
+        "kitchen-display",
+        "menu-builder"
+      ],
+      "category": "Food Tech",
+      "design": {
+        "bg": "#18181B",
+        "primary": "#F97316",
+        "accent": "#EF4444",
+        "vibe": "Dark kitchen with flame orange and heat red, behind-the-scenes fire"
+      }
+    },
+    {
+      "id": 367,
+      "name": "PropVault Property Management",
+      "prefix": "PVP",
+      "type": "Property Management SaaS",
+      "repo": "propvault-property",
+      "budget": 450,
+      "description": "Cloud property management software for landlords with tenant screening, rent collection, maintenance requests, and financial reporting.",
+      "email": "client@propvault.com",
+      "features": [
+        "tenant-screening",
+        "rent-collection",
+        "maintenance-portal",
+        "financial-reports",
+        "lease-management"
+      ],
+      "category": "Real Estate Tech",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#1E293B",
+        "accent": "#059669",
+        "vibe": "Property dark with money green, landlord command center"
+      }
+    }
+  ]
+}

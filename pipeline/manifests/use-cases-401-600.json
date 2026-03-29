@@ -1,0 +1,3604 @@
+{
+  "use_cases": [
+    {
+      "id": 401,
+      "name": "RoboForge Home Kit Builder",
+      "prefix": "RFK",
+      "type": "Robotics Dashboard",
+      "repo": "roboforge-home-kit",
+      "budget": 400,
+      "description": "Interactive platform for designing and ordering custom home robotics kits with drag-and-drop assembly guides and real-time cost estimation.",
+      "email": "client@roboforge.com",
+      "features": ["kit-builder", "3d-preview", "parts-catalog", "order-tracking"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#22C55E",
+        "accent": "#10B981",
+        "vibe": "Clean tech green with industrial precision"
+      }
+    },
+    {
+      "id": 402,
+      "name": "DroneOps Fleet Manager",
+      "prefix": "DOF",
+      "type": "Fleet Management Platform",
+      "repo": "droneops-fleet-manager",
+      "budget": 500,
+      "description": "Centralized command center for managing drone fleets with real-time telemetry, mission planning, and compliance tracking.",
+      "email": "client@droneops.io",
+      "features": ["fleet-tracking", "mission-planner", "telemetry-dashboard", "compliance-log", "geofencing"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#3B82F6",
+        "accent": "#2563EB",
+        "vibe": "Sky blue with aviation-grade clarity"
+      }
+    },
+    {
+      "id": 403,
+      "name": "AgriBot Control Center",
+      "prefix": "ABC",
+      "type": "AgriTech Dashboard",
+      "repo": "agribot-control-center",
+      "budget": 450,
+      "description": "Unified control panel for agricultural robots handling planting, harvesting, and crop monitoring with weather-aware scheduling.",
+      "email": "client@agribot.farm",
+      "features": ["robot-control", "crop-monitor", "weather-integration", "harvest-scheduler", "yield-analytics"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Earthy green-gold with agricultural warmth"
+      }
+    },
+    {
+      "id": 404,
+      "name": "RoboSim Sandbox",
+      "prefix": "RSS",
+      "type": "Simulation Platform",
+      "repo": "robosim-sandbox",
+      "budget": 550,
+      "description": "Browser-based robotics simulation environment for testing control algorithms and mechanical designs in virtual physics worlds.",
+      "email": "client@robosim.dev",
+      "features": ["physics-engine", "scenario-editor", "replay-system", "performance-metrics", "model-import"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FDF4FF",
+        "primary": "#A855F7",
+        "accent": "#9333EA",
+        "vibe": "Digital purple with virtual depth"
+      }
+    },
+    {
+      "id": 405,
+      "name": "ROSViz Dashboard",
+      "prefix": "RVD",
+      "type": "Robotics Visualization",
+      "repo": "rosviz-dashboard",
+      "budget": 350,
+      "description": "Web-based visualization dashboard for ROS2 topics, transforms, and sensor data with customizable widget layouts.",
+      "email": "client@rosviz.io",
+      "features": ["topic-viewer", "tf-tree", "sensor-widgets", "layout-editor", "bag-playback"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#16A34A",
+        "accent": "#15803D",
+        "vibe": "Matrix green with diagnostic precision"
+      }
+    },
+    {
+      "id": 406,
+      "name": "WarehouseBot Orchestrator",
+      "prefix": "WBO",
+      "type": "Warehouse Automation Platform",
+      "repo": "warehousebot-orchestrator",
+      "budget": 500,
+      "description": "Multi-robot orchestration platform for warehouse operations including pick-and-place, inventory scanning, and route optimization.",
+      "email": "client@warehousebot.com",
+      "features": ["robot-dispatch", "route-optimizer", "inventory-scan", "collision-avoidance", "shift-planner"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#F97316",
+        "accent": "#EA580C",
+        "vibe": "Industrial orange with logistics efficiency"
+      }
+    },
+    {
+      "id": 407,
+      "name": "RoboProg Studio",
+      "prefix": "RPS",
+      "type": "Visual Programming IDE",
+      "repo": "roboprog-studio",
+      "budget": 400,
+      "description": "Visual block-based programming studio for teaching and prototyping robot behaviors without writing code.",
+      "email": "client@roboprog.dev",
+      "features": ["block-editor", "simulation-preview", "code-export", "behavior-library", "debug-console"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#059669",
+        "accent": "#047857",
+        "vibe": "Fresh green with educational clarity"
+      }
+    },
+    {
+      "id": 408,
+      "name": "SwarmLogic Coordinator",
+      "prefix": "SLC",
+      "type": "Swarm Intelligence Platform",
+      "repo": "swarmlogic-coordinator",
+      "budget": 550,
+      "description": "Distributed coordination platform for swarm robotics with emergent behavior modeling and real-time formation control.",
+      "email": "client@swarmlogic.ai",
+      "features": ["swarm-editor", "formation-control", "behavior-modeling", "real-time-map", "agent-monitor"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#EF4444",
+        "accent": "#DC2626",
+        "vibe": "Alert red with autonomous precision"
+      }
+    },
+    {
+      "id": 409,
+      "name": "ServoTune Calibrator",
+      "prefix": "STC",
+      "type": "Calibration Tool",
+      "repo": "servotune-calibrator",
+      "budget": 300,
+      "description": "Precision calibration interface for servo motors and actuators with PID tuning wizards and oscilloscope-style feedback graphs.",
+      "email": "client@servotune.com",
+      "features": ["pid-tuner", "oscilloscope-view", "motor-profiles", "batch-calibration"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#14B8A6",
+        "accent": "#0D9488",
+        "vibe": "Teal precision with measurement clarity"
+      }
+    },
+    {
+      "id": 410,
+      "name": "MechArm Designer",
+      "prefix": "MAD",
+      "type": "Robotic Arm Design Tool",
+      "repo": "mecharm-designer",
+      "budget": 500,
+      "description": "Parametric design tool for robotic arm configurations with kinematic solvers and reach envelope visualization.",
+      "email": "client@mecharm.io",
+      "features": ["parametric-editor", "kinematic-solver", "reach-envelope", "export-urdf", "joint-limits"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#7C3AED",
+        "accent": "#6D28D9",
+        "vibe": "Engineering violet with mechanical sophistication"
+      }
+    },
+    {
+      "id": 411,
+      "name": "SensorGrid Hub",
+      "prefix": "SGH",
+      "type": "IoT Sensor Platform",
+      "repo": "sensorgrid-hub",
+      "budget": 400,
+      "description": "Centralized IoT sensor management hub with device provisioning, data aggregation, and alerting for distributed sensor networks.",
+      "email": "client@sensorgrid.io",
+      "features": ["device-registry", "data-pipeline", "alert-rules", "sensor-map", "firmware-ota"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0EA5E9",
+        "accent": "#0284C7",
+        "vibe": "Connected blue with sensor network clarity"
+      }
+    },
+    {
+      "id": 412,
+      "name": "NavBot Pathfinder",
+      "prefix": "NBP",
+      "type": "Navigation Planning Tool",
+      "repo": "navbot-pathfinder",
+      "budget": 450,
+      "description": "Autonomous navigation planner with SLAM visualization, obstacle mapping, and multi-floor pathfinding for indoor robots.",
+      "email": "client@navbot.ai",
+      "features": ["slam-viewer", "path-planner", "obstacle-map", "waypoint-editor", "multi-floor"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#F43F5E",
+        "accent": "#E11D48",
+        "vibe": "Navigational red with spatial awareness"
+      }
+    },
+    {
+      "id": 413,
+      "name": "RoboVision Inspector",
+      "prefix": "RVI",
+      "type": "Vision Inspection Platform",
+      "repo": "robovision-inspector",
+      "budget": 500,
+      "description": "Machine vision inspection platform for quality control with defect detection models, annotation tools, and production line analytics.",
+      "email": "client@robovision.ai",
+      "features": ["defect-detection", "annotation-tool", "model-training", "production-analytics", "camera-config"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Inspection amber with analytical focus"
+      }
+    },
+    {
+      "id": 414,
+      "name": "AeroBot Drone Builder",
+      "prefix": "ADB",
+      "type": "Drone Design Platform",
+      "repo": "aerobot-drone-builder",
+      "budget": 450,
+      "description": "Custom drone design and configuration platform with frame selection, motor matching, and flight controller setup wizards.",
+      "email": "client@aerobot.build",
+      "features": ["frame-designer", "motor-calculator", "fc-configurator", "parts-matcher", "flight-simulator"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#2563EB",
+        "accent": "#1D4ED8",
+        "vibe": "Aerospace blue with builder enthusiasm"
+      }
+    },
+    {
+      "id": 415,
+      "name": "MicroBot Firmware Lab",
+      "prefix": "MFL",
+      "type": "Embedded Firmware IDE",
+      "repo": "microbot-firmware-lab",
+      "budget": 350,
+      "description": "Web-based firmware development environment for microcontrollers with OTA flashing, serial monitor, and pin configuration tools.",
+      "email": "client@microbot.dev",
+      "features": ["code-editor", "ota-flasher", "serial-monitor", "pin-configurator", "library-manager"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#475569",
+        "accent": "#334155",
+        "vibe": "Silicon gray with embedded precision"
+      }
+    },
+    {
+      "id": 416,
+      "name": "RoboLearn Training Gym",
+      "prefix": "RLT",
+      "type": "ML Training Platform",
+      "repo": "robolearn-training-gym",
+      "budget": 500,
+      "description": "Reinforcement learning training environment for robotic agents with reward shaping, curriculum design, and training progress dashboards.",
+      "email": "client@robolearn.ai",
+      "features": ["training-env", "reward-editor", "curriculum-builder", "progress-dashboard", "model-export"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Neural gold with learning intelligence"
+      }
+    },
+    {
+      "id": 417,
+      "name": "PrintBot 3D Fabricator",
+      "prefix": "PBF",
+      "type": "3D Printing Platform",
+      "repo": "printbot-3d-fabricator",
+      "budget": 400,
+      "description": "End-to-end 3D printing management platform with slicing, print queue management, and multi-printer farm control.",
+      "email": "client@printbot3d.com",
+      "features": ["slicer-integration", "print-queue", "farm-control", "material-tracker", "quality-check"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Fabrication pink with maker creativity"
+      }
+    },
+    {
+      "id": 418,
+      "name": "CyberSentinel SIEM",
+      "prefix": "CSM",
+      "type": "Security Dashboard",
+      "repo": "cybersentinel-siem",
+      "budget": 550,
+      "description": "Real-time security information and event management dashboard with threat correlation, incident timeline, and automated response playbooks.",
+      "email": "client@cybersentinel.io",
+      "features": ["event-correlator", "threat-timeline", "playbook-engine", "alert-triage", "compliance-reports"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Dark ops blue with security vigilance"
+      }
+    },
+    {
+      "id": 419,
+      "name": "PipeForge CI/CD Builder",
+      "prefix": "PFC",
+      "type": "DevOps Pipeline Tool",
+      "repo": "pipeforge-cicd-builder",
+      "budget": 450,
+      "description": "Visual CI/CD pipeline builder with drag-and-drop stages, multi-cloud deployment targets, and rollback automation.",
+      "email": "client@pipeforge.dev",
+      "features": ["pipeline-editor", "stage-library", "deploy-targets", "rollback-manager", "build-logs"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#6366F1",
+        "accent": "#4F46E5",
+        "vibe": "Infrastructure indigo with pipeline flow"
+      }
+    },
+    {
+      "id": 420,
+      "name": "BioSeq Analyzer",
+      "prefix": "BSA",
+      "type": "Biotech Analysis Platform",
+      "repo": "bioseq-analyzer",
+      "budget": 500,
+      "description": "Genomic sequence analysis platform with alignment visualization, variant calling, and phylogenetic tree construction.",
+      "email": "client@bioseq.lab",
+      "features": ["sequence-alignment", "variant-caller", "phylo-tree", "annotation-browser", "batch-analysis"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#14B8A6",
+        "accent": "#0F766E",
+        "vibe": "Biotech teal with laboratory precision"
+      }
+    },
+    {
+      "id": 421,
+      "name": "GripperLab Tooling Suite",
+      "prefix": "GLT",
+      "type": "End Effector Designer",
+      "repo": "gripperlab-tooling",
+      "budget": 400,
+      "description": "Design and simulate custom robotic grippers with force analysis, material selection, and 3D-printable export.",
+      "email": "client@gripperlab.com",
+      "features": ["gripper-designer", "force-analysis", "material-picker", "print-export", "test-bench"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#10B981",
+        "accent": "#059669",
+        "vibe": "Mechanical green with tool-grade reliability"
+      }
+    },
+    {
+      "id": 422,
+      "name": "SkyMapper Survey Planner",
+      "prefix": "SMS",
+      "type": "Aerial Survey Tool",
+      "repo": "skymapper-survey-planner",
+      "budget": 450,
+      "description": "Automated drone survey mission planner with photogrammetry grid generation, overlap calculation, and terrain-following altitude profiles.",
+      "email": "client@skymapper.io",
+      "features": ["survey-grid", "overlap-calc", "terrain-follow", "gcp-manager", "ortho-preview"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#1D4ED8",
+        "accent": "#1E40AF",
+        "vibe": "Cartographic blue with aerial perspective"
+      }
+    },
+    {
+      "id": 423,
+      "name": "EdgePulse Gateway Manager",
+      "prefix": "EPG",
+      "type": "Edge Computing Platform",
+      "repo": "edgepulse-gateway",
+      "budget": 400,
+      "description": "Edge gateway management console for deploying containerized workloads to distributed IoT gateways with remote monitoring.",
+      "email": "client@edgepulse.io",
+      "features": ["gateway-fleet", "container-deploy", "remote-shell", "metric-collector", "ota-update"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Edge blue with distributed connectivity"
+      }
+    },
+    {
+      "id": 424,
+      "name": "NeuralForge Model Studio",
+      "prefix": "NFS",
+      "type": "ML Model Builder",
+      "repo": "neuralforge-model-studio",
+      "budget": 550,
+      "description": "No-code neural network architecture builder with layer visualization, hyperparameter tuning, and one-click training on cloud GPUs.",
+      "email": "client@neuralforge.ai",
+      "features": ["layer-editor", "hyperparam-tuner", "training-monitor", "model-registry", "gpu-scheduler"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Neural amber with deep learning warmth"
+      }
+    },
+    {
+      "id": 425,
+      "name": "PixelSense Object Tracker",
+      "prefix": "PSO",
+      "type": "Object Detection Platform",
+      "repo": "pixelsense-object-tracker",
+      "budget": 500,
+      "description": "Real-time multi-object tracking platform with custom model deployment, video annotation, and performance benchmarking.",
+      "email": "client@pixelsense.ai",
+      "features": ["object-tracker", "video-annotator", "model-deploy", "benchmark-suite", "stream-input"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Detection yellow with tracking precision"
+      }
+    },
+    {
+      "id": 426,
+      "name": "LayerCraft Resin Manager",
+      "prefix": "LCR",
+      "type": "Resin Printing Platform",
+      "repo": "layercraft-resin-manager",
+      "budget": 350,
+      "description": "Resin 3D printing management tool with exposure calibration, support generation, and print time estimation.",
+      "email": "client@layercraft.io",
+      "features": ["exposure-calibrator", "support-generator", "time-estimator", "resin-library", "print-history"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#DB2777",
+        "accent": "#BE185D",
+        "vibe": "Resin magenta with layer-by-layer detail"
+      }
+    },
+    {
+      "id": 427,
+      "name": "ChipTrace Logic Analyzer",
+      "prefix": "CTL",
+      "type": "Debug Tool",
+      "repo": "chiptrace-logic-analyzer",
+      "budget": 350,
+      "description": "Web-based logic analyzer interface for embedded debugging with protocol decoders, waveform capture, and trigger configuration.",
+      "email": "client@chiptrace.dev",
+      "features": ["waveform-viewer", "protocol-decoder", "trigger-config", "signal-search", "export-csv"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Circuit gray with digital signal clarity"
+      }
+    },
+    {
+      "id": 428,
+      "name": "AutoNav Route Planner",
+      "prefix": "ANR",
+      "type": "Autonomous Vehicle Tool",
+      "repo": "autonav-route-planner",
+      "budget": 500,
+      "description": "Route planning and simulation tool for autonomous vehicles with HD map integration, traffic modeling, and safety scenario testing.",
+      "email": "client@autonav.ai",
+      "features": ["hd-map-editor", "traffic-model", "scenario-tester", "safety-metrics", "route-optimizer"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#DC2626",
+        "accent": "#B91C1C",
+        "vibe": "Autonomous red with safety-first design"
+      }
+    },
+    {
+      "id": 429,
+      "name": "TwinSync Digital Mirror",
+      "prefix": "TSD",
+      "type": "Digital Twin Platform",
+      "repo": "twinsync-digital-mirror",
+      "budget": 550,
+      "description": "Real-time digital twin synchronization platform connecting physical assets to their virtual counterparts with live sensor feeds.",
+      "email": "client@twinsync.io",
+      "features": ["twin-viewer", "sensor-sync", "anomaly-detect", "history-replay", "asset-registry"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#8B5CF6",
+        "accent": "#7C3AED",
+        "vibe": "Twin violet with mirror-world depth"
+      }
+    },
+    {
+      "id": 430,
+      "name": "CropVision Yield Mapper",
+      "prefix": "CVM",
+      "type": "Precision Agriculture Tool",
+      "repo": "cropvision-yield-mapper",
+      "budget": 400,
+      "description": "Satellite and drone imagery analysis for crop health monitoring with NDVI maps, yield prediction, and irrigation zone planning.",
+      "email": "client@cropvision.farm",
+      "features": ["ndvi-mapper", "yield-predictor", "irrigation-zones", "satellite-feed", "field-reports"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#F7FEE7",
+        "primary": "#65A30D",
+        "accent": "#4D7C0F",
+        "vibe": "Crop green with agricultural intelligence"
+      }
+    },
+    {
+      "id": 431,
+      "name": "PackBot Sorting Engine",
+      "prefix": "PBE",
+      "type": "Sorting Automation Tool",
+      "repo": "packbot-sorting-engine",
+      "budget": 450,
+      "description": "Automated package sorting system interface with conveyor control, barcode scanning integration, and throughput optimization.",
+      "email": "client@packbot.io",
+      "features": ["sort-rules", "conveyor-control", "barcode-scanner", "throughput-monitor", "error-handler"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#EA580C",
+        "accent": "#C2410C",
+        "vibe": "Logistics amber with sorting speed"
+      }
+    },
+    {
+      "id": 432,
+      "name": "VaultGuard Access Monitor",
+      "prefix": "VGA",
+      "type": "Access Control Dashboard",
+      "repo": "vaultguard-access-monitor",
+      "budget": 450,
+      "description": "Zero-trust access monitoring dashboard with session recording, privilege escalation detection, and policy enforcement analytics.",
+      "email": "client@vaultguard.sec",
+      "features": ["session-recorder", "privilege-monitor", "policy-enforcer", "audit-trail", "risk-scorer"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#22D3EE",
+        "accent": "#06B6D4",
+        "vibe": "Dark vault with cyan security glow"
+      }
+    },
+    {
+      "id": 433,
+      "name": "KubeVault Secret Manager",
+      "prefix": "KVS",
+      "type": "Infrastructure Security Tool",
+      "repo": "kubevault-secret-manager",
+      "budget": 400,
+      "description": "Kubernetes-native secrets management interface with rotation policies, access auditing, and multi-cluster synchronization.",
+      "email": "client@kubevault.dev",
+      "features": ["secret-store", "rotation-policy", "access-audit", "multi-cluster", "encryption-keys"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#4F46E5",
+        "accent": "#4338CA",
+        "vibe": "Vault indigo with infrastructure trust"
+      }
+    },
+    {
+      "id": 434,
+      "name": "LabFlow LIMS Portal",
+      "prefix": "LFP",
+      "type": "Lab Management System",
+      "repo": "labflow-lims-portal",
+      "budget": 500,
+      "description": "Laboratory information management system with sample tracking, experiment workflows, and instrument integration dashboards.",
+      "email": "client@labflow.bio",
+      "features": ["sample-tracker", "workflow-builder", "instrument-link", "result-viewer", "compliance-log"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#0D9488",
+        "accent": "#0F766E",
+        "vibe": "Lab green with scientific method"
+      }
+    },
+    {
+      "id": 435,
+      "name": "CoBot Workspace Planner",
+      "prefix": "CWP",
+      "type": "Collaborative Robot Tool",
+      "repo": "cobot-workspace-planner",
+      "budget": 400,
+      "description": "Human-robot workspace layout planner with safety zone configuration, reach analysis, and ISO-compliant risk assessment.",
+      "email": "client@cobotplan.com",
+      "features": ["workspace-editor", "safety-zones", "reach-analysis", "risk-assessment", "iso-compliance"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#4ADE80",
+        "accent": "#22C55E",
+        "vibe": "Safety green with collaborative harmony"
+      }
+    },
+    {
+      "id": 436,
+      "name": "WingSpec Airframe Analyzer",
+      "prefix": "WSA",
+      "type": "Drone Engineering Tool",
+      "repo": "wingspec-airframe-analyzer",
+      "budget": 400,
+      "description": "Aerodynamic analysis tool for drone airframes with CFD-lite simulation, weight distribution calculator, and flight endurance estimator.",
+      "email": "client@wingspec.aero",
+      "features": ["aero-simulator", "weight-calc", "endurance-estimator", "propeller-matcher", "stress-analysis"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0369A1",
+        "accent": "#075985",
+        "vibe": "Wind-tunnel blue with aerodynamic flow"
+      }
+    },
+    {
+      "id": 437,
+      "name": "MeshLink IoT Orchestrator",
+      "prefix": "MLO",
+      "type": "Mesh Network Manager",
+      "repo": "meshlink-iot-orchestrator",
+      "budget": 450,
+      "description": "Mesh network orchestration platform for IoT devices with topology visualization, routing optimization, and self-healing diagnostics.",
+      "email": "client@meshlink.io",
+      "features": ["topology-viewer", "route-optimizer", "self-heal", "device-onboard", "bandwidth-monitor"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Mesh sky-blue with interconnected nodes"
+      }
+    },
+    {
+      "id": 438,
+      "name": "DataWeave Feature Store",
+      "prefix": "DWF",
+      "type": "ML Feature Platform",
+      "repo": "dataweave-feature-store",
+      "budget": 450,
+      "description": "Centralized feature store for ML pipelines with feature versioning, lineage tracking, and real-time serving endpoints.",
+      "email": "client@dataweave.ai",
+      "features": ["feature-registry", "version-control", "lineage-graph", "serving-api", "data-quality"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#B45309",
+        "accent": "#92400E",
+        "vibe": "Data gold with feature engineering depth"
+      }
+    },
+    {
+      "id": 439,
+      "name": "DeepScan OCR Engine",
+      "prefix": "DSO",
+      "type": "Document Vision Platform",
+      "repo": "deepscan-ocr-engine",
+      "budget": 400,
+      "description": "Industrial OCR platform with layout detection, handwriting recognition, and structured data extraction from scanned documents.",
+      "email": "client@deepscan.ai",
+      "features": ["layout-detector", "ocr-engine", "handwriting-mode", "data-extractor", "batch-process"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#CA8A04",
+        "accent": "#A16207",
+        "vibe": "Document amber with text recognition clarity"
+      }
+    },
+    {
+      "id": 440,
+      "name": "VoxelForge Multi-Material",
+      "prefix": "VFM",
+      "type": "Multi-Material Printing",
+      "repo": "voxelforge-multi-material",
+      "budget": 500,
+      "description": "Multi-material 3D print preparation tool with material zone painting, mixed-material slicing, and cost-per-part estimation.",
+      "email": "client@voxelforge.io",
+      "features": ["material-painter", "multi-slicer", "cost-estimator", "support-optimizer", "color-mapper"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#E879A3",
+        "accent": "#EC4899",
+        "vibe": "Multi-material pink with creative depth"
+      }
+    },
+    {
+      "id": 441,
+      "name": "FlashBoot RTOS Manager",
+      "prefix": "FBR",
+      "type": "RTOS Development Tool",
+      "repo": "flashboot-rtos-manager",
+      "budget": 350,
+      "description": "Real-time operating system configuration and deployment tool with task scheduler visualization, memory maps, and ISR profiling.",
+      "email": "client@flashboot.dev",
+      "features": ["task-scheduler", "memory-map", "isr-profiler", "rtos-config", "boot-loader"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Embedded slate with real-time precision"
+      }
+    },
+    {
+      "id": 442,
+      "name": "LidarScope 3D Scanner",
+      "prefix": "LSC",
+      "type": "Point Cloud Platform",
+      "repo": "lidarscope-3d-scanner",
+      "budget": 500,
+      "description": "LiDAR point cloud visualization and processing platform with ground segmentation, object clustering, and map building.",
+      "email": "client@lidarscope.ai",
+      "features": ["point-cloud-viewer", "ground-filter", "object-cluster", "map-builder", "scan-merger"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#E11D48",
+        "accent": "#BE123C",
+        "vibe": "LiDAR red with 3D spatial depth"
+      }
+    },
+    {
+      "id": 443,
+      "name": "SimFactory Production Line",
+      "prefix": "SFP",
+      "type": "Factory Simulation Tool",
+      "repo": "simfactory-production-line",
+      "budget": 550,
+      "description": "Discrete event simulation for manufacturing lines with bottleneck analysis, what-if scenarios, and throughput optimization.",
+      "email": "client@simfactory.io",
+      "features": ["line-simulator", "bottleneck-finder", "what-if-engine", "throughput-graph", "resource-planner"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#7C3AED",
+        "accent": "#6D28D9",
+        "vibe": "Simulation purple with factory precision"
+      }
+    },
+    {
+      "id": 444,
+      "name": "SoilSense Nutrient Tracker",
+      "prefix": "SNT",
+      "type": "Soil Analysis Platform",
+      "repo": "soilsense-nutrient-tracker",
+      "budget": 350,
+      "description": "Soil nutrient monitoring dashboard with sensor integration, fertilizer recommendation engine, and historical trend analysis.",
+      "email": "client@soilsense.farm",
+      "features": ["nutrient-dashboard", "sensor-feed", "fertilizer-engine", "trend-charts", "zone-mapper"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#A16207",
+        "accent": "#854D0E",
+        "vibe": "Soil brown-gold with nutrient richness"
+      }
+    },
+    {
+      "id": 445,
+      "name": "LoadMaster Dock Scheduler",
+      "prefix": "LDS",
+      "type": "Dock Management Platform",
+      "repo": "loadmaster-dock-scheduler",
+      "budget": 400,
+      "description": "Warehouse dock scheduling and load management platform with carrier coordination, bay assignment, and dwell time analytics.",
+      "email": "client@loadmaster.io",
+      "features": ["dock-scheduler", "bay-assigner", "carrier-portal", "dwell-tracker", "load-planner"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#C2410C",
+        "accent": "#9A3412",
+        "vibe": "Dock orange with logistics timing"
+      }
+    },
+    {
+      "id": 446,
+      "name": "NetProbe Vulnerability Scanner",
+      "prefix": "NPV",
+      "type": "Vulnerability Assessment Tool",
+      "repo": "netprobe-vuln-scanner",
+      "budget": 500,
+      "description": "Automated network vulnerability scanner with CVE correlation, exploit risk scoring, and remediation priority queues.",
+      "email": "client@netprobe.sec",
+      "features": ["port-scanner", "cve-matcher", "risk-scorer", "remediation-queue", "scan-scheduler"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F87171",
+        "accent": "#EF4444",
+        "vibe": "Dark threat red with vulnerability focus"
+      }
+    },
+    {
+      "id": 447,
+      "name": "TerraStack IaC Visualizer",
+      "prefix": "TSI",
+      "type": "Infrastructure Visualization",
+      "repo": "terrastack-iac-visualizer",
+      "budget": 400,
+      "description": "Infrastructure-as-code visualization tool that renders Terraform, Pulumi, and CloudFormation stacks as interactive diagrams.",
+      "email": "client@terrastack.dev",
+      "features": ["stack-renderer", "drift-detector", "cost-estimator", "dependency-graph", "plan-preview"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#6366F1",
+        "accent": "#4F46E5",
+        "vibe": "Stack violet with infrastructure clarity"
+      }
+    },
+    {
+      "id": 448,
+      "name": "ProteinFold Viewer",
+      "prefix": "PFV",
+      "type": "Structural Biology Tool",
+      "repo": "proteinfold-viewer",
+      "budget": 450,
+      "description": "Interactive 3D protein structure viewer with AlphaFold integration, binding site prediction, and molecular dynamics playback.",
+      "email": "client@proteinfold.bio",
+      "features": ["3d-viewer", "fold-predictor", "binding-sites", "dynamics-player", "pdb-import"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#2DD4BF",
+        "accent": "#14B8A6",
+        "vibe": "Molecular teal with structural elegance"
+      }
+    },
+    {
+      "id": 449,
+      "name": "ActuatorLab Test Bench",
+      "prefix": "ALB",
+      "type": "Testing Platform",
+      "repo": "actuatorlab-test-bench",
+      "budget": 350,
+      "description": "Automated test bench interface for actuator characterization with load curves, endurance testing, and failure mode analysis.",
+      "email": "client@actuatorlab.com",
+      "features": ["load-curves", "endurance-test", "failure-analysis", "data-logger", "report-generator"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#16A34A",
+        "accent": "#15803D",
+        "vibe": "Test green with engineering reliability"
+      }
+    },
+    {
+      "id": 450,
+      "name": "HoverCam Inspection Pilot",
+      "prefix": "HCI",
+      "type": "Inspection Drone Platform",
+      "repo": "hovercam-inspection-pilot",
+      "budget": 500,
+      "description": "Infrastructure inspection drone piloting platform with crack detection AI, thermal overlay, and georeferenced defect reports.",
+      "email": "client@hovercam.io",
+      "features": ["crack-detector", "thermal-overlay", "defect-mapper", "flight-recorder", "report-builder"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#2563EB",
+        "accent": "#1E40AF",
+        "vibe": "Inspection blue with precision hover"
+      }
+    },
+    {
+      "id": 451,
+      "name": "ThingBridge Protocol Hub",
+      "prefix": "TBP",
+      "type": "IoT Protocol Gateway",
+      "repo": "thingbridge-protocol-hub",
+      "budget": 400,
+      "description": "Multi-protocol IoT gateway hub bridging MQTT, CoAP, Zigbee, and LoRa devices into unified data streams.",
+      "email": "client@thingbridge.io",
+      "features": ["protocol-bridge", "device-mapper", "data-transform", "health-monitor", "rule-engine"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Protocol blue with bridge connectivity"
+      }
+    },
+    {
+      "id": 452,
+      "name": "AutoLabel Annotation Factory",
+      "prefix": "ALA",
+      "type": "Data Labeling Platform",
+      "repo": "autolabel-annotation-factory",
+      "budget": 450,
+      "description": "Semi-automated data labeling platform with active learning suggestions, team workflows, and labeling quality metrics.",
+      "email": "client@autolabel.ai",
+      "features": ["auto-suggest", "team-workflow", "quality-metrics", "label-schema", "export-formats"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Annotation gold with labeling precision"
+      }
+    },
+    {
+      "id": 453,
+      "name": "FaceGrid Identity Platform",
+      "prefix": "FGI",
+      "type": "Face Recognition System",
+      "repo": "facegrid-identity-platform",
+      "budget": 500,
+      "description": "Privacy-first facial recognition platform with liveness detection, enrollment management, and configurable matching thresholds.",
+      "email": "client@facegrid.ai",
+      "features": ["face-enroll", "liveness-check", "match-engine", "privacy-controls", "audit-log"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Identity amber with recognition warmth"
+      }
+    },
+    {
+      "id": 454,
+      "name": "ScanFarm Print Analytics",
+      "prefix": "SPA",
+      "type": "Print Farm Dashboard",
+      "repo": "scanfarm-print-analytics",
+      "budget": 350,
+      "description": "3D print farm analytics dashboard with failure rate tracking, filament usage forecasting, and printer utilization heat maps.",
+      "email": "client@scanfarm.io",
+      "features": ["failure-tracker", "filament-forecast", "utilization-map", "printer-health", "cost-analysis"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Analytics pink with farm-scale insight"
+      }
+    },
+    {
+      "id": 455,
+      "name": "WireMesh PCB Designer",
+      "prefix": "WPD",
+      "type": "PCB Design Tool",
+      "repo": "wiremesh-pcb-designer",
+      "budget": 450,
+      "description": "Browser-based PCB layout tool with auto-routing, design rule checking, and Gerber export for rapid prototyping.",
+      "email": "client@wiremesh.dev",
+      "features": ["schematic-editor", "pcb-layout", "auto-router", "drc-checker", "gerber-export"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#334155",
+        "accent": "#1E293B",
+        "vibe": "PCB slate with trace-routing order"
+      }
+    },
+    {
+      "id": 456,
+      "name": "FleetBrain V2X Hub",
+      "prefix": "FBV",
+      "type": "Vehicle Communication Platform",
+      "repo": "fleetbrain-v2x-hub",
+      "budget": 550,
+      "description": "Vehicle-to-everything communication hub for autonomous fleet management with latency monitoring and message prioritization.",
+      "email": "client@fleetbrain.ai",
+      "features": ["v2x-monitor", "message-router", "latency-tracker", "fleet-dashboard", "safety-alerts"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#F43F5E",
+        "accent": "#E11D48",
+        "vibe": "V2X red with communication urgency"
+      }
+    },
+    {
+      "id": 457,
+      "name": "PhysicsLab Collision Tester",
+      "prefix": "PLT",
+      "type": "Physics Simulation Tool",
+      "repo": "physicslab-collision-tester",
+      "budget": 400,
+      "description": "Real-time physics collision testing environment with rigid body dynamics, material properties, and crash scenario replay.",
+      "email": "client@physicslab.sim",
+      "features": ["collision-engine", "material-editor", "crash-replay", "force-viewer", "export-data"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#9333EA",
+        "accent": "#7E22CE",
+        "vibe": "Physics purple with collision dynamics"
+      }
+    },
+    {
+      "id": 458,
+      "name": "GreenHouse Climate Controller",
+      "prefix": "GCC",
+      "type": "Climate Control System",
+      "repo": "greenhouse-climate-controller",
+      "budget": 400,
+      "description": "Smart greenhouse environmental control system with temperature, humidity, CO2, and light automation schedules.",
+      "email": "client@greenhouse.farm",
+      "features": ["climate-scheduler", "sensor-dashboard", "actuator-control", "growth-tracking", "alert-system"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#F7FEE7",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Greenhouse green with growth vitality"
+      }
+    },
+    {
+      "id": 459,
+      "name": "BinVision Inventory Counter",
+      "prefix": "BVC",
+      "type": "Inventory Vision Tool",
+      "repo": "binvision-inventory-counter",
+      "budget": 400,
+      "description": "Camera-based inventory counting system for warehouse bins with object recognition, stock level alerts, and reorder triggers.",
+      "email": "client@binvision.io",
+      "features": ["bin-counter", "object-recognizer", "stock-alerts", "reorder-trigger", "trend-report"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#F97316",
+        "accent": "#EA580C",
+        "vibe": "Inventory orange with counting accuracy"
+      }
+    },
+    {
+      "id": 460,
+      "name": "PhishGuard Email Shield",
+      "prefix": "PGE",
+      "type": "Email Security Platform",
+      "repo": "phishguard-email-shield",
+      "budget": 450,
+      "description": "AI-powered phishing detection platform with email header analysis, URL sandbox, and employee awareness training modules.",
+      "email": "client@phishguard.sec",
+      "features": ["phish-detector", "url-sandbox", "header-analyzer", "training-module", "threat-feed"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#34D399",
+        "accent": "#10B981",
+        "vibe": "Dark shield with green threat indicators"
+      }
+    },
+    {
+      "id": 461,
+      "name": "CanaryDeploy Release Manager",
+      "prefix": "CDR",
+      "type": "Deployment Automation Tool",
+      "repo": "canarydeploy-release-manager",
+      "budget": 450,
+      "description": "Canary deployment orchestration platform with traffic splitting, metric comparison, and automatic rollback triggers.",
+      "email": "client@canarydeploy.dev",
+      "features": ["traffic-splitter", "metric-compare", "auto-rollback", "release-timeline", "approval-gates"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#4338CA",
+        "accent": "#3730A3",
+        "vibe": "Deploy blue with canary caution"
+      }
+    },
+    {
+      "id": 462,
+      "name": "PipetteBot Protocol Runner",
+      "prefix": "PPR",
+      "type": "Lab Automation Platform",
+      "repo": "pipettebot-protocol-runner",
+      "budget": 500,
+      "description": "Liquid handling robot protocol designer and runner with plate layouts, volume calculations, and execution tracking.",
+      "email": "client@pipettebot.bio",
+      "features": ["protocol-editor", "plate-layout", "volume-calc", "run-tracker", "error-handler"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#14B8A6",
+        "accent": "#0D9488",
+        "vibe": "Pipette teal with laboratory workflow"
+      }
+    },
+    {
+      "id": 463,
+      "name": "JointSync Exoskeleton Config",
+      "prefix": "JSE",
+      "type": "Exoskeleton Platform",
+      "repo": "jointsync-exoskeleton-config",
+      "budget": 500,
+      "description": "Configuration and calibration platform for powered exoskeletons with joint mapping, user profiles, and assistance level tuning.",
+      "email": "client@jointsync.com",
+      "features": ["joint-mapper", "user-profiles", "assist-tuner", "motion-capture", "safety-limits"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#059669",
+        "accent": "#047857",
+        "vibe": "Exo green with biomechanical harmony"
+      }
+    },
+    {
+      "id": 464,
+      "name": "DeliveryDrone Drop Planner",
+      "prefix": "DDP",
+      "type": "Delivery Drone Platform",
+      "repo": "deliverydrone-drop-planner",
+      "budget": 450,
+      "description": "Last-mile drone delivery planning system with drop zone mapping, no-fly zone integration, and delivery window optimization.",
+      "email": "client@deliverydrone.io",
+      "features": ["drop-zone-mapper", "no-fly-zones", "delivery-windows", "package-matcher", "route-optimizer"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#3B82F6",
+        "accent": "#2563EB",
+        "vibe": "Delivery blue with aerial logistics"
+      }
+    },
+    {
+      "id": 465,
+      "name": "LoRaField Crop Sensor Net",
+      "prefix": "LFC",
+      "type": "Agricultural IoT Platform",
+      "repo": "lorafield-crop-sensor-net",
+      "budget": 350,
+      "description": "LoRaWAN-based agricultural sensor network manager with soil moisture, temperature, and pest detection device orchestration.",
+      "email": "client@lorafield.io",
+      "features": ["sensor-map", "lora-config", "moisture-tracker", "pest-alerts", "gateway-manager"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0EA5E9",
+        "accent": "#0284C7",
+        "vibe": "Field blue with LoRa connectivity"
+      }
+    },
+    {
+      "id": 466,
+      "name": "DriftML Model Monitor",
+      "prefix": "DMM",
+      "type": "ML Ops Platform",
+      "repo": "driftml-model-monitor",
+      "budget": 400,
+      "description": "Production ML model monitoring platform with data drift detection, prediction quality tracking, and retraining triggers.",
+      "email": "client@driftml.ai",
+      "features": ["drift-detector", "prediction-tracker", "retrain-trigger", "feature-importance", "alert-config"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Drift gold with monitoring vigilance"
+      }
+    },
+    {
+      "id": 467,
+      "name": "DepthSense Stereo Calibrator",
+      "prefix": "DSC",
+      "type": "Stereo Vision Tool",
+      "repo": "depthsense-stereo-calibrator",
+      "budget": 350,
+      "description": "Stereo camera calibration and depth estimation tool with checkerboard detection, disparity maps, and 3D reconstruction.",
+      "email": "client@depthsense.ai",
+      "features": ["stereo-calibrator", "disparity-map", "3d-reconstruct", "checkerboard-detect", "depth-export"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#A16207",
+        "accent": "#854D0E",
+        "vibe": "Depth gold with stereo perspective"
+      }
+    },
+    {
+      "id": 468,
+      "name": "MetalJet Powder Optimizer",
+      "prefix": "MPO",
+      "type": "Metal 3D Printing Tool",
+      "repo": "metaljet-powder-optimizer",
+      "budget": 550,
+      "description": "Metal 3D printing powder management and parameter optimization tool with density analysis and recycling batch tracking.",
+      "email": "client@metaljet.io",
+      "features": ["powder-tracker", "param-optimizer", "density-analyzer", "recycle-log", "quality-cert"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#D946EF",
+        "accent": "#C026D3",
+        "vibe": "Metal violet with powder precision"
+      }
+    },
+    {
+      "id": 469,
+      "name": "ByteForge Bootloader Studio",
+      "prefix": "BBS",
+      "type": "Bootloader Development Tool",
+      "repo": "byteforge-bootloader-studio",
+      "budget": 300,
+      "description": "Secure bootloader development and testing studio with flash partition manager, signature verification, and A/B rollback.",
+      "email": "client@byteforge.dev",
+      "features": ["partition-manager", "signature-verify", "ab-rollback", "flash-tool", "boot-log"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#475569",
+        "accent": "#334155",
+        "vibe": "Boot gray with firmware reliability"
+      }
+    },
+    {
+      "id": 470,
+      "name": "PilotStack AV Simulator",
+      "prefix": "PAS",
+      "type": "AV Simulation Platform",
+      "repo": "pilotstack-av-simulator",
+      "budget": 600,
+      "description": "Full-stack autonomous vehicle simulation with synthetic sensor generation, traffic scenarios, and safety validation suites.",
+      "email": "client@pilotstack.ai",
+      "features": ["sensor-sim", "traffic-gen", "safety-suite", "scenario-library", "replay-tool"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#DC2626",
+        "accent": "#B91C1C",
+        "vibe": "AV red with simulation fidelity"
+      }
+    },
+    {
+      "id": 471,
+      "name": "ThermoSim Heat Transfer Lab",
+      "prefix": "TSH",
+      "type": "Thermal Simulation Tool",
+      "repo": "thermosim-heat-transfer",
+      "budget": 450,
+      "description": "Thermal simulation environment for electronics and mechanical components with FEA heat flow, hot-spot detection, and cooling design.",
+      "email": "client@thermosim.io",
+      "features": ["heat-flow-sim", "hotspot-detect", "cooling-designer", "material-library", "export-report"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#A855F7",
+        "accent": "#9333EA",
+        "vibe": "Thermal purple with heat gradient depth"
+      }
+    },
+    {
+      "id": 472,
+      "name": "AquaPonic Smart Controller",
+      "prefix": "ASC",
+      "type": "Aquaponics Dashboard",
+      "repo": "aquaponic-smart-controller",
+      "budget": 350,
+      "description": "Aquaponics system monitoring and control dashboard with pH balancing, fish feeding schedules, and plant growth tracking.",
+      "email": "client@aquaponic.farm",
+      "features": ["ph-balancer", "feed-scheduler", "growth-tracker", "water-quality", "harvest-planner"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#65A30D",
+        "accent": "#4D7C0F",
+        "vibe": "Aquatic green with living system balance"
+      }
+    },
+    {
+      "id": 473,
+      "name": "PalletTrack AMR Router",
+      "prefix": "PTR",
+      "type": "AMR Management Platform",
+      "repo": "pallettrack-amr-router",
+      "budget": 500,
+      "description": "Autonomous mobile robot fleet router for pallet transport with traffic management, charging schedules, and task prioritization.",
+      "email": "client@pallettrack.io",
+      "features": ["amr-router", "traffic-manager", "charge-scheduler", "task-queue", "map-editor"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#F97316",
+        "accent": "#EA580C",
+        "vibe": "AMR orange with pallet precision"
+      }
+    },
+    {
+      "id": 474,
+      "name": "ThreatMap Network Defender",
+      "prefix": "TMN",
+      "type": "Network Defense Dashboard",
+      "repo": "threatmap-network-defender",
+      "budget": 500,
+      "description": "Real-time network threat visualization with attack surface mapping, lateral movement detection, and incident response workflows.",
+      "email": "client@threatmap.sec",
+      "features": ["attack-surface", "lateral-detect", "incident-response", "network-map", "threat-intel"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#FB923C",
+        "accent": "#F97316",
+        "vibe": "Dark grid with amber threat vectors"
+      }
+    },
+    {
+      "id": 475,
+      "name": "LogStream Aggregator",
+      "prefix": "LSA",
+      "type": "Log Management Platform",
+      "repo": "logstream-aggregator",
+      "budget": 400,
+      "description": "High-throughput log aggregation and analysis platform with structured parsing, anomaly detection, and custom dashboard builder.",
+      "email": "client@logstream.dev",
+      "features": ["log-parser", "anomaly-detect", "dashboard-builder", "alert-rules", "search-engine"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#818CF8",
+        "accent": "#6366F1",
+        "vibe": "Stream indigo with log flow clarity"
+      }
+    },
+    {
+      "id": 476,
+      "name": "CRISPRdesign Guide Planner",
+      "prefix": "CGP",
+      "type": "Gene Editing Tool",
+      "repo": "crisprdesign-guide-planner",
+      "budget": 550,
+      "description": "CRISPR guide RNA design tool with off-target scoring, efficiency prediction, and primer generation for gene editing experiments.",
+      "email": "client@crisprdesign.bio",
+      "features": ["guide-designer", "off-target-scorer", "efficiency-predictor", "primer-gen", "target-browser"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#0D9488",
+        "accent": "#0F766E",
+        "vibe": "Gene teal with editing precision"
+      }
+    },
+    {
+      "id": 477,
+      "name": "WeldBot Seam Tracker",
+      "prefix": "WBT",
+      "type": "Welding Robotics Tool",
+      "repo": "weldbot-seam-tracker",
+      "budget": 400,
+      "description": "Robotic welding seam tracking and quality monitoring platform with torch path planning, penetration analysis, and weld inspection.",
+      "email": "client@weldbot.com",
+      "features": ["seam-tracker", "torch-planner", "penetration-check", "weld-inspector", "defect-log"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#22C55E",
+        "accent": "#16A34A",
+        "vibe": "Weld green with industrial strength"
+      }
+    },
+    {
+      "id": 478,
+      "name": "SolarDrone Panel Inspector",
+      "prefix": "SDP",
+      "type": "Solar Inspection Drone Platform",
+      "repo": "solardrone-panel-inspector",
+      "budget": 450,
+      "description": "Automated solar panel inspection via drone with thermal anomaly detection, panel mapping, and degradation tracking.",
+      "email": "client@solardrone.io",
+      "features": ["thermal-scan", "panel-mapper", "anomaly-detector", "degradation-report", "flight-plan"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#1D4ED8",
+        "accent": "#1E40AF",
+        "vibe": "Solar blue with inspection precision"
+      }
+    },
+    {
+      "id": 479,
+      "name": "BLE Beacon Manager",
+      "prefix": "BBM",
+      "type": "Beacon Network Platform",
+      "repo": "ble-beacon-manager",
+      "budget": 350,
+      "description": "Bluetooth Low Energy beacon fleet management with indoor positioning configuration, signal tuning, and asset tracking.",
+      "email": "client@blebeacon.io",
+      "features": ["beacon-fleet", "position-config", "signal-tuner", "asset-tracker", "heatmap-view"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Beacon blue with proximity awareness"
+      }
+    },
+    {
+      "id": 480,
+      "name": "GPUBench Training Scheduler",
+      "prefix": "GBT",
+      "type": "GPU Cluster Manager",
+      "repo": "gpubench-training-scheduler",
+      "budget": 500,
+      "description": "GPU cluster scheduling platform for distributed ML training with resource allocation, job queuing, and cost optimization.",
+      "email": "client@gpubench.ai",
+      "features": ["gpu-scheduler", "job-queue", "resource-monitor", "cost-optimizer", "training-log"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "GPU amber with compute power"
+      }
+    },
+    {
+      "id": 481,
+      "name": "MotionPose Body Tracker",
+      "prefix": "MPB",
+      "type": "Pose Estimation Platform",
+      "repo": "motionpose-body-tracker",
+      "budget": 400,
+      "description": "Real-time human pose estimation platform with skeleton tracking, gesture recognition, and motion capture export.",
+      "email": "client@motionpose.ai",
+      "features": ["pose-tracker", "skeleton-viewer", "gesture-recognizer", "mocap-export", "multi-person"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Motion gold with body tracking flow"
+      }
+    },
+    {
+      "id": 482,
+      "name": "BioPrint Tissue Planner",
+      "prefix": "BTP",
+      "type": "Bioprinting Platform",
+      "repo": "bioprint-tissue-planner",
+      "budget": 600,
+      "description": "Bioprinting tissue scaffold design tool with cell-laden hydrogel configuration, print path planning, and viability monitoring.",
+      "email": "client@bioprint.io",
+      "features": ["scaffold-designer", "hydrogel-config", "print-path", "viability-monitor", "material-library"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#DB2777",
+        "accent": "#BE185D",
+        "vibe": "Bioprint rose with tissue engineering depth"
+      }
+    },
+    {
+      "id": 483,
+      "name": "PowerBus CAN Debugger",
+      "prefix": "PCD",
+      "type": "CAN Bus Debug Tool",
+      "repo": "powerbus-can-debugger",
+      "budget": 300,
+      "description": "CAN bus debugging and analysis tool with message decoding, DBC file import, signal visualization, and bus load monitoring.",
+      "email": "client@powerbus.dev",
+      "features": ["message-decoder", "dbc-import", "signal-viewer", "bus-load", "error-counter"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Bus gray with signal clarity"
+      }
+    },
+    {
+      "id": 484,
+      "name": "SafeHarbor AV Validator",
+      "prefix": "SAV",
+      "type": "AV Safety Platform",
+      "repo": "safeharbor-av-validator",
+      "budget": 550,
+      "description": "Autonomous vehicle safety validation platform with scenario coverage analysis, edge case generation, and regulatory compliance checks.",
+      "email": "client@safeharbor.ai",
+      "features": ["scenario-coverage", "edge-case-gen", "compliance-check", "safety-report", "test-oracle"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#E11D48",
+        "accent": "#BE123C",
+        "vibe": "Safety red with validation rigor"
+      }
+    },
+    {
+      "id": 485,
+      "name": "FluidSim Hydraulic Modeler",
+      "prefix": "FSH",
+      "type": "Hydraulic Simulation Tool",
+      "repo": "fluidsim-hydraulic-modeler",
+      "budget": 450,
+      "description": "Hydraulic system simulation tool with pipe network modeling, pressure drop calculation, and pump sizing optimization.",
+      "email": "client@fluidsim.io",
+      "features": ["pipe-modeler", "pressure-calc", "pump-sizer", "flow-visualizer", "component-library"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#8B5CF6",
+        "accent": "#7C3AED",
+        "vibe": "Fluid violet with hydraulic flow"
+      }
+    },
+    {
+      "id": 486,
+      "name": "PolliBot Hive Monitor",
+      "prefix": "PHM",
+      "type": "Bee Monitoring Platform",
+      "repo": "pollibot-hive-monitor",
+      "budget": 350,
+      "description": "Smart beehive monitoring platform with colony health tracking, swarm prediction, and pollination service scheduling.",
+      "email": "client@pollibot.farm",
+      "features": ["hive-monitor", "colony-health", "swarm-predictor", "pollination-scheduler", "weight-tracker"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Honey gold with pollination vitality"
+      }
+    },
+    {
+      "id": 487,
+      "name": "SlotMaster Pick Station",
+      "prefix": "SMP",
+      "type": "Pick-to-Light Platform",
+      "repo": "slotmaster-pick-station",
+      "budget": 400,
+      "description": "Pick-to-light station management system with order batching, pick path optimization, and operator performance tracking.",
+      "email": "client@slotmaster.io",
+      "features": ["pick-to-light", "order-batcher", "pick-optimizer", "operator-stats", "error-correction"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#EA580C",
+        "accent": "#C2410C",
+        "vibe": "Pick orange with fulfillment speed"
+      }
+    },
+    {
+      "id": 488,
+      "name": "CryptoShield Key Vault",
+      "prefix": "CSK",
+      "type": "Cryptographic Key Manager",
+      "repo": "cryptoshield-key-vault",
+      "budget": 450,
+      "description": "Hardware security module management interface with key lifecycle management, encryption policy enforcement, and certificate automation.",
+      "email": "client@cryptoshield.sec",
+      "features": ["key-lifecycle", "hsm-manager", "cert-automation", "policy-enforcer", "audit-trail"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#A78BFA",
+        "accent": "#8B5CF6",
+        "vibe": "Dark vault with crypto violet glow"
+      }
+    },
+    {
+      "id": 489,
+      "name": "MeshOps Service Graph",
+      "prefix": "MSG",
+      "type": "Service Mesh Platform",
+      "repo": "meshops-service-graph",
+      "budget": 450,
+      "description": "Service mesh visualization and management platform with traffic routing, circuit breakers, and distributed tracing integration.",
+      "email": "client@meshops.dev",
+      "features": ["service-graph", "traffic-router", "circuit-breaker", "trace-viewer", "health-check"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#6366F1",
+        "accent": "#4F46E5",
+        "vibe": "Mesh indigo with service topology"
+      }
+    },
+    {
+      "id": 490,
+      "name": "CellCount Flow Cytometer",
+      "prefix": "CCF",
+      "type": "Flow Cytometry Platform",
+      "repo": "cellcount-flow-cytometer",
+      "budget": 500,
+      "description": "Flow cytometry data analysis platform with gating strategies, population statistics, and multi-panel experiment management.",
+      "email": "client@cellcount.bio",
+      "features": ["gating-editor", "population-stats", "panel-manager", "compensation-matrix", "report-export"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#2DD4BF",
+        "accent": "#14B8A6",
+        "vibe": "Cell teal with cytometry precision"
+      }
+    },
+    {
+      "id": 491,
+      "name": "TorqueMap Motor Tester",
+      "prefix": "TMT",
+      "type": "Motor Testing Platform",
+      "repo": "torquemap-motor-tester",
+      "budget": 350,
+      "description": "Electric motor characterization and testing platform with torque-speed curves, efficiency maps, and thermal derating profiles.",
+      "email": "client@torquemap.com",
+      "features": ["torque-curve", "efficiency-map", "thermal-profile", "vibration-analyzer", "test-report"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#10B981",
+        "accent": "#059669",
+        "vibe": "Torque green with motor dynamics"
+      }
+    },
+    {
+      "id": 492,
+      "name": "UTMBridge Airspace Manager",
+      "prefix": "UAM",
+      "type": "UTM Platform",
+      "repo": "utmbridge-airspace-manager",
+      "budget": 550,
+      "description": "Unmanned traffic management platform for drone airspace coordination with deconfliction, authorization, and real-time tracking.",
+      "email": "client@utmbridge.io",
+      "features": ["airspace-map", "deconfliction", "auth-manager", "real-time-track", "regulation-check"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#1D4ED8",
+        "accent": "#1E40AF",
+        "vibe": "Airspace blue with UTM authority"
+      }
+    },
+    {
+      "id": 493,
+      "name": "SmartMeter Energy Dashboard",
+      "prefix": "SED",
+      "type": "Energy IoT Platform",
+      "repo": "smartmeter-energy-dashboard",
+      "budget": 400,
+      "description": "Smart energy meter aggregation dashboard with consumption analytics, demand response triggers, and grid load forecasting.",
+      "email": "client@smartmeter.io",
+      "features": ["meter-dashboard", "consumption-chart", "demand-response", "grid-forecast", "tariff-manager"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Energy blue with metering precision"
+      }
+    },
+    {
+      "id": 494,
+      "name": "EdgeInfer TinyML Studio",
+      "prefix": "EIT",
+      "type": "Edge ML Platform",
+      "repo": "edgeinfer-tinyml-studio",
+      "budget": 400,
+      "description": "TinyML model optimization and deployment studio with quantization tools, benchmark profiler, and on-device inference testing.",
+      "email": "client@edgeinfer.ai",
+      "features": ["model-quantizer", "benchmark-profiler", "device-tester", "memory-analyzer", "deploy-manager"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#B45309",
+        "accent": "#92400E",
+        "vibe": "Tiny gold with edge intelligence"
+      }
+    },
+    {
+      "id": 495,
+      "name": "PlateRead ANPR System",
+      "prefix": "PRA",
+      "type": "License Plate Recognition",
+      "repo": "plateread-anpr-system",
+      "budget": 450,
+      "description": "Automatic number plate recognition system with multi-country format support, vehicle tracking, and access control integration.",
+      "email": "client@plateread.ai",
+      "features": ["plate-reader", "format-library", "vehicle-tracker", "access-control", "analytics-dash"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Recognition amber with plate-level detail"
+      }
+    },
+    {
+      "id": 496,
+      "name": "TopologyForge Lattice Generator",
+      "prefix": "TFG",
+      "type": "Generative Design Tool",
+      "repo": "topologyforge-lattice-gen",
+      "budget": 500,
+      "description": "Topology optimization and lattice structure generator for 3D printing with weight reduction targets and stress analysis validation.",
+      "email": "client@topologyforge.io",
+      "features": ["topology-optimizer", "lattice-generator", "stress-validator", "weight-target", "stl-export"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Lattice pink with generative elegance"
+      }
+    },
+    {
+      "id": 497,
+      "name": "JTAG Debug Console",
+      "prefix": "JDC",
+      "type": "Hardware Debug Interface",
+      "repo": "jtag-debug-console",
+      "budget": 300,
+      "description": "Web-based JTAG debugging console with boundary scan, flash programming, and CPU register inspection for embedded targets.",
+      "email": "client@jtagdebug.dev",
+      "features": ["boundary-scan", "flash-programmer", "register-viewer", "breakpoint-manager", "memory-dump"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#334155",
+        "accent": "#1E293B",
+        "vibe": "Debug slate with hardware intimacy"
+      }
+    },
+    {
+      "id": 498,
+      "name": "WaypointOS Mission Control",
+      "prefix": "WOM",
+      "type": "Autonomous Mission Platform",
+      "repo": "waypointos-mission-control",
+      "budget": 500,
+      "description": "Mission control system for autonomous ground vehicles with waypoint sequencing, obstacle avoidance tuning, and telemetry replay.",
+      "email": "client@waypointos.ai",
+      "features": ["waypoint-editor", "obstacle-config", "telemetry-replay", "mission-log", "remote-override"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#F43F5E",
+        "accent": "#E11D48",
+        "vibe": "Mission red with ground control authority"
+      }
+    },
+    {
+      "id": 499,
+      "name": "VirtualPlant Process Simulator",
+      "prefix": "VPS",
+      "type": "Industrial Process Simulator",
+      "repo": "virtualplant-process-sim",
+      "budget": 550,
+      "description": "Chemical and manufacturing process simulation with P&ID diagrams, flow rate modeling, and operator training scenarios.",
+      "email": "client@virtualplant.io",
+      "features": ["pid-diagram", "flow-modeler", "training-scenario", "alarm-simulator", "kpi-dashboard"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#9333EA",
+        "accent": "#7E22CE",
+        "vibe": "Process purple with plant-scale simulation"
+      }
+    },
+    {
+      "id": 500,
+      "name": "IrriPlan Smart Scheduler",
+      "prefix": "ISS",
+      "type": "Irrigation Platform",
+      "repo": "irriplan-smart-scheduler",
+      "budget": 350,
+      "description": "Smart irrigation scheduling platform with evapotranspiration modeling, soil sensor integration, and water budget tracking.",
+      "email": "client@irriplan.farm",
+      "features": ["et-modeler", "soil-sensors", "water-budget", "zone-scheduler", "weather-link"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#F7FEE7",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Water green with irrigation efficiency"
+      }
+    },
+    {
+      "id": 501,
+      "name": "ConveyorSync Belt Monitor",
+      "prefix": "CSB",
+      "type": "Conveyor Management Tool",
+      "repo": "conveyorsync-belt-monitor",
+      "budget": 350,
+      "description": "Conveyor belt monitoring and control system with speed synchronization, jam detection, and predictive maintenance alerts.",
+      "email": "client@conveyorsync.io",
+      "features": ["speed-sync", "jam-detector", "predictive-maintenance", "belt-health", "throughput-counter"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#C2410C",
+        "accent": "#9A3412",
+        "vibe": "Belt orange with conveyor rhythm"
+      }
+    },
+    {
+      "id": 502,
+      "name": "ForensicByte Disk Analyzer",
+      "prefix": "FBA",
+      "type": "Digital Forensics Tool",
+      "repo": "forensicbyte-disk-analyzer",
+      "budget": 500,
+      "description": "Digital forensics disk analysis platform with file carving, timeline reconstruction, and chain-of-custody evidence tracking.",
+      "email": "client@forensicbyte.sec",
+      "features": ["file-carver", "timeline-builder", "evidence-tracker", "hash-verifier", "report-gen"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Dark forensic blue with evidence clarity"
+      }
+    },
+    {
+      "id": 503,
+      "name": "ChaosMesh Fault Injector",
+      "prefix": "CMF",
+      "type": "Chaos Engineering Platform",
+      "repo": "chaosmesh-fault-injector",
+      "budget": 400,
+      "description": "Chaos engineering platform for injecting faults into distributed systems with experiment scheduling, blast radius control, and recovery validation.",
+      "email": "client@chaosmesh.dev",
+      "features": ["fault-injector", "blast-radius", "experiment-scheduler", "recovery-validator", "steady-state"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#4338CA",
+        "accent": "#3730A3",
+        "vibe": "Chaos indigo with controlled disruption"
+      }
+    },
+    {
+      "id": 504,
+      "name": "PlateReader Assay Analyzer",
+      "prefix": "PAA",
+      "type": "Microplate Analysis Tool",
+      "repo": "platereader-assay-analyzer",
+      "budget": 400,
+      "description": "Microplate reader data analysis platform with curve fitting, IC50 calculation, and multi-assay comparison dashboards.",
+      "email": "client@platereader.bio",
+      "features": ["curve-fitter", "ic50-calculator", "assay-compare", "plate-viewer", "data-export"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#14B8A6",
+        "accent": "#0D9488",
+        "vibe": "Assay teal with analytical depth"
+      }
+    },
+    {
+      "id": 505,
+      "name": "LinkageForge Mechanism Builder",
+      "prefix": "LFB",
+      "type": "Mechanism Design Tool",
+      "repo": "linkageforge-mechanism-builder",
+      "budget": 400,
+      "description": "Mechanical linkage design and animation tool with four-bar synthesis, cam profiling, and motion path tracing.",
+      "email": "client@linkageforge.com",
+      "features": ["linkage-editor", "four-bar-synth", "cam-profiler", "motion-trace", "export-dxf"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#4ADE80",
+        "accent": "#22C55E",
+        "vibe": "Mechanism green with kinematic elegance"
+      }
+    },
+    {
+      "id": 506,
+      "name": "SpectrumWatch RF Analyzer",
+      "prefix": "SWR",
+      "type": "RF Analysis Platform",
+      "repo": "spectrumwatch-rf-analyzer",
+      "budget": 400,
+      "description": "Radio frequency spectrum analysis dashboard for drone communication with interference mapping and frequency hopping visualization.",
+      "email": "client@spectrumwatch.io",
+      "features": ["spectrum-viewer", "interference-mapper", "freq-hopper", "signal-strength", "channel-analyzer"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#3B82F6",
+        "accent": "#2563EB",
+        "vibe": "Spectrum blue with RF wave clarity"
+      }
+    },
+    {
+      "id": 507,
+      "name": "DeviceTwin Provisioner",
+      "prefix": "DTP",
+      "type": "IoT Device Management",
+      "repo": "devicetwin-provisioner",
+      "budget": 450,
+      "description": "Zero-touch IoT device provisioning platform with digital twin sync, bulk enrollment, and lifecycle state management.",
+      "email": "client@devicetwin.io",
+      "features": ["zero-touch-provision", "twin-sync", "bulk-enroll", "lifecycle-manager", "cert-rotation"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0369A1",
+        "accent": "#075985",
+        "vibe": "Device blue with provisioning flow"
+      }
+    },
+    {
+      "id": 508,
+      "name": "FedLearn Distributed Trainer",
+      "prefix": "FLD",
+      "type": "Federated Learning Platform",
+      "repo": "fedlearn-distributed-trainer",
+      "budget": 550,
+      "description": "Federated learning orchestration platform with privacy-preserving model aggregation, client selection, and convergence monitoring.",
+      "email": "client@fedlearn.ai",
+      "features": ["federation-manager", "model-aggregator", "client-selector", "convergence-monitor", "privacy-audit"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Federated gold with distributed intelligence"
+      }
+    },
+    {
+      "id": 509,
+      "name": "SegmentPro Semantic Labeler",
+      "prefix": "SPL",
+      "type": "Image Segmentation Tool",
+      "repo": "segmentpro-semantic-labeler",
+      "budget": 450,
+      "description": "Semantic and instance segmentation platform with polygon tools, AI-assisted labeling, and dataset version control.",
+      "email": "client@segmentpro.ai",
+      "features": ["polygon-tool", "ai-assist", "instance-segment", "dataset-versioning", "export-coco"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Segment gold with pixel-level accuracy"
+      }
+    },
+    {
+      "id": 510,
+      "name": "SintroLab Sintering Control",
+      "prefix": "SLS",
+      "type": "Sintering Process Tool",
+      "repo": "sintrolab-sintering-control",
+      "budget": 450,
+      "description": "Selective laser sintering process control dashboard with thermal camera feed, powder bed monitoring, and build parameter tuning.",
+      "email": "client@sintrolab.io",
+      "features": ["thermal-monitor", "powder-bed-view", "param-tuner", "layer-inspector", "build-log"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#D946EF",
+        "accent": "#C026D3",
+        "vibe": "Sinter violet with additive precision"
+      }
+    },
+    {
+      "id": 511,
+      "name": "SPIBridge Protocol Tester",
+      "prefix": "SPT",
+      "type": "SPI Debug Tool",
+      "repo": "spibridge-protocol-tester",
+      "budget": 300,
+      "description": "SPI and I2C protocol testing tool with transaction capture, clock analysis, and automated compliance test suites.",
+      "email": "client@spibridge.dev",
+      "features": ["spi-capture", "i2c-analyzer", "clock-viewer", "compliance-test", "signal-export"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#475569",
+        "accent": "#334155",
+        "vibe": "Protocol gray with serial precision"
+      }
+    },
+    {
+      "id": 512,
+      "name": "MapFusion HD Cartographer",
+      "prefix": "MFC",
+      "type": "HD Mapping Platform",
+      "repo": "mapfusion-hd-cartographer",
+      "budget": 600,
+      "description": "High-definition map creation and editing platform for autonomous driving with lane marking, semantic labeling, and change detection.",
+      "email": "client@mapfusion.ai",
+      "features": ["hd-map-editor", "lane-marker", "semantic-labeler", "change-detector", "map-validator"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#DC2626",
+        "accent": "#B91C1C",
+        "vibe": "Map red with cartographic precision"
+      }
+    },
+    {
+      "id": 513,
+      "name": "WindTunnel CFD Lite",
+      "prefix": "WCL",
+      "type": "CFD Simulation Tool",
+      "repo": "windtunnel-cfd-lite",
+      "budget": 500,
+      "description": "Browser-based computational fluid dynamics tool with streamline visualization, drag coefficient calculation, and shape optimization.",
+      "email": "client@windtunnel.sim",
+      "features": ["streamline-viewer", "drag-calculator", "shape-optimizer", "mesh-generator", "result-export"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#A855F7",
+        "accent": "#9333EA",
+        "vibe": "Wind purple with fluid dynamics"
+      }
+    },
+    {
+      "id": 514,
+      "name": "FrostGuard Crop Protector",
+      "prefix": "FGC",
+      "type": "Frost Protection System",
+      "repo": "frostguard-crop-protector",
+      "budget": 350,
+      "description": "Frost event prediction and protection system with microclimate sensors, wind machine scheduling, and crop damage assessment.",
+      "email": "client@frostguard.farm",
+      "features": ["frost-predictor", "microclimate-map", "wind-machine", "damage-assessor", "alert-system"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Frost-guard green with crop resilience"
+      }
+    },
+    {
+      "id": 515,
+      "name": "RoboShelf Inventory Robot",
+      "prefix": "RSI",
+      "type": "Shelf Scanning Platform",
+      "repo": "roboshelf-inventory-robot",
+      "budget": 450,
+      "description": "Autonomous shelf-scanning robot management platform with planogram compliance checking, out-of-stock detection, and route scheduling.",
+      "email": "client@roboshelf.io",
+      "features": ["shelf-scanner", "planogram-check", "oos-detector", "route-scheduler", "inventory-report"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#F97316",
+        "accent": "#EA580C",
+        "vibe": "Shelf orange with retail automation"
+      }
+    },
+    {
+      "id": 516,
+      "name": "PenTest Scope Planner",
+      "prefix": "PSP",
+      "type": "Penetration Testing Tool",
+      "repo": "pentest-scope-planner",
+      "budget": 450,
+      "description": "Penetration test scope planning and execution tracker with asset enumeration, finding severity scoring, and remediation tracking.",
+      "email": "client@pentestscope.sec",
+      "features": ["scope-definer", "asset-enum", "finding-tracker", "severity-scorer", "retest-scheduler"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#22D3EE",
+        "accent": "#06B6D4",
+        "vibe": "Dark pen-test with cyan targeting"
+      }
+    },
+    {
+      "id": 517,
+      "name": "GitOps Fleet Syncer",
+      "prefix": "GFS",
+      "type": "GitOps Platform",
+      "repo": "gitops-fleet-syncer",
+      "budget": 400,
+      "description": "Multi-cluster GitOps synchronization platform with drift detection, progressive delivery, and automated reconciliation loops.",
+      "email": "client@gitopsfleet.dev",
+      "features": ["fleet-sync", "drift-detector", "progressive-delivery", "reconcile-loop", "cluster-health"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#4F46E5",
+        "accent": "#4338CA",
+        "vibe": "GitOps violet with sync precision"
+      }
+    },
+    {
+      "id": 518,
+      "name": "PCRTrack Thermal Cycler",
+      "prefix": "PCT",
+      "type": "PCR Management Tool",
+      "repo": "pcrtrack-thermal-cycler",
+      "budget": 400,
+      "description": "PCR experiment management platform with protocol templates, amplification curve analysis, and primer efficiency tracking.",
+      "email": "client@pcrtrack.bio",
+      "features": ["protocol-templates", "amp-curve", "primer-tracker", "result-compare", "instrument-link"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#0D9488",
+        "accent": "#0F766E",
+        "vibe": "PCR teal with amplification cycles"
+      }
+    },
+    {
+      "id": 519,
+      "name": "CompliBot Safety Checker",
+      "prefix": "CBC",
+      "type": "Robot Safety Platform",
+      "repo": "complibot-safety-checker",
+      "budget": 400,
+      "description": "Robotic system safety compliance checker with ISO 10218 and ISO 15066 validation, risk scoring, and documentation generator.",
+      "email": "client@complibot.com",
+      "features": ["iso-validator", "risk-scorer", "doc-generator", "checklist-engine", "audit-report"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#059669",
+        "accent": "#047857",
+        "vibe": "Compliance green with safety assurance"
+      }
+    },
+    {
+      "id": 520,
+      "name": "WindFarm Turbine Monitor",
+      "prefix": "WTM",
+      "type": "Wind Energy Drone Platform",
+      "repo": "windfarm-turbine-monitor",
+      "budget": 500,
+      "description": "Drone-based wind turbine inspection platform with blade damage detection, lightning strike mapping, and maintenance scheduling.",
+      "email": "client@windfarm.io",
+      "features": ["blade-inspector", "damage-detector", "lightning-mapper", "maintenance-scheduler", "report-gen"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#2563EB",
+        "accent": "#1D4ED8",
+        "vibe": "Wind blue with turbine monitoring"
+      }
+    },
+    {
+      "id": 521,
+      "name": "FieldGate LPWAN Controller",
+      "prefix": "FGL",
+      "type": "LPWAN Management Tool",
+      "repo": "fieldgate-lpwan-controller",
+      "budget": 350,
+      "description": "Low-power wide-area network controller for rural IoT deployments with NB-IoT and Sigfox device management and coverage mapping.",
+      "email": "client@fieldgate.io",
+      "features": ["device-manager", "coverage-mapper", "power-optimizer", "data-router", "firmware-update"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0EA5E9",
+        "accent": "#0284C7",
+        "vibe": "LPWAN blue with field connectivity"
+      }
+    },
+    {
+      "id": 522,
+      "name": "SynthData Generator Pro",
+      "prefix": "SDG",
+      "type": "Synthetic Data Platform",
+      "repo": "synthdata-generator-pro",
+      "budget": 450,
+      "description": "Synthetic data generation platform for ML training with configurable distributions, privacy guarantees, and statistical validation.",
+      "email": "client@synthdata.ai",
+      "features": ["data-generator", "distribution-config", "privacy-check", "stat-validator", "format-export"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Synthetic gold with data realism"
+      }
+    },
+    {
+      "id": 523,
+      "name": "GazeTrack Eye Analytics",
+      "prefix": "GTE",
+      "type": "Eye Tracking Platform",
+      "repo": "gazetrack-eye-analytics",
+      "budget": 400,
+      "description": "Camera-based eye tracking and gaze analytics platform with heatmap generation, fixation analysis, and AOI measurements.",
+      "email": "client@gazetrack.ai",
+      "features": ["gaze-tracker", "heatmap-gen", "fixation-analyzer", "aoi-measurer", "session-replay"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#CA8A04",
+        "accent": "#A16207",
+        "vibe": "Gaze amber with eye-tracking focus"
+      }
+    },
+    {
+      "id": 524,
+      "name": "CarbonFiber Layup Planner",
+      "prefix": "CFL",
+      "type": "Composite Manufacturing Tool",
+      "repo": "carbonfiber-layup-planner",
+      "budget": 500,
+      "description": "Carbon fiber layup sequence planner with ply orientation optimization, draping simulation, and curing profile management.",
+      "email": "client@carbonfiber.io",
+      "features": ["layup-planner", "ply-optimizer", "drape-simulator", "cure-profiler", "strength-analyzer"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#DB2777",
+        "accent": "#BE185D",
+        "vibe": "Composite rose with fiber strength"
+      }
+    },
+    {
+      "id": 525,
+      "name": "DMAScope Memory Profiler",
+      "prefix": "DMP",
+      "type": "Memory Analysis Tool",
+      "repo": "dmascope-memory-profiler",
+      "budget": 350,
+      "description": "DMA and memory access profiling tool for embedded systems with bus utilization visualization and bottleneck identification.",
+      "email": "client@dmascope.dev",
+      "features": ["dma-profiler", "bus-utilization", "bottleneck-finder", "access-pattern", "memory-map"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Memory slate with access pattern clarity"
+      }
+    },
+    {
+      "id": 526,
+      "name": "DockPilot Marine Autonomy",
+      "prefix": "DPA",
+      "type": "Marine Autonomous Platform",
+      "repo": "dockpilot-marine-autonomy",
+      "budget": 550,
+      "description": "Autonomous marine vessel docking and navigation platform with harbor modeling, collision avoidance, and weather-adaptive routing.",
+      "email": "client@dockpilot.ai",
+      "features": ["harbor-model", "collision-avoid", "weather-router", "dock-assist", "vessel-telemetry"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#E11D48",
+        "accent": "#BE123C",
+        "vibe": "Marine red with harbor precision"
+      }
+    },
+    {
+      "id": 527,
+      "name": "StructSim Earthquake Modeler",
+      "prefix": "SEM",
+      "type": "Structural Simulation Tool",
+      "repo": "structsim-earthquake-modeler",
+      "budget": 500,
+      "description": "Structural earthquake response simulation with building model editor, seismic wave injection, and damage prediction visualization.",
+      "email": "client@structsim.io",
+      "features": ["building-editor", "seismic-inject", "damage-predictor", "response-graph", "code-compliance"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#7C3AED",
+        "accent": "#6D28D9",
+        "vibe": "Seismic purple with structural resilience"
+      }
+    },
+    {
+      "id": 528,
+      "name": "LivestockPulse Health Tracker",
+      "prefix": "LPH",
+      "type": "Livestock Monitoring Platform",
+      "repo": "livestockpulse-health-tracker",
+      "budget": 400,
+      "description": "Livestock health monitoring platform with wearable sensor data, activity patterns, and early disease detection algorithms.",
+      "email": "client@livestockpulse.farm",
+      "features": ["health-dashboard", "activity-tracker", "disease-detector", "feed-optimizer", "herd-reports"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#A16207",
+        "accent": "#854D0E",
+        "vibe": "Livestock gold with pastoral care"
+      }
+    },
+    {
+      "id": 529,
+      "name": "ZoneMap Cold Chain Tracker",
+      "prefix": "ZCT",
+      "type": "Cold Chain Platform",
+      "repo": "zonemap-cold-chain-tracker",
+      "budget": 450,
+      "description": "Cold chain monitoring and compliance platform with temperature excursion alerts, route tracking, and regulatory documentation.",
+      "email": "client@zonemap.io",
+      "features": ["temp-monitor", "excursion-alert", "route-tracker", "compliance-doc", "zone-dashboard"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#EA580C",
+        "accent": "#C2410C",
+        "vibe": "Chain orange with temperature vigilance"
+      }
+    },
+    {
+      "id": 530,
+      "name": "MalwareScope Binary Analyzer",
+      "prefix": "MBA",
+      "type": "Malware Analysis Platform",
+      "repo": "malwarescope-binary-analyzer",
+      "budget": 550,
+      "description": "Static and dynamic malware analysis platform with sandbox execution, behavior graphs, and YARA rule matching.",
+      "email": "client@malwarescope.sec",
+      "features": ["static-analyzer", "sandbox-exec", "behavior-graph", "yara-matcher", "ioc-extractor"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F87171",
+        "accent": "#EF4444",
+        "vibe": "Dark analysis red with malware forensics"
+      }
+    },
+    {
+      "id": 531,
+      "name": "ProbeStack APM Dashboard",
+      "prefix": "PAD",
+      "type": "APM Platform",
+      "repo": "probestack-apm-dashboard",
+      "budget": 400,
+      "description": "Application performance monitoring dashboard with distributed traces, error tracking, and SLO burn rate alerts.",
+      "email": "client@probestack.dev",
+      "features": ["trace-viewer", "error-tracker", "slo-monitor", "latency-histogram", "service-map"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#818CF8",
+        "accent": "#6366F1",
+        "vibe": "APM indigo with performance insight"
+      }
+    },
+    {
+      "id": 532,
+      "name": "ElisaPlate Immunoassay Hub",
+      "prefix": "EIH",
+      "type": "Immunoassay Platform",
+      "repo": "elisaplate-immunoassay-hub",
+      "budget": 450,
+      "description": "ELISA and immunoassay data management platform with standard curve generation, sample tracking, and cross-plate normalization.",
+      "email": "client@elisaplate.bio",
+      "features": ["standard-curve", "sample-tracker", "normalization", "plate-viewer", "result-export"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#2DD4BF",
+        "accent": "#14B8A6",
+        "vibe": "Immunoassay teal with plate precision"
+      }
+    },
+    {
+      "id": 533,
+      "name": "HapticForge Feedback Designer",
+      "prefix": "HFD",
+      "type": "Haptic Design Tool",
+      "repo": "hapticforge-feedback-designer",
+      "budget": 400,
+      "description": "Haptic feedback effect designer for robotic interfaces with vibration patterns, force profiles, and user experience testing.",
+      "email": "client@hapticforge.com",
+      "features": ["pattern-editor", "force-profiler", "ux-tester", "waveform-library", "device-preview"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#22C55E",
+        "accent": "#16A34A",
+        "vibe": "Haptic green with tactile feedback"
+      }
+    },
+    {
+      "id": 534,
+      "name": "ThermalDrone Heat Mapper",
+      "prefix": "TDH",
+      "type": "Thermal Imaging Drone Platform",
+      "repo": "thermaldrone-heat-mapper",
+      "budget": 450,
+      "description": "Drone-mounted thermal imaging platform for building energy audits with heat loss mapping, insulation scoring, and report generation.",
+      "email": "client@thermaldrone.io",
+      "features": ["thermal-mapper", "heat-loss-calc", "insulation-scorer", "3d-overlay", "audit-report"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#1E40AF",
+        "accent": "#1E3A8A",
+        "vibe": "Thermal blue with infrared depth"
+      }
+    },
+    {
+      "id": 535,
+      "name": "TagMesh Asset Tracker",
+      "prefix": "TAT",
+      "type": "RFID Asset Platform",
+      "repo": "tagmesh-asset-tracker",
+      "budget": 350,
+      "description": "RFID and UWB asset tracking platform with real-time location, zone management, and inventory reconciliation for industrial sites.",
+      "email": "client@tagmesh.io",
+      "features": ["rtls-tracker", "zone-manager", "inventory-reconcile", "tag-provisioner", "heatmap-view"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Tag blue with asset location precision"
+      }
+    },
+    {
+      "id": 536,
+      "name": "ExplainML Interpretability Lab",
+      "prefix": "EML",
+      "type": "ML Explainability Platform",
+      "repo": "explainml-interpretability-lab",
+      "budget": 450,
+      "description": "ML model interpretability platform with SHAP analysis, LIME explanations, and fairness auditing for production models.",
+      "email": "client@explainml.ai",
+      "features": ["shap-analyzer", "lime-explainer", "fairness-audit", "feature-attributor", "report-builder"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Explanation gold with interpretable clarity"
+      }
+    },
+    {
+      "id": 537,
+      "name": "AerialMap Orthomosaic Builder",
+      "prefix": "AOB",
+      "type": "Photogrammetry Platform",
+      "repo": "aerialmap-orthomosaic-builder",
+      "budget": 500,
+      "description": "Drone imagery processing pipeline for orthomosaic and 3D model generation with ground control point management and accuracy reports.",
+      "email": "client@aerialmap.ai",
+      "features": ["orthomosaic-gen", "3d-model", "gcp-manager", "accuracy-report", "tile-server"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#A16207",
+        "accent": "#854D0E",
+        "vibe": "Aerial gold with mosaic composition"
+      }
+    },
+    {
+      "id": 538,
+      "name": "BuildPlate Adhesion Lab",
+      "prefix": "BAL",
+      "type": "Print Adhesion Tool",
+      "repo": "buildplate-adhesion-lab",
+      "budget": 300,
+      "description": "3D print first-layer adhesion testing and optimization tool with temperature sweep, Z-offset calibration, and surface prep guides.",
+      "email": "client@buildplate.io",
+      "features": ["temp-sweep", "z-offset-cal", "surface-guide", "adhesion-scorer", "material-matrix"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Adhesion pink with first-layer perfection"
+      }
+    },
+    {
+      "id": 539,
+      "name": "EtherTrace Network Sniffer",
+      "prefix": "ENS",
+      "type": "Embedded Network Tool",
+      "repo": "ethertrace-network-sniffer",
+      "budget": 350,
+      "description": "Embedded Ethernet and industrial protocol sniffer with EtherCAT, PROFINET, and Modbus TCP packet decoding and timing analysis.",
+      "email": "client@ethertrace.dev",
+      "features": ["packet-decoder", "protocol-filter", "timing-analyzer", "traffic-recorder", "export-pcap"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#334155",
+        "accent": "#1E293B",
+        "vibe": "Network slate with packet-level detail"
+      }
+    },
+    {
+      "id": 540,
+      "name": "RailGuard Track Inspector",
+      "prefix": "RGT",
+      "type": "Rail Autonomous Platform",
+      "repo": "railguard-track-inspector",
+      "budget": 550,
+      "description": "Autonomous rail track inspection platform with defect classification, gauge measurement, and maintenance priority scheduling.",
+      "email": "client@railguard.ai",
+      "features": ["defect-classifier", "gauge-measurer", "maintenance-priority", "track-map", "inspection-log"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#F43F5E",
+        "accent": "#E11D48",
+        "vibe": "Rail red with track safety"
+      }
+    },
+    {
+      "id": 541,
+      "name": "VibeSim Modal Analyzer",
+      "prefix": "VMA",
+      "type": "Vibration Simulation Tool",
+      "repo": "vibesim-modal-analyzer",
+      "budget": 400,
+      "description": "Vibration modal analysis simulation tool with frequency response functions, mode shape visualization, and damping characterization.",
+      "email": "client@vibesim.io",
+      "features": ["modal-analyzer", "frf-viewer", "mode-shapes", "damping-calc", "excitation-editor"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#8B5CF6",
+        "accent": "#7C3AED",
+        "vibe": "Vibration violet with resonance depth"
+      }
+    },
+    {
+      "id": 542,
+      "name": "DroneSpray Precision Applicator",
+      "prefix": "DSP",
+      "type": "Spray Drone Platform",
+      "repo": "dronespray-precision-applicator",
+      "budget": 450,
+      "description": "Agricultural spray drone mission planner with variable rate application, buffer zone compliance, and chemical usage tracking.",
+      "email": "client@dronespray.farm",
+      "features": ["spray-planner", "variable-rate", "buffer-zones", "chemical-tracker", "coverage-map"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#F7FEE7",
+        "primary": "#65A30D",
+        "accent": "#4D7C0F",
+        "vibe": "Spray green with precision application"
+      }
+    },
+    {
+      "id": 543,
+      "name": "PickWave Order Fulfillment",
+      "prefix": "PWO",
+      "type": "Order Fulfillment Platform",
+      "repo": "pickwave-order-fulfillment",
+      "budget": 400,
+      "description": "Wave-based order fulfillment platform with batch optimization, pick density mapping, and shipping label integration.",
+      "email": "client@pickwave.io",
+      "features": ["wave-planner", "batch-optimizer", "density-mapper", "label-printer", "fulfillment-report"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#C2410C",
+        "accent": "#9A3412",
+        "vibe": "Wave orange with fulfillment efficiency"
+      }
+    },
+    {
+      "id": 544,
+      "name": "SOCBoard Incident Console",
+      "prefix": "SBI",
+      "type": "SOC Management Platform",
+      "repo": "socboard-incident-console",
+      "budget": 500,
+      "description": "Security operations center incident management console with case tracking, analyst workload balancing, and MITRE ATT&CK mapping.",
+      "email": "client@socboard.sec",
+      "features": ["case-tracker", "analyst-queue", "mitre-mapper", "evidence-vault", "escalation-engine"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#34D399",
+        "accent": "#10B981",
+        "vibe": "Dark SOC with green status indicators"
+      }
+    },
+    {
+      "id": 545,
+      "name": "ScaleGuard Auto-Scaler",
+      "prefix": "SGA",
+      "type": "Autoscaling Platform",
+      "repo": "scaleguard-auto-scaler",
+      "budget": 400,
+      "description": "Predictive autoscaling platform for cloud workloads with custom metric policies, scaling simulations, and cost-aware thresholds.",
+      "email": "client@scaleguard.dev",
+      "features": ["metric-policy", "scale-simulator", "cost-threshold", "history-viewer", "webhook-trigger"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#6366F1",
+        "accent": "#4F46E5",
+        "vibe": "Scale indigo with elastic precision"
+      }
+    },
+    {
+      "id": 546,
+      "name": "SeqPipe Bioinformatics Runner",
+      "prefix": "SBR",
+      "type": "Bioinformatics Pipeline",
+      "repo": "seqpipe-bioinformatics-runner",
+      "budget": 500,
+      "description": "Bioinformatics pipeline orchestrator with Nextflow/Snakemake integration, compute scaling, and result aggregation dashboards.",
+      "email": "client@seqpipe.bio",
+      "features": ["pipeline-runner", "compute-scaler", "result-dashboard", "workflow-library", "data-provenance"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#14B8A6",
+        "accent": "#0D9488",
+        "vibe": "Sequence teal with pipeline flow"
+      }
+    },
+    {
+      "id": 547,
+      "name": "MotorShield Drive Configurator",
+      "prefix": "MDC",
+      "type": "Motor Drive Platform",
+      "repo": "motorshield-drive-configurator",
+      "budget": 350,
+      "description": "Brushless motor drive configuration tool with FOC tuning, current loop visualization, and protection parameter setup.",
+      "email": "client@motorshield.com",
+      "features": ["foc-tuner", "current-loop", "protection-setup", "motor-id", "drive-dashboard"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#16A34A",
+        "accent": "#15803D",
+        "vibe": "Drive green with motor control precision"
+      }
+    },
+    {
+      "id": 548,
+      "name": "CounterDrone Detection Grid",
+      "prefix": "CDG",
+      "type": "Counter-UAS Platform",
+      "repo": "counterdrone-detection-grid",
+      "budget": 600,
+      "description": "Counter-drone detection and tracking system with radar integration, RF fingerprinting, and threat classification algorithms.",
+      "email": "client@counterdrone.io",
+      "features": ["radar-feed", "rf-fingerprint", "threat-classifier", "track-display", "alert-protocol"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#1D4ED8",
+        "accent": "#1E40AF",
+        "vibe": "Defense blue with counter-UAS alertness"
+      }
+    },
+    {
+      "id": 549,
+      "name": "TempGuard Industrial IoT",
+      "prefix": "TGI",
+      "type": "Industrial IoT Platform",
+      "repo": "tempguard-industrial-iot",
+      "budget": 400,
+      "description": "Industrial temperature monitoring IoT platform with multi-zone tracking, compliance logging, and predictive maintenance for cold rooms.",
+      "email": "client@tempguard.io",
+      "features": ["multi-zone", "compliance-logger", "predictive-alert", "sensor-calibrator", "zone-report"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Temp blue with industrial monitoring"
+      }
+    },
+    {
+      "id": 550,
+      "name": "VectorDB Embedding Manager",
+      "prefix": "VEM",
+      "type": "Vector Database Platform",
+      "repo": "vectordb-embedding-manager",
+      "budget": 450,
+      "description": "Vector database management interface with embedding visualization, similarity search tuning, and index performance optimization.",
+      "email": "client@vectordb.ai",
+      "features": ["embedding-viewer", "similarity-search", "index-optimizer", "collection-manager", "benchmark-tool"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Vector gold with embedding space depth"
+      }
+    },
+    {
+      "id": 551,
+      "name": "DefectMap Surface Inspector",
+      "prefix": "DMI",
+      "type": "Surface Inspection Platform",
+      "repo": "defectmap-surface-inspector",
+      "budget": 450,
+      "description": "Automated surface defect inspection platform with multi-camera stitching, defect classification, and statistical process control.",
+      "email": "client@defectmap.ai",
+      "features": ["multi-cam-stitch", "defect-classifier", "spc-charts", "roi-editor", "batch-inspector"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Inspection amber with surface detail"
+      }
+    },
+    {
+      "id": 552,
+      "name": "NylonSpec Material Tester",
+      "prefix": "NMT",
+      "type": "Material Testing Tool",
+      "repo": "nylonspec-material-tester",
+      "budget": 350,
+      "description": "3D printing material testing and characterization tool with tensile strength curves, temperature profiles, and warpage analysis.",
+      "email": "client@nylonspec.io",
+      "features": ["tensile-tester", "temp-profiler", "warpage-analyzer", "material-database", "test-report"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Material pink with testing rigor"
+      }
+    },
+    {
+      "id": 553,
+      "name": "RTOSBench Latency Profiler",
+      "prefix": "RBL",
+      "type": "RTOS Profiling Tool",
+      "repo": "rtosbench-latency-profiler",
+      "budget": 300,
+      "description": "Real-time system latency profiler with interrupt latency measurement, context switch timing, and worst-case execution time analysis.",
+      "email": "client@rtosbench.dev",
+      "features": ["latency-measurer", "context-switch", "wcet-analyzer", "jitter-tracker", "histogram-view"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Latency gray with real-time precision"
+      }
+    },
+    {
+      "id": 554,
+      "name": "ConvoyAI Platooning Hub",
+      "prefix": "CAP",
+      "type": "Truck Platooning Platform",
+      "repo": "convoyai-platooning-hub",
+      "budget": 550,
+      "description": "Autonomous truck platooning management platform with gap control, fuel savings analytics, and inter-vehicle communication monitoring.",
+      "email": "client@convoyai.ai",
+      "features": ["platoon-manager", "gap-controller", "fuel-analytics", "v2v-monitor", "safety-dashboard"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#DC2626",
+        "accent": "#B91C1C",
+        "vibe": "Convoy red with platooning coordination"
+      }
+    },
+    {
+      "id": 555,
+      "name": "FEACloud Stress Analyzer",
+      "prefix": "FCS",
+      "type": "Cloud FEA Platform",
+      "repo": "feacloud-stress-analyzer",
+      "budget": 500,
+      "description": "Cloud-based finite element analysis with stress distribution visualization, mesh refinement, and material failure prediction.",
+      "email": "client@feacloud.io",
+      "features": ["stress-solver", "mesh-refiner", "failure-predictor", "load-case-editor", "result-export"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#9333EA",
+        "accent": "#7E22CE",
+        "vibe": "FEA purple with stress gradient depth"
+      }
+    },
+    {
+      "id": 556,
+      "name": "SeedTrack Germination Monitor",
+      "prefix": "SGM",
+      "type": "Seed Science Platform",
+      "repo": "seedtrack-germination-monitor",
+      "budget": 300,
+      "description": "Seed germination tracking platform with time-lapse imaging, viability scoring, and environmental condition correlation.",
+      "email": "client@seedtrack.farm",
+      "features": ["germination-tracker", "timelapse-viewer", "viability-scorer", "condition-logger", "batch-compare"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Seed green with germination vitality"
+      }
+    },
+    {
+      "id": 557,
+      "name": "ToteBot Goods-to-Person",
+      "prefix": "TBG",
+      "type": "Goods-to-Person Platform",
+      "repo": "totebot-goods-to-person",
+      "budget": 500,
+      "description": "Goods-to-person robot fleet management with tote scheduling, workstation assignment, and pick rate optimization.",
+      "email": "client@totebot.io",
+      "features": ["fleet-manager", "tote-scheduler", "workstation-assign", "pick-rate", "robot-health"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#F97316",
+        "accent": "#EA580C",
+        "vibe": "Tote orange with goods-to-person speed"
+      }
+    },
+    {
+      "id": 558,
+      "name": "ZeroDay Exploit Tracker",
+      "prefix": "ZET",
+      "type": "Threat Intelligence Platform",
+      "repo": "zeroday-exploit-tracker",
+      "budget": 550,
+      "description": "Zero-day vulnerability intelligence platform with exploit feed aggregation, impact assessment, and patch prioritization workflows.",
+      "email": "client@zeroday.sec",
+      "features": ["exploit-feed", "impact-assessor", "patch-priority", "vendor-tracker", "intel-dashboard"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#FB923C",
+        "accent": "#F97316",
+        "vibe": "Dark zero-day with amber urgency"
+      }
+    },
+    {
+      "id": 559,
+      "name": "ConfigAudit Compliance Checker",
+      "prefix": "CAC",
+      "type": "Configuration Audit Tool",
+      "repo": "configaudit-compliance-checker",
+      "budget": 400,
+      "description": "Infrastructure configuration audit tool with CIS benchmark scanning, compliance scoring, and remediation script generation.",
+      "email": "client@configaudit.dev",
+      "features": ["cis-scanner", "compliance-scorer", "remediation-gen", "drift-monitor", "audit-report"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#4338CA",
+        "accent": "#3730A3",
+        "vibe": "Audit indigo with compliance rigor"
+      }
+    },
+    {
+      "id": 560,
+      "name": "SpectraLab Mass Spec Viewer",
+      "prefix": "SLV",
+      "type": "Mass Spectrometry Platform",
+      "repo": "spectralab-mass-spec-viewer",
+      "budget": 500,
+      "description": "Mass spectrometry data viewer with peak identification, compound library matching, and multi-experiment overlay comparison.",
+      "email": "client@spectralab.bio",
+      "features": ["spectrum-viewer", "peak-identifier", "compound-matcher", "overlay-compare", "data-export"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#0D9488",
+        "accent": "#0F766E",
+        "vibe": "Spectra teal with mass precision"
+      }
+    },
+    {
+      "id": 561,
+      "name": "GearTrain Transmission Designer",
+      "prefix": "GTD",
+      "type": "Gear Design Tool",
+      "repo": "geartrain-transmission-designer",
+      "budget": 450,
+      "description": "Gear train and transmission design tool with ratio calculator, tooth profile generator, and efficiency loss estimation.",
+      "email": "client@geartrain.com",
+      "features": ["ratio-calculator", "tooth-profiler", "efficiency-estimator", "load-analyzer", "cad-export"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#10B981",
+        "accent": "#059669",
+        "vibe": "Gear green with mechanical precision"
+      }
+    },
+    {
+      "id": 562,
+      "name": "SwarmDrone Formation Planner",
+      "prefix": "SDF",
+      "type": "Drone Swarm Platform",
+      "repo": "swarmdrone-formation-planner",
+      "budget": 550,
+      "description": "Multi-drone swarm formation planner with choreography editor, collision avoidance simulation, and synchronized light show control.",
+      "email": "client@swarmdrone.io",
+      "features": ["formation-editor", "collision-sim", "sync-controller", "light-show", "swarm-telemetry"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#3B82F6",
+        "accent": "#2563EB",
+        "vibe": "Swarm blue with formation harmony"
+      }
+    },
+    {
+      "id": 563,
+      "name": "SignalForge Waveform Generator",
+      "prefix": "SFW",
+      "type": "IoT Signal Tool",
+      "repo": "signalforge-waveform-generator",
+      "budget": 350,
+      "description": "Configurable waveform generator interface for IoT sensor testing with arbitrary signal creation, noise injection, and replay from CSV.",
+      "email": "client@signalforge.io",
+      "features": ["waveform-gen", "noise-injector", "csv-replay", "signal-analyzer", "output-config"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0369A1",
+        "accent": "#075985",
+        "vibe": "Signal blue with waveform generation"
+      }
+    },
+    {
+      "id": 564,
+      "name": "PromptForge LLM Workbench",
+      "prefix": "PLW",
+      "type": "LLM Development Platform",
+      "repo": "promptforge-llm-workbench",
+      "budget": 500,
+      "description": "LLM prompt engineering and evaluation workbench with A/B testing, token analysis, and automated regression testing across models.",
+      "email": "client@promptforge.ai",
+      "features": ["prompt-editor", "ab-tester", "token-analyzer", "regression-suite", "model-compare"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Prompt gold with LLM intelligence"
+      }
+    },
+    {
+      "id": 565,
+      "name": "PointCloud Scene Reconstructor",
+      "prefix": "PCR",
+      "type": "3D Reconstruction Platform",
+      "repo": "pointcloud-scene-reconstructor",
+      "budget": 500,
+      "description": "Scene reconstruction from point clouds with surface meshing, texture mapping, and measurement tools for industrial surveying.",
+      "email": "client@pointcloud.ai",
+      "features": ["surface-mesher", "texture-mapper", "measurement-tool", "point-filter", "scene-export"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FEF9C3",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Point gold with 3D reconstruction depth"
+      }
+    },
+    {
+      "id": 566,
+      "name": "FormNext Binder Jet Manager",
+      "prefix": "FBJ",
+      "type": "Binder Jetting Platform",
+      "repo": "formnext-binder-jet-manager",
+      "budget": 500,
+      "description": "Binder jetting process management platform with saturation control, depowdering planning, and sintering profile optimization.",
+      "email": "client@formnext.io",
+      "features": ["saturation-control", "depowder-planner", "sinter-profiler", "density-checker", "batch-tracker"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#D946EF",
+        "accent": "#C026D3",
+        "vibe": "Binder violet with jetting precision"
+      }
+    },
+    {
+      "id": 567,
+      "name": "StackProbe Power Analyzer",
+      "prefix": "SKP",
+      "type": "Power Profiling Tool",
+      "repo": "stackprobe-power-analyzer",
+      "budget": 350,
+      "description": "Embedded system power consumption profiler with current waveform capture, energy budget calculator, and sleep mode analyzer.",
+      "email": "client@stackprobe.dev",
+      "features": ["current-capture", "energy-budget", "sleep-analyzer", "power-profile", "battery-estimator"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#475569",
+        "accent": "#334155",
+        "vibe": "Power slate with energy efficiency"
+      }
+    },
+    {
+      "id": 568,
+      "name": "FarmBot Autonomous Weeder",
+      "prefix": "FAW",
+      "type": "Robotic Weeding Platform",
+      "repo": "farmbot-autonomous-weeder",
+      "budget": 450,
+      "description": "Autonomous weeding robot control platform with crop-row detection, weed identification, and mechanical removal action planning.",
+      "email": "client@farmbot.ai",
+      "features": ["crop-detector", "weed-identifier", "removal-planner", "row-navigator", "coverage-map"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#E11D48",
+        "accent": "#BE123C",
+        "vibe": "Weeder red with agricultural autonomy"
+      }
+    },
+    {
+      "id": 569,
+      "name": "AcousticSim Room Modeler",
+      "prefix": "ARM",
+      "type": "Acoustic Simulation Tool",
+      "repo": "acousticsim-room-modeler",
+      "budget": 400,
+      "description": "Room acoustics simulation tool with ray tracing, reverb time calculation, and speaker placement optimization for AV design.",
+      "email": "client@acousticsim.io",
+      "features": ["ray-tracer", "reverb-calc", "speaker-placer", "room-editor", "impulse-response"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#A855F7",
+        "accent": "#9333EA",
+        "vibe": "Acoustic purple with sound propagation"
+      }
+    },
+    {
+      "id": 570,
+      "name": "FieldRobot Harvest Planner",
+      "prefix": "FRP",
+      "type": "Harvest Automation Tool",
+      "repo": "fieldrobot-harvest-planner",
+      "budget": 400,
+      "description": "Robotic harvesting mission planner with crop maturity assessment, pick sequence optimization, and yield collection tracking.",
+      "email": "client@fieldrobot.farm",
+      "features": ["maturity-assessor", "pick-sequencer", "yield-tracker", "robot-router", "weather-check"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#EAB308",
+        "accent": "#CA8A04",
+        "vibe": "Harvest gold with field automation"
+      }
+    },
+    {
+      "id": 571,
+      "name": "CrossDock Staging Optimizer",
+      "prefix": "CDO",
+      "type": "Cross-Dock Platform",
+      "repo": "crossdock-staging-optimizer",
+      "budget": 450,
+      "description": "Cross-docking staging area optimizer with inbound/outbound matching, staging lane assignment, and turnaround time analytics.",
+      "email": "client@crossdock.io",
+      "features": ["stage-optimizer", "lane-assigner", "match-engine", "turnaround-tracker", "dock-dashboard"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFF7ED",
+        "primary": "#EA580C",
+        "accent": "#C2410C",
+        "vibe": "Cross-dock orange with staging speed"
+      }
+    },
+    {
+      "id": 572,
+      "name": "HoneyPot Deception Engine",
+      "prefix": "HDE",
+      "type": "Deception Technology Platform",
+      "repo": "honeypot-deception-engine",
+      "budget": 450,
+      "description": "Honeypot deployment and management platform with decoy service configuration, attacker behavior capture, and threat intelligence extraction.",
+      "email": "client@honeypot.sec",
+      "features": ["decoy-deployer", "behavior-capture", "intel-extractor", "lure-config", "alert-dashboard"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#A78BFA",
+        "accent": "#8B5CF6",
+        "vibe": "Dark deception with violet lure glow"
+      }
+    },
+    {
+      "id": 573,
+      "name": "FeatureFlag Control Tower",
+      "prefix": "FFT",
+      "type": "Feature Management Platform",
+      "repo": "featureflag-control-tower",
+      "budget": 400,
+      "description": "Feature flag management platform with percentage rollouts, user targeting, and A/B experiment integration for progressive delivery.",
+      "email": "client@featureflag.dev",
+      "features": ["flag-manager", "rollout-control", "user-targeting", "experiment-link", "audit-trail"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#6366F1",
+        "accent": "#4F46E5",
+        "vibe": "Flag indigo with progressive delivery"
+      }
+    },
+    {
+      "id": 574,
+      "name": "MicroArray Expression Viewer",
+      "prefix": "MEV",
+      "type": "Gene Expression Platform",
+      "repo": "microarray-expression-viewer",
+      "budget": 400,
+      "description": "Gene expression microarray analysis platform with heatmap visualization, differential expression testing, and pathway enrichment.",
+      "email": "client@microarray.bio",
+      "features": ["heatmap-viewer", "diff-expression", "pathway-enrichment", "sample-grouper", "volcano-plot"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#2DD4BF",
+        "accent": "#14B8A6",
+        "vibe": "Expression teal with genomic depth"
+      }
+    },
+    {
+      "id": 575,
+      "name": "RoboWrist Dexterous Planner",
+      "prefix": "RWD",
+      "type": "Dexterous Manipulation Tool",
+      "repo": "robowrist-dexterous-planner",
+      "budget": 500,
+      "description": "Dexterous robotic hand manipulation planner with grasp synthesis, in-hand reorientation, and contact force visualization.",
+      "email": "client@robowrist.com",
+      "features": ["grasp-planner", "reorientation-sim", "contact-force", "finger-config", "task-sequence"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#4ADE80",
+        "accent": "#22C55E",
+        "vibe": "Dexterous green with manipulation finesse"
+      }
+    },
+    {
+      "id": 576,
+      "name": "BeyondLine FPV Controller",
+      "prefix": "BFC",
+      "type": "FPV Drone Platform",
+      "repo": "beyondline-fpv-controller",
+      "budget": 400,
+      "description": "FPV drone ground control station with video latency monitoring, channel management, and antenna tracking configuration.",
+      "email": "client@beyondline.io",
+      "features": ["fpv-viewer", "latency-monitor", "channel-manager", "antenna-tracker", "record-stream"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#EFF6FF",
+        "primary": "#2563EB",
+        "accent": "#1D4ED8",
+        "vibe": "FPV blue with beyond-line clarity"
+      }
+    },
+    {
+      "id": 577,
+      "name": "SmartValve Flow Controller",
+      "prefix": "SVF",
+      "type": "Industrial IoT Valve Platform",
+      "repo": "smartvalve-flow-controller",
+      "budget": 350,
+      "description": "Smart valve monitoring and control platform for industrial pipelines with flow rate tracking, leak detection, and maintenance scheduling.",
+      "email": "client@smartvalve.io",
+      "features": ["flow-controller", "leak-detector", "valve-status", "maintenance-scheduler", "pipeline-map"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#F0F9FF",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Valve blue with flow control"
+      }
+    },
+    {
+      "id": 578,
+      "name": "GraphNeural Network Studio",
+      "prefix": "GNS",
+      "type": "Graph ML Platform",
+      "repo": "graphneural-network-studio",
+      "budget": 500,
+      "description": "Graph neural network design and training studio with node/edge feature editors, GNN architecture builder, and graph-level prediction.",
+      "email": "client@graphneural.ai",
+      "features": ["graph-editor", "gnn-builder", "node-classifier", "link-predictor", "embedding-viewer"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#B45309",
+        "accent": "#92400E",
+        "vibe": "Graph gold with neural topology"
+      }
+    },
+    {
+      "id": 579,
+      "name": "ThermalVision Fire Detector",
+      "prefix": "TVF",
+      "type": "Fire Detection Platform",
+      "repo": "thermalvision-fire-detector",
+      "budget": 450,
+      "description": "Thermal camera-based fire and smoke detection platform with early warning, zone monitoring, and emergency notification integration.",
+      "email": "client@thermalvision.ai",
+      "features": ["fire-detector", "smoke-classifier", "zone-monitor", "early-warning", "emergency-notify"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#F59E0B",
+        "accent": "#D97706",
+        "vibe": "Thermal amber with fire detection urgency"
+      }
+    },
+    {
+      "id": 580,
+      "name": "DLPSpec Large Format Printer",
+      "prefix": "DLF",
+      "type": "Large Format Printing Tool",
+      "repo": "dlpspec-large-format-printer",
+      "budget": 450,
+      "description": "Large format DLP 3D printing management tool with multi-zone exposure, build platform leveling, and large-part orientation planning.",
+      "email": "client@dlpspec.io",
+      "features": ["multi-zone-exposure", "platform-leveler", "orientation-planner", "large-part-slicer", "quality-inspector"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#DB2777",
+        "accent": "#BE185D",
+        "vibe": "DLP rose with large format precision"
+      }
+    },
+    {
+      "id": 581,
+      "name": "FPGAPilot Accelerator Studio",
+      "prefix": "FPA",
+      "type": "FPGA Development Tool",
+      "repo": "fpgapilot-accelerator-studio",
+      "budget": 500,
+      "description": "FPGA hardware accelerator design studio with HLS synthesis, resource utilization viewer, and bitstream management.",
+      "email": "client@fpgapilot.dev",
+      "features": ["hls-editor", "resource-viewer", "bitstream-manager", "timing-analyzer", "sim-testbench"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#334155",
+        "accent": "#1E293B",
+        "vibe": "FPGA slate with accelerator power"
+      }
+    },
+    {
+      "id": 582,
+      "name": "UnderwaterBot ROV Controller",
+      "prefix": "URC",
+      "type": "ROV Control Platform",
+      "repo": "underwaterbot-rov-controller",
+      "budget": 550,
+      "description": "Remotely operated underwater vehicle control platform with depth management, sonar overlay, and manipulator arm teleoperation.",
+      "email": "client@underwaterbot.ai",
+      "features": ["depth-controller", "sonar-overlay", "arm-teleop", "video-stream", "mission-recorder"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FFF1F2",
+        "primary": "#DC2626",
+        "accent": "#B91C1C",
+        "vibe": "Underwater red with deep-sea operations"
+      }
+    },
+    {
+      "id": 583,
+      "name": "CrashLab Impact Simulator",
+      "prefix": "CIS",
+      "type": "Impact Simulation Platform",
+      "repo": "crashlab-impact-simulator",
+      "budget": 550,
+      "description": "Vehicle and product crash impact simulation with deformation modeling, energy absorption analysis, and safety rating estimation.",
+      "email": "client@crashlab.sim",
+      "features": ["impact-solver", "deformation-viewer", "energy-analyzer", "safety-rater", "material-model"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#F5F3FF",
+        "primary": "#7C3AED",
+        "accent": "#6D28D9",
+        "vibe": "Crash purple with impact dynamics"
+      }
+    },
+    {
+      "id": 584,
+      "name": "TerraScan Soil Mapper",
+      "prefix": "TSM",
+      "type": "Soil Mapping Platform",
+      "repo": "terrascan-soil-mapper",
+      "budget": 400,
+      "description": "Electromagnetic soil scanning and mapping platform with conductivity visualization, soil type classification, and drainage planning.",
+      "email": "client@terrascan.farm",
+      "features": ["conductivity-map", "soil-classifier", "drainage-planner", "scan-routes", "field-report"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#F7FEE7",
+        "primary": "#84CC16",
+        "accent": "#65A30D",
+        "vibe": "Terra green with soil intelligence"
+      }
+    },
+    {
+      "id": 585,
+      "name": "ReturnBot Reverse Logistics",
+      "prefix": "RBR",
+      "type": "Returns Management Platform",
+      "repo": "returnbot-reverse-logistics",
+      "budget": 400,
+      "description": "Automated returns processing platform with item inspection grading, disposition routing, and refurbishment workflow management.",
+      "email": "client@returnbot.io",
+      "features": ["inspection-grader", "disposition-router", "refurb-workflow", "return-tracker", "analytics-dash"],
+      "category": "Warehouse & Logistics Automation",
+      "design": {
+        "bg": "#FFEDD5",
+        "primary": "#C2410C",
+        "accent": "#9A3412",
+        "vibe": "Return orange with reverse logistics flow"
+      }
+    },
+    {
+      "id": 586,
+      "name": "EndpointShield EDR Console",
+      "prefix": "ESE",
+      "type": "EDR Platform",
+      "repo": "endpointshield-edr-console",
+      "budget": 500,
+      "description": "Endpoint detection and response console with process tree analysis, file integrity monitoring, and automated isolation actions.",
+      "email": "client@endpointshield.sec",
+      "features": ["process-tree", "file-integrity", "auto-isolate", "threat-hunt", "endpoint-inventory"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#38BDF8",
+        "accent": "#0EA5E9",
+        "vibe": "Dark EDR with endpoint blue glow"
+      }
+    },
+    {
+      "id": 587,
+      "name": "CostLens Cloud Optimizer",
+      "prefix": "CLO",
+      "type": "Cloud Cost Platform",
+      "repo": "costlens-cloud-optimizer",
+      "budget": 400,
+      "description": "Multi-cloud cost optimization dashboard with resource right-sizing, reserved instance recommendations, and waste detection.",
+      "email": "client@costlens.dev",
+      "features": ["cost-dashboard", "right-sizer", "ri-recommender", "waste-detector", "budget-alert"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#EEF2FF",
+        "primary": "#818CF8",
+        "accent": "#6366F1",
+        "vibe": "Cost indigo with optimization clarity"
+      }
+    },
+    {
+      "id": 588,
+      "name": "LabNotebook ELN Platform",
+      "prefix": "LNP",
+      "type": "Electronic Lab Notebook",
+      "repo": "labnotebook-eln-platform",
+      "budget": 450,
+      "description": "Electronic lab notebook with structured experiment templates, data attachment, and audit-ready signature and versioning workflows.",
+      "email": "client@labnotebook.bio",
+      "features": ["experiment-template", "data-attach", "e-signature", "version-history", "search-engine"],
+      "category": "Biotech & Lab Automation",
+      "design": {
+        "bg": "#F0FDFA",
+        "primary": "#14B8A6",
+        "accent": "#0D9488",
+        "vibe": "Notebook teal with scientific rigor"
+      }
+    },
+    {
+      "id": 589,
+      "name": "BearingForge Roller Designer",
+      "prefix": "BRD",
+      "type": "Bearing Design Tool",
+      "repo": "bearingforge-roller-designer",
+      "budget": 350,
+      "description": "Rolling element bearing design and life prediction tool with load calculations, lubrication analysis, and failure mode simulation.",
+      "email": "client@bearingforge.com",
+      "features": ["bearing-designer", "load-calculator", "lube-analyzer", "life-predictor", "failure-sim"],
+      "category": "Robotics & Hardware",
+      "design": {
+        "bg": "#ECFDF5",
+        "primary": "#16A34A",
+        "accent": "#15803D",
+        "vibe": "Bearing green with rolling precision"
+      }
+    },
+    {
+      "id": 590,
+      "name": "AirSense Emission Monitor",
+      "prefix": "AEM",
+      "type": "Emission Monitoring Drone",
+      "repo": "airsense-emission-monitor",
+      "budget": 500,
+      "description": "Drone-based air quality and emission monitoring platform with gas concentration mapping, source identification, and compliance reporting.",
+      "email": "client@airsense.io",
+      "features": ["gas-mapper", "source-identifier", "concentration-heatmap", "compliance-report", "flight-plan"],
+      "category": "Drones & UAV",
+      "design": {
+        "bg": "#DBEAFE",
+        "primary": "#2563EB",
+        "accent": "#1E40AF",
+        "vibe": "Air blue with emission clarity"
+      }
+    },
+    {
+      "id": 591,
+      "name": "DigitalMeter Substation Hub",
+      "prefix": "DSH",
+      "type": "Substation IoT Platform",
+      "repo": "digitalmeter-substation-hub",
+      "budget": 450,
+      "description": "Electrical substation IoT monitoring hub with transformer health tracking, fault detection, and SCADA system integration.",
+      "email": "client@digitalmeter.io",
+      "features": ["transformer-monitor", "fault-detector", "scada-link", "power-quality", "alarm-manager"],
+      "category": "IoT & Edge Computing",
+      "design": {
+        "bg": "#E0F2FE",
+        "primary": "#0284C7",
+        "accent": "#0369A1",
+        "vibe": "Substation blue with power monitoring"
+      }
+    },
+    {
+      "id": 592,
+      "name": "RewardBench RL Evaluator",
+      "prefix": "RBE",
+      "type": "RL Evaluation Platform",
+      "repo": "rewardbench-rl-evaluator",
+      "budget": 450,
+      "description": "Reinforcement learning evaluation platform with reward function comparison, policy rollout visualization, and environment benchmarking.",
+      "email": "client@rewardbench.ai",
+      "features": ["reward-comparator", "policy-viewer", "env-benchmark", "episode-replay", "metric-tracker"],
+      "category": "AI & Machine Learning",
+      "design": {
+        "bg": "#FEF3C7",
+        "primary": "#D97706",
+        "accent": "#B45309",
+        "vibe": "Reward gold with evaluation depth"
+      }
+    },
+    {
+      "id": 593,
+      "name": "ActionRec Activity Classifier",
+      "prefix": "ARC",
+      "type": "Activity Recognition Platform",
+      "repo": "actionrec-activity-classifier",
+      "budget": 400,
+      "description": "Video-based human activity recognition platform with temporal action detection, behavior classification, and anomaly flagging.",
+      "email": "client@actionrec.ai",
+      "features": ["activity-detector", "behavior-classifier", "anomaly-flagger", "temporal-segments", "video-feed"],
+      "category": "Computer Vision & AI",
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#CA8A04",
+        "accent": "#A16207",
+        "vibe": "Action amber with recognition speed"
+      }
+    },
+    {
+      "id": 594,
+      "name": "PostCure UV Treatment Scheduler",
+      "prefix": "PUV",
+      "type": "Post-Processing Tool",
+      "repo": "postcure-uv-treatment-scheduler",
+      "budget": 300,
+      "description": "3D print post-curing management tool with UV exposure timing, temperature control, and mechanical property verification scheduling.",
+      "email": "client@postcure.io",
+      "features": ["uv-scheduler", "temp-controller", "property-tester", "batch-tracker", "quality-cert"],
+      "category": "3D Printing & Fabrication",
+      "design": {
+        "bg": "#FCE7F3",
+        "primary": "#EC4899",
+        "accent": "#DB2777",
+        "vibe": "Cure pink with UV treatment precision"
+      }
+    },
+    {
+      "id": 595,
+      "name": "WatchdogOS Safety Monitor",
+      "prefix": "WOS",
+      "type": "Safety-Critical Monitor",
+      "repo": "watchdogos-safety-monitor",
+      "budget": 400,
+      "description": "Safety-critical embedded watchdog monitor with heartbeat checking, fault logging, and safe-state transition management.",
+      "email": "client@watchdogos.dev",
+      "features": ["heartbeat-checker", "fault-logger", "safe-state-mgr", "watchdog-config", "compliance-log"],
+      "category": "Embedded Systems",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#64748B",
+        "accent": "#475569",
+        "vibe": "Watchdog slate with safety criticality"
+      }
+    },
+    {
+      "id": 596,
+      "name": "AgroBot Seeding Orchestrator",
+      "prefix": "ASO",
+      "type": "Autonomous Seeding Platform",
+      "repo": "agrobot-seeding-orchestrator",
+      "budget": 450,
+      "description": "Autonomous seeding robot fleet orchestrator with variable rate seeding maps, row spacing control, and seed population monitoring.",
+      "email": "client@agrobot.ai",
+      "features": ["seeding-map", "spacing-control", "population-monitor", "fleet-router", "field-report"],
+      "category": "Autonomous Systems",
+      "design": {
+        "bg": "#FEF2F2",
+        "primary": "#F43F5E",
+        "accent": "#E11D48",
+        "vibe": "Seeding red with agricultural autonomy"
+      }
+    },
+    {
+      "id": 597,
+      "name": "EnergyTwin Grid Simulator",
+      "prefix": "ETG",
+      "type": "Energy Grid Simulation",
+      "repo": "energytwin-grid-simulator",
+      "budget": 500,
+      "description": "Power grid digital twin simulator with renewable integration modeling, load balancing scenarios, and outage impact analysis.",
+      "email": "client@energytwin.io",
+      "features": ["grid-simulator", "renewable-model", "load-balancer", "outage-analyzer", "scenario-runner"],
+      "category": "Simulation & Digital Twin",
+      "design": {
+        "bg": "#FAF5FF",
+        "primary": "#9333EA",
+        "accent": "#7E22CE",
+        "vibe": "Energy purple with grid simulation"
+      }
+    },
+    {
+      "id": 598,
+      "name": "VinoBot Wine Fermentation",
+      "prefix": "VBW",
+      "type": "Fermentation Monitor",
+      "repo": "vinobot-wine-fermentation",
+      "budget": 350,
+      "description": "Wine fermentation monitoring platform with Brix tracking, temperature curves, and yeast health analysis for precision winemaking.",
+      "email": "client@vinobot.farm",
+      "features": ["brix-tracker", "temp-curve", "yeast-health", "tank-manager", "ferment-report"],
+      "category": "AgriTech",
+      "design": {
+        "bg": "#FEFCE8",
+        "primary": "#A16207",
+        "accent": "#854D0E",
+        "vibe": "Wine gold with fermentation craft"
+      }
+    },
+    {
+      "id": 599,
+      "name": "DarkWebRadar Leak Monitor",
+      "prefix": "DWR",
+      "type": "Dark Web Intelligence Tool",
+      "repo": "darkwebradar-leak-monitor",
+      "budget": 550,
+      "description": "Dark web monitoring platform for credential leaks, brand mentions, and data breach early warning with automated alert workflows.",
+      "email": "client@darkwebradar.sec",
+      "features": ["leak-scanner", "brand-monitor", "credential-alert", "breach-tracker", "intel-report"],
+      "category": "CyberSecurity Tools",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#22D3EE",
+        "accent": "#06B6D4",
+        "vibe": "Dark radar with cyan intelligence"
+      }
+    },
+    {
+      "id": 600,
+      "name": "IncidentBridge War Room",
+      "prefix": "IBW",
+      "type": "Incident Management Platform",
+      "repo": "incidentbridge-war-room",
+      "budget": 450,
+      "description": "Incident management war room with status page integration, communication timeline, postmortem generation, and SLA tracking.",
+      "email": "client@incidentbridge.dev",
+      "features": ["war-room", "status-page", "comm-timeline", "postmortem-gen", "sla-tracker"],
+      "category": "DevOps & Infrastructure",
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#4338CA",
+        "accent": "#3730A3",
+        "vibe": "Incident indigo with war room urgency"
+      }
+    }
+  ]
+}
