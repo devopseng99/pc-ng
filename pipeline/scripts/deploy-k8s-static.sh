@@ -2,20 +2,32 @@
 set -euo pipefail
 
 # ============================================================================
-# Deploy static Next.js app to K8s as nginx pod
+# Deploy static Next.js app to K8s as nginx pod (helper-pod approach)
 #
-# Usage: ./deploy-k8s-static.sh --repo <github-repo> --name <app-name> [--namespace paperclip]
+# Usage: ./deploy-k8s-static.sh --repo <github-repo> --name <app-name> [options]
 #
-# Clones repo, builds Next.js static export, wraps in nginx container,
-# deploys to K8s with a ClusterIP service.
+# Clones repo, builds Next.js static export, transfers via helper pod to
+# hostPath on worker node, deploys nginx:alpine serving the static files.
+# Automatically adds Cloudflare tunnel route + DNS record.
+#
+# Options:
+#   --repo         GitHub repo name (required)
+#   --name         App display name (defaults to repo name)
+#   --namespace    K8s namespace (default: paperclip)
+#   --node         Worker node (default: mgplcb05)
+#   --skip-tunnel  Skip Cloudflare tunnel/DNS setup
+#   --domain       Domain for public URL (default: istayintek.com)
+#   --app-id       App ID for CRD labeling
 # ============================================================================
 
 REPO=""
 APP_NAME=""
+APP_ID=""
 NAMESPACE="paperclip"
 NODE="mgplcb05"
 SKIP_TUNNEL=false
 DOMAIN="istayintek.com"
+STATIC_BASE="/opt/k8s-pers/vol1/static-sites"
 
 # Cloudflare tunnel config (API-managed)
 CF_ACCOUNT_ID="9709bd1f498109e65ff5d1898fec15ee"
@@ -24,12 +36,13 @@ CF_ZONE_ID="0e34ae940d6ef78c3812c5d1244f63f2"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --repo)      REPO="$2"; shift 2 ;;
-    --name)      APP_NAME="$2"; shift 2 ;;
-    --namespace) NAMESPACE="$2"; shift 2 ;;
-    --node)      NODE="$2"; shift 2 ;;
+    --repo)        REPO="$2"; shift 2 ;;
+    --name)        APP_NAME="$2"; shift 2 ;;
+    --app-id)      APP_ID="$2"; shift 2 ;;
+    --namespace)   NAMESPACE="$2"; shift 2 ;;
+    --node)        NODE="$2"; shift 2 ;;
     --skip-tunnel) SKIP_TUNNEL=true; shift ;;
-    --domain)    DOMAIN="$2"; shift 2 ;;
+    --domain)      DOMAIN="$2"; shift 2 ;;
     *) echo "Unknown: $1"; exit 1 ;;
   esac
 done
@@ -38,15 +51,20 @@ done
 [[ -z "$APP_NAME" ]] && APP_NAME="$REPO"
 
 # Sanitize for K8s resource names
-K8S_NAME=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | head -c 63)
-IMAGE="localhost/${K8S_NAME}:latest"
-BUILD_DIR="/tmp/${REPO}"
+K8S_NAME=$(echo "$APP_NAME" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]/-/g' | sed 's/--*/-/g' | sed 's/-$//' | head -c 63)
+BUILD_DIR="/tmp/build-${REPO}"
+HELPER_POD="static-helper-$$"
 
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
+cleanup() {
+  kubectl delete pod "$HELPER_POD" -n "$NAMESPACE" --ignore-not-found --wait=false &>/dev/null || true
+  rm -rf "$BUILD_DIR"
+}
+trap cleanup EXIT
 
 export GH_TOKEN="${GH_TOKEN:-$(kubectl get secret github-credentials -n paperclip -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d)}"
 
-# Resolve CF token: env var > ~/cf-token--* file > K8s secret
+# Resolve CF token
 if [[ "$SKIP_TUNNEL" != "true" ]]; then
   if [[ -z "${CF_API_TOKEN:-}" ]]; then
     CF_TOKEN_FILE=$(ls -t ~/cf-token--* 2>/dev/null | head -1)
@@ -58,7 +76,6 @@ if [[ "$SKIP_TUNNEL" != "true" ]]; then
   fi
   if [[ -z "${CF_API_TOKEN:-}" ]]; then
     log "WARNING: No CF token found — skipping tunnel/DNS setup"
-    log "  Set CF_API_TOKEN env var or create ~/cf-token--<expiry> file"
     SKIP_TUNNEL=true
   fi
 fi
@@ -80,60 +97,96 @@ if [[ ! -d "$BUILD_DIR/out" ]]; then
   log "ERROR: No out/ directory after build"
   exit 1
 fi
-log "Build output: $(find "$BUILD_DIR/out" -type f | wc -l) files"
+FILE_COUNT=$(find "$BUILD_DIR/out" -type f | wc -l)
+log "Build output: $FILE_COUNT files"
 
-# --- 2. Create nginx container ---
-log "Building container image: $IMAGE"
-cat > "$BUILD_DIR/Dockerfile.nginx" <<'DOCKERFILE'
-FROM nginx:alpine
-COPY out/ /usr/share/nginx/html/
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-EXPOSE 80
-DOCKERFILE
+# --- 2. Ensure shared nginx configmap exists ---
+kubectl apply -f - <<'CFGEOF'
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: static-nginx-conf
+  namespace: paperclip
+data:
+  default.conf: |
+    server {
+        listen 80;
+        root /usr/share/nginx/html;
+        index index.html;
 
-cat > "$BUILD_DIR/nginx.conf" <<'NGINX'
-server {
-    listen 80;
-    root /usr/share/nginx/html;
-    index index.html;
+        location / {
+            try_files $uri $uri.html $uri/ /index.html;
+        }
 
-    location / {
-        try_files $uri $uri.html $uri/ /index.html;
+        location /_next/static/ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+
+        gzip on;
+        gzip_types text/plain text/css application/json application/javascript text/xml;
     }
+CFGEOF
 
-    location /_next/static/ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
+# --- 3. Transfer static files via helper pod ---
+SITE_PATH="${STATIC_BASE}/${K8S_NAME}"
+log "Transferring files to ${NODE}:${SITE_PATH} via helper pod..."
 
-    gzip on;
-    gzip_types text/plain text/css application/json application/javascript text/xml;
-}
-NGINX
+# Launch helper pod with hostPath mount to the parent directory
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ${HELPER_POD}
+  namespace: ${NAMESPACE}
+  labels:
+    app: static-helper
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: ${NODE}
+  containers:
+  - name: helper
+    image: nginx:alpine
+    command: ["sleep", "300"]
+    volumeMounts:
+    - name: static-root
+      mountPath: /static-sites
+  volumes:
+  - name: static-root
+    hostPath:
+      path: ${STATIC_BASE}
+      type: DirectoryOrCreate
+  restartPolicy: Never
+EOF
 
-# Build with podman
-podman build -t "$IMAGE" -f "$BUILD_DIR/Dockerfile.nginx" "$BUILD_DIR" 2>&1 | tail -3
+# Wait for helper pod to be ready
+log "Waiting for helper pod..."
+kubectl wait --for=condition=Ready pod/"$HELPER_POD" -n "$NAMESPACE" --timeout=60s 2>&1
 
-# --- 3. Import to containerd on worker node ---
-log "Saving and importing image to $NODE..."
-TARFILE="/tmp/${K8S_NAME}.tar"
-podman save "$IMAGE" -o "$TARFILE" 2>&1
+# Create app directory and clear any old content
+kubectl exec "$HELPER_POD" -n "$NAMESPACE" -- sh -c "rm -rf /static-sites/${K8S_NAME} && mkdir -p /static-sites/${K8S_NAME}"
 
-# Import locally if on the same node, or scp to worker
-if [[ "$(hostname)" == "$NODE" ]]; then
-  sudo /var/lib/rancher/rke2/bin/ctr --address /run/k3s/containerd/containerd.sock -n k8s.io images import "$TARFILE" 2>&1
-else
-  # Try importing via the node where kubelet runs
-  sudo /var/lib/rancher/rke2/bin/ctr --address /run/k3s/containerd/containerd.sock -n k8s.io images import "$TARFILE" 2>&1 || {
-    log "Local import failed, trying scp to $NODE..."
-    scp "$TARFILE" "${NODE}:/tmp/" 2>&1
-    ssh "$NODE" "sudo /var/lib/rancher/rke2/bin/ctr --address /run/k3s/containerd/containerd.sock -n k8s.io images import /tmp/${K8S_NAME}.tar" 2>&1
-  }
-fi
-rm -f "$TARFILE"
+# Tar the build output and pipe through kubectl cp
+log "Copying $FILE_COUNT files..."
+cd "$BUILD_DIR"
+tar cf - -C out . | kubectl exec -i "$HELPER_POD" -n "$NAMESPACE" -- tar xf - -C "/static-sites/${K8S_NAME}"
+
+# Verify files landed
+REMOTE_COUNT=$(kubectl exec "$HELPER_POD" -n "$NAMESPACE" -- find "/static-sites/${K8S_NAME}" -type f | wc -l)
+log "Verified: $REMOTE_COUNT files on ${NODE}"
+
+# Clean up helper pod
+kubectl delete pod "$HELPER_POD" -n "$NAMESPACE" --wait=false 2>/dev/null
+# Prevent trap from double-deleting
+HELPER_POD="already-deleted"
 
 # --- 4. Deploy to K8s ---
 log "Deploying to K8s namespace=$NAMESPACE..."
+APP_ID_LABEL=""
+if [[ -n "$APP_ID" ]]; then
+  APP_ID_LABEL="    app-id: \"${APP_ID}\""
+fi
+
 kubectl apply -f - <<EOF
 apiVersion: apps/v1
 kind: Deployment
@@ -142,6 +195,7 @@ metadata:
   namespace: ${NAMESPACE}
   labels:
     app: ${K8S_NAME}
+${APP_ID_LABEL}
     managed-by: pc-ng
 spec:
   replicas: 1
@@ -158,8 +212,8 @@ spec:
         kubernetes.io/hostname: ${NODE}
       containers:
       - name: nginx
-        image: ${IMAGE}
-        imagePullPolicy: Never
+        image: nginx:alpine
+        imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 80
         resources:
@@ -175,6 +229,22 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 30
+        volumeMounts:
+        - name: static-content
+          mountPath: /usr/share/nginx/html
+          readOnly: true
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+          readOnly: true
+      volumes:
+      - name: static-content
+        hostPath:
+          path: ${SITE_PATH}
+          type: Directory
+      - name: nginx-conf
+        configMap:
+          name: static-nginx-conf
 ---
 apiVersion: v1
 kind: Service
@@ -196,11 +266,7 @@ EOF
 # Wait for rollout
 kubectl rollout status "deployment/${K8S_NAME}" -n "$NAMESPACE" --timeout=120s 2>&1
 
-# --- 5. Cleanup ---
-rm -rf "$BUILD_DIR"
-log "Cleaned up $BUILD_DIR"
-
-# --- 6. Add Cloudflare tunnel route + DNS ---
+# --- 5. Add Cloudflare tunnel route + DNS ---
 local_url="http://${K8S_NAME}.${NAMESPACE}.svc.cluster.local"
 public_url=""
 
@@ -242,13 +308,13 @@ print(json.dumps({'config': config}))
     "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/cfd_tunnel/${CF_TUNNEL_ID}/configurations")
 
   if echo "$TUNNEL_RESP" | python3 -c "import json,sys; assert json.load(sys.stdin)['success']" 2>/dev/null; then
-    log "  Tunnel route added ✓"
+    log "  Tunnel route added"
   else
-    log "  WARNING: Tunnel route update failed — check CF token permissions"
+    log "  WARNING: Tunnel route update failed"
     log "  Response: $TUNNEL_RESP"
   fi
 
-  # Create DNS CNAME record (idempotent — CF deduplicates)
+  # Create DNS CNAME record
   log "Creating DNS CNAME: $HOSTNAME -> ${CF_TUNNEL_ID}.cfargotunnel.com"
   DNS_RESP=$(curl -sf -X POST \
     -H "Authorization: Bearer $CF_API_TOKEN" \
@@ -257,7 +323,7 @@ print(json.dumps({'config': config}))
     "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records")
 
   if echo "$DNS_RESP" | python3 -c "import json,sys; d=json.load(sys.stdin); assert d['success'] or any('already' in str(e) for e in d.get('errors',[]))" 2>/dev/null; then
-    log "  DNS record created ✓"
+    log "  DNS record created"
   else
     log "  WARNING: DNS record creation may have failed (could already exist)"
   fi
@@ -265,13 +331,16 @@ print(json.dumps({'config': config}))
   public_url="https://${HOSTNAME}"
 fi
 
+# --- 6. Cleanup ---
+rm -rf "$BUILD_DIR"
+log "Cleaned up build dir"
+
 # --- 7. Report ---
 log "=== Deployed ==="
 log "  App:       $APP_NAME"
 log "  K8s Name:  $K8S_NAME"
 log "  Namespace: $NAMESPACE"
 log "  Service:   $local_url"
-log "  Image:     $IMAGE"
 if [[ -n "$public_url" ]]; then
   log "  Public:    $public_url"
 fi
