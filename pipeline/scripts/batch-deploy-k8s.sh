@@ -14,15 +14,41 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DEPLOY_SCRIPT="$SCRIPT_DIR/deploy-k8s-static.sh"
 DRY_RUN=false
 SINGLE_APP=""
+RESOURCE_THRESHOLD=70
+NODE="mgplcb05"
 LOG_DIR="/tmp/pc-autopilot/logs/batch-$(date +%Y%m%d-%H%M%S)"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --dry-run)  DRY_RUN=true; shift ;;
-    --app-id)   SINGLE_APP="$2"; shift 2 ;;
+    --dry-run)    DRY_RUN=true; shift ;;
+    --app-id)     SINGLE_APP="$2"; shift 2 ;;
+    --threshold)  RESOURCE_THRESHOLD="$2"; shift 2 ;;
     *) echo "Unknown: $1"; exit 1 ;;
   esac
 done
+
+check_resources() {
+  local result
+  result=$(kubectl top node "$NODE" --no-headers 2>/dev/null) || return 0
+  local cpu_pct mem_pct
+  cpu_pct=$(echo "$result" | awk '{gsub(/%/,"",$3); print $3}')
+  mem_pct=$(echo "$result" | awk '{gsub(/%/,"",$5); print $5}')
+  if (( cpu_pct >= RESOURCE_THRESHOLD )) || (( mem_pct >= RESOURCE_THRESHOLD )); then
+    log "RESOURCE GATE: ${NODE} at CPU=${cpu_pct}% MEM=${mem_pct}% — halting deploys"
+    return 1
+  fi
+  return 0
+}
+
+# Check repo has code (skip empty repos)
+repo_has_code() {
+  local repo="$1"
+  local size
+  size=$(curl -sH "Authorization: token ${GH_TOKEN:-}" "https://api.github.com/repos/devopseng99/$repo" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('size',0))" 2>/dev/null || echo 0)
+  [[ "$size" -gt 0 ]] 2>/dev/null
+}
+
+export GH_TOKEN="${GH_TOKEN:-$(kubectl get secret github-credentials -n paperclip -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d 2>/dev/null || echo '')}"
 
 mkdir -p "$LOG_DIR"
 log() { echo "[$(date '+%H:%M:%S')] $*"; }
@@ -60,11 +86,26 @@ SUCCESS=0
 FAILED=0
 FAILED_LIST=""
 
+SKIPPED=0
 while IFS='|' read -r APP_ID REPO APP_NAME CRD_NAME PHASE; do
-  log "[$((SUCCESS + FAILED + 1))/$TOTAL] #${APP_ID} ${APP_NAME} (was: ${PHASE})"
+  log "[$((SUCCESS + FAILED + SKIPPED + 1))/$TOTAL] #${APP_ID} ${APP_NAME} (was: ${PHASE})"
 
   if [[ "$DRY_RUN" == "true" ]]; then
     log "  DRY RUN: would deploy repo=$REPO name=$APP_NAME"
+    continue
+  fi
+
+  # Resource gate — stop deploying if cluster is at capacity
+  if ! check_resources; then
+    log "  Halting: cluster at ${RESOURCE_THRESHOLD}% threshold. Deployed $SUCCESS so far."
+    log "  Re-run this script later to continue."
+    break
+  fi
+
+  # Skip empty repos
+  if ! repo_has_code "$REPO"; then
+    log "  SKIP: repo is empty (needs codegen first)"
+    SKIPPED=$((SKIPPED + 1))
     continue
   fi
 
@@ -91,8 +132,9 @@ while IFS='|' read -r APP_ID REPO APP_NAME CRD_NAME PHASE; do
 done <<< "$APPS"
 
 # Summary
-log "=== Batch Deploy Complete ==="
+log "=== Phase B — Batch Deploy Complete ==="
 log "  Success: $SUCCESS"
+log "  Skipped: $SKIPPED (empty repos)"
 log "  Failed:  $FAILED"
 log "  Logs:    $LOG_DIR"
 if [[ -n "$FAILED_LIST" ]]; then
