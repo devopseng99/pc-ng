@@ -83,6 +83,7 @@ _for_each_context() {
     if [[ "$ctx" == "all" ]]; then
         _source_ctx v1; "$fn" "$@"
         _source_ctx tech; "$fn" "$@"
+        _source_ctx grower; "$fn" "$@"
     else
         "$fn" "$@"
     fi
@@ -129,8 +130,8 @@ cmd_context() {
     case "$sub" in
         use)
             local name="${1:-}"
-            if [[ -z "$name" ]] || [[ ! "$name" =~ ^(v1|tech|all)$ ]]; then
-                err "Usage: pc context use v1|tech|all"
+            if [[ -z "$name" ]] || [[ ! "$name" =~ ^(v1|tech|grower|all)$ ]]; then
+                err "Usage: pc context use v1|tech|grower|all"
                 exit 1
             fi
             mkdir -p "$PC_HOME"
@@ -164,7 +165,7 @@ cmd_context() {
         list)
             local ctx
             ctx=$(_current_context_name)
-            for c in v1 tech all; do
+            for c in v1 tech grower all; do
                 if [[ "$c" == "$ctx" ]]; then
                     printf " %s* %s%s\n" "$C_GREEN" "$c" "$C_RESET"
                 else
@@ -818,7 +819,7 @@ Usage:
   pc <command> [args...]
 
 Context:
-  context use v1|tech|all   Switch active context
+  context use v1|tech|grower|all   Switch active context
   context show              Show current context and config
   context list              List available contexts
 
