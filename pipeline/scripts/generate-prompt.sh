@@ -380,6 +380,34 @@ PAGES
 10. **Contact** (`/contact`) — Contact form, GitHub repo, developer community, feature requests, enterprise licensing.
 PAGES
       ;;
+    "Next-Gen UI Platform")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Full-viewport video hero (autoplay muted loop with poster frame fallback). Overlay text with parallax on scroll. Animated gradient mesh background behind content. Scroll-triggered reveal animations for feature sections. Marquee ticker of client logos. CTA with animated gradient border.
+2. **Features** (`/features`) — Bento grid layout with asymmetric cards (2x1, 1x1, 2x2). Each card has hover 3D tilt effect (perspective transform). Spotlight cursor-following radial gradient on card borders. Staggered scroll-reveal animations. Interactive code/demo snippets in feature cards.
+3. **Product/Demo** (`/demo`) — Split-screen layout: left side sticky with 3D product viewer or animated illustration, right side scrolls through feature descriptions. Content on left morphs/transitions as user scrolls through sections. Progress indicator on the side.
+4. **Playground** (`/playground`) — Terminal/code aesthetic page with monospace fonts. Interactive code editor with syntax highlighting (Shiki). Typing animation on example code. Dark theme with green/amber terminal colors. Live preview panel with glassmorphism styling.
+5. **Dashboard** (`/dashboard`) — Dark mode dashboard with animated counters that count up on scroll-reveal. Data visualization cards with SVG chart animations. Glassmorphism sidebar nav. Gradient mesh accent backgrounds. Command palette (Cmd+K) overlay. Animated progress rings.
+6. **Pricing** (`/pricing`) — Cards with animated gradient borders (spinning conic gradient). Hover spotlight effect. Comparison table with reveal-on-scroll rows. Toggle animation between monthly/annual. Floating particle/constellation background.
+7. **About** (`/about`) — Storytelling scroll page (Apple-style). Full-viewport sections scrubbed by scroll position. Team cards with 3D hover tilt. Timeline with morphing SVG blob connectors. Animated counter stats (customers, uptime, etc).
+8. **Gallery/Showcase** (`/showcase`) — Horizontal scroll gallery section (vertical scroll maps to horizontal movement). Masonry grid for projects. Cards scale up when centered. Image reveal with clip-path animation. Category filter with layout animation.
+9. **Blog** (`/blog`) — Card grid with reveal-on-scroll. Featured post with glassmorphism overlay on gradient background. Reading time estimates. Tag pills with hover animation. Infinite scroll with skeleton loaders.
+10. **Contact** (`/contact`) — Neumorphic form elements (soft shadow inputs). Morphing blob decorative background. Form validation with micro-animations. Success state with confetti/particle burst. macOS dock-style social links at bottom.
+PAGES
+      ;;
+    "WASM & Sandbox Runtimes")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with animated WASM logo/visualization. Runtime stats (modules deployed, namespaces active, execution count). Feature highlights with architecture diagram placeholder. "Launch Sandbox" CTA.
+2. **Sandbox/Playground** (`/sandbox`) — Interactive sandbox environment: code editor with syntax highlighting, runtime selector (WASM/Container/gVisor), execute button, output panel with metrics (cold start, memory, CPU). Real-time streaming output.
+3. **Namespaces** (`/namespaces`) — Namespace management dashboard: create/delete namespaces, resource quota displays (CPU, memory, storage), RBAC role assignment, namespace health status indicators. List view with status badges.
+4. **Deployments** (`/deployments`) — Deploy manager: upload WASM modules or container images, configure environment variables, set resource limits, select runtime class. Deployment history table with rollback buttons.
+5. **Dashboard** (`/dashboard`) — Operations dashboard: active workloads, resource utilization charts (CPU/memory/network), namespace breakdown, recent events feed, health alerts. Sidebar nav with namespace switcher.
+6. **Pricing** (`/pricing`) — Tiers (Free Sandbox, Pro, Enterprise). Execution minutes, namespace count, storage, concurrent deployments. Usage calculator. Resource limit comparison matrix.
+7. **About** (`/about`) — Platform architecture explanation, supported runtimes (WASM, gVisor, Kata), security model, team. Open-source components and contribution guide.
+8. **Docs/Blog** (`/blog`) — Technical guides: WASM getting started, runtime comparison, K8s integration patterns, security best practices. Card grid with difficulty levels.
+9. **FAQ** (`/faq`) — Accordion Q&A: WASM vs containers, supported languages, namespace limits, security isolation, billing, API access, data persistence, networking.
+10. **Contact** (`/contact`) — Contact form, developer community links (Discord/Slack), enterprise sales, API status page, GitHub repo link.
+PAGES
+      ;;
     "AI Services Management")
       cat << 'PAGES'
 1. **Landing page** (`/`) — Hero with multi-service dashboard preview. Businesses managed count. Platform logos (Paperclip, n8n, Dify). "Get Started" CTA.
@@ -414,6 +442,58 @@ PAGES
 
 PAGES_BLOCK=$(get_pages "$CATEGORY")
 
+# --- Category-specific stack and build rules ---
+get_stack_block() {
+  case "$1" in
+    "Next-Gen UI Platform")
+      cat << 'STACKEOF'
+- Stack: Astro 4+ with React islands, TypeScript, Tailwind CSS v4, Vite
+- UI Libraries: shadcn/ui (Radix-based), Framer Motion for animations
+- Structure: Turborepo mono-repo with pnpm workspaces:
+  ```
+  /
+  ├── apps/
+  │   └── web/              # Main Astro app
+  ├── packages/
+  │   ├── ui/               # Shared components (shadcn/ui customized)
+  │   ├── config-tailwind/  # Shared Tailwind config + theme tokens
+  │   └── utils/            # Shared utilities
+  ├── turbo.json
+  ├── pnpm-workspace.yaml
+  └── package.json
+  ```
+
+**CRITICAL BUILD RULES:**
+- Initialize with `pnpm create turbo@latest` or set up manually with pnpm workspaces
+- Main app is in `apps/web/` — use `npm create astro@latest` with TypeScript + Tailwind
+- Add `@astrojs/react` integration for interactive islands
+- Add `framer-motion` for scroll animations and page transitions
+- Add Astro View Transitions (`<ViewTransitions />` in layout)
+- Use `<video autoplay muted loop playsinline poster="/hero-poster.webp">` for video heroes — include a CSS gradient as the poster/fallback, NOT an external URL
+- For scroll animations: use Framer Motion `whileInView` + `variants` on React islands, or Intersection Observer + CSS classes for Astro components
+- All interactive components (animations, forms, toggles) must be React islands with `client:visible` or `client:load` directive
+- Static Astro components do NOT need client directives
+- Set `output: 'static'` in astro.config.mjs for static export
+- Build command: `cd apps/web && pnpm build` (or `turbo build` from root)
+- The build MUST succeed. If it fails, fix and retry.
+- Use gradient/CSS backgrounds as video placeholders (no real video files needed — simulate with animated gradients)
+STACKEOF
+      ;;
+    *)
+      cat << 'STACKEOF'
+- Stack: Next.js 14+ with App Router, TypeScript, Tailwind CSS, static export for Cloudflare Pages
+
+**CRITICAL BUILD RULES:**
+- Any page with useState, onClick, onChange, onSubmit, or any event handlers MUST have `'use client';` as the very first line
+- Set `output: 'export'` and `images: { unoptimized: true }` in next.config
+- Test with `npm run build` before pushing — it MUST succeed. If it fails, fix and retry.
+STACKEOF
+      ;;
+  esac
+}
+
+STACK_BLOCK=$(get_stack_block "$CATEGORY")
+
 cat << PROMPT
 Build a complete ${NAME} web application and push it to GitHub.
 
@@ -422,12 +502,7 @@ Build a complete ${NAME} web application and push it to GitHub.
 - Type: ${TYPE} — ${DESCRIPTION}
 - Category: ${CATEGORY}
 - Repo: devopseng99/${REPO} (already created, empty)
-- Stack: Next.js 14+ with App Router, TypeScript, Tailwind CSS, static export for Cloudflare Pages
-
-**CRITICAL BUILD RULES:**
-- Any page with useState, onClick, onChange, onSubmit, or any event handlers MUST have \`'use client';\` as the very first line
-- Set \`output: 'export'\` and \`images: { unoptimized: true }\` in next.config
-- Test with \`npm run build\` before pushing — it MUST succeed. If it fails, fix and retry.
+${STACK_BLOCK}
 ${SOURCE_BLOCK}
 
 **Key Features to incorporate:** ${FEATURES}
@@ -446,7 +521,7 @@ ${PAGES_BLOCK}
 
 **Steps:**
 1. Clone: \`export GH_TOKEN=\$(kubectl get secret github-credentials -n paperclip -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d) && git clone https://\${GH_TOKEN}@github.com/devopseng99/${REPO}.git /tmp/${REPO}\`
-2. Initialize Next.js, build all 10 pages
-3. \`npm run build\` must succeed
+2. Initialize project with the specified stack
+3. Build must succeed before pushing
 4. Git commit and push to main
 PROMPT

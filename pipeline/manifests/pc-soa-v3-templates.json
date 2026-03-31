@@ -1,0 +1,584 @@
+{
+  "use_cases": [
+    {
+      "id": 10001,
+      "name": "NovaBento Analytics",
+      "prefix": "NBA",
+      "type": "Bento Grid Analytics Dashboard",
+      "repo": "novabento-analytics",
+      "budget": 600,
+      "description": "Analytics platform with asymmetric bento grid dashboard layout. Cards hover with 3D tilt and spotlight cursor-following. Animated counters, SVG chart reveals, glassmorphism sidebar. Dark mode with gradient mesh backgrounds.",
+      "email": "analytics@novabento.io",
+      "features": [
+        "bento-grid-layout",
+        "3d-card-tilt",
+        "cursor-spotlight",
+        "animated-counters",
+        "svg-chart-animations",
+        "glassmorphism-sidebar",
+        "command-palette-cmdk",
+        "dark-mode-gradient-mesh",
+        "scroll-reveal-sections",
+        "framer-motion-layout"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#09090B",
+        "primary": "#8B5CF6",
+        "accent": "#06B6D4",
+        "vibe": "Dark analytics with purple data viz and cyan accents, bento grid aesthetic"
+      }
+    },
+    {
+      "id": 10002,
+      "name": "GlassForge Studio",
+      "prefix": "GLF",
+      "type": "Glassmorphism Design Platform",
+      "repo": "glassforge-studio",
+      "budget": 600,
+      "description": "Design collaboration platform with frosted glass UI throughout. Layered translucent panels over animated gradient backgrounds. Floating toolbars, blur-backed modals, depth-shifting on scroll. Light and dark mode with glass variants.",
+      "email": "design@glassforge.io",
+      "features": [
+        "glassmorphism-panels",
+        "backdrop-blur-layers",
+        "gradient-backgrounds",
+        "floating-toolbars",
+        "depth-parallax",
+        "translucent-modals",
+        "theme-switching",
+        "frosted-navigation",
+        "layered-z-depth",
+        "smooth-transitions"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0F0F23",
+        "primary": "#A78BFA",
+        "accent": "#F0ABFC",
+        "vibe": "Frosted glass over deep purple gradient mesh, ethereal and layered"
+      }
+    },
+    {
+      "id": 10003,
+      "name": "MeshGlow Network",
+      "prefix": "MGN",
+      "type": "Gradient Mesh Social Platform",
+      "repo": "meshglow-network",
+      "budget": 600,
+      "description": "Social networking platform with animated gradient mesh backgrounds that shift colors. Particle constellation connections between user nodes. Dark theme with vivid neon accents. Morphing SVG blob section dividers.",
+      "email": "social@meshglow.io",
+      "features": [
+        "animated-gradient-mesh",
+        "particle-constellation",
+        "neon-accent-colors",
+        "morphing-svg-blobs",
+        "noise-texture-overlay",
+        "color-shifting-animation",
+        "network-graph-viz",
+        "radial-gradient-cards",
+        "ambient-motion",
+        "dark-immersive"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#EC4899",
+        "accent": "#14B8A6",
+        "vibe": "Deep black with neon pink and teal gradient meshes, constellation particles"
+      }
+    },
+    {
+      "id": 10004,
+      "name": "SpotlightAI Hub",
+      "prefix": "SAH",
+      "type": "Cursor-Following AI Platform",
+      "repo": "spotlightai-hub",
+      "budget": 600,
+      "description": "AI model management platform with cursor-following spotlight effects on all interactive elements. Radial gradient illumination on card borders. Beam tracing animations on navigation. Hover reveals with light sweep transitions.",
+      "email": "ai@spotlightai.io",
+      "features": [
+        "cursor-spotlight-effect",
+        "radial-border-illumination",
+        "beam-tracing-nav",
+        "light-sweep-hover",
+        "mouse-tracking-parallax",
+        "illuminated-cards",
+        "glow-on-focus",
+        "dynamic-radial-gradient",
+        "attention-following-ui",
+        "ambient-glow"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#030712",
+        "primary": "#3B82F6",
+        "accent": "#F59E0B",
+        "vibe": "Near-black with blue spotlight beams and amber glow, cinematic lighting"
+      }
+    },
+    {
+      "id": 10005,
+      "name": "PrismEdge Commerce",
+      "prefix": "PEC",
+      "type": "Animated Border E-Commerce",
+      "repo": "prismedge-commerce",
+      "budget": 600,
+      "description": "E-commerce platform with spinning animated gradient borders on product cards. Conic gradient animations on CTAs. Rainbow shimmer on premium items. Animated border beam effects on featured products.",
+      "email": "shop@prismedge.io",
+      "features": [
+        "spinning-gradient-borders",
+        "conic-gradient-animation",
+        "rainbow-shimmer-effect",
+        "border-beam-component",
+        "css-property-animation",
+        "gradient-cta-buttons",
+        "product-card-glow",
+        "animated-badge-borders",
+        "price-highlight-animation",
+        "checkout-flow-transitions"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#F97316",
+        "accent": "#A855F7",
+        "vibe": "Dark with spinning rainbow gradient borders, prismatic light effects"
+      }
+    },
+    {
+      "id": 10006,
+      "name": "DimensionView Viewer",
+      "prefix": "DVW",
+      "type": "3D Floating Card Portfolio",
+      "repo": "dimensionview-viewer",
+      "budget": 600,
+      "description": "Portfolio and showcase platform with 3D perspective-transform cards that tilt on hover. Multi-layer parallax depth within cards. Floating elements with z-translation. Orbit-style gallery navigation.",
+      "email": "view@dimensionview.io",
+      "features": [
+        "3d-tilt-perspective",
+        "multi-layer-parallax",
+        "z-translate-depth",
+        "orbit-gallery",
+        "hover-depth-shift",
+        "floating-elements",
+        "perspective-grid",
+        "card-flip-animation",
+        "depth-of-field-blur",
+        "spring-physics"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#111827",
+        "primary": "#6366F1",
+        "accent": "#22D3EE",
+        "vibe": "Dark space with indigo cards floating in perspective depth, 3D aesthetic"
+      }
+    },
+    {
+      "id": 10007,
+      "name": "QuickPulse Launcher",
+      "prefix": "QPL",
+      "type": "Command Palette App Launcher",
+      "repo": "quickpulse-launcher",
+      "budget": 600,
+      "description": "Productivity platform centered around a command palette interface. Cmd+K opens everything. Fuzzy search, categorized actions, keyboard-first navigation. macOS dock-style app bar. Minimal chrome, maximum content.",
+      "email": "launch@quickpulse.io",
+      "features": [
+        "command-palette-cmdk",
+        "fuzzy-search",
+        "keyboard-navigation",
+        "dock-navigation",
+        "fisheye-magnification",
+        "action-categories",
+        "recent-items-stack",
+        "spotlight-search",
+        "minimal-chrome",
+        "shortcut-hints"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#18181B",
+        "accent": "#2563EB",
+        "vibe": "Minimal light theme with spotlight command palette, macOS-inspired dock"
+      }
+    },
+    {
+      "id": 10008,
+      "name": "DockFlow Workspace",
+      "prefix": "DFW",
+      "type": "Dock Navigation Workspace",
+      "repo": "dockflow-workspace",
+      "budget": 600,
+      "description": "Team workspace platform with macOS-style dock navigation at bottom. Icons magnify on proximity hover (fisheye effect). Spring physics animations. Tooltip reveals. Draggable dock items. Window-like panel management.",
+      "email": "work@dockflow.io",
+      "features": [
+        "dock-navigation-bar",
+        "fisheye-magnification",
+        "spring-physics",
+        "tooltip-animation",
+        "draggable-dock-items",
+        "window-panel-manager",
+        "proximity-based-scaling",
+        "bounce-on-click",
+        "dock-badge-counters",
+        "minimize-animation"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#1E1B4B",
+        "primary": "#818CF8",
+        "accent": "#FB923C",
+        "vibe": "Deep indigo workspace with floating dock bar, macOS-style window management"
+      }
+    },
+    {
+      "id": 10009,
+      "name": "MosaicGrid Gallery",
+      "prefix": "MGG",
+      "type": "Masonry Infinite Gallery",
+      "repo": "mosaicgrid-gallery",
+      "budget": 600,
+      "description": "Visual content platform with Pinterest-style masonry grid that infinite-scrolls. Variable-height cards with smooth layout transitions. Image reveal clip-path animations. Skeleton loaders. Category filter with layout shift animation.",
+      "email": "gallery@mosaicgrid.io",
+      "features": [
+        "masonry-layout",
+        "infinite-scroll",
+        "clip-path-reveal",
+        "skeleton-loaders",
+        "layout-animation",
+        "category-filtering",
+        "image-lightbox",
+        "variable-height-cards",
+        "fade-in-stagger",
+        "smooth-reflow"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#FAFAF9",
+        "primary": "#DC2626",
+        "accent": "#059669",
+        "vibe": "Clean light gallery with red accent pins and green category tags, Pinterest-inspired"
+      }
+    },
+    {
+      "id": 10010,
+      "name": "SplitVision Docs",
+      "prefix": "SVD",
+      "type": "Split-Screen Documentation",
+      "repo": "splitvision-docs",
+      "budget": 600,
+      "description": "Documentation platform with split-screen layout. Left panel sticky with interactive demo/preview, right panel scrolls through content. Left content morphs as scroll position changes sections. Sidebar progress indicator.",
+      "email": "docs@splitvision.io",
+      "features": [
+        "split-screen-layout",
+        "sticky-preview-panel",
+        "scroll-linked-morphing",
+        "progress-indicator",
+        "section-transitions",
+        "code-preview-sync",
+        "table-of-contents",
+        "copy-code-buttons",
+        "dark-light-toggle",
+        "responsive-collapse"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#0F172A",
+        "accent": "#0EA5E9",
+        "vibe": "Clean documentation with navy text and sky blue links, split-pane IDE feel"
+      }
+    },
+    {
+      "id": 10011,
+      "name": "ScrollCraft Story",
+      "prefix": "SCS",
+      "type": "Apple-Style Storytelling Scroll",
+      "repo": "scrollcraft-story",
+      "budget": 600,
+      "description": "Product showcase platform with Apple-style storytelling scroll. Full-viewport pinned sections with scroll-scrubbed animations. Text fades in/out tied to scroll position. Simulated video frame sequences via CSS gradient transitions. Parallax depth layers.",
+      "email": "story@scrollcraft.io",
+      "features": [
+        "scroll-scrub-animation",
+        "pinned-sections",
+        "parallax-depth-layers",
+        "text-fade-timeline",
+        "gradient-frame-sequence",
+        "viewport-sections",
+        "progress-scrubber",
+        "smooth-scroll-lenis",
+        "section-snap",
+        "scroll-velocity-effects"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#000000",
+        "primary": "#FFFFFF",
+        "accent": "#F43F5E",
+        "vibe": "Pure black canvas with white text and rose highlights, Apple product page feel"
+      }
+    },
+    {
+      "id": 10012,
+      "name": "TerminalForge IDE",
+      "prefix": "TFI",
+      "type": "Terminal Aesthetic Dev Platform",
+      "repo": "terminalforge-ide",
+      "budget": 600,
+      "description": "Developer platform with terminal/code aesthetic throughout. Monospace typography, syntax-highlighted code blocks, typing animations, blinking cursors. Green-on-dark terminal theme with retro CRT scan lines. Command-line style navigation.",
+      "email": "dev@terminalforge.io",
+      "features": [
+        "monospace-typography",
+        "syntax-highlighting-shiki",
+        "typing-animation",
+        "blinking-cursor",
+        "terminal-prompt-nav",
+        "crt-scanline-effect",
+        "copy-code-buttons",
+        "command-history",
+        "ascii-art-headers",
+        "matrix-rain-bg"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0D1117",
+        "primary": "#39D353",
+        "accent": "#F0883E",
+        "vibe": "GitHub-dark terminal with green text and amber warnings, retro hacker aesthetic"
+      }
+    },
+    {
+      "id": 10013,
+      "name": "SoftCloud Interface",
+      "prefix": "SCI",
+      "type": "Neumorphic Cloud Platform",
+      "repo": "softcloud-interface",
+      "budget": 600,
+      "description": "Cloud management platform with neumorphic soft UI design. Elements appear extruded from or pressed into the surface. Dual-shadow technique for depth. Smooth press/toggle state transitions. Soft pastel color palette with subtle gradients.",
+      "email": "cloud@softcloud.io",
+      "features": [
+        "neumorphic-buttons",
+        "dual-shadow-depth",
+        "pressed-toggle-states",
+        "soft-input-fields",
+        "extruded-cards",
+        "slider-controls",
+        "progress-indicators",
+        "pastel-gradients",
+        "smooth-state-transitions",
+        "tactile-feedback-animation"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#E8ECF1",
+        "primary": "#5B6EF5",
+        "accent": "#F87171",
+        "vibe": "Soft light gray neumorphic surface with indigo primary and coral alerts"
+      }
+    },
+    {
+      "id": 10014,
+      "name": "MetricPulse Dashboard",
+      "prefix": "MPD",
+      "type": "Animated Data Visualization",
+      "repo": "metricpulse-dashboard",
+      "budget": 600,
+      "description": "Real-time metrics platform with animated counters that spring to target values on scroll. SVG chart path animations (stroke-dasharray). Progress rings that fill on reveal. Staggered data card animations. Live-updating number tickers.",
+      "email": "data@metricpulse.io",
+      "features": [
+        "animated-counters",
+        "svg-path-animation",
+        "progress-rings",
+        "staggered-reveal",
+        "number-ticker",
+        "bar-chart-grow",
+        "line-chart-draw",
+        "sparkline-cards",
+        "kpi-card-animations",
+        "real-time-simulation"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#10B981",
+        "accent": "#F59E0B",
+        "vibe": "Dark dashboard with emerald charts and amber KPI highlights, data-rich"
+      }
+    },
+    {
+      "id": 10015,
+      "name": "OrbitView Showcase",
+      "prefix": "OVS",
+      "type": "3D Interactive Product Viewer",
+      "repo": "orbitview-showcase",
+      "budget": 600,
+      "description": "Product showcase platform with interactive 3D scenes. CSS 3D transforms for product rotation on drag. Scroll-linked object rotation. Auto-rotate when idle. Environment reflections via gradient overlays. Click hotspots that reveal info panels.",
+      "email": "3d@orbitview.io",
+      "features": [
+        "3d-product-rotation",
+        "scroll-linked-rotation",
+        "auto-rotate-idle",
+        "drag-orbit-controls",
+        "reflection-overlays",
+        "hotspot-tooltips",
+        "zoom-controls",
+        "environment-lighting",
+        "product-configurator",
+        "smooth-transitions"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#18181B",
+        "primary": "#E2E8F0",
+        "accent": "#7C3AED",
+        "vibe": "Dark showcase with silver product highlights and purple accent lighting, premium"
+      }
+    },
+    {
+      "id": 10016,
+      "name": "StarField Connect",
+      "prefix": "SFC",
+      "type": "Particle Constellation Social",
+      "repo": "starfield-connect",
+      "budget": 600,
+      "description": "Networking platform with canvas-rendered particle constellation background. Particles drift and connect with proximity lines. Cursor creates attraction/repulsion field. Color shifts on user interaction. Network graph visualization for connections.",
+      "email": "connect@starfield.io",
+      "features": [
+        "particle-constellation",
+        "proximity-connection-lines",
+        "cursor-attraction-field",
+        "brownian-motion",
+        "color-shift-interaction",
+        "network-graph",
+        "canvas-rendering",
+        "responsive-particle-count",
+        "gradient-fade-edges",
+        "interactive-nodes"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#020617",
+        "primary": "#38BDF8",
+        "accent": "#C084FC",
+        "vibe": "Deep space black with cyan particles and purple connection lines, cosmic"
+      }
+    },
+    {
+      "id": 10017,
+      "name": "FluidShape Design",
+      "prefix": "FSD",
+      "type": "Morphing Shape Creative Platform",
+      "repo": "fluidshape-design",
+      "budget": 600,
+      "description": "Creative design platform with organic morphing SVG shapes as backgrounds and section dividers. Smooth blob animations that respond to scroll. Color gradient shifts over time. Clip-path image reveals with organic curves.",
+      "email": "create@fluidshape.io",
+      "features": [
+        "morphing-svg-shapes",
+        "blob-animations",
+        "scroll-responsive-morph",
+        "color-gradient-shift",
+        "clip-path-reveals",
+        "organic-section-dividers",
+        "ambient-shape-motion",
+        "border-radius-animation",
+        "layered-blob-depth",
+        "generative-shapes"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#DB2777",
+        "accent": "#7C3AED",
+        "vibe": "Soft pink canvas with fuchsia morphing blobs and purple organic shapes, fluid"
+      }
+    },
+    {
+      "id": 10018,
+      "name": "StreamTape Showcase",
+      "prefix": "STP",
+      "type": "Marquee Ticker Brand Platform",
+      "repo": "streamtape-showcase",
+      "budget": 600,
+      "description": "Brand showcase platform with infinite-scrolling marquee tickers for logos, testimonials, and content strips. Multiple rows scrolling opposite directions. Gradient fade edges. Pause on hover. Variable speed layers creating depth.",
+      "email": "brand@streamtape.io",
+      "features": [
+        "infinite-marquee",
+        "multi-row-tickers",
+        "opposite-direction-scroll",
+        "gradient-edge-fade",
+        "pause-on-hover",
+        "variable-speed-layers",
+        "logo-showcase-strip",
+        "testimonial-ticker",
+        "content-carousel",
+        "seamless-loop"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#1E293B",
+        "accent": "#E11D48",
+        "vibe": "Clean white with dark text marquees and rose highlight strips, dynamic motion"
+      }
+    },
+    {
+      "id": 10019,
+      "name": "RevealStack Layers",
+      "prefix": "RSL",
+      "type": "Scroll Reveal Content Platform",
+      "repo": "revealstack-layers",
+      "budget": 600,
+      "description": "Content platform where every section reveals with dramatic scroll-triggered animations. Clip-path unmask transitions, fade-up with stagger, text line-by-line reveal, image parallax offsets. The bread-and-butter of premium landing pages.",
+      "email": "content@revealstack.io",
+      "features": [
+        "clip-path-reveal",
+        "fade-up-stagger",
+        "line-by-line-text",
+        "parallax-images",
+        "intersection-observer",
+        "whileInView-variants",
+        "slide-from-sides",
+        "scale-up-reveal",
+        "blur-to-focus",
+        "staggered-children"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#FAFAFA",
+        "accent": "#EAB308",
+        "vibe": "Dark canvas with white content revealing on scroll, gold accent highlights"
+      }
+    },
+    {
+      "id": 10020,
+      "name": "PanoScroll Gallery",
+      "prefix": "PSG",
+      "type": "Horizontal Scroll Gallery",
+      "repo": "panoscroll-gallery",
+      "budget": 600,
+      "description": "Immersive gallery platform where vertical scrolling translates to horizontal movement. Cards reveal and scale when centered. Parallax speed differences between layers. Snap points for discrete stops. Progress indicator showing gallery position.",
+      "email": "gallery@panoscroll.io",
+      "features": [
+        "horizontal-scroll-section",
+        "vertical-to-horizontal-map",
+        "center-scale-effect",
+        "parallax-speed-layers",
+        "snap-points",
+        "progress-indicator",
+        "pinned-container",
+        "foreground-background-depth",
+        "smooth-scroll-gsap",
+        "gallery-navigation"
+      ],
+      "category": "Next-Gen UI Platform",
+      "design": {
+        "bg": "#171717",
+        "primary": "#F5F5F5",
+        "accent": "#7C3AED",
+        "vibe": "Dark gallery with light cards and purple accent highlights, immersive horizontal flow"
+      }
+    }
+  ]
+}

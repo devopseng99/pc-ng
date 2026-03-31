@@ -40,12 +40,14 @@ check_resources() {
   return 0
 }
 
-# Check repo has code (skip empty repos)
+# Check repo has code on GitHub (git ref API — instant after push, unlike repo size which lags)
 repo_has_code() {
   local repo="$1"
-  local size
-  size=$(curl -sH "Authorization: token ${GH_TOKEN:-}" "https://api.github.com/repos/devopseng99/$repo" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin).get('size',0))" 2>/dev/null || echo 0)
-  [[ "$size" -gt 0 ]] 2>/dev/null
+  local http_code
+  http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token ${GH_TOKEN:-}" \
+    "https://api.github.com/repos/devopseng99/${repo}/git/ref/heads/main" 2>/dev/null)
+  [[ "$http_code" == "200" ]]
 }
 
 export GH_TOKEN="${GH_TOKEN:-$(kubectl get secret github-credentials -n paperclip -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d 2>/dev/null || echo '')}"

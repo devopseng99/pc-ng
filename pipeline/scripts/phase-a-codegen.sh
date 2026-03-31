@@ -30,15 +30,25 @@ DRY_RUN=false
 SKIP_ONBOARD=false
 STALL_TIMEOUT=90  # kill build if no file changes in this many seconds
 
+# --- Circuit breaker defaults ---
+CB_WINDOW=10            # rolling window size for failure rate calculation
+CB_FAIL_THRESHOLD=40    # trip breaker if failure % exceeds this (0-100)
+CB_COOLDOWN=120         # seconds to wait after breaker trips before retrying
+CB_MAX_CONSECUTIVE=3    # trip breaker after N consecutive failures
+CB_HARD_STOP=10         # EXIT worker after N consecutive failures with zero successes in between
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --manifest)      MANIFEST="$2"; shift 2 ;;
-    --concurrency)   CONCURRENCY="$2"; shift 2 ;;
-    --pipeline-id)   PIPELINE_ID="$2"; shift 2 ;;
-    --timeout)       BUILD_TIMEOUT="$2"; shift 2 ;;
-    --stall-timeout) STALL_TIMEOUT="$2"; shift 2 ;;
-    --dry-run)       DRY_RUN=true; shift ;;
-    --skip-onboard)  SKIP_ONBOARD=true; shift ;;
+    --manifest)        MANIFEST="$2"; shift 2 ;;
+    --concurrency)     CONCURRENCY="$2"; shift 2 ;;
+    --pipeline-id)     PIPELINE_ID="$2"; shift 2 ;;
+    --timeout)         BUILD_TIMEOUT="$2"; shift 2 ;;
+    --stall-timeout)   STALL_TIMEOUT="$2"; shift 2 ;;
+    --cb-threshold)    CB_FAIL_THRESHOLD="$2"; shift 2 ;;
+    --cb-cooldown)     CB_COOLDOWN="$2"; shift 2 ;;
+    --cb-hard-stop)    CB_HARD_STOP="$2"; shift 2 ;;
+    --dry-run)         DRY_RUN=true; shift ;;
+    --skip-onboard)    SKIP_ONBOARD=true; shift ;;
     *) echo "Unknown: $1"; exit 1 ;;
   esac
 done
@@ -70,6 +80,233 @@ log_app() { echo "[$(date '+%H:%M:%S')] [$1] $2"; }
 
 mkdir -p "$LOG_DIR" "$READY_DIR"
 
+# ============================================================================
+# CIRCUIT BREAKER — prevents blind token burn
+#
+# Shared state files (cross-worker coordination):
+#   .circuit-breaker-state   — "closed" (normal) / "open" (tripped) / "half-open" (testing)
+#   .circuit-breaker-results — rolling log of pass/fail per build
+#   .circuit-breaker-tripped — timestamp when breaker last tripped
+#   .emergency-halt          — if this FILE EXISTS, ALL workers stop immediately
+#
+# Emergency halt:  touch /tmp/pc-autopilot/.emergency-halt
+# Resume:          rm /tmp/pc-autopilot/.emergency-halt
+# ============================================================================
+
+CB_STATE_FILE="$WORKSPACE/.circuit-breaker-state"
+CB_RESULTS_FILE="$WORKSPACE/.circuit-breaker-results"
+CB_TRIPPED_FILE="$WORKSPACE/.circuit-breaker-tripped"
+HALT_FILE="$WORKSPACE/.emergency-halt"
+
+# Initialize circuit breaker state if not present
+[[ -f "$CB_STATE_FILE" ]] || echo "closed" > "$CB_STATE_FILE"
+[[ -f "$CB_RESULTS_FILE" ]] || touch "$CB_RESULTS_FILE"
+
+# --- Emergency halt check (instant kill switch) ---
+check_emergency_halt() {
+  if [[ -f "$HALT_FILE" ]]; then
+    log "EMERGENCY HALT detected ($HALT_FILE exists) — stopping immediately"
+    log "Remove the file to resume: rm $HALT_FILE"
+    redis_publish "circuit_breaker" "\"action\":\"emergency-halt\",\"pipeline\":\"$PIPELINE_ID\""
+    # Kill our child claude processes gracefully
+    for pid in "${job_pids[@]+"${job_pids[@]}"}"; do
+      kill "$pid" 2>/dev/null || true
+    done
+    exit 2
+  fi
+}
+
+# --- Record a build result (pass/fail + reason) ---
+cb_record() {
+  local result="$1" reason="${2:-}"  # result: pass|fail
+  local ts
+  ts=$(date +%s)
+  echo "${ts}|${result}|${PIPELINE_ID}|${reason}" >> "$CB_RESULTS_FILE"
+
+  # Trim to last 100 entries to prevent file growth
+  tail -100 "$CB_RESULTS_FILE" > "${CB_RESULTS_FILE}.tmp" 2>/dev/null && \
+    mv "${CB_RESULTS_FILE}.tmp" "$CB_RESULTS_FILE" 2>/dev/null || true
+}
+
+# --- Check if usage cap was hit (scan recent build output) ---
+detect_usage_cap_inline() {
+  local logfile="${1:-}"
+  if [[ -n "$logfile" ]] && [[ -f "$logfile" ]]; then
+    if grep -qi "out of extra usage\|usage.*resets\|You're out of" "$logfile" 2>/dev/null; then
+      return 0
+    fi
+  fi
+  # Also check the last 3 results for usage-cap failures
+  if tail -3 "$CB_RESULTS_FILE" 2>/dev/null | grep -q "usage-cap"; then
+    return 0
+  fi
+  return 1
+}
+
+# --- Calculate failure rate from rolling window ---
+cb_failure_rate() {
+  local window="$CB_WINDOW"
+  local results
+  results=$(tail -"$window" "$CB_RESULTS_FILE" 2>/dev/null)
+  [[ -z "$results" ]] && echo "0" && return
+
+  local total=0 fails=0
+  while IFS='|' read -r ts result pipeline reason; do
+    total=$((total + 1))
+    [[ "$result" == "fail" ]] && fails=$((fails + 1))
+  done <<< "$results"
+
+  # Need at least 3 results before failure rate is meaningful
+  (( total < 3 )) && echo "0" && return
+  echo $(( (fails * 100) / total ))
+}
+
+# --- Count consecutive failures ---
+cb_consecutive_fails() {
+  local count=0
+  tac "$CB_RESULTS_FILE" 2>/dev/null | while IFS='|' read -r ts result pipeline reason; do
+    if [[ "$result" == "fail" ]]; then
+      count=$((count + 1))
+      echo "$count"
+    else
+      echo "$count"
+      return
+    fi
+  done | tail -1
+}
+
+# --- Trip the circuit breaker ---
+cb_trip() {
+  local reason="$1"
+  echo "open" > "$CB_STATE_FILE"
+  date +%s > "$CB_TRIPPED_FILE"
+  log "CIRCUIT BREAKER TRIPPED: $reason"
+  log "  Pipeline $PIPELINE_ID halting new builds for ${CB_COOLDOWN}s"
+  log "  Override: rm $HALT_FILE or echo closed > $CB_STATE_FILE"
+  redis_publish "circuit_breaker" "\"action\":\"trip\",\"reason\":\"$reason\",\"pipeline\":\"$PIPELINE_ID\",\"cooldown\":$CB_COOLDOWN"
+}
+
+# --- Main circuit breaker check (called before every new build) ---
+# Returns 0 = OK to proceed, 1 = blocked (wait/halt)
+circuit_breaker_check() {
+  # 1. Emergency halt — highest priority
+  check_emergency_halt
+
+  # 2. Read current state
+  local state
+  state=$(cat "$CB_STATE_FILE" 2>/dev/null || echo "closed")
+
+  case "$state" in
+    open)
+      # Check if cooldown has elapsed
+      local tripped_at now elapsed
+      tripped_at=$(cat "$CB_TRIPPED_FILE" 2>/dev/null || echo "0")
+      now=$(date +%s)
+      elapsed=$(( now - tripped_at ))
+
+      # Detect if this was a usage-cap trip — if so, EXIT the worker entirely
+      # Usage caps last hours, not seconds. Retrying every 120s wastes CRDs and manifest entries.
+      if tail -5 "$CB_RESULTS_FILE" 2>/dev/null | grep -q "usage-cap"; then
+        local cap_cooldown=1800  # 30 minutes
+        if (( elapsed < cap_cooldown )); then
+          local remaining=$(( cap_cooldown - elapsed ))
+          log "USAGE CAP ACTIVE — worker stopping (cap resets in hours, not seconds)"
+          log "  Will not retry for ${remaining}s. Restart workers after cap resets."
+          log "  To resume manually: echo closed > $CB_STATE_FILE && restart workers"
+          redis_publish "circuit_breaker" "\"action\":\"usage-cap-halt\",\"pipeline\":\"$PIPELINE_ID\""
+          exit 3  # Exit worker — don't keep cycling
+        fi
+        log "Usage cap cooldown elapsed (${elapsed}s > ${cap_cooldown}s) — testing with one build"
+        echo "half-open" > "$CB_STATE_FILE"
+        return 0
+      fi
+
+      if (( elapsed >= CB_COOLDOWN )); then
+        log "Circuit breaker cooldown elapsed (${elapsed}s) — entering half-open (test mode)"
+        echo "half-open" > "$CB_STATE_FILE"
+        return 0  # allow one test build
+      else
+        local remaining=$(( CB_COOLDOWN - elapsed ))
+        log "Circuit breaker OPEN — ${remaining}s remaining before retry"
+        sleep "$remaining"
+        echo "half-open" > "$CB_STATE_FILE"
+        return 0
+      fi
+      ;;
+
+    half-open)
+      # Allow the build — result will determine if we close or re-trip
+      return 0
+      ;;
+
+    closed)
+      # Normal operation — check failure rate
+      local fail_rate consec_fails
+
+      fail_rate=$(cb_failure_rate)
+      consec_fails=$(cb_consecutive_fails)
+      consec_fails=${consec_fails:-0}
+
+      # Check usage cap (immediate trip — worker will EXIT, not sleep-loop)
+      if detect_usage_cap_inline; then
+        cb_record "fail" "usage-cap"
+        cb_trip "Usage cap detected — worker will EXIT (not retry in 120s loop)"
+        return 1
+      fi
+
+      # Check consecutive failures
+      if (( consec_fails >= CB_MAX_CONSECUTIVE )); then
+        cb_trip "Consecutive failures: $consec_fails (threshold: $CB_MAX_CONSECUTIVE)"
+        return 1
+      fi
+
+      # Check failure rate
+      if (( fail_rate >= CB_FAIL_THRESHOLD )); then
+        cb_trip "Failure rate ${fail_rate}% exceeds threshold ${CB_FAIL_THRESHOLD}%"
+        return 1
+      fi
+
+      return 0
+      ;;
+  esac
+}
+
+# --- Update circuit breaker after build result ---
+cb_after_build() {
+  local result="$1" reason="${2:-}"
+  cb_record "$result" "$reason"
+
+  local state
+  state=$(cat "$CB_STATE_FILE" 2>/dev/null || echo "closed")
+
+  if [[ "$state" == "half-open" ]]; then
+    if [[ "$result" == "pass" ]]; then
+      log "Circuit breaker: half-open test PASSED — closing breaker (normal operation)"
+      echo "closed" > "$CB_STATE_FILE"
+    else
+      cb_trip "Half-open test failed: $reason — re-opening breaker"
+    fi
+  fi
+
+  # --- HARD STOP: N consecutive failures with zero successes = EXIT worker ---
+  # This catches scenarios where the breaker keeps cycling (trip → cooldown → half-open → fail → trip)
+  # without ever succeeding. After CB_HARD_STOP consecutive failures, the worker exits entirely.
+  local consec
+  consec=$(cb_consecutive_fails)
+  consec=${consec:-0}
+  if (( consec >= CB_HARD_STOP )); then
+    log "HARD STOP: $consec consecutive failures without any success (threshold: $CB_HARD_STOP)"
+    log "  Worker exiting. This prevents endless failure cycling."
+    log "  To resume: reset circuit breaker and restart workers"
+    log "    echo closed > $CB_STATE_FILE"
+    log "    > $CB_RESULTS_FILE"
+    log "    bash pipeline/scripts/workers-start.sh --pipeline $PIPELINE_ID --concurrency $CONCURRENCY"
+    touch "$HALT_FILE"
+    redis_publish "circuit_breaker" "\"action\":\"hard-stop\",\"pipeline\":\"$PIPELINE_ID\",\"consecutive_failures\":$consec"
+    exit 4
+  fi
+}
+
 # --- CRD helpers ---
 create_crd_entry() {
   local id="$1" name="$2" prefix="$3" repo="$4" category="${5:-Misc}"
@@ -99,11 +336,13 @@ update_crd_status() {
 }
 
 is_built() {
-  # Check if repo has code on GitHub (non-empty)
+  # Check if repo has code on GitHub (git ref API — instant, no lag)
   local repo="$1"
-  local size
-  size=$(curl -sH "Authorization: token $GH_TOKEN" "https://api.github.com/repos/devopseng99/$repo" | python3 -c "import json,sys; print(json.load(sys.stdin).get('size',0))" 2>/dev/null)
-  [[ "$size" -gt 0 ]] 2>/dev/null
+  local http_code
+  http_code=$(curl -s -o /dev/null -w "%{http_code}" \
+    -H "Authorization: token $GH_TOKEN" \
+    "https://api.github.com/repos/devopseng99/${repo}/git/ref/heads/main" 2>/dev/null)
+  [[ "$http_code" == "200" ]]
 }
 
 is_deployed() {
@@ -196,6 +435,23 @@ push_to_github() {
       git remote add origin "$expected_url" 2>/dev/null || true
   fi
 
+  # --- Pre-push safety checks ---
+
+  # 1. Ensure node_modules and large binaries are excluded (GitHub rejects files >100MB)
+  if [[ ! -f .gitignore ]] || ! grep -q "node_modules" .gitignore 2>/dev/null; then
+    cat >> .gitignore <<'GIEOF'
+node_modules/
+.next/cache/
+*.node
+GIEOF
+  fi
+
+  # 2. Strip leaked tokens from source files (Claude sometimes embeds GH_TOKEN in package.json)
+  find . -not -path './.git/*' -not -path './node_modules/*' -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.yaml" -o -name "*.yml" \) -exec \
+    sed -i "s|ghp_[A-Za-z0-9]\{36,\}@||g" {} + 2>/dev/null || true
+  find . -not -path './.git/*' -not -path './node_modules/*' -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" -o -name "*.yaml" -o -name "*.yml" \) -exec \
+    sed -i "s|sk-ant-[A-Za-z0-9_-]\{20,\}||g" {} + 2>/dev/null || true
+
   git add -A 2>/dev/null
   if git diff --cached --quiet 2>/dev/null; then
     # Nothing new to commit — check if remote already has code
@@ -259,15 +515,16 @@ print(f'category={shlex.quote(e.get(\"category\", \"Misc Services\"))}')
 
   # Skip if already deployed
   if is_deployed "$id"; then
-    log_app "$prefix" "SKIP: Already deployed"
+    log_app "$prefix" "DEPLOYED: already live"
     return 0
   fi
 
   # Skip if already has code (already built)
   if is_built "$repo"; then
-    log_app "$prefix" "SKIP: Repo already has code — ready for deploy"
-    # Mark ready for deploy
+    log_app "$prefix" "CODE+PUSH COMPLETE: devopseng99/$repo — deploy pending"
     echo "$entry" > "$READY_DIR/${id}-${prefix}.json"
+    # Signal to parent that this was a code-ready skip (not a new build)
+    touch "$WORKSPACE/.code-ok-${id}"
     return 0
   fi
 
@@ -327,6 +584,7 @@ for i in issues:
   redis_publish "build_start" "\"app\":\"$prefix\",\"id\":$id,\"category\":\"$category\""
 
   local build_ok=false
+  local fail_reason=""
   local max_retries=3
   for attempt in $(seq 1 $max_retries); do
     local build_start_ts
@@ -341,22 +599,34 @@ for i in issues:
       break
     fi
 
+    # Check for usage cap IMMEDIATELY — no point retrying
+    if detect_usage_cap_inline "$logfile"; then
+      fail_reason="usage-cap"
+      log_app "$prefix" "USAGE CAP DETECTED — halting (not retrying)"
+      cb_record "fail" "usage-cap"
+      cb_trip "Usage cap hit during build of $prefix"
+      break
+    fi
+
     # If it failed in <30s, it's likely rate-limited — wait and retry
     local elapsed=$(( $(date +%s) - build_start_ts ))
     if (( elapsed < 30 )) && (( attempt < max_retries )); then
+      fail_reason="rate-limit"
       local backoff=$(( 30 * attempt ))
       log_app "$prefix" "Build failed in ${elapsed}s (likely rate-limited) — retry $attempt/$max_retries in ${backoff}s..."
       sleep "$backoff"
       rm -rf "/tmp/$repo" 2>/dev/null
     else
+      fail_reason="build-failed"
       break
     fi
   done
 
   if [[ "$build_ok" != "true" ]]; then
     log_app "$prefix" "BUILD FAILED after $max_retries attempts (see $logfile)"
-    update_crd_status "$id" "$prefix" "Failed" "ai-codegen" "\"errorMessage\":\"Build failed or timed out\""
+    update_crd_status "$id" "$prefix" "Failed" "ai-codegen" "\"errorMessage\":\"${fail_reason:-Build failed or timed out}\""
     redis_publish "build_complete" "\"app\":\"$prefix\",\"id\":$id,\"status\":\"failed\""
+    cb_after_build "fail" "$fail_reason"
     rm -rf "/tmp/$repo" 2>/dev/null
     return 1
   fi
@@ -384,6 +654,16 @@ for i in issues:
     rm -rf "/tmp/$repo/.git" 2>/dev/null
     (
       cd "/tmp/$repo"
+      # Ensure node_modules excluded + strip leaked tokens before reinit push
+      if [[ ! -f .gitignore ]] || ! grep -q "node_modules" .gitignore 2>/dev/null; then
+        cat >> .gitignore <<'GIEOF'
+node_modules/
+.next/cache/
+*.node
+GIEOF
+      fi
+      find . -not -path './.git/*' -not -path './node_modules/*' -type f \( -name "*.json" -o -name "*.js" -o -name "*.ts" \) -exec \
+        sed -i "s|ghp_[A-Za-z0-9]\{36,\}@||g" {} + 2>/dev/null || true
       git init -q
       git remote add origin "https://${GH_TOKEN}@github.com/devopseng99/${repo}.git"
       git add -A
@@ -400,13 +680,15 @@ for i in issues:
 
   if [[ "$push_ok" == "true" ]]; then
     log_app "$prefix" "CODE READY: devopseng99/$repo (verified on GitHub)"
-    update_crd_status "$id" "$prefix" "Building" "code-pushed" "\"errorMessage\":\"\""
+    update_crd_status "$id" "$prefix" "Deploying" "code-pushed" "\"errorMessage\":\"\""
     redis_publish "build_complete" "\"app\":\"$prefix\",\"id\":$id,\"status\":\"success\""
     echo "$entry" > "$READY_DIR/${id}-${prefix}.json"
+    cb_after_build "pass"
   else
     log_app "$prefix" "PUSH FAILED: Code exists locally but could not reach GitHub"
     update_crd_status "$id" "$prefix" "Failed" "git-push" "\"errorMessage\":\"Git push failed — code not verified on GitHub\""
     redis_publish "build_complete" "\"app\":\"$prefix\",\"id\":$id,\"status\":\"failed\""
+    cb_after_build "fail" "push-failed"
   fi
 
   # Cleanup build artifacts (code is on GitHub now or marked failed)
@@ -429,6 +711,8 @@ main() {
   log "  Apps: $total"
   log "  Concurrency: $CONCURRENCY"
   log "  Build timeout: ${BUILD_TIMEOUT}s / Stall timeout: ${STALL_TIMEOUT}s"
+  log "  Circuit breaker: window=$CB_WINDOW, threshold=${CB_FAIL_THRESHOLD}%, cooldown=${CB_COOLDOWN}s, max-consec=$CB_MAX_CONSECUTIVE, hard-stop=$CB_HARD_STOP"
+  log "  Emergency halt file: $HALT_FILE"
   log ""
 
   if [[ "$DRY_RUN" == "true" ]]; then
@@ -451,34 +735,48 @@ print(f'  [{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})  [{e.get(\"category\",\"
   echo $$ > "$pidfile"
   trap "rm -f '$pidfile'" EXIT
 
-  local completed=0 failed=0 skipped=0
-  local job_pids=() job_names=()
+  local completed=0 failed=0
+  local deployed_ok=0 code_ok=0 breaker_skip=0
+  local job_pids=() job_names=() job_ids=()
 
   reap_jobs() {
-    local new_pids=() new_names=()
+    local new_pids=() new_names=() new_ids=()
     for idx in "${!job_pids[@]}"; do
       if ! kill -0 "${job_pids[$idx]}" 2>/dev/null; then
         wait "${job_pids[$idx]}" 2>/dev/null && true
         local rc=$?
-        if [[ $rc -eq 0 ]]; then
+        local aid="${job_ids[$idx]}"
+        # Check if this was a code-ready skip (marker file) vs a new build
+        if [[ -f "$WORKSPACE/.code-ok-${aid}" ]]; then
+          code_ok=$((code_ok + 1))
+          rm -f "$WORKSPACE/.code-ok-${aid}"
+          log "[${job_names[$idx]}] code+push OK  [built=$completed fail=$failed | deployed=$deployed_ok code-ready=$code_ok / $total]"
+        elif [[ $rc -eq 0 ]]; then
           completed=$((completed + 1))
+          log "[${job_names[$idx]}] BUILD+PUSH OK  [built=$completed fail=$failed | deployed=$deployed_ok code-ready=$code_ok / $total]"
         else
           failed=$((failed + 1))
+          log "[${job_names[$idx]}] FAILED (rc=$rc)  [built=$completed fail=$failed | deployed=$deployed_ok code-ready=$code_ok / $total]"
         fi
-        log "[${job_names[$idx]}] finished (rc=$rc)  [done=$completed fail=$failed skip=$skipped / $total]"
       else
         new_pids+=("${job_pids[$idx]}")
         new_names+=("${job_names[$idx]}")
+        new_ids+=("${job_ids[$idx]}")
       fi
     done
     job_pids=("${new_pids[@]+"${new_pids[@]}"}")
     job_names=("${new_names[@]+"${new_names[@]}"}")
+    job_ids=("${new_ids[@]+"${new_ids[@]}"}")
   }
 
   for entry in "${entries[@]}"; do
+    # --- Emergency halt check (every iteration) ---
+    check_emergency_halt
+
     # Wait for a slot
     while (( ${#job_pids[@]} >= CONCURRENCY )); do
       reap_jobs
+      check_emergency_halt
       (( ${#job_pids[@]} >= CONCURRENCY )) && sleep 5
     done
 
@@ -488,7 +786,14 @@ print(f'  [{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})  [{e.get(\"category\",\"
 
     # Skip already deployed
     if is_deployed "$entry_id"; then
-      skipped=$((skipped + 1))
+      deployed_ok=$((deployed_ok + 1))
+      continue
+    fi
+
+    # --- Circuit breaker gate (blocks here if tripped, waits for cooldown) ---
+    if ! circuit_breaker_check; then
+      log_app "$entry_prefix" "CIRCUIT BREAKER: Skipping — breaker is open"
+      breaker_skip=$((breaker_skip + 1))
       continue
     fi
 
@@ -496,6 +801,7 @@ print(f'  [{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})  [{e.get(\"category\",\"
     process_codegen "$entry" &
     job_pids+=($!)
     job_names+=("$entry_prefix")
+    job_ids+=("$entry_id")
   done
 
   # Wait for remaining
@@ -509,14 +815,16 @@ print(f'  [{e[\"id\"]}] {e[\"name\"]} ({e[\"prefix\"]})  [{e.get(\"category\",\"
   ready=$(ls "$READY_DIR"/*.json 2>/dev/null | wc -l)
   log ""
   log "=== Phase A Complete ==="
-  log "  Completed: $completed"
-  log "  Failed:    $failed"
-  log "  Skipped:   $skipped"
-  log "  Ready to deploy: $ready"
+  log "  Built (codegen+push): $completed"
+  log "  Failed:               $failed"
+  log "  Already deployed:     $deployed_ok"
+  log "  Code+push already OK: $code_ok"
+  log "  Breaker skipped:      $breaker_skip"
+  log "  Ready to deploy:      $ready"
   log ""
   log "Run Phase B to deploy:"
   log "  $SCRIPT_DIR/batch-deploy-k8s.sh"
-  redis_publish "codegen_complete" "\"completed\":$completed,\"failed\":$failed,\"skipped\":$skipped,\"ready\":$ready"
+  redis_publish "codegen_complete" "\"completed\":$completed,\"failed\":$failed,\"deployed\":$deployed_ok,\"codeReady\":$code_ok,\"ready\":$ready"
 }
 
 main

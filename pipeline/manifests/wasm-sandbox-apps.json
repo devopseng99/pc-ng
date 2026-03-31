@@ -1,0 +1,409 @@
+{
+  "use_cases": [
+    {
+      "id": 9101,
+      "name": "WasmPad Playground",
+      "prefix": "WMP",
+      "type": "WASM Code Playground",
+      "repo": "wasmpad-playground",
+      "budget": 500,
+      "description": "Browser-based code playground where users write Rust, Go, or JS, compile to WebAssembly, and deploy as serverless functions. Per-user K8s namespace provisioning with resource quotas. Live execution output, performance metrics, and shareable function URLs.",
+      "email": "dev@wasmpad.io",
+      "features": [
+        "code-editor-monaco",
+        "wasm-compilation",
+        "function-deployment",
+        "namespace-provisioning",
+        "execution-metrics",
+        "shareable-urls",
+        "resource-quotas",
+        "multi-language"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#8B5CF6",
+        "accent": "#06B6D4",
+        "vibe": "Dark developer IDE aesthetic with purple and cyan accents"
+      }
+    },
+    {
+      "id": 9102,
+      "name": "RunBox Sandbox",
+      "prefix": "RBX",
+      "type": "Code Execution Sandbox",
+      "repo": "runbox-sandbox",
+      "budget": 500,
+      "description": "Multi-language code execution platform running snippets inside gVisor-sandboxed containers or WASM runtimes. Submit code, get output with resource usage and timing. For coding interviews, education, and API-accessible execution-as-a-service.",
+      "email": "admin@runbox.dev",
+      "features": [
+        "multi-language-execution",
+        "gvisor-sandbox",
+        "wasm-runtime-option",
+        "execution-api",
+        "resource-monitoring",
+        "interview-mode",
+        "namespace-isolation",
+        "output-streaming"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#E94560",
+        "accent": "#16213E",
+        "vibe": "Dark terminal theme with red accent, hacker aesthetic"
+      }
+    },
+    {
+      "id": 9103,
+      "name": "DevDock Portal",
+      "prefix": "DDK",
+      "type": "Developer Self-Service Portal",
+      "repo": "devdock-portal",
+      "budget": 500,
+      "description": "Self-service developer portal for requesting K8s namespaces, virtual clusters, and WASM execution environments. Platform team sets quotas and policies. Browser-based terminal access, environment templates, and team management.",
+      "email": "platform@devdock.io",
+      "features": [
+        "namespace-provisioning",
+        "vcluster-management",
+        "wasm-environments",
+        "rbac-policies",
+        "resource-quotas",
+        "web-terminal",
+        "environment-templates",
+        "team-management"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#2563EB",
+        "accent": "#7C3AED",
+        "vibe": "Clean enterprise portal with blue primary and purple accents"
+      }
+    },
+    {
+      "id": 9104,
+      "name": "WasmAPI Builder",
+      "prefix": "WAB",
+      "type": "Serverless API Builder",
+      "repo": "wasmapi-builder",
+      "budget": 500,
+      "description": "Visual drag-and-drop API builder where users define endpoints and write handler logic that compiles to WebAssembly. Built-in API gateway, rate limiting, monitoring dashboard. Each project gets its own K8s namespace with auto-scaling.",
+      "email": "dev@wasmapi.io",
+      "features": [
+        "visual-api-builder",
+        "wasm-compilation",
+        "api-gateway",
+        "rate-limiting",
+        "monitoring-dashboard",
+        "namespace-per-project",
+        "auto-scaling",
+        "openapi-generation"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#F97316",
+        "accent": "#22D3EE",
+        "vibe": "Dark with orange and cyan, modern API developer tool"
+      }
+    },
+    {
+      "id": 9105,
+      "name": "VaultRun Confidential",
+      "prefix": "VRC",
+      "type": "Confidential Compute Sandbox",
+      "repo": "vaultrun-confidential",
+      "budget": 500,
+      "description": "Sensitive data processing platform where WASM modules run inside hardware TEEs for confidential computing. Upload modules, view attestation reports, execution logs, and audit trails. For healthcare, finance, and regulated workloads.",
+      "email": "security@vaultrun.io",
+      "features": [
+        "confidential-computing",
+        "wasm-tee-execution",
+        "attestation-reports",
+        "audit-trails",
+        "data-encryption",
+        "compliance-dashboard",
+        "namespace-isolation",
+        "secure-upload"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#10B981",
+        "accent": "#6366F1",
+        "vibe": "Dark secure vault aesthetic with green trust indicators"
+      }
+    },
+    {
+      "id": 9106,
+      "name": "HyperDeploy PaaS",
+      "prefix": "HDP",
+      "type": "Hybrid Container-WASM PaaS",
+      "repo": "hyperdeploy-paas",
+      "budget": 500,
+      "description": "Platform-as-a-Service that auto-detects whether to deploy code as a container or WASM module. Git-push deploys, staging environments, custom domains. WASM deploys get sub-millisecond cold starts. Full pipeline management UI.",
+      "email": "ops@hyperdeploy.io",
+      "features": [
+        "auto-detect-runtime",
+        "git-push-deploy",
+        "staging-environments",
+        "custom-domains",
+        "wasm-cold-start",
+        "container-fallback",
+        "pipeline-management",
+        "namespace-provisioning"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#18181B",
+        "primary": "#A855F7",
+        "accent": "#EC4899",
+        "vibe": "Dark gradient with purple-pink, modern PaaS aesthetic"
+      }
+    },
+    {
+      "id": 9107,
+      "name": "LabCloud Academy",
+      "prefix": "LCA",
+      "type": "Interactive Lab Platform",
+      "repo": "labcloud-academy",
+      "budget": 500,
+      "description": "Educational platform where students get isolated K8s namespaces with pre-configured lab environments. Sandboxed browser terminals, WASM-powered client-side code execution for instant feedback. Instructor dashboard manages courses and grading.",
+      "email": "edu@labcloud.dev",
+      "features": [
+        "student-namespaces",
+        "sandboxed-terminals",
+        "wasm-code-runner",
+        "course-management",
+        "auto-grading",
+        "progress-tracking",
+        "instructor-dashboard",
+        "lab-templates"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#FAFAF9",
+        "primary": "#0EA5E9",
+        "accent": "#F59E0B",
+        "vibe": "Light academic theme with sky blue and amber accents"
+      }
+    },
+    {
+      "id": 9108,
+      "name": "RuntimeBench Compare",
+      "prefix": "RTB",
+      "type": "Multi-Runtime Benchmark Platform",
+      "repo": "runtimebench-compare",
+      "budget": 500,
+      "description": "Upload workloads and benchmark them across container, WASM, gVisor, and Kata runtimes side-by-side. Performance comparison dashboard: cold start latency, memory usage, throughput, CPU overhead. Architecture decision-making tool.",
+      "email": "bench@runtimebench.dev",
+      "features": [
+        "multi-runtime-benchmark",
+        "cold-start-comparison",
+        "memory-profiling",
+        "throughput-testing",
+        "side-by-side-charts",
+        "workload-upload",
+        "runtime-selection",
+        "report-export"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#111827",
+        "primary": "#3B82F6",
+        "accent": "#F43F5E",
+        "vibe": "Dark analytics dashboard with blue charts and red highlights"
+      }
+    },
+    {
+      "id": 9109,
+      "name": "EdgeSim Network",
+      "prefix": "ESN",
+      "type": "Edge Function Simulator",
+      "repo": "edgesim-network",
+      "budget": 500,
+      "description": "Simulate edge computing scenarios by deploying WASM functions to simulated edge nodes (K8s pods with resource constraints). Latency maps, function routing visualization, failover behavior testing. Test edge architectures before real deployment.",
+      "email": "edge@edgesim.io",
+      "features": [
+        "edge-simulation",
+        "wasm-function-deploy",
+        "latency-mapping",
+        "routing-visualization",
+        "failover-testing",
+        "resource-constraints",
+        "topology-designer",
+        "namespace-per-simulation"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#06B6D4",
+        "accent": "#84CC16",
+        "vibe": "Dark network topology theme with cyan nodes and green connections"
+      }
+    },
+    {
+      "id": 9110,
+      "name": "ServiceForge Studio",
+      "prefix": "SRF",
+      "type": "Microservice Scaffolding Platform",
+      "repo": "serviceforge-studio",
+      "budget": 500,
+      "description": "Web wizard to define microservices (REST, gRPC, event-driven). Generates code, compiles to WASM or container images, provisions K8s namespace with service mesh, deploys everything. Live architecture diagram and health dashboard.",
+      "email": "forge@serviceforge.dev",
+      "features": [
+        "service-wizard",
+        "code-generation",
+        "wasm-compilation",
+        "container-build",
+        "service-mesh-setup",
+        "architecture-diagram",
+        "health-dashboard",
+        "namespace-provisioning"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#1E1B4B",
+        "primary": "#818CF8",
+        "accent": "#FB923C",
+        "vibe": "Deep indigo with soft purple and orange, forge/workshop aesthetic"
+      }
+    },
+    {
+      "id": 9111,
+      "name": "AgentBox Sandbox",
+      "prefix": "ABX",
+      "type": "AI Agent Sandbox",
+      "repo": "agentbox-sandbox",
+      "budget": 500,
+      "description": "Deploy AI agents in isolated sandbox environments with strict resource limits. Upload agent code, configure tool access (filesystem, network, APIs), monitor execution in real-time. WASM option for lightweight agents. Per-agent K8s namespaces.",
+      "email": "ai@agentbox.dev",
+      "features": [
+        "agent-deployment",
+        "sandbox-isolation",
+        "resource-limits",
+        "tool-access-config",
+        "execution-monitoring",
+        "wasm-agents",
+        "namespace-per-agent",
+        "audit-logging"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#0D0D0D",
+        "primary": "#F59E0B",
+        "accent": "#8B5CF6",
+        "vibe": "Dark AI theme with amber warning colors and purple neural network accents"
+      }
+    },
+    {
+      "id": 9112,
+      "name": "HookEngine Webhooks",
+      "prefix": "HKE",
+      "type": "Webhook Processing Platform",
+      "repo": "hookengine-webhooks",
+      "budget": 500,
+      "description": "Register webhook endpoints and write processing logic that compiles to WASM. Incoming webhooks trigger WASM function execution with scale-to-zero when idle. Event logs, failure rates, retry queues, and per-tenant namespace isolation.",
+      "email": "hooks@hookengine.io",
+      "features": [
+        "webhook-registration",
+        "wasm-handlers",
+        "scale-to-zero",
+        "event-logging",
+        "retry-queues",
+        "failure-monitoring",
+        "tenant-namespaces",
+        "rate-limiting"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#1C1917",
+        "primary": "#DC2626",
+        "accent": "#16A34A",
+        "vibe": "Dark webhook flow theme with red triggers and green success indicators"
+      }
+    },
+    {
+      "id": 9113,
+      "name": "ToolSmith Builder",
+      "prefix": "TSB",
+      "type": "Low-Code Internal Tool Builder",
+      "repo": "toolsmith-builder",
+      "budget": 500,
+      "description": "Low-code platform where teams build internal tools (dashboards, forms, CRUD apps). Backend logic runs as WASM functions for security and portability. Per-team K8s namespaces with built-in auth, DB connectors, and API integrations.",
+      "email": "build@toolsmith.dev",
+      "features": [
+        "low-code-builder",
+        "wasm-backend",
+        "drag-drop-ui",
+        "db-connectors",
+        "api-integrations",
+        "team-namespaces",
+        "built-in-auth",
+        "template-library"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#7C3AED",
+        "accent": "#0891B2",
+        "vibe": "Light clean builder interface with purple primary and teal tools"
+      }
+    },
+    {
+      "id": 9114,
+      "name": "ComplianceBox Scanner",
+      "prefix": "CBX",
+      "type": "Container Security Scanner",
+      "repo": "compliancebox-scanner",
+      "budget": 500,
+      "description": "Upload container images or WASM modules. Platform runs them in multiple sandbox configurations (gVisor, Kata, native) and reports security posture: syscall usage, network access patterns, file access. Compliance scorecards and policy enforcement.",
+      "email": "security@compliancebox.io",
+      "features": [
+        "image-scanning",
+        "multi-sandbox-testing",
+        "syscall-analysis",
+        "network-monitoring",
+        "compliance-scorecards",
+        "policy-enforcement",
+        "report-generation",
+        "namespace-isolation"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#15803D",
+        "accent": "#B91C1C",
+        "vibe": "Light compliance green with red alert indicators, trust-focused"
+      }
+    },
+    {
+      "id": 9115,
+      "name": "WasmStore Marketplace",
+      "prefix": "WSM",
+      "type": "WASM App Marketplace",
+      "repo": "wasmstore-marketplace",
+      "budget": 500,
+      "description": "App store for WebAssembly applications. Developers publish WASM modules with metadata, users deploy with one click to their allocated K8s namespace. Per-user isolation, ratings, usage metrics, and billing integration.",
+      "email": "store@wasmstore.io",
+      "features": [
+        "app-marketplace",
+        "wasm-registry",
+        "one-click-deploy",
+        "user-namespaces",
+        "ratings-reviews",
+        "usage-metrics",
+        "billing-integration",
+        "developer-portal"
+      ],
+      "category": "WASM & Sandbox Runtimes",
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#2563EB",
+        "accent": "#F97316",
+        "vibe": "Light marketplace feel with blue trust and orange action buttons"
+      }
+    }
+  ]
+}
