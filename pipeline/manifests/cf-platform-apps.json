@@ -1,0 +1,304 @@
+{
+  "use_cases": [
+    {
+      "id": 30001,
+      "name": "SandboxLab Code Runner",
+      "prefix": "SLR",
+      "repo": "sandboxlab-code-runner",
+      "category": "CF Dynamic Sandboxes",
+      "description": "Multi-language code execution platform using CF Dynamic Workers (V8 isolates) for instant sandboxed code runs. Users paste code, pick language, execute in <5ms cold start. Supports JS, TS, Python (via Pyodide WASM). Per-execution billing via Stripe.",
+      "features": ["CF Dynamic Workers for isolate sandboxes", "Pyodide WASM for Python", "real-time output streaming", "execution metrics (time, memory)", "shareable code snippets via D1", "Stripe per-execution credits"],
+      "design": {"bg": "#0D1117", "primary": "#58A6FF", "vibe": "Code editor dark"}
+    },
+    {
+      "id": 30002,
+      "name": "AgentSmith Runtime",
+      "prefix": "ASR",
+      "repo": "agentsmith-runtime",
+      "category": "CF Dynamic Sandboxes",
+      "description": "AI agent execution platform where LLM-generated code runs in CF Dynamic Workers. Agents write code → sandbox executes it → results fed back to agent. Uses Workers AI for the LLM + Dynamic Workers for safe execution. Per-agent-run billing.",
+      "features": ["CF Dynamic Workers sandbox per agent step", "Workers AI (Llama 3.3) for agent LLM", "execution trace viewer", "tool library (fetch, R2, D1)", "Durable Objects for agent state", "Stripe usage billing"],
+      "design": {"bg": "#0A0A1A", "primary": "#A855F7", "vibe": "Agent purple dark"}
+    },
+    {
+      "id": 30003,
+      "name": "TenantScript Platform",
+      "prefix": "TSP",
+      "repo": "tenantscript-platform",
+      "category": "CF Dynamic Sandboxes",
+      "description": "Multi-tenant SaaS platform where each customer runs custom business logic in CF Dynamic Workers. Customers upload JS/TS scripts that execute in isolated sandboxes. Built for no-code/low-code automation builders.",
+      "features": ["per-tenant Dynamic Worker isolation", "script editor with Monaco", "webhook triggers", "KV + D1 data access per tenant", "execution logs + metrics", "Stripe per-tenant subscription"],
+      "design": {"bg": "#111827", "primary": "#06B6D4", "vibe": "Platform teal dark"}
+    },
+    {
+      "id": 30004,
+      "name": "QueueFlow Orchestrator",
+      "prefix": "QFO",
+      "repo": "queueflow-orchestrator",
+      "category": "CF Queues & Workflows",
+      "description": "Visual workflow builder powered by CF Queues + Workflows. Drag-and-drop nodes (HTTP call, AI inference, transform, branch). Each step is a Queue message → Worker consumer. Durable execution with automatic retry.",
+      "features": ["CF Queues for step-to-step messaging", "CF Workflows for durable execution", "visual DAG editor", "step retry + dead-letter queues", "execution timeline viewer", "Stripe team plans"],
+      "design": {"bg": "#0F172A", "primary": "#F59E0B", "vibe": "Workflow gold dark"}
+    },
+    {
+      "id": 30005,
+      "name": "WebhookVault Pro",
+      "prefix": "WVP",
+      "repo": "webhookvault-pro",
+      "category": "CF Queues & Workflows",
+      "description": "Webhook ingestion and routing platform. Receives webhooks → CF Queue → fan-out to multiple destinations with retry. Guaranteed delivery, replay failed events, transformation middleware. For developers integrating third-party APIs.",
+      "features": ["CF Queues for guaranteed delivery", "webhook signature verification", "transform middleware (Dynamic Workers)", "replay + dead-letter UI", "D1 event log", "Stripe per-webhook pricing"],
+      "design": {"bg": "#18181B", "primary": "#22D3EE", "vibe": "Webhook tech dark"}
+    },
+    {
+      "id": 30006,
+      "name": "BatchForge AI",
+      "prefix": "BFA",
+      "repo": "batchforge-ai",
+      "category": "CF Queues & Workflows",
+      "description": "Batch AI processing platform. Upload CSV/JSON → CF Queue fans out rows → Workers AI processes each (classify, summarize, extract). Results aggregate in R2. For data teams processing thousands of records through AI.",
+      "features": ["CF Queues batch fan-out", "Workers AI inference per row", "R2 result storage", "progress dashboard (Durable Objects)", "CSV/JSON upload + download", "Stripe per-row billing"],
+      "design": {"bg": "#1E293B", "primary": "#8B5CF6", "vibe": "Data processing dark purple"}
+    },
+    {
+      "id": 30007,
+      "name": "EdgeChat AI",
+      "prefix": "ECA",
+      "repo": "edgechat-ai",
+      "category": "CF Workers AI",
+      "description": "AI chat platform running entirely on CF edge. Workers AI for inference (Llama 3.3, Mixtral), Durable Objects for conversation state, Vectorize for RAG. Zero external API dependencies. Sub-100ms responses globally.",
+      "features": ["Workers AI (Llama 3.3 70B)", "Durable Objects for chat sessions", "Vectorize RAG pipeline", "AI Gateway for logging", "KV for system prompts", "Stripe subscription tiers"],
+      "design": {"bg": "#0C0C1D", "primary": "#10B981", "vibe": "Edge green dark"}
+    },
+    {
+      "id": 30008,
+      "name": "FluxCanvas Studio",
+      "prefix": "FCS",
+      "repo": "fluxcanvas-studio",
+      "category": "CF Workers AI",
+      "description": "Image generation studio powered by FLUX.2 on Workers AI. Text-to-image, image-to-image, inpainting. Gallery stored in R2. Credit-based billing. All inference on CF edge — no external GPU costs.",
+      "features": ["Workers AI FLUX.2 model", "R2 image storage", "prompt templates library", "image editor (crop, resize, upscale)", "community gallery with D1", "Stripe credit packs"],
+      "design": {"bg": "#0A0A0A", "primary": "#EC4899", "vibe": "Creative studio black"}
+    },
+    {
+      "id": 30009,
+      "name": "VoiceEdge AI",
+      "prefix": "VEA",
+      "repo": "voiceedge-ai",
+      "category": "CF Workers AI",
+      "description": "Voice AI platform using Deepgram Nova 3 (STT) + Workers AI (LLM) + Deepgram Aura 2 (TTS) on CF edge. Build voice assistants, podcast transcription, audiobook narration. All on CF infrastructure.",
+      "features": ["Deepgram Nova 3 STT via Workers AI", "Llama 3.3 for response generation", "Deepgram Aura 2 TTS", "R2 audio storage", "CF Realtime for live streaming", "Stripe per-minute billing"],
+      "design": {"bg": "#1E1B4B", "primary": "#818CF8", "vibe": "Audio violet dark"}
+    },
+    {
+      "id": 30010,
+      "name": "RAGBuilder Pro",
+      "prefix": "RBP",
+      "repo": "ragbuilder-pro",
+      "category": "CF AI Search",
+      "description": "No-code RAG pipeline builder using CF AI Search (AutoRAG). Point at R2 buckets or websites → automatic chunking, embedding, indexing. Query via API or built-in chat UI. For teams building knowledge bases.",
+      "features": ["CF AI Search for auto RAG pipeline", "R2 data source integration", "website crawler source", "chat UI with citations", "AI Gateway for model flexibility", "Stripe per-query billing"],
+      "design": {"bg": "#0F172A", "primary": "#3B82F6", "vibe": "Knowledge blue dark"}
+    },
+    {
+      "id": 30011,
+      "name": "CrawlHive Scraper",
+      "prefix": "CHS",
+      "repo": "crawlhive-scraper",
+      "category": "CF Browser Rendering",
+      "description": "Web scraping SaaS built on CF Browser Rendering /crawl API. Submit URLs → get structured data (HTML, Markdown, JSON). Scheduled crawls via Cron Triggers. Queue-based for bulk jobs. For data teams and AI training pipelines.",
+      "features": ["CF Browser Rendering /crawl endpoint", "CF Queues for bulk crawl jobs", "scheduled crawls (Cron Triggers)", "R2 result storage", "D1 crawl history + dedup", "Stripe per-crawl pricing"],
+      "design": {"bg": "#111827", "primary": "#F97316", "vibe": "Scraper orange dark"}
+    },
+    {
+      "id": 30012,
+      "name": "ScreenSnap API",
+      "prefix": "SSA",
+      "repo": "screensnap-api",
+      "category": "CF Browser Rendering",
+      "description": "Screenshot-as-a-Service API. Submit URL → get pixel-perfect screenshot or PDF. Powered by CF Browser Rendering. Supports custom viewports, full-page, element selection, dark mode. Developer API + dashboard.",
+      "features": ["CF Browser Rendering REST API", "custom viewport + device emulation", "full-page + element screenshots", "PDF generation", "R2 storage with CDN delivery", "Stripe API key billing"],
+      "design": {"bg": "#18181B", "primary": "#A78BFA", "vibe": "Screenshot violet dark"}
+    },
+    {
+      "id": 30013,
+      "name": "MCPHub Agent Store",
+      "prefix": "MHA",
+      "repo": "mcphub-agent-store",
+      "category": "CF Agents SDK",
+      "description": "Marketplace for MCP-compatible AI agents built on CF Agents SDK. Developers publish agents, users subscribe and connect them to their AI tools. Each agent runs as a Durable Object with MCP server interface.",
+      "features": ["CF Agents SDK MCPAgent class", "Durable Objects per agent instance", "MCP HTTP-streamable transport", "agent marketplace with ratings", "D1 for agent registry", "Stripe Connect revenue share"],
+      "design": {"bg": "#0D1117", "primary": "#58A6FF", "vibe": "Agent marketplace dark"}
+    },
+    {
+      "id": 30014,
+      "name": "TaskPilot Agent",
+      "prefix": "TPA",
+      "repo": "taskpilot-agent",
+      "category": "CF Agents SDK",
+      "description": "Persistent AI task agent built on CF Agents SDK. Assign tasks (research, monitor, report) → agent works autonomously using scheduled execution + hibernation. Wakes up, does work, sleeps. Email integration for reports.",
+      "features": ["CF Agents SDK with hibernation", "scheduled task execution", "email integration (CF Email Workers)", "Workers AI for reasoning", "Durable Objects for state", "Stripe per-agent subscription"],
+      "design": {"bg": "#1C1917", "primary": "#D97706", "vibe": "Agent warm dark"}
+    },
+    {
+      "id": 30015,
+      "name": "LiveBoard Collab",
+      "prefix": "LBC",
+      "repo": "liveboard-collab",
+      "category": "CF Durable Objects",
+      "description": "Real-time collaborative whiteboard using Durable Objects for state + WebSockets for sync. Multiple users draw, add notes, vote in real-time. Each board is a Durable Object. Free tier + paid teams.",
+      "features": ["Durable Objects per board (SQLite storage)", "WebSocket real-time sync", "canvas drawing + sticky notes", "cursor presence indicators", "R2 for image uploads", "Stripe team plans"],
+      "design": {"bg": "#FAFAFA", "primary": "#6366F1", "vibe": "Collab clean light"}
+    },
+    {
+      "id": 30016,
+      "name": "EdgeDB Studio",
+      "prefix": "EDS",
+      "repo": "edgedb-studio",
+      "category": "CF D1 Database",
+      "description": "D1 database management studio. Connect to D1 databases, run SQL queries, browse tables, export data. Schema visualization. Like Adminer/pgAdmin but for CF D1. Free tool with pro features.",
+      "features": ["D1 database browser", "SQL query editor with autocomplete", "table schema visualizer", "CSV/JSON export", "query history (D1 stored)", "Stripe pro tier for teams"],
+      "design": {"bg": "#0C0A09", "primary": "#22D3EE", "vibe": "Database teal dark"}
+    },
+    {
+      "id": 30017,
+      "name": "MediaVault CDN",
+      "prefix": "MVC",
+      "repo": "mediavault-cdn",
+      "category": "CF R2 Storage",
+      "description": "Media management platform on R2. Upload, organize, transform, and serve images/videos with zero egress fees. On-the-fly image transforms via Workers. DAM for content teams.",
+      "features": ["R2 zero-egress storage", "Workers image transforms (resize, crop, format)", "folder organization + tagging", "shareable public links", "usage analytics", "Stripe storage-based billing"],
+      "design": {"bg": "#111827", "primary": "#F472B6", "vibe": "Media pink dark"}
+    },
+    {
+      "id": 30018,
+      "name": "IcebergLake Analytics",
+      "prefix": "ILA",
+      "repo": "iceberglake-analytics",
+      "category": "CF R2 Storage",
+      "description": "Data lakehouse on R2 using Apache Iceberg integration (R2 Data Catalog). Upload parquet/CSV → auto-create Iceberg tables → query via SQL. For data teams who want cheap analytics without Snowflake.",
+      "features": ["R2 Data Catalog (Iceberg)", "Iceberg table management", "SQL query interface", "parquet/CSV ingestion", "snapshot history + time travel", "Stripe compute-based billing"],
+      "design": {"bg": "#0F172A", "primary": "#34D399", "vibe": "Analytics green dark"}
+    },
+    {
+      "id": 30019,
+      "name": "ContainerDeploy Pro",
+      "prefix": "CDP",
+      "repo": "containerdeploy-pro",
+      "category": "CF Containers",
+      "description": "Container deployment platform on CF Containers. Push Docker images → deploy globally with scale-to-zero. Dashboard for managing deployments, logs, metrics. Simplified PaaS on Cloudflare.",
+      "features": ["CF Containers (Docker)", "scale-to-zero billing", "deployment dashboard", "log streaming", "environment variables management", "Stripe per-container billing"],
+      "design": {"bg": "#18181B", "primary": "#06B6D4", "vibe": "Container teal dark"}
+    },
+    {
+      "id": 30020,
+      "name": "HyperQuery Proxy",
+      "prefix": "HQP",
+      "repo": "hyperquery-proxy",
+      "category": "CF Hyperdrive",
+      "description": "Database query accelerator using CF Hyperdrive. Connect existing Postgres/MySQL → get connection pooling + caching at the edge. Dashboard shows cache hit rates, query latency. For teams with existing databases.",
+      "features": ["CF Hyperdrive connection pooling", "query caching at edge", "cache hit rate dashboard", "latency metrics", "multi-database support", "Stripe per-database pricing"],
+      "design": {"bg": "#1E293B", "primary": "#FBBF24", "vibe": "Database gold dark"}
+    },
+    {
+      "id": 30021,
+      "name": "SandboxCI Pipeline",
+      "prefix": "SCP",
+      "repo": "sandboxci-pipeline",
+      "category": "CF Dynamic Sandboxes",
+      "description": "CI/CD pipeline runner using CF Container Sandboxes. Push code → sandbox spins up Linux container → runs tests → reports results. Snapshot-based caching for fast rebuilds. For teams wanting edge-native CI.",
+      "features": ["CF Container Sandboxes for build env", "R2 snapshot caching (copy-on-write)", "GitHub webhook integration", "test result dashboard", "parallel job execution", "Stripe per-build-minute"],
+      "design": {"bg": "#0D1117", "primary": "#238636", "vibe": "CI green dark"}
+    },
+    {
+      "id": 30022,
+      "name": "RealtimeChat Voice",
+      "prefix": "RCV",
+      "repo": "realtimechat-voice",
+      "category": "CF Realtime",
+      "description": "Voice-first AI chat using CF Realtime (WebRTC) + Workers AI. Users speak → Deepgram STT → Llama 3.3 responds → Deepgram TTS → audio back. Sub-second latency voice AI assistant.",
+      "features": ["CF Realtime (WebRTC SFU)", "Deepgram Nova 3 STT", "Workers AI Llama 3.3", "Deepgram Aura 2 TTS", "conversation history (D1)", "Stripe per-minute voice billing"],
+      "design": {"bg": "#0A0A1A", "primary": "#F43F5E", "vibe": "Voice red dark"}
+    },
+    {
+      "id": 30023,
+      "name": "SemanticSearch Hub",
+      "prefix": "SSH",
+      "repo": "semanticsearch-hub",
+      "category": "CF Vectorize",
+      "description": "Semantic search engine builder on CF Vectorize + Workers AI embeddings. Upload documents → auto-embed with EmbeddingGemma → query with natural language. API + search UI. For SaaS products adding smart search.",
+      "features": ["CF Vectorize vector DB", "Workers AI EmbeddingGemma", "document chunking pipeline", "search API with metadata filters", "search analytics dashboard", "Stripe per-index billing"],
+      "design": {"bg": "#0F172A", "primary": "#8B5CF6", "vibe": "Search purple dark"}
+    },
+    {
+      "id": 30024,
+      "name": "GatewayInsight AI",
+      "prefix": "GIA",
+      "repo": "gatewayinsight-ai",
+      "category": "CF AI Gateway",
+      "description": "AI cost management dashboard built on CF AI Gateway. Route all AI API calls through gateway → get unified analytics, caching, rate limiting across OpenAI/Anthropic/Google. For CTOs tracking AI spend.",
+      "features": ["CF AI Gateway unified routing", "cost analytics per model/team", "prompt caching (save 40%+)", "rate limiting per user/team", "human feedback annotations", "Stripe AI cost passthrough"],
+      "design": {"bg": "#111827", "primary": "#10B981", "vibe": "Analytics green dark"}
+    },
+    {
+      "id": 30025,
+      "name": "WorkflowForge ETL",
+      "prefix": "WFE",
+      "repo": "workflowforge-etl",
+      "category": "CF Queues & Workflows",
+      "description": "ETL pipeline builder using CF Workflows for durable execution. Extract from APIs/R2/databases → transform with Workers → load to D1/R2/external. Visual pipeline editor. Automatic retry on failures.",
+      "features": ["CF Workflows durable execution", "CF Queues for step messaging", "R2 + D1 source/destination", "Hyperdrive for external DBs", "pipeline monitoring dashboard", "Stripe per-run billing"],
+      "design": {"bg": "#1C1917", "primary": "#F59E0B", "vibe": "ETL gold warm dark"}
+    },
+    {
+      "id": 30026,
+      "name": "NotebookEdge AI",
+      "prefix": "NEA",
+      "repo": "notebookedge-ai",
+      "category": "CF Dynamic Sandboxes",
+      "description": "Jupyter-like notebook running on CF edge. Code cells execute in Dynamic Workers (JS/TS) or Container Sandboxes (Python). AI assistant via Workers AI explains code and suggests next cells. For data science education.",
+      "features": ["Dynamic Workers for JS/TS cells", "Container Sandboxes for Python cells", "Workers AI code assistant", "R2 notebook storage", "shareable notebooks", "Stripe edu + pro plans"],
+      "design": {"bg": "#0C0A09", "primary": "#06B6D4", "vibe": "Notebook teal dark"}
+    },
+    {
+      "id": 30027,
+      "name": "FormBot Surveys",
+      "prefix": "FBS",
+      "repo": "formbot-surveys",
+      "category": "CF Durable Objects",
+      "description": "AI-powered survey platform. Durable Objects track each respondent session. Workers AI generates follow-up questions based on answers. Real-time results dashboard via WebSockets. For product and UX teams.",
+      "features": ["Durable Objects per survey session", "Workers AI adaptive questions", "WebSocket live results", "D1 response storage", "export CSV/JSON", "Stripe per-response billing"],
+      "design": {"bg": "#FFFFFF", "primary": "#7C3AED", "vibe": "Survey clean purple"}
+    },
+    {
+      "id": 30028,
+      "name": "EdgeCron Monitor",
+      "prefix": "ECM",
+      "repo": "edgecron-monitor",
+      "category": "CF Queues & Workflows",
+      "description": "Website and API monitoring platform. CF Cron Triggers → Workers check endpoints from global edge locations → Queue failures for alerting → Workflows handle incident escalation. Uptime SaaS on CF stack.",
+      "features": ["Cron Triggers for scheduled checks", "global edge monitoring (200+ locations)", "CF Queues for alert pipeline", "CF Workflows for escalation", "status page generator", "Stripe per-monitor pricing"],
+      "design": {"bg": "#0F172A", "primary": "#EF4444", "vibe": "Monitoring red dark"}
+    },
+    {
+      "id": 30029,
+      "name": "PluginSandbox Market",
+      "prefix": "PSM",
+      "repo": "pluginsandbox-market",
+      "category": "CF Dynamic Sandboxes",
+      "description": "Plugin marketplace where third-party developers upload extensions that run in Dynamic Worker sandboxes inside your SaaS app. Each plugin is isolated. For SaaS platforms wanting a safe extension ecosystem.",
+      "features": ["Dynamic Workers per plugin execution", "plugin manifest + permissions", "sandboxed API access", "marketplace with reviews", "D1 plugin registry", "Stripe developer payouts"],
+      "design": {"bg": "#111827", "primary": "#FBBF24", "vibe": "Plugin marketplace gold dark"}
+    },
+    {
+      "id": 30030,
+      "name": "DataPipe Ingest",
+      "prefix": "DPI",
+      "repo": "datapipe-ingest",
+      "category": "CF Queues & Workflows",
+      "description": "Real-time data ingestion platform. HTTP/webhook/MQTT sources → CF Queues → Workers transform → R2 (raw) + D1 (queryable) + Vectorize (searchable). For teams building data pipelines without Kafka/Kinesis.",
+      "features": ["CF Queues as ingestion buffer", "Workers transform pipeline", "R2 raw archive", "D1 queryable store", "Vectorize for semantic search", "Stripe per-event billing"],
+      "design": {"bg": "#0A0A1A", "primary": "#34D399", "vibe": "Data pipeline green dark"}
+    }
+  ]
+}

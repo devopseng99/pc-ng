@@ -82,6 +82,7 @@ spec:
                     - wasm
                     - soa
                     - ai
+                    - cf
                 repo:
                   type: string
                   description: GitHub repository name.

@@ -464,6 +464,62 @@ PAGES
 10. **Contact** (`/contact`) — Contact form, enterprise sales, SLA inquiries, support tiers, Discord developer community.
 PAGES
       ;;
+    "CF Dynamic Sandboxes"|"CF Containers"|"CF Agents SDK")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with live sandbox/container demo animation (terminal typing effect). Stats (sandboxes spawned, uptime, global locations). Architecture diagram. "Launch Sandbox" CTA.
+2. **Playground** (`/playground`) — Interactive sandbox: code editor (Monaco) with language selector, execute button, real-time output panel with metrics (cold start ms, memory MB, CPU time). Share button for results.
+3. **Dashboard** (`/dashboard`) — User dashboard: active sandboxes/agents, execution history table, resource usage charts (CPU, memory, invocations), cost breakdown. Sidebar nav with project switcher.
+4. **API Docs** (`/docs`) — API reference: REST endpoints, SDK examples (JS/Python), authentication, rate limits, webhook configuration. Interactive "Try it" panels.
+5. **Pricing** (`/pricing`) — Usage-based tiers: Free (1K executions/day), Pro ($19/mo, 100K), Enterprise (custom). Feature comparison. Cost calculator.
+6. **Templates** (`/templates`) — Pre-built sandbox templates: web scraper, data processor, AI agent, API tester, CI runner. One-click deploy. Community submissions.
+7. **About** (`/about`) — Platform architecture (V8 isolates, container runtime), security model (isolation guarantees), team, compliance.
+8. **Blog** (`/blog`) — Technical guides: sandbox patterns, agent architectures, performance optimization, security best practices. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: execution limits, supported languages, networking, file system access, cold start times, data persistence.
+10. **Contact** (`/contact`) — Contact form, enterprise sales, security inquiries, community Discord, GitHub.
+PAGES
+      ;;
+    "CF Queues & Workflows"|"CF Durable Objects")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with animated workflow/pipeline visualization (nodes connecting). Stats (jobs processed, uptime, avg latency). "Start Building" CTA.
+2. **Builder** (`/builder`) — Visual workflow/pipeline editor: drag-and-drop nodes (trigger, transform, branch, AI, output), connect with edges, configure each step. Test run with sample data.
+3. **Dashboard** (`/dashboard`) — Operations dashboard: active workflows, execution timeline, success/failure rates, queue depth charts, dead-letter queue alerts. Sidebar nav.
+4. **Monitoring** (`/monitoring`) — Real-time monitoring: live execution trace viewer, step-by-step progress, retry counts, latency per step. WebSocket-powered live updates.
+5. **Pricing** (`/pricing`) — Usage tiers: Free (10K events/day), Pro ($29/mo), Enterprise. Per-execution and per-step pricing. Volume discounts.
+6. **Templates** (`/templates`) — Pre-built workflow templates: webhook router, ETL pipeline, AI batch processor, alert escalation. One-click clone + customize.
+7. **About** (`/about`) — Architecture overview (Queues, Workflows, Durable Objects), reliability guarantees (at-least-once delivery), team.
+8. **Blog** (`/blog`) — Workflow patterns, event-driven architecture guides, case studies, performance tuning. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: message retention, retry policies, ordering guarantees, batch sizes, dead-letter handling, monitoring.
+10. **Contact** (`/contact`) — Contact form, enterprise sales, integration help, community, status page.
+PAGES
+      ;;
+    "CF Workers AI"|"CF AI Search"|"CF AI Gateway"|"CF Vectorize")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with AI model demo (live inference preview). Stats (inferences/day, models available, global edge locations). Model showcase cards. "Try Free" CTA.
+2. **Playground** (`/playground`) — AI playground: model selector, input area (text/image/audio), parameter controls, generate button, output panel with latency + token metrics. Compare models side-by-side.
+3. **Dashboard** (`/dashboard`) — Usage dashboard: inference count, token usage, cost per model, cache hit rate (AI Gateway), vector index stats (Vectorize). Sidebar nav.
+4. **Models** (`/models`) — Model catalog: text generation, image generation, embeddings, speech. Cards with benchmarks, pricing, example outputs. Filter by task type.
+5. **Pricing** (`/pricing`) — Model-specific pricing table. Free tier (10K neurons/day). Pay-per-use. Cost calculator. Caching savings estimator.
+6. **API Docs** (`/docs`) — API reference: inference endpoints, model parameters, streaming responses, batch API, webhooks. Code samples in JS/Python/curl.
+7. **About** (`/about`) — Platform (Workers AI infrastructure, AI Gateway routing, Vectorize architecture), privacy/security, team.
+8. **Blog** (`/blog`) — Model comparisons, RAG tutorials, prompt engineering, fine-tuning guides, benchmarks. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: model availability, latency, rate limits, data privacy, custom models, fine-tuning, caching behavior.
+10. **Contact** (`/contact`) — Contact form, enterprise API plans, model requests, community, Discord.
+PAGES
+      ;;
+    "CF Browser Rendering"|"CF D1 Database"|"CF R2 Storage"|"CF Hyperdrive"|"CF Realtime")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with product demo (screenshot of main feature in action). Stats (requests processed, data stored, global reach). Feature highlights. "Get Started Free" CTA.
+2. **App** (`/app`) — Main application interface: primary tool/editor area, configuration panel, results/output section. Clean functional layout optimized for the core workflow.
+3. **Dashboard** (`/dashboard`) — Usage dashboard: request counts, storage used, bandwidth, latency charts, error rates. Resource management (create/delete). Sidebar nav.
+4. **Pricing** (`/pricing`) — Free tier with generous limits. Pro ($12/mo) with higher limits. Enterprise custom. Usage calculator. Feature comparison.
+5. **API Docs** (`/docs`) — REST API reference: endpoints, auth, request/response schemas, pagination, error codes. SDK quickstart guides (JS, Python).
+6. **Integrations** (`/integrations`) — Integration guides: connect with Workers, Pages, external services. Webhook setup. Third-party tool connectors.
+7. **About** (`/about`) — Platform architecture, performance benchmarks, security model, team.
+8. **Blog** (`/blog`) — How-to guides, architecture patterns, migration guides, performance tips. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: limits, data residency, backup/restore, migration, API compatibility, pricing details.
+10. **Contact** (`/contact`) — Contact form, enterprise inquiries, support tiers, community, status page.
+PAGES
+      ;;
     "AI Services Management")
       cat << 'PAGES'
 1. **Landing page** (`/`) — Hero with multi-service dashboard preview. Businesses managed count. Platform logos (Paperclip, n8n, Dify). "Get Started" CTA.
