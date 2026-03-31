@@ -326,11 +326,18 @@ cat > /tmp/${RELEASE}-onboard-config.json << CFGEOF
 }
 CFGEOF
 
-kubectl cp "/tmp/${RELEASE}-onboard-config.json" "${NAMESPACE}/${POD_NAME}:/tmp/onboard-config.json"
+# Copy config to PERSISTENT path inside pod (survives restarts)
+PERSISTENT_CONFIG="/paperclip/instances/default/config.json"
+kubectl cp "/tmp/${RELEASE}-onboard-config.json" "${NAMESPACE}/${POD_NAME}:${PERSISTENT_CONFIG}"
 
-# Run onboard (non-interactive) — this also runs bootstrap-ceo
+# Verify config persisted
+kubectl exec "$POD_NAME" -n "$NAMESPACE" -- test -f "$PERSISTENT_CONFIG" \
+  && ok "Config written to ${PERSISTENT_CONFIG} (persistent volume)" \
+  || die "Config NOT persisted — onboard will fail after restart"
+
+# Run onboard pointing to the persistent path
 ONBOARD_OUTPUT=$(kubectl exec "$POD_NAME" -n "$NAMESPACE" -- \
-  pnpm paperclipai onboard --config /tmp/onboard-config.json --yes 2>&1 || true)
+  pnpm paperclipai onboard --config "$PERSISTENT_CONFIG" --yes 2>&1 || true)
 
 # Extract invite URL
 INVITE_URL=$(echo "$ONBOARD_OUTPUT" | grep -oP 'https://[^\s]+/invite/[^\s]+' | head -1)
@@ -356,7 +363,13 @@ else
   fi
 fi
 
-# Clean up temp config
+# Save invite URL to file for retrieval later
+if [[ -n "${INVITE_URL:-}" ]]; then
+  echo "$INVITE_URL" > "/tmp/${RELEASE}-invite-url.txt"
+  ok "Invite URL also saved to /tmp/${RELEASE}-invite-url.txt"
+fi
+
+# Clean up temp config (persistent copy is inside pod)
 rm -f "/tmp/${RELEASE}-onboard-config.json"
 
 # ---------- Step 8: Tunnel route ----------
@@ -437,11 +450,44 @@ mkdir -p ~/.pc/contexts
 cp "${PCNG_REPO}/contexts/${CONTEXT_NAME}.env" ~/.pc/contexts/
 ok "Context '${CONTEXT_NAME}' created"
 
-# ---------- Step 12: Restart pod to pick up onboard config ----------
-log "Step 12/12: Restarting Paperclip to apply onboard config..."
+# ---------- Step 12: Restart pod and validate onboard persisted ----------
+log "Step 12/13: Restarting Paperclip to apply onboard config..."
 kubectl rollout restart deploy "$RELEASE" -n "$NAMESPACE" 2>/dev/null
-sleep 10
+sleep 15
 kubectl wait --for=condition=ready pod -l "app.kubernetes.io/instance=${RELEASE},app.kubernetes.io/component=server" -n "$NAMESPACE" --timeout=60s 2>/dev/null && ok "Pod restarted and ready" || warn "Pod restart may still be in progress"
+
+# ---------- Step 13: Post-restart validation ----------
+log "Step 13/13: Validating instance is onboarded and functional..."
+NEW_POD=$(kubectl get pod -n "$NAMESPACE" -l app.kubernetes.io/component=server --field-selector=status.phase=Running -o jsonpath='{.items[0].metadata.name}' 2>/dev/null)
+
+# Check config survived restart
+if kubectl exec "$NEW_POD" -n "$NAMESPACE" -- test -f /paperclip/instances/default/config.json 2>/dev/null; then
+  ok "Config persisted across restart"
+else
+  err "Config LOST after restart — onboard must be re-run manually"
+  warn "  kubectl exec $NEW_POD -n $NAMESPACE -- pnpm paperclipai onboard --yes"
+fi
+
+# Check the app is NOT showing onboarding page (API returns 401 for auth, not 403 for uninitialized)
+sleep 5
+API_STATUS=$(kubectl exec "$NEW_POD" -n "$NAMESPACE" -- curl -sf -o /dev/null -w "%{http_code}" "http://localhost:${SERVICE_PORT}/api/companies" 2>/dev/null || echo "000")
+if [[ "$API_STATUS" == "401" ]]; then
+  ok "Instance onboarded — API returns 401 (auth required, not setup-required)"
+elif [[ "$API_STATUS" == "403" ]]; then
+  warn "Instance may still be in setup mode (API returns 403)"
+  warn "  Regenerate invite: kubectl exec $NEW_POD -n $NAMESPACE -- pnpm paperclipai auth bootstrap-ceo"
+else
+  warn "Unexpected API status: $API_STATUS"
+fi
+
+# Regenerate invite URL after restart (old one may be invalidated)
+FRESH_INVITE=$(kubectl exec "$NEW_POD" -n "$NAMESPACE" -- \
+  pnpm paperclipai auth bootstrap-ceo 2>&1 | grep -oP 'https://[^\s]+/invite/[^\s]+' | head -1 || true)
+if [[ -n "$FRESH_INVITE" ]]; then
+  INVITE_URL="$FRESH_INVITE"
+  echo "$INVITE_URL" > "/tmp/${RELEASE}-invite-url.txt"
+  ok "Fresh invite URL generated (valid post-restart)"
+fi
 
 # ---------- Done ----------
 echo ""
