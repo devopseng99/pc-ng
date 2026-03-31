@@ -44,10 +44,29 @@ curl -s https://showroom.istayintek.com/api/health 2>/dev/null | python3 -c "imp
 curl -s "https://showroom.istayintek.com/api/apps?limit=1" 2>/dev/null | python3 -c "import json,sys; print(f'Showroom apps synced: {json.load(sys.stdin).get(\"total\",\"?\")}')" 2>/dev/null
 ```
 
+7. Show per-pipeline breakdown:
+```bash
+kubectl get pb -n paperclip-v3 -o json | python3 -c "
+import json,sys
+from collections import defaultdict
+items = json.load(sys.stdin)['items']
+pipelines = defaultdict(lambda: defaultdict(int))
+for i in items:
+    p = i['spec'].get('pipeline','?')
+    phase = i.get('status',{}).get('phase','Unknown')
+    pipelines[p][phase] += 1
+    pipelines[p]['total'] += 1
+for p in sorted(pipelines):
+    parts = ', '.join(f'{v} {k}' for k,v in sorted(pipelines[p].items()) if k != 'total')
+    print(f'  {p:8s} ({pipelines[p][\"total\"]:3d}): {parts}')
+" 2>/dev/null
+```
+
 ## Output Format
 
 Present as a concise table:
 - CRD counts by phase (Deployed, Deploying, Building, Pending, Failed)
+- **Per-pipeline breakdown** (v1, tech, wasm, soa — phases per pipeline)
 - Worker status (running/stopped, current build, progress counters)
 - Circuit breaker state (closed/open/half-open)
 - Cluster resource usage

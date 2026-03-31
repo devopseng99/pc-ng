@@ -1,9 +1,9 @@
 ---
 name: pc-start
-description: Start pipeline workers and optionally supervisor. Clears halt file and circuit breaker. Arguments control concurrency and what to start.
+description: Start pipeline workers and optionally supervisor. Clears halt file and circuit breaker. Arguments control concurrency, pipeline, and what to start.
 allowed-tools: Bash
 user-invocable: true
-argument-hint: [--concurrency N] [--with-supervisor] [--with-deploy]
+argument-hint: [--pipeline NAME] [--concurrency N] [--with-supervisor] [--with-deploy]
 ---
 
 # PC-NG Pipeline Start
@@ -12,8 +12,18 @@ Resume pipeline operations. Clears emergency halt, resets circuit breaker, start
 
 ## Arguments
 
-- `$ARGUMENTS` — Options like `--concurrency 2`, `--with-supervisor`, `--with-deploy`
+- `$ARGUMENTS` — Options like `--pipeline tech`, `--concurrency 2`, `--with-supervisor`, `--with-deploy`
+- `--pipeline` — Which pipeline to start: v1, tech, wasm, soa (default: starts both v1 + tech)
+- `--concurrency N` — Max concurrent builds (default: 2, max recommended: 2 per pipeline)
 - Default: concurrency 2, no supervisor, no auto-deploy
+
+## Pipelines & Manifests
+| Pipeline | Manifest | Category |
+|---|---|---|
+| v1 | use-cases-201-400.json | Original apps |
+| tech | use-cases-401-600.json | Tech apps |
+| wasm | wasm-sandbox-apps.json | WASM & Sandbox Runtimes |
+| soa | pc-soa-v3-templates.json | Next-Gen UI Platform |
 
 ## Steps
 
@@ -25,12 +35,17 @@ echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state
 ```
 
 2. Parse arguments from `$ARGUMENTS`:
+   - Extract `--pipeline NAME` (if provided)
    - Extract `--concurrency N` (default: 2)
    - Check for `--with-supervisor` flag
    - Check for `--with-deploy` flag
 
 3. Start workers:
 ```bash
+# If --pipeline specified, start only that pipeline:
+bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --pipeline <NAME> --concurrency <N>
+
+# If no --pipeline, start default (v1 + tech):
 bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --concurrency <N>
 ```
 
@@ -45,7 +60,7 @@ Add `--auto-deploy` flag to supervisor if `--with-deploy` was also requested.
 
 5. Verify with status check:
 ```bash
-bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/emergency-halt.sh --status
+bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-status.sh 2>/dev/null
 ```
 
-Report: what was started, concurrency level, and current CRD counts.
+Report: what was started, pipeline name, concurrency level, and current CRD counts.
