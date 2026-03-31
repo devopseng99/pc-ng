@@ -81,6 +81,7 @@ spec:
                     - tech
                     - wasm
                     - soa
+                    - ai
                 repo:
                   type: string
                   description: GitHub repository name.

@@ -74,6 +74,7 @@ start_worker() {
     tech) manifest="$WORKSPACE/manifests/use-cases-401-600.json" ;;
     wasm) manifest="$WORKSPACE/manifests/wasm-sandbox-apps.json" ;;
     soa)  manifest="$WORKSPACE/manifests/pc-soa-v3-templates.json" ;;
+    ai)   manifest="$WORKSPACE/manifests/ai-income-apps.json" ;;
     *)    log "ERROR: Unknown pipeline: $pipeline_id"; return 1 ;;
   esac
 

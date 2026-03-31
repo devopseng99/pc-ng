@@ -408,6 +408,62 @@ PAGES
 10. **Contact** (`/contact`) — Contact form, developer community links (Discord/Slack), enterprise sales, API status page, GitHub repo link.
 PAGES
       ;;
+    "AI Image Generation"|"AI Video Generation"|"AI Audio & Voice")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with AI-generated sample gallery carousel. "Generate Now" CTA. Stats (images created, users). Pricing teaser. Trust badges (API providers).
+2. **Generate** (`/generate`) — Main generation UI: prompt input (textarea with examples), model/style selector, aspect ratio picker, quality settings. Generate button with progress indicator. Result gallery with download/share buttons.
+3. **Gallery** (`/gallery`) — Community/public gallery of generated content. Filter by style, model, trending. Like/save. Click to see prompt used. Infinite scroll.
+4. **Pricing** (`/pricing`) — Credit packs or subscription tiers. Free tier (5/day), Pro ($9.99/mo), Agency ($49.99/mo). Usage calculator. Feature comparison table.
+5. **Dashboard** (`/dashboard`) — User dashboard: generation history, credits remaining, usage charts, saved favorites, billing info. Sidebar nav.
+6. **API Docs** (`/api`) — API documentation: endpoints, auth (API key), request/response examples, rate limits, SDKs. Interactive playground.
+7. **About** (`/about`) — Platform story, AI model info (what models power it), ethical usage policy, team.
+8. **Blog** (`/blog`) — Tutorials (prompt engineering tips, use cases, workflow guides), product updates, case studies. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: pricing, commercial usage rights, API limits, refund policy, supported formats, NSFW policy.
+10. **Contact** (`/contact`) — Contact form, enterprise inquiries, API partnership, support email, Discord/community link.
+PAGES
+      ;;
+    "AI Chat & Agents")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with chat demo animation. "Try Free" CTA. Agent showcase cards. Stats (conversations, agents deployed). Integration logos.
+2. **Chat** (`/chat`) — Main chat interface: conversation list sidebar, message thread with markdown rendering, model selector, system prompt editor. Streaming responses.
+3. **Agents** (`/agents`) — Agent marketplace/builder: browse templates, create custom agent, configure tools/knowledge, test in sandbox. Agent cards with ratings.
+4. **Pricing** (`/pricing`) — Freemium tiers: Free (100 msgs/day), Pro ($19/mo unlimited), Team ($49/mo + collaboration). Feature matrix.
+5. **Dashboard** (`/dashboard`) — Usage analytics: messages sent, tokens used, cost breakdown, conversation history, agent performance metrics. Sidebar nav.
+6. **API** (`/api`) — API documentation: chat completions endpoint, agent deployment API, webhook integrations, authentication. Code samples in Python/JS/curl.
+7. **About** (`/about`) — Platform overview, AI models used, security & privacy policy, team.
+8. **Blog** (`/blog`) — Agent building tutorials, prompt engineering, workflow automation guides, customer stories. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: data privacy, model selection, rate limits, enterprise features, custom training.
+10. **Contact** (`/contact`) — Contact form, enterprise sales, partner program, support, community links.
+PAGES
+      ;;
+    "AI Productivity")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with product demo screenshot/animation. "Start Free" CTA. Feature highlights with icons. Social proof (users, companies). Integration logos.
+2. **App** (`/app`) — Main application workspace: file upload/input area, AI processing status, results panel with actions (download, share, copy). Clean functional layout.
+3. **Templates** (`/templates`) — Pre-built templates/presets for common workflows. Category filters. Preview + one-click use. User-submitted templates.
+4. **Pricing** (`/pricing`) — Freemium: Free (limited), Pro ($12/mo), Business ($39/mo). Feature comparison. Annual discount.
+5. **Dashboard** (`/dashboard`) — User dashboard: recent activity, usage stats, saved outputs, team management (if applicable), billing. Sidebar nav.
+6. **Integrations** (`/integrations`) — Available integrations: Google Workspace, Slack, Notion, Zapier. Setup guides per integration.
+7. **About** (`/about`) — Product story, how it works (3-step diagram), team, press mentions.
+8. **Blog** (`/blog`) — Productivity tips, workflow guides, feature announcements, case studies. Card grid.
+9. **FAQ** (`/faq`) — Accordion Q&A: data security, export formats, team features, API access, supported file types.
+10. **Contact** (`/contact`) — Contact form, support email, enterprise inquiries, feature requests, status page.
+PAGES
+      ;;
+    "API Infrastructure")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with API request/response animation. "Get API Key" CTA. Supported models/services. Latency stats. Code snippet preview.
+2. **Playground** (`/playground`) — Interactive API playground: model selector, input editor, parameter tuning (temp, max tokens), execute button, response viewer with timing metrics.
+3. **Documentation** (`/docs`) — Full API reference: authentication, endpoints, request/response schemas, error codes, rate limits. Language tabs (Python, JS, curl, Go).
+4. **Pricing** (`/pricing`) — Pay-as-you-go with volume discounts. Model-specific pricing table. Free tier (1K requests/mo). Calculator.
+5. **Dashboard** (`/dashboard`) — Developer dashboard: API keys management, usage charts (requests, tokens, cost), error rate, latency percentiles. Sidebar nav.
+6. **SDKs** (`/sdks`) — Official SDKs: npm, pip, go packages. Quick start guides. GitHub links with star counts.
+7. **About** (`/about`) — Platform architecture, infrastructure (edge, caching), uptime SLA, team, investors.
+8. **Blog** (`/blog`) — Technical deep-dives, model benchmarks, integration tutorials, changelog. Card grid.
+9. **Status** (`/status`) — Real-time API status: uptime %, latency charts, incident history, subscribe to alerts.
+10. **Contact** (`/contact`) — Contact form, enterprise sales, SLA inquiries, support tiers, Discord developer community.
+PAGES
+      ;;
     "AI Services Management")
       cat << 'PAGES'
 1. **Landing page** (`/`) — Hero with multi-service dashboard preview. Businesses managed count. Platform logos (Paperclip, n8n, Dify). "Get Started" CTA.
