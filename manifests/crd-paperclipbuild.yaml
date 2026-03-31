@@ -24,7 +24,7 @@ spec:
         - name: PIPELINE
           type: string
           jsonPath: .spec.pipeline
-          description: Pipeline tenant (v1 or tech)
+          description: Pipeline tenant (v1, tech, wasm, soa)
         - name: PHASE
           type: string
           jsonPath: .status.phase
@@ -79,6 +79,8 @@ spec:
                   enum:
                     - v1
                     - tech
+                    - wasm
+                    - soa
                 repo:
                   type: string
                   description: GitHub repository name.
