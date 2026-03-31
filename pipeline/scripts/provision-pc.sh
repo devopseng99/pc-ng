@@ -150,11 +150,11 @@ log "  Node:       $TARGET_NODE"
 echo ""
 
 # ---------- Step 1: Namespace ----------
-log "Step 1/10: Creating namespace..."
+log "Step 1/12: Creating namespace..."
 kubectl create ns "$NAMESPACE" 2>/dev/null && ok "Namespace created" || ok "Namespace already exists"
 
 # ---------- Step 2: Persistent dirs ----------
-log "Step 2/10: Creating persistent storage dirs on $TARGET_NODE..."
+log "Step 2/12: Creating persistent storage dirs on $TARGET_NODE..."
 kubectl debug "node/${TARGET_NODE}" --image=busybox -- sh -c \
   "mkdir -p /host/opt/k8s-pers/vol1/${RELEASE}-data /host/opt/k8s-pers/vol1/psql-${RELEASE} && \
    chmod 777 /host/opt/k8s-pers/vol1/${RELEASE}-data /host/opt/k8s-pers/vol1/psql-${RELEASE}" 2>/dev/null
@@ -164,7 +164,7 @@ kubectl delete pod -l run=node-debugger --field-selector=status.phase=Succeeded 
 ok "Dirs created"
 
 # ---------- Step 3: Secrets ----------
-log "Step 3/10: Creating secrets..."
+log "Step 3/12: Creating secrets..."
 PG_PASS=$(openssl rand -base64 24 | tr -d '/+=' | head -c 24)
 AUTH_SECRET=$(openssl rand -base64 32 | tr -d '/+=' | head -c 32)
 
@@ -185,7 +185,7 @@ done
 ok "Secrets created"
 
 # ---------- Step 4: Helm values ----------
-log "Step 4/10: Generating Helm values..."
+log "Step 4/12: Generating Helm values..."
 cat > "$VALUES_FILE" << YAML
 paperclip:
   image:
@@ -272,12 +272,12 @@ YAML
 ok "Values written to $VALUES_FILE"
 
 # ---------- Step 5: Helm install ----------
-log "Step 5/10: Installing Helm release..."
+log "Step 5/12: Installing Helm release..."
 helm install "$RELEASE" "$HELM_CHART" -n "$NAMESPACE" -f "$VALUES_FILE" 2>&1 | tail -3
 ok "Helm release installed"
 
 # ---------- Step 6: Wait for pods ----------
-log "Step 6/10: Waiting for pods to be ready..."
+log "Step 6/12: Waiting for pods to be ready..."
 for i in $(seq 1 30); do
   READY=$(kubectl get pods -n "$NAMESPACE" --no-headers 2>/dev/null | awk '$3=="Running" && $2~/^1\/1/' | wc -l)
   TOTAL=$(kubectl get pods -n "$NAMESPACE" --no-headers 2>/dev/null | wc -l)
@@ -292,8 +292,75 @@ for i in $(seq 1 30); do
   sleep 5
 done
 
-# ---------- Step 7: Tunnel route ----------
-log "Step 7/10: Adding Cloudflare tunnel route..."
+# ---------- Step 7: Onboard instance ----------
+log "Step 7/12: Running Paperclip onboard..."
+POD_NAME=$(kubectl get pod -n "$NAMESPACE" -l app.kubernetes.io/component=server -o jsonpath='{.items[0].metadata.name}')
+
+# Get DB password for onboard config
+DB_PASS=$(kubectl get secret "${RELEASE}-postgres-secret" -n "$NAMESPACE" -o jsonpath='{.data.postgres-password}' | base64 -d)
+
+# Create onboard config
+cat > /tmp/${RELEASE}-onboard-config.json << CFGEOF
+{
+  "database": {
+    "mode": "postgres",
+    "connectionString": "postgres://postgres:${DB_PASS}@${RELEASE}-postgresql.${NAMESPACE}.svc.cluster.local:5432/paperclip?sslmode=disable",
+    "backup": {
+      "enabled": true,
+      "intervalMinutes": 60,
+      "retentionDays": 30,
+      "dir": "/paperclip/instances/default/data/backups"
+    }
+  },
+  "logging": {
+    "mode": "file",
+    "logDir": "/paperclip/instances/default/logs"
+  },
+  "server": {
+    "deploymentMode": "authenticated",
+    "exposure": "private",
+    "host": "0.0.0.0",
+    "port": ${SERVICE_PORT},
+    "allowedHostnames": ["${HOSTNAME}"]
+  }
+}
+CFGEOF
+
+kubectl cp "/tmp/${RELEASE}-onboard-config.json" "${NAMESPACE}/${POD_NAME}:/tmp/onboard-config.json"
+
+# Run onboard (non-interactive) — this also runs bootstrap-ceo
+ONBOARD_OUTPUT=$(kubectl exec "$POD_NAME" -n "$NAMESPACE" -- \
+  pnpm paperclipai onboard --config /tmp/onboard-config.json --yes 2>&1 || true)
+
+# Extract invite URL
+INVITE_URL=$(echo "$ONBOARD_OUTPUT" | grep -oP 'https://[^\s]+/invite/[^\s]+' | head -1)
+
+if [[ -n "$INVITE_URL" ]]; then
+  ok "Onboard complete. Admin invite URL:"
+  echo ""
+  echo "    $INVITE_URL"
+  echo ""
+else
+  # Instance may already be onboarded — try bootstrap-ceo directly
+  BOOTSTRAP_OUTPUT=$(kubectl exec "$POD_NAME" -n "$NAMESPACE" -- \
+    pnpm paperclipai auth bootstrap-ceo 2>&1 || true)
+  INVITE_URL=$(echo "$BOOTSTRAP_OUTPUT" | grep -oP 'https://[^\s]+/invite/[^\s]+' | head -1)
+  if [[ -n "$INVITE_URL" ]]; then
+    ok "Bootstrap CEO invite URL:"
+    echo ""
+    echo "    $INVITE_URL"
+    echo ""
+  else
+    warn "Could not extract invite URL. Check logs:"
+    echo "$BOOTSTRAP_OUTPUT" | tail -5
+  fi
+fi
+
+# Clean up temp config
+rm -f "/tmp/${RELEASE}-onboard-config.json"
+
+# ---------- Step 8: Tunnel route ----------
+log "Step 8/12: Adding Cloudflare tunnel route..."
 CF_TOKEN=$(get_cf_token)
 
 CURRENT_CONFIG=$(curl -sf -H "Authorization: Bearer $CF_TOKEN" \
@@ -319,8 +386,8 @@ RESULT=$(curl -sf -X PUT -H "Authorization: Bearer $CF_TOKEN" -H "Content-Type: 
 
 [[ "$RESULT" == "True" ]] && ok "Tunnel route added" || warn "Failed to add tunnel route (may need dashboard)"
 
-# ---------- Step 8: DNS CNAME ----------
-log "Step 8/10: Creating DNS CNAME record..."
+# ---------- Step 9: DNS CNAME ----------
+log "Step 9/12: Creating DNS CNAME record..."
 EXISTS=$(curl -sf -H "Authorization: Bearer $CF_TOKEN" \
   "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/dns_records?type=CNAME&name=${HOSTNAME}" \
   | python3 -c "import json,sys; print(len(json.load(sys.stdin).get('result',[])))" 2>/dev/null)
@@ -335,8 +402,8 @@ else
   ok "DNS record already exists"
 fi
 
-# ---------- Step 9: Validate ----------
-log "Step 9/10: Validating deployment..."
+# ---------- Step 10: Validate ----------
+log "Step 10/12: Validating deployment..."
 sleep 5
 
 # External check
@@ -352,8 +419,8 @@ for i in $(seq 1 6); do
   sleep 10
 done
 
-# ---------- Step 10: CLI Context ----------
-log "Step 10/10: Creating pc CLI context..."
+# ---------- Step 11: CLI Context ----------
+log "Step 11/12: Creating pc CLI context..."
 cat > "${PCNG_REPO}/contexts/${CONTEXT_NAME}.env" << ENV
 PC_NS=${NAMESPACE}
 PC_PIPELINE=${CONTEXT_NAME}
@@ -370,6 +437,12 @@ mkdir -p ~/.pc/contexts
 cp "${PCNG_REPO}/contexts/${CONTEXT_NAME}.env" ~/.pc/contexts/
 ok "Context '${CONTEXT_NAME}' created"
 
+# ---------- Step 12: Restart pod to pick up onboard config ----------
+log "Step 12/12: Restarting Paperclip to apply onboard config..."
+kubectl rollout restart deploy "$RELEASE" -n "$NAMESPACE" 2>/dev/null
+sleep 10
+kubectl wait --for=condition=ready pod -l "app.kubernetes.io/instance=${RELEASE},app.kubernetes.io/component=server" -n "$NAMESPACE" --timeout=60s 2>/dev/null && ok "Pod restarted and ready" || warn "Pod restart may still be in progress"
+
 # ---------- Done ----------
 echo ""
 log "=========================================="
@@ -381,12 +454,17 @@ echo "  Namespace:  $NAMESPACE"
 echo "  URL:        https://${HOSTNAME}"
 echo "  CLI:        pc context use $CONTEXT_NAME"
 echo "  Values:     $VALUES_FILE"
+if [[ -n "${INVITE_URL:-}" ]]; then
+echo ""
+echo "  Admin Invite URL:"
+echo "    $INVITE_URL"
+fi
 echo ""
 echo "  Pods:"
 kubectl get pods -n "$NAMESPACE" --no-headers 2>/dev/null | sed 's/^/    /'
 echo ""
 echo "  Next steps:"
-echo "    1. Add '$CONTEXT_NAME' to pc CLI validation regex in /usr/local/bin/pc"
-echo "    2. Commit: git add overrides-${RELEASE}.yaml && git push"
-echo "    3. Access board at: https://${HOSTNAME}"
+echo "    1. Open the invite URL above to create your admin account"
+echo "    2. Add '$CONTEXT_NAME' to pc CLI validation regex in /usr/local/bin/pc"
+echo "    3. Commit: git add overrides-${RELEASE}.yaml && git push"
 echo ""
