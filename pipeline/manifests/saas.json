@@ -1,0 +1,244 @@
+{
+  "apps": [
+    {
+      "id": 50301,
+      "name": "GitForge Hosting",
+      "prefix": "GFH",
+      "repo": "gitforge-hosting",
+      "category": "SaaS Dev Tools",
+      "description": "One-click Gitea and Forgejo deployments with per-seat billing via Stripe. Includes backup snapshots, custom domain binding, and SSO via Keycloak integration.",
+      "features": [
+        "one-click Gitea deploy",
+        "per-seat Stripe billing",
+        "automated backups",
+        "custom domain SSL",
+        "LDAP/OIDC SSO",
+        "usage metering dashboard"
+      ],
+      "design": {
+        "bg": "#0D1117",
+        "primary": "#58A6FF",
+        "vibe": "GitHub-dark developer"
+      },
+      "type": "Git Platform Hosting",
+      "budget": 700,
+      "email": "ops@gitforge-hosting.com"
+    },
+    {
+      "id": 50302,
+      "name": "MatrixPay Chat",
+      "prefix": "MPC",
+      "repo": "matrixpay-chat",
+      "category": "SaaS Communication",
+      "description": "Managed Matrix/Element chat hosting with per-user monthly billing. Bridges to Slack, Discord, and IRC. Includes E2EE key management and media storage quotas via S3-compatible backends.",
+      "features": [
+        "Matrix Synapse hosting",
+        "Slack/Discord bridges",
+        "per-user billing",
+        "E2EE key backup",
+        "S3 media storage",
+        "admin federation panel"
+      ],
+      "design": {
+        "bg": "#1B1F23",
+        "primary": "#0DBD8B",
+        "vibe": "Secure messaging dark"
+      },
+      "type": "Chat Server Hosting",
+      "budget": 650,
+      "email": "ops@matrixpay-chat.com"
+    },
+    {
+      "id": 50303,
+      "name": "WikiStack Pro",
+      "prefix": "WSP",
+      "repo": "wikistack-pro",
+      "category": "SaaS Knowledge Base",
+      "description": "Managed Wiki.js and BookStack hosting with team-based pricing via Paddle. Features markdown + WYSIWYG, diagram support via Mermaid, and Git-backed version history.",
+      "features": [
+        "Wiki.js one-click deploy",
+        "team-tier Paddle billing",
+        "Mermaid diagrams",
+        "Git-backed versioning",
+        "full-text search",
+        "custom branding"
+      ],
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#1565C0",
+        "vibe": "Clean knowledge base light"
+      },
+      "type": "Wiki Hosting",
+      "budget": 550,
+      "email": "ops@wikistack-pro.com"
+    },
+    {
+      "id": 50304,
+      "name": "MailRelay Cloud",
+      "prefix": "MRC",
+      "repo": "mailrelay-cloud",
+      "category": "SaaS Communication",
+      "description": "Hosted Mailu and Postal SMTP with volume-based billing. Includes DKIM/SPF/DMARC auto-config, spam filtering via Rspamd, and deliverability monitoring dashboards.",
+      "features": [
+        "Mailu/Postal deploy",
+        "volume-based billing",
+        "DKIM auto-config",
+        "Rspamd spam filter",
+        "deliverability dashboard",
+        "multi-domain routing"
+      ],
+      "design": {
+        "bg": "#F8F9FA",
+        "primary": "#D93025",
+        "vibe": "Clean professional email"
+      },
+      "type": "Email Server Hosting",
+      "budget": 600,
+      "email": "ops@mailrelay-cloud.com"
+    },
+    {
+      "id": 50305,
+      "name": "NocoDB Gateway",
+      "prefix": "NDG",
+      "repo": "nocodb-gateway",
+      "category": "SaaS Data Tools",
+      "description": "Managed NocoDB and Baserow hosting as Airtable alternatives. Pay-per-row pricing via Stripe metered billing. REST API auto-generation and webhook triggers for all tables.",
+      "features": [
+        "NocoDB one-click deploy",
+        "pay-per-row metered billing",
+        "REST API auto-gen",
+        "webhook triggers",
+        "form builder",
+        "Zapier integration"
+      ],
+      "design": {
+        "bg": "#1F2937",
+        "primary": "#7C3AED",
+        "vibe": "Modern data purple dark"
+      },
+      "type": "Database UI Hosting",
+      "budget": 600,
+      "email": "ops@nocodb-gateway.com"
+    },
+    {
+      "id": 50306,
+      "name": "AnalyticsPod",
+      "prefix": "APD",
+      "repo": "analyticspod",
+      "category": "SaaS Analytics",
+      "description": "Hosted Plausible and Umami analytics with per-site billing. Privacy-first, GDPR-compliant, no cookies. Includes custom event tracking, goal funnels, and data export via API.",
+      "features": [
+        "Plausible/Umami deploy",
+        "per-site pricing",
+        "cookie-free tracking",
+        "goal funnels",
+        "API data export",
+        "real-time visitor dashboard"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F97316",
+        "vibe": "Analytics dark orange"
+      },
+      "type": "Analytics Hosting",
+      "budget": 500,
+      "email": "ops@analyticspod.com"
+    },
+    {
+      "id": 50307,
+      "name": "FormVault Hosted",
+      "prefix": "FVH",
+      "repo": "formvault-hosted",
+      "category": "SaaS Data Tools",
+      "description": "Managed Formbricks and Heyform hosting with per-submission pricing. Includes conditional logic, file uploads to S3, Stripe payment forms, and webhook delivery with retry.",
+      "features": [
+        "Formbricks deploy",
+        "per-submission billing",
+        "conditional logic builder",
+        "S3 file uploads",
+        "Stripe payment fields",
+        "webhook retries"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#2563EB",
+        "vibe": "Clean form builder light"
+      },
+      "type": "Form Backend Hosting",
+      "budget": 500,
+      "email": "ops@formvault-hosted.com"
+    },
+    {
+      "id": 50308,
+      "name": "AuthStack Cloud",
+      "prefix": "ATC",
+      "repo": "authstack-cloud",
+      "category": "SaaS Security",
+      "description": "Managed Keycloak and Authentik hosting with monthly-active-user billing. Includes social logins, MFA via TOTP/WebAuthn, SCIM provisioning, and audit logs.",
+      "features": [
+        "Keycloak/Authentik deploy",
+        "MAU-based pricing",
+        "social OAuth",
+        "WebAuthn MFA",
+        "SCIM user sync",
+        "compliance audit logs"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#10B981",
+        "vibe": "Secure identity dark green"
+      },
+      "type": "Auth Provider Hosting",
+      "budget": 700,
+      "email": "ops@authstack-cloud.com"
+    },
+    {
+      "id": 50309,
+      "name": "StatusPing Hosted",
+      "prefix": "SPH",
+      "repo": "statusping-hosted",
+      "category": "SaaS Monitoring",
+      "description": "Managed Gatus and Upptime status page hosting with flat-rate per-monitor pricing. Includes incident management, Slack/PagerDuty alerts, and custom branded status pages.",
+      "features": [
+        "Gatus one-click deploy",
+        "per-monitor pricing",
+        "incident timeline",
+        "Slack/PagerDuty alerts",
+        "branded status pages",
+        "uptime SLA reports"
+      ],
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#16A34A",
+        "vibe": "Status green light trust"
+      },
+      "type": "Status Page Hosting",
+      "budget": 450,
+      "email": "ops@statusping-hosted.com"
+    },
+    {
+      "id": 50310,
+      "name": "PasteBin Pro",
+      "prefix": "PBP",
+      "repo": "pastebin-pro",
+      "category": "SaaS Dev Tools",
+      "description": "Managed PrivateBin and Hastebin hosting with team-plan billing. Features E2EE pastes, syntax highlighting for 200+ languages, expiry controls, and burn-after-read secrets.",
+      "features": [
+        "PrivateBin deploy",
+        "team plan billing",
+        "E2EE pastes",
+        "200+ syntax langs",
+        "burn-after-read",
+        "API paste creation"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#FACC15",
+        "vibe": "Hacker dark yellow"
+      },
+      "type": "Paste & Snippet Hosting",
+      "budget": 450,
+      "email": "ops@pastebin-pro.com"
+    }
+  ]
+}

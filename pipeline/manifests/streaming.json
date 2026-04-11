@@ -1,0 +1,244 @@
+{
+  "apps": [
+    {
+      "id": 50401,
+      "name": "FlixVault Cinema",
+      "prefix": "FVC",
+      "repo": "flixvault-cinema",
+      "category": "Streaming Video",
+      "description": "Netflix-style movie streaming with HLS adaptive bitrate via Video.js. Stripe subscription tiers (Free/Standard/4K). TMDb API integration for metadata, poster art, and cast info. Includes continue-watching, multiple profiles, and parental controls.",
+      "features": [
+        "HLS adaptive streaming",
+        "Stripe subscription tiers",
+        "TMDb metadata sync",
+        "multi-profile support",
+        "continue-watching queue",
+        "parental content locks"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#E50914",
+        "vibe": "Dark cinematic red"
+      },
+      "type": "Movie Streaming Platform",
+      "budget": 750,
+      "email": "ops@flixvault-cinema.com"
+    },
+    {
+      "id": 50402,
+      "name": "BingeRadar Discovery",
+      "prefix": "BGD",
+      "repo": "bingeradar-discovery",
+      "category": "Streaming Discovery",
+      "description": "AI-powered TV show and movie recommendation engine using collaborative filtering and OpenAI embeddings. Cross-platform watchlist aggregation from Netflix, Hulu, Prime via JustWatch API. Includes mood-based filters, \"surprise me\" roulette, and taste-match scores.",
+      "features": [
+        "AI recommendation engine",
+        "JustWatch API aggregation",
+        "mood-based filters",
+        "surprise-me roulette",
+        "taste-match percentage",
+        "cross-platform search"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#E94560",
+        "vibe": "Dark discovery neon pink"
+      },
+      "type": "Show Discovery Engine",
+      "budget": 650,
+      "email": "ops@bingeradar-discovery.com"
+    },
+    {
+      "id": 50403,
+      "name": "SeriesSync Tracker",
+      "prefix": "SST",
+      "repo": "seriessync-tracker",
+      "category": "Streaming Productivity",
+      "description": "Trakt.tv-style episode tracking with automatic progress sync via Plex and Jellyfin webhooks. Calendar integration via Google Calendar API for upcoming episodes. Push notifications via OneSignal when new episodes air. Community ratings and spoiler-free discussion boards.",
+      "features": [
+        "Plex/Jellyfin webhook sync",
+        "episode air-date calendar",
+        "OneSignal push alerts",
+        "spoiler-free forums",
+        "seasonal binge planner",
+        "watch history export"
+      ],
+      "design": {
+        "bg": "#16213E",
+        "primary": "#0F3460",
+        "vibe": "Deep navy organized"
+      },
+      "type": "Episode Tracker",
+      "budget": 600,
+      "email": "ops@seriessync-tracker.com"
+    },
+    {
+      "id": 50404,
+      "name": "CritiqHub Reviews",
+      "prefix": "CHR",
+      "repo": "critiqhub-reviews",
+      "category": "Streaming Social",
+      "description": "Letterboxd-meets-Rotten-Tomatoes review platform for movies and TV shows. User reviews with spoiler tags, critic vs audience scores, and half-star ratings. OAuth via Google and Apple. Share watchlists as curated lists with custom cover art and OG meta previews.",
+      "features": [
+        "critic vs audience dual scores",
+        "spoiler-tag system",
+        "curated shareable lists",
+        "OAuth Google/Apple login",
+        "OG meta social previews",
+        "half-star granular ratings"
+      ],
+      "design": {
+        "bg": "#F5F5F5",
+        "primary": "#FFB400",
+        "vibe": "Clean review gold light"
+      },
+      "type": "Review Aggregator",
+      "budget": 600,
+      "email": "ops@critiqhub-reviews.com"
+    },
+    {
+      "id": 50405,
+      "name": "WatchPartyGo Live",
+      "prefix": "WPG",
+      "repo": "watchpartygo-live",
+      "category": "Streaming Social",
+      "description": "Teleparty-style synchronized viewing rooms with WebSocket-based playback sync. Video chat overlay via Daily.co WebRTC. Supports YouTube, Twitch embed, and self-hosted HLS streams. Emoji reactions, live polls, and integrated group chat with GIF support via Giphy API.",
+      "features": [
+        "WebSocket playback sync",
+        "Daily.co video chat overlay",
+        "YouTube/Twitch embed",
+        "Giphy-powered chat",
+        "live polls during playback",
+        "emoji reaction stream"
+      ],
+      "design": {
+        "bg": "#1B0536",
+        "primary": "#9B59B6",
+        "vibe": "Dark party purple"
+      },
+      "type": "Synchronized Watch Party",
+      "budget": 700,
+      "email": "ops@watchpartygo-live.com"
+    },
+    {
+      "id": 50406,
+      "name": "SubDub Localize",
+      "prefix": "SDL",
+      "repo": "subdub-localize",
+      "category": "Streaming Tools",
+      "description": "OpenSubtitles API-powered subtitle search and editor with in-browser timing sync. AI auto-translate via DeepL API for 30+ languages. Community subtitle upload and voting. SRT/VTT/ASS format conversion and style editor for font, color, and positioning.",
+      "features": [
+        "OpenSubtitles API search",
+        "DeepL auto-translate",
+        "in-browser timing editor",
+        "SRT/VTT/ASS converter",
+        "community subtitle voting",
+        "custom style presets"
+      ],
+      "design": {
+        "bg": "#212121",
+        "primary": "#00BFA5",
+        "vibe": "Dark subtitle teal"
+      },
+      "type": "Subtitle & Dubbing Platform",
+      "budget": 550,
+      "email": "ops@subdub-localize.com"
+    },
+    {
+      "id": 50407,
+      "name": "TrailerDrop Preview",
+      "prefix": "TDP",
+      "repo": "trailerdrop-preview",
+      "category": "Streaming Discovery",
+      "description": "YouTube Data API-powered trailer aggregation with upcoming release calendars. TMDB and OMDB API for metadata enrichment. Personalized hype-score algorithm based on genre preferences and watch history. Countdown timers for theatrical and streaming release dates.",
+      "features": [
+        "YouTube trailer aggregation",
+        "TMDB/OMDB metadata",
+        "personalized hype-score",
+        "release countdown timers",
+        "genre preference engine",
+        "watchlist-to-calendar sync"
+      ],
+      "design": {
+        "bg": "#0D0D0D",
+        "primary": "#FF6F00",
+        "vibe": "Dark trailer orange"
+      },
+      "type": "Trailer & Preview Hub",
+      "budget": 500,
+      "email": "ops@trailerdrop-preview.com"
+    },
+    {
+      "id": 50408,
+      "name": "CinemaLedger Catalog",
+      "prefix": "CLC",
+      "repo": "cinemaledger-catalog",
+      "category": "Streaming Productivity",
+      "description": "Plex-style personal media catalog for physical and digital collections. Barcode scanning via QuaggaJS for Blu-ray and DVD lookup against OMDB. Lending tracker, insurance valuations, and shelf-location organizer. Export collection to CSV and Notion via API.",
+      "features": [
+        "QuaggaJS barcode scanner",
+        "OMDB disc lookup",
+        "lending tracker with reminders",
+        "insurance valuation calculator",
+        "Notion export integration",
+        "shelf-location map"
+      ],
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#37474F",
+        "vibe": "Clean catalog slate light"
+      },
+      "type": "Personal Media Library",
+      "budget": 500,
+      "email": "ops@cinemaledger-catalog.com"
+    },
+    {
+      "id": 50409,
+      "name": "SceneCut Clips",
+      "prefix": "SCC",
+      "repo": "scenecut-clips",
+      "category": "Streaming Social",
+      "description": "FFmpeg-powered in-browser video clipper for creating shareable GIFs and short clips from movie scenes. Cloudinary for CDN hosting and image transforms. Watermark overlays, caption generators with meme-style fonts, and direct share to Twitter/Reddit via OAuth.",
+      "features": [
+        "FFmpeg in-browser clipping",
+        "Cloudinary CDN hosting",
+        "meme caption generator",
+        "watermark overlay",
+        "Twitter/Reddit direct share",
+        "GIF/MP4/WebM export"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#F43F5E",
+        "vibe": "Dark creator rose"
+      },
+      "type": "Video Clip & Meme Creator",
+      "budget": 600,
+      "email": "ops@scenecut-clips.com"
+    },
+    {
+      "id": 50410,
+      "name": "NightOwl Schedule",
+      "prefix": "NOS",
+      "repo": "nightowl-schedule",
+      "category": "Streaming Tools",
+      "description": "TV Maze API-powered live TV and streaming schedule aggregator. Personalized prime-time planner that organizes tonight's shows across all subscribed platforms. Slack and Discord bot integration for group viewing coordination. Time-zone-aware scheduling with DVR conflict detection.",
+      "features": [
+        "TV Maze API schedule sync",
+        "multi-platform prime-time planner",
+        "Slack/Discord bot alerts",
+        "timezone-aware grid view",
+        "DVR conflict detector",
+        "weekly digest email"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#6366F1",
+        "vibe": "Dark schedule indigo"
+      },
+      "type": "Streaming TV Schedule",
+      "budget": 550,
+      "email": "ops@nightowl-schedule.com"
+    }
+  ]
+}

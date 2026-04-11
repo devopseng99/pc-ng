@@ -56,10 +56,14 @@ for i in json.load(sys.stdin)['items']:
 "
 ```
 
-4. Clear circuit breaker state:
+4. Clear circuit breaker state (per-pipeline from registry + legacy shared):
 ```bash
 > /tmp/pc-autopilot/.circuit-breaker-results
-echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state
+PIPELINES=$(source /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/pipeline-registry.sh && list_pipelines)
+for p in $PIPELINES default; do
+  echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state-${p} 2>/dev/null
+done
+echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state 2>/dev/null
 ```
 
 5. Show updated status:

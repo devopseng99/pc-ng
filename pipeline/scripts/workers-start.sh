@@ -15,6 +15,7 @@ set -euo pipefail
 # ============================================================================
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pipeline-registry.sh"
 WORKSPACE="/tmp/pc-autopilot"
 WORKER_DIR="$WORKSPACE/.workers"
 CONCURRENCY=2
@@ -62,33 +63,42 @@ if [[ "$STOP" == "true" ]]; then
   exit 0
 fi
 
+resolve_manifest() {
+  local pipeline_id="$1"
+  if resolve_pipeline "$pipeline_id"; then
+    local manifest_file="$WORKSPACE/manifests/$PC_MANIFEST"
+    if [[ -f "$manifest_file" ]] || [[ -L "$manifest_file" ]]; then
+      echo "$manifest_file"
+      return 0
+    fi
+  fi
+  echo ""
+  return 1
+}
+
 start_worker() {
   local pipeline_id="$1"
-  local manifest="$WORKSPACE/manifests/use-cases-${pipeline_id}.json"
+  local manifest
+  manifest=$(resolve_manifest "$pipeline_id") || { log "ERROR: Unknown pipeline: $pipeline_id"; return 1; }
   local log_file="$WORKER_DIR/${pipeline_id}.log"
   local pid_file="$WORKER_DIR/${pipeline_id}.pid"
-  local manifest_key=""
-
-  case "$pipeline_id" in
-    v1)   manifest="$WORKSPACE/manifests/use-cases-201-400.json" ;;
-    tech) manifest="$WORKSPACE/manifests/use-cases-401-600.json" ;;
-    wasm) manifest="$WORKSPACE/manifests/wasm-sandbox-apps.json" ;;
-    soa)  manifest="$WORKSPACE/manifests/pc-soa-v3-templates.json" ;;
-    ai)   manifest="$WORKSPACE/manifests/ai-income-apps.json" ;;
-    cf)   manifest="$WORKSPACE/manifests/cf-platform-apps.json" ;;
-    *)    log "ERROR: Unknown pipeline: $pipeline_id"; return 1 ;;
-  esac
 
   if [[ ! -f "$manifest" ]] && [[ ! -L "$manifest" ]]; then
     log "ERROR: Manifest not found: $manifest"
     return 1
   fi
 
-  # Check if already running
+  # Check if already running — don't interrupt, let it finish
   if [[ -f "$pid_file" ]] && kill -0 "$(cat "$pid_file")" 2>/dev/null; then
-    log "Worker $pipeline_id already running (PID $(cat "$pid_file"))"
+    log "Worker $pipeline_id already running (PID $(cat "$pid_file")) — skipping (let it finish)"
     return 0
   fi
+
+  # Auto-generate CRDs before launching worker (idempotent — skips existing)
+  log "Ensuring CRDs exist for $pipeline_id..."
+  bash "$SCRIPT_DIR/generate-crds.sh" \
+    --manifest "$manifest" \
+    --pipeline "$pipeline_id" 2>&1 | while read -r line; do echo "  $line"; done
 
   log "Starting $pipeline_id worker (concurrency=$CONCURRENCY, timeout=${TIMEOUT}s)..."
   log "  Log: $log_file"

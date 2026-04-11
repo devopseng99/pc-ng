@@ -42,19 +42,20 @@ err()  { echo -e "${RED}  ✗${NC} $*" >&2; }
 die()  { err "$@"; exit 1; }
 
 # ---------- Parse Args ----------
-RELEASE="" NAMESPACE="" SLUG="" CONTEXT_NAME=""
+RELEASE="" NAMESPACE="" SLUG="" CONTEXT_NAME="" ADMIN_EMAIL=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --release)    RELEASE="$2"; shift 2 ;;
-    --namespace)  NAMESPACE="$2"; shift 2 ;;
-    --slug)       SLUG="$2"; shift 2 ;;
-    --context)    CONTEXT_NAME="$2"; shift 2 ;;
-    --node)       TARGET_NODE="$2"; shift 2 ;;
-    --port)       SERVICE_PORT="$2"; shift 2 ;;
-    --teardown)   TEARDOWN=true; shift ;;
+    --release)      RELEASE="$2"; shift 2 ;;
+    --namespace)    NAMESPACE="$2"; shift 2 ;;
+    --slug)         SLUG="$2"; shift 2 ;;
+    --context)      CONTEXT_NAME="$2"; shift 2 ;;
+    --node)         TARGET_NODE="$2"; shift 2 ;;
+    --port)         SERVICE_PORT="$2"; shift 2 ;;
+    --admin-email)  ADMIN_EMAIL="$2"; shift 2 ;;
+    --teardown)     TEARDOWN=true; shift ;;
     -h|--help)
-      echo "Usage: $0 --release NAME --namespace NS --slug SUBDOMAIN --context CTX_NAME [--node NODE] [--port PORT]"
+      echo "Usage: $0 --release NAME --namespace NS --slug SUBDOMAIN --context CTX_NAME [--node NODE] [--port PORT] [--admin-email EMAIL]"
       echo "       $0 --release NAME --namespace NS --teardown"
       exit 0 ;;
     *) die "Unknown arg: $1" ;;
@@ -66,8 +67,18 @@ done
 
 # ---------- CF Token ----------
 get_cf_token() {
-  if [[ -f ~/cf-token--expires-apr-1 ]]; then
-    cat ~/cf-token--expires-apr-1
+  # Try most recent token file first
+  local token_file
+  token_file=$(ls -t ~/cf-token--expires-* 2>/dev/null | head -1)
+  if [[ -n "$token_file" ]]; then
+    local raw
+    raw=$(cat "$token_file" | tr -d '\n\r\t ')
+    # Token file may contain a curl command — extract raw token
+    if echo "$raw" | grep -q "Bearer "; then
+      echo "$raw" | grep -oP 'Bearer \K\S+'
+    else
+      echo "$raw"
+    fi
   else
     kubectl get secret cloudflare-credentials -n paperclip -o jsonpath='{.data.CF_API_TOKEN}' | base64 -d
   fi
@@ -489,6 +500,31 @@ if [[ -n "$FRESH_INVITE" ]]; then
   ok "Fresh invite URL generated (valid post-restart)"
 fi
 
+# ---------- Step 14: Auto-bootstrap (create admin + API key + secrets) ----------
+log "Step 14: Auto-bootstrap instance"
+
+ADMIN_EMAIL="${ADMIN_EMAIL:-hrsd0001@gmail.com}"
+BOOTSTRAP_SCRIPT="${PCNG_REPO}/pipeline/scripts/bootstrap-instance.sh"
+
+if [[ -f "$BOOTSTRAP_SCRIPT" ]]; then
+  log "Running automated bootstrap (admin: $ADMIN_EMAIL)..."
+  if bash "$BOOTSTRAP_SCRIPT" \
+    --release "$RELEASE" \
+    --namespace "$NAMESPACE" \
+    --email "$ADMIN_EMAIL" \
+    --password auto \
+    --name "Admin"; then
+    ok "Instance fully bootstrapped — admin created, API key stored as K8s secrets"
+    BOOTSTRAP_OK=true
+  else
+    warn "Auto-bootstrap failed — falling back to manual invite flow"
+    BOOTSTRAP_OK=false
+  fi
+else
+  warn "Bootstrap script not found at $BOOTSTRAP_SCRIPT"
+  BOOTSTRAP_OK=false
+fi
+
 # ---------- Done ----------
 echo ""
 log "=========================================="
@@ -504,7 +540,15 @@ echo ""
 echo "  Pods:"
 kubectl get pods -n "$NAMESPACE" --no-headers 2>/dev/null | sed 's/^/    /'
 echo ""
-if [[ -n "${INVITE_URL:-}" ]]; then
+if [[ "${BOOTSTRAP_OK:-false}" == "true" ]]; then
+echo -e "${GREEN}  ┌──────────────────────────────────────────────────────────────┐${NC}"
+echo -e "${GREEN}  │  Instance fully operational — no manual steps needed!        │${NC}"
+echo -e "${GREEN}  │                                                              │${NC}"
+echo -e "${GREEN}  │${NC}  Admin:    $ADMIN_EMAIL"
+echo -e "${GREEN}  │${NC}  Password: kubectl get secret ${RELEASE}-admin-credentials -n $NAMESPACE -o jsonpath='{.data.password}' | base64 -d"
+echo -e "${GREEN}  │${NC}  API Key:  kubectl get secret ${RELEASE}-board-api-key -n $NAMESPACE -o jsonpath='{.data.key}' | base64 -d"
+echo -e "${GREEN}  └──────────────────────────────────────────────────────────────┘${NC}"
+elif [[ -n "${INVITE_URL:-}" ]]; then
 echo -e "${RED}  ┌──────────────────────────────────────────────────────────────┐${NC}"
 echo -e "${RED}  │  ${YELLOW}ACTION REQUIRED: Claim the admin invite NOW${RED}                  │${NC}"
 echo -e "${RED}  │                                                              │${NC}"
@@ -517,8 +561,11 @@ echo -e "${RED}  │${NC}  ${YELLOW}The instance will show 'setup required' unti
 echo -e "${RED}  │${NC}  Invite saved to: /tmp/${RELEASE}-invite-url.txt             ${RED}│${NC}"
 echo -e "${RED}  └──────────────────────────────────────────────────────────────┘${NC}"
 echo ""
+echo "  Or run bootstrap manually:"
+echo "    bash ${BOOTSTRAP_SCRIPT} --release $RELEASE --namespace $NAMESPACE --email YOUR_EMAIL"
 fi
-echo "  After claiming the invite:"
+echo ""
+echo "  Next steps:"
 echo "    1. Add '$CONTEXT_NAME' to pc CLI validation regex in /usr/local/bin/pc"
 echo "    2. Commit: git add overrides-${RELEASE}.yaml && git push"
 echo ""

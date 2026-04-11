@@ -1,0 +1,604 @@
+{
+  "use_cases": [
+    {
+      "id": 40001,
+      "name": "DiamondCast Live",
+      "prefix": "DCL",
+      "repo": "diamondcast-live",
+      "category": "MCP Live Baseball",
+      "description": "Real-time MLB game tracker with MCP connector to MLB Stats API. Live pitch-by-pitch updates, box scores, spray charts, and win probability. SSE-powered feed renders pitch sequence visualizations, batter/pitcher matchup cards, and live base-runner diagrams.",
+      "features": [
+        "MCP connector to MLB Stats API",
+        "live pitch-by-pitch SSE feed",
+        "spray chart canvas visualization",
+        "win probability graph",
+        "batter vs pitcher matchup cards",
+        "base-runner diamond diagram"
+      ],
+      "design": { "bg": "#1A1A2E", "primary": "#E63946", "vibe": "Stadium night dark scoreboard" },
+      "type": "MCP Live Baseball",
+      "email": "live@diamondcast.io",
+      "budget": 600
+    },
+    {
+      "id": 40002,
+      "name": "PitchLab Analytics",
+      "prefix": "PLA",
+      "repo": "pitchlab-analytics",
+      "category": "MCP Live Baseball",
+      "description": "Advanced baseball analytics dashboard consuming Statcast data via MCP. Pitch movement plots, exit velocity heatmaps, expected stats (xBA, xSLG, xwOBA), and spin rate leaderboards. Filterable by team, player, date range with animated pitch tunneling overlays.",
+      "features": [
+        "MCP connector to Statcast/Baseball Savant",
+        "pitch movement 3D scatter plots",
+        "exit velocity heatmaps",
+        "xBA/xSLG/xwOBA stat cards",
+        "spin rate leaderboards",
+        "pitch tunneling animation"
+      ],
+      "design": { "bg": "#0B132B", "primary": "#3A86FF", "vibe": "Data science dark with neon accents" },
+      "type": "MCP Live Baseball",
+      "email": "stats@pitchlab.io",
+      "budget": 600
+    },
+    {
+      "id": 40003,
+      "name": "DugoutFeed MLB",
+      "prefix": "DFM",
+      "repo": "dugoutfeed-mlb",
+      "category": "MCP Live Baseball",
+      "description": "Multi-game MLB scoreboard with MCP-driven live feeds for every active game. Split-screen view showing up to 8 simultaneous games with condensed box scores, highlight alerts, and scoring play breakdowns. Redis pub/sub for cross-game event correlation.",
+      "features": [
+        "MCP multi-game MLB feed aggregator",
+        "split-screen 8-game grid view",
+        "scoring play alert toasts",
+        "condensed box score cards",
+        "Redis pub/sub event bus",
+        "team color-coded borders"
+      ],
+      "design": { "bg": "#121212", "primary": "#4CAF50", "vibe": "Sports bar multi-screen dark" },
+      "type": "MCP Live Baseball",
+      "email": "feeds@dugoutfeed.io",
+      "budget": 500
+    },
+    {
+      "id": 40004,
+      "name": "GridIron Pulse",
+      "prefix": "GIP",
+      "repo": "gridiron-pulse",
+      "category": "MCP Live Football",
+      "description": "Live NFL game tracker with MCP connector to ESPN and SportRadar APIs. Play-by-play feed with animated field position diagram, drive charts, and real-time player stat overlays. Win probability shifts on every play with momentum indicators.",
+      "features": [
+        "MCP connector to ESPN + SportRadar",
+        "animated field position canvas",
+        "drive chart timeline",
+        "real-time player stat overlays",
+        "win probability momentum graph",
+        "red zone alerts with haptic pulse"
+      ],
+      "design": { "bg": "#1B2838", "primary": "#FF6B35", "vibe": "Game day dark with electric orange" },
+      "type": "MCP Live Football",
+      "email": "live@gridironpulse.io",
+      "budget": 650
+    },
+    {
+      "id": 40005,
+      "name": "SnapRoute Fantasy",
+      "prefix": "SRF",
+      "repo": "snaproute-fantasy",
+      "category": "MCP Live Football",
+      "description": "Fantasy football live scoring dashboard with MCP feeds pulling player stats from multiple providers. Real-time fantasy point calculations, matchup comparisons, start/sit recommendations with projected vs actual overlay. Alert system for touchdown and big play events.",
+      "features": [
+        "MCP multi-provider player stats feed",
+        "live fantasy point calculator",
+        "projected vs actual point overlay",
+        "matchup head-to-head cards",
+        "touchdown/big-play push alerts",
+        "waiver wire trending players"
+      ],
+      "design": { "bg": "#0F0F23", "primary": "#7C3AED", "vibe": "Fantasy dark with purple glow" },
+      "type": "MCP Live Football",
+      "email": "fantasy@snaproute.io",
+      "budget": 600
+    },
+    {
+      "id": 40006,
+      "name": "BlitzBoard NFL",
+      "prefix": "BBN",
+      "repo": "blitzboard-nfl",
+      "category": "MCP Live Football",
+      "description": "NFL RedZone-style multi-game dashboard driven by MCP connectors. Automatically surfaces the most exciting active plays across all games using AI-scored excitement ranking. Countdown timers, scoring probability heat zones, and condensed highlights feed.",
+      "features": [
+        "MCP multi-game NFL feed aggregator",
+        "AI excitement ranking algorithm",
+        "auto-focus on highest-action game",
+        "scoring probability heat zones",
+        "condensed highlights carousel",
+        "game clock countdown timers"
+      ],
+      "design": { "bg": "#13151A", "primary": "#EF4444", "vibe": "RedZone urgency dark theme" },
+      "type": "MCP Live Football",
+      "email": "live@blitzboard.io",
+      "budget": 550
+    },
+    {
+      "id": 40007,
+      "name": "CourtVision Live",
+      "prefix": "CVL",
+      "repo": "courtvision-live",
+      "category": "MCP Live Basketball",
+      "description": "Real-time NBA game tracker with MCP connector to balldontlie and NBA Stats API. Shot chart canvas updating live, player efficiency cards, run tracker showing scoring streaks, and play-by-play feed with assist/turnover flow diagrams.",
+      "features": [
+        "MCP connector to NBA Stats API",
+        "live updating shot chart canvas",
+        "player efficiency rating cards",
+        "scoring run streak tracker",
+        "assist/turnover flow diagrams",
+        "quarter-by-quarter comparison bars"
+      ],
+      "design": { "bg": "#1D1135", "primary": "#F97316", "vibe": "Arena dark with hardwood warmth" },
+      "type": "MCP Live Basketball",
+      "email": "live@courtvision.io",
+      "budget": 600
+    },
+    {
+      "id": 40008,
+      "name": "FastBreak Feed",
+      "prefix": "FBF",
+      "repo": "fastbreak-feed",
+      "category": "MCP Live Basketball",
+      "description": "NBA multi-game scoreboard with MCP live feeds. Bento grid layout showing all active games with mini shot charts, live leader boards, and quarter scores. Highlight reel section surfaces dunks, blocks, and three-pointers across all games in real-time.",
+      "features": [
+        "MCP multi-game NBA feed",
+        "bento grid game cards",
+        "mini shot chart per game",
+        "cross-game highlight reel",
+        "live statistical leaderboards",
+        "buzzer-beater alert system"
+      ],
+      "design": { "bg": "#0A0A0A", "primary": "#2563EB", "vibe": "Scoreboard minimalist dark" },
+      "type": "MCP Live Basketball",
+      "email": "feeds@fastbreak.io",
+      "budget": 500
+    },
+    {
+      "id": 40009,
+      "name": "HoopMetrics Pro",
+      "prefix": "HMP",
+      "repo": "hoopmetrics-pro",
+      "category": "MCP Live Basketball",
+      "description": "Advanced NBA analytics dashboard with MCP connector pulling player tracking data. Pace and space metrics, clutch time performance breakdowns, lineup combination analysis, and pace-adjusted efficiency ratings with historical comparison overlays.",
+      "features": [
+        "MCP connector to NBA advanced stats",
+        "pace and space metric cards",
+        "clutch time performance breakdown",
+        "lineup combination heat matrix",
+        "pace-adjusted efficiency ratings",
+        "historical comparison overlay charts"
+      ],
+      "design": { "bg": "#0D1B2A", "primary": "#00B4D8", "vibe": "Analytics dark with cyan data viz" },
+      "type": "MCP Live Basketball",
+      "email": "analytics@hoopmetrics.io",
+      "budget": 650
+    },
+    {
+      "id": 40010,
+      "name": "GoalStorm Tracker",
+      "prefix": "GST",
+      "repo": "goalstorm-tracker",
+      "category": "MCP Live Soccer",
+      "description": "Live soccer match tracker with MCP connector to Football-Data.org and API-Football. Real-time match events feed, animated pitch heatmap showing player positions, possession flow diagram, and expected goals (xG) timeline per shot.",
+      "features": [
+        "MCP connector to API-Football + Football-Data.org",
+        "real-time match event SSE feed",
+        "animated pitch heatmap overlay",
+        "possession flow Sankey diagram",
+        "xG timeline per shot",
+        "VAR decision replay cards"
+      ],
+      "design": { "bg": "#0B2027", "primary": "#40916C", "vibe": "Pitch green on dark stadium" },
+      "type": "MCP Live Soccer",
+      "email": "live@goalstorm.io",
+      "budget": 600
+    },
+    {
+      "id": 40011,
+      "name": "PitchMap Global",
+      "prefix": "PMG",
+      "repo": "pitchmap-global",
+      "category": "MCP Live Soccer",
+      "description": "Multi-league soccer dashboard covering EPL, La Liga, Serie A, Bundesliga, Ligue 1 via MCP feeds. Live scores grid grouped by league, form tables, top scorers leaderboard, and upcoming fixture countdown tiles with betting odds from The Odds API.",
+      "features": [
+        "MCP multi-league soccer feed aggregator",
+        "league-grouped live score grid",
+        "form table with streak indicators",
+        "top scorers leaderboard",
+        "fixture countdown tiles",
+        "MCP connector to The Odds API"
+      ],
+      "design": { "bg": "#111827", "primary": "#10B981", "vibe": "Multi-league dark dashboard" },
+      "type": "MCP Live Soccer",
+      "email": "global@pitchmap.io",
+      "budget": 550
+    },
+    {
+      "id": 40012,
+      "name": "TransferRadar Live",
+      "prefix": "TRL",
+      "repo": "transferradar-live",
+      "category": "MCP Live Soccer",
+      "description": "Soccer transfer window tracker with MCP connectors scraping transfer news feeds and official club announcements. Rumor confidence scoring, deal progress timeline, fee comparison charts, and player value trajectory graphs using TransferMarkt data.",
+      "features": [
+        "MCP transfer news feed aggregator",
+        "rumor confidence AI scoring",
+        "deal progress timeline tracker",
+        "transfer fee comparison charts",
+        "player market value trajectory",
+        "club spending budget gauges"
+      ],
+      "design": { "bg": "#1A1A2E", "primary": "#E94560", "vibe": "Transfer deadline urgency dark" },
+      "type": "MCP Live Soccer",
+      "email": "radar@transferradar.io",
+      "budget": 500
+    },
+    {
+      "id": 40013,
+      "name": "OctagonView Live",
+      "prefix": "OVL",
+      "repo": "octagonview-live",
+      "category": "MCP Live UFC",
+      "description": "Live UFC fight night tracker with MCP connector to UFC Stats API. Round-by-round scorecards, strike accuracy heatmap on body diagram, takedown success rate, significant strike differential chart, and judge scorecard prediction model.",
+      "features": [
+        "MCP connector to UFC Stats API",
+        "round-by-round live scorecard",
+        "strike heatmap on body diagram",
+        "takedown success rate gauge",
+        "significant strike differential chart",
+        "judge scorecard prediction AI"
+      ],
+      "design": { "bg": "#0D0D0D", "primary": "#D4AF37", "vibe": "Octagon cage dark with gold accents" },
+      "type": "MCP Live UFC",
+      "email": "live@octagonview.io",
+      "budget": 650
+    },
+    {
+      "id": 40014,
+      "name": "FightCard Central",
+      "prefix": "FCC",
+      "repo": "fightcard-central",
+      "category": "MCP Live UFC",
+      "description": "UFC event dashboard showing full fight card with MCP-driven fighter comparison stats. Tale of the tape overlays, win method distribution pie charts, striking/grappling radar charts, and reach advantage visualizations. Live odds feed from sportsbook APIs.",
+      "features": [
+        "MCP UFC fight card data feed",
+        "tale of the tape comparison overlay",
+        "win method distribution charts",
+        "striking/grappling radar charts",
+        "reach advantage visualization",
+        "MCP sportsbook odds feed"
+      ],
+      "design": { "bg": "#121212", "primary": "#C62828", "vibe": "Fight night dark with blood red" },
+      "type": "MCP Live UFC",
+      "email": "cards@fightcard.io",
+      "budget": 550
+    },
+    {
+      "id": 40015,
+      "name": "MMATracker Pro",
+      "prefix": "MTP",
+      "repo": "mmatracker-pro",
+      "category": "MCP Live MMA",
+      "description": "Multi-promotion MMA tracker covering UFC, Bellator, ONE, PFL via MCP feed aggregation. Fighter ranking cross-reference, upcoming fight calendar, result feed with finish type tagging, and pound-for-pound ranking comparison across promotions.",
+      "features": [
+        "MCP multi-promotion MMA feed aggregator",
+        "cross-promotion ranking comparison",
+        "fight calendar with countdown",
+        "result feed with finish type tags",
+        "pound-for-pound ranking overlay",
+        "fighter camp/gym network graph"
+      ],
+      "design": { "bg": "#1A1A1A", "primary": "#FF4500", "vibe": "Combat sports dark with flame orange" },
+      "type": "MCP Live MMA",
+      "email": "track@mmatracker.io",
+      "budget": 600
+    },
+    {
+      "id": 40016,
+      "name": "GrappleStats MMA",
+      "prefix": "GSM",
+      "repo": "grapplestats-mma",
+      "category": "MCP Live MMA",
+      "description": "MMA grappling analytics platform with MCP connector to Sherdog and Tapology stats. Submission chain visualizations, position control time breakdowns, scramble success rates, and jiu-jitsu lineage tree graph showing fighter training connections.",
+      "features": [
+        "MCP connector to Sherdog + Tapology",
+        "submission chain flow visualization",
+        "position control time breakdown",
+        "scramble success rate metrics",
+        "BJJ lineage tree graph",
+        "grappling exchange timeline"
+      ],
+      "design": { "bg": "#0A1628", "primary": "#6D28D9", "vibe": "Technical analysis dark purple" },
+      "type": "MCP Live MMA",
+      "email": "stats@grapplestats.io",
+      "budget": 550
+    },
+    {
+      "id": 40017,
+      "name": "RingPulse Boxing",
+      "prefix": "RPB",
+      "repo": "ringpulse-boxing",
+      "category": "MCP Live Boxing",
+      "description": "Live boxing fight tracker with MCP feed for punch stats, round scoring, and CompuBox-style analytics. Round-by-round punch output bars, power vs jab ratio pie, connect percentage gauges, and judge scorecard simulator based on punch stats.",
+      "features": [
+        "MCP boxing punch stats feed",
+        "round-by-round punch output bars",
+        "power vs jab ratio visualization",
+        "connect percentage gauges",
+        "judge scorecard simulator",
+        "knockdown alert with replay timestamp"
+      ],
+      "design": { "bg": "#1A0000", "primary": "#DC2626", "vibe": "Boxing ring dark red spotlight" },
+      "type": "MCP Live Boxing",
+      "email": "live@ringpulse.io",
+      "budget": 600
+    },
+    {
+      "id": 40018,
+      "name": "BeltChase Boxing",
+      "prefix": "BCB",
+      "repo": "beltchase-boxing",
+      "category": "MCP Live Boxing",
+      "description": "Boxing rankings and title tracker with MCP connectors to WBC, WBA, IBF, WBO ranking feeds. Belt holder cards with defense count, mandatory challenger queue, unified/undisputed title tracker, and division-by-division comparison grids.",
+      "features": [
+        "MCP connector to WBC/WBA/IBF/WBO rankings",
+        "belt holder cards with defense count",
+        "mandatory challenger queue",
+        "unified/undisputed title tracker",
+        "division ranking comparison grid",
+        "upcoming title fight calendar"
+      ],
+      "design": { "bg": "#0F172A", "primary": "#EAB308", "vibe": "Championship gold on midnight" },
+      "type": "MCP Live Boxing",
+      "email": "belts@beltchase.io",
+      "budget": 500
+    },
+    {
+      "id": 40019,
+      "name": "AllSport Ticker",
+      "prefix": "AST",
+      "repo": "allsport-ticker",
+      "category": "MCP Multi-Sport",
+      "description": "Universal sports ticker consuming live feeds from 7+ sports via MCP connector hub. Horizontal scrolling ticker bar with score updates, configurable sport filters, priority alerts for favorites, and expandable detail cards on click.",
+      "features": [
+        "MCP hub connecting 7+ sport feeds",
+        "horizontal scrolling ticker bar",
+        "configurable sport/team filters",
+        "priority alert for favorite teams",
+        "expandable detail cards",
+        "SSE real-time score push"
+      ],
+      "design": { "bg": "#000000", "primary": "#FBBF24", "vibe": "ESPN ticker dark with amber" },
+      "type": "MCP Multi-Sport",
+      "email": "live@allsportticker.io",
+      "budget": 500
+    },
+    {
+      "id": 40020,
+      "name": "ScoreStack Feed",
+      "prefix": "SSF",
+      "repo": "scorestack-feed",
+      "category": "MCP Multi-Sport",
+      "description": "Stacked card-based sports feed aggregating MCP data from MLB, NFL, NBA, soccer, UFC, and boxing. Each sport renders its own card template pattern — diamond for baseball, field for football, court for basketball, octagon for UFC. Unified notification system.",
+      "features": [
+        "MCP multi-sport aggregator",
+        "sport-specific card templates",
+        "diamond/field/court/octagon visuals",
+        "unified notification center",
+        "drag-to-reorder sport priority",
+        "dark/light theme per sport"
+      ],
+      "design": { "bg": "#18181B", "primary": "#8B5CF6", "vibe": "Card stack dark with violet" },
+      "type": "MCP Multi-Sport",
+      "email": "feeds@scorestack.io",
+      "budget": 600
+    },
+    {
+      "id": 40021,
+      "name": "BetPulse Odds",
+      "prefix": "BPO",
+      "repo": "betpulse-odds",
+      "category": "MCP Multi-Sport",
+      "description": "Cross-sport live odds dashboard with MCP connector to The Odds API and multiple sportsbooks. Real-time line movement charts, value bet detection, arbitrage finder, parlay builder, and historical odds accuracy tracking.",
+      "features": [
+        "MCP connector to The Odds API",
+        "real-time line movement charts",
+        "value bet detection algorithm",
+        "cross-book arbitrage finder",
+        "parlay builder with EV calculator",
+        "historical odds accuracy tracker"
+      ],
+      "design": { "bg": "#0C1222", "primary": "#22C55E", "vibe": "Sportsbook dark with money green" },
+      "type": "MCP Multi-Sport",
+      "email": "odds@betpulse.io",
+      "budget": 650
+    },
+    {
+      "id": 40022,
+      "name": "FanZone Social",
+      "prefix": "FZS",
+      "repo": "fanzone-social",
+      "category": "MCP Multi-Sport",
+      "description": "Social sports feed combining live game data with fan reactions via MCP connectors. Live game events trigger reaction polls, sentiment gauges, and chat threads. Integrates game MCP feeds with social MCP (Twitter/Reddit) for cross-platform fan pulse.",
+      "features": [
+        "MCP game feed + social feed mashup",
+        "live reaction polls on game events",
+        "fan sentiment gauge per team",
+        "game-synced chat threads",
+        "MCP Reddit/Twitter sentiment feed",
+        "trending hot-take leaderboard"
+      ],
+      "design": { "bg": "#1E1E2E", "primary": "#F43F5E", "vibe": "Social dark with fan energy pink" },
+      "type": "MCP Multi-Sport",
+      "email": "fans@fanzone.io",
+      "budget": 550
+    },
+    {
+      "id": 40023,
+      "name": "StatForge Builder",
+      "prefix": "SFB",
+      "repo": "statforge-builder",
+      "category": "MCP Sports Analytics",
+      "description": "No-code sports dashboard builder with MCP connector marketplace. Users drag-and-drop widgets (charts, tables, tickers, maps) and connect them to any registered MCP sports feed. Template marketplace for sharing dashboard configs as JSON.",
+      "features": [
+        "MCP connector marketplace registry",
+        "drag-and-drop widget builder",
+        "chart/table/ticker/map widgets",
+        "JSON dashboard config export",
+        "template marketplace sharing",
+        "real-time preview with live data"
+      ],
+      "design": { "bg": "#0F0F0F", "primary": "#06B6D4", "vibe": "Builder dark with blueprint cyan" },
+      "type": "MCP Sports Analytics",
+      "email": "build@statforge.io",
+      "budget": 700
+    },
+    {
+      "id": 40024,
+      "name": "PropLine Analyzer",
+      "prefix": "PRA",
+      "repo": "propline-analyzer",
+      "category": "MCP Sports Analytics",
+      "description": "Player prop betting analyzer with MCP feeds for player stats across all major sports. Compares player averages to prop lines, calculates cover probabilities, tracks historical over/under streaks, and surfaces high-confidence edges.",
+      "features": [
+        "MCP multi-sport player stats feed",
+        "prop line vs average comparison",
+        "cover probability calculator",
+        "over/under streak tracker",
+        "high-confidence edge alerts",
+        "bankroll management simulator"
+      ],
+      "design": { "bg": "#111111", "primary": "#F59E0B", "vibe": "Analytics dark with gold signals" },
+      "type": "MCP Sports Analytics",
+      "email": "props@propline.io",
+      "budget": 600
+    },
+    {
+      "id": 40025,
+      "name": "InjuryWatch Feed",
+      "prefix": "IWF",
+      "repo": "injurywatch-feed",
+      "category": "MCP Sports Analytics",
+      "description": "Cross-sport injury report tracker with MCP connectors to team injury feeds, press conferences, and social media. Injury timeline per player, return-to-play probability model, fantasy impact scoring, and lineup projection adjustments.",
+      "features": [
+        "MCP injury report aggregator",
+        "player injury timeline view",
+        "return-to-play probability model",
+        "fantasy impact scoring",
+        "lineup projection adjustments",
+        "press conference keyword alerts"
+      ],
+      "design": { "bg": "#1C1917", "primary": "#EF4444", "vibe": "Medical alert dark with red" },
+      "type": "MCP Sports Analytics",
+      "email": "alerts@injurywatch.io",
+      "budget": 500
+    },
+    {
+      "id": 40026,
+      "name": "DraftBoard Scout",
+      "prefix": "DBS",
+      "repo": "draftboard-scout",
+      "category": "MCP Sports Analytics",
+      "description": "Multi-sport draft prospect tracker with MCP feeds for college stats, combine results, and mock drafts. Big board visualization, prospect comparison radar charts, team need mapping, and draft pick trade value calculator.",
+      "features": [
+        "MCP college stats + combine feed",
+        "big board drag-and-drop ranking",
+        "prospect comparison radar charts",
+        "team need mapping matrix",
+        "draft pick trade value calculator",
+        "mock draft simulation engine"
+      ],
+      "design": { "bg": "#0C0A09", "primary": "#A855F7", "vibe": "Scouting dark with prospect purple" },
+      "type": "MCP Sports Analytics",
+      "email": "scout@draftboard.io",
+      "budget": 600
+    },
+    {
+      "id": 40027,
+      "name": "ClockSync Scheduler",
+      "prefix": "CSS",
+      "repo": "clocksync-scheduler",
+      "category": "MCP Multi-Sport",
+      "description": "Personal sports calendar that syncs game times via MCP connectors for all followed teams across sports. Timezone-aware scheduling, conflict detection when games overlap, watch priority ranking, and TV channel/streaming service lookup.",
+      "features": [
+        "MCP game schedule feed aggregator",
+        "timezone-aware calendar grid",
+        "overlap conflict detection",
+        "watch priority ranking drag",
+        "TV/streaming channel lookup",
+        "iCal export and reminder push"
+      ],
+      "design": { "bg": "#171717", "primary": "#14B8A6", "vibe": "Calendar dark with teal time" },
+      "type": "MCP Multi-Sport",
+      "email": "sync@clocksync.io",
+      "budget": 450
+    },
+    {
+      "id": 40028,
+      "name": "HighlightReel AI",
+      "prefix": "HRA",
+      "repo": "highlightreel-ai",
+      "category": "MCP Multi-Sport",
+      "description": "AI-curated sports highlight feed powered by MCP connectors to play-by-play data. Detects high-excitement moments (scores, knockouts, buzzer beaters) across all active games. Generates highlight cards with context, timestamps, and AI play descriptions.",
+      "features": [
+        "MCP play-by-play multi-sport feed",
+        "AI excitement scoring per play",
+        "highlight card generator",
+        "contextual AI play descriptions",
+        "personal highlight digest email",
+        "shareable highlight clip cards"
+      ],
+      "design": { "bg": "#0A0A0A", "primary": "#EC4899", "vibe": "Highlight reel dark with hot pink" },
+      "type": "MCP Multi-Sport",
+      "email": "highlights@highlightreel.io",
+      "budget": 600
+    },
+    {
+      "id": 40029,
+      "name": "VenueMap Sports",
+      "prefix": "VMS",
+      "repo": "venuemap-sports",
+      "category": "MCP Multi-Sport",
+      "description": "Interactive sports venue map with MCP feeds for live game status at every stadium. Globe/map view showing active games with pulsing indicators, venue capacity heatmaps, weather conditions at outdoor venues, and travel planner for sports tourism.",
+      "features": [
+        "MCP venue + game status feed",
+        "interactive globe/map with live pins",
+        "pulsing indicators for active games",
+        "venue capacity heatmap",
+        "weather conditions at venue",
+        "sports travel planner"
+      ],
+      "design": { "bg": "#0C1524", "primary": "#3B82F6", "vibe": "Globe dark with satellite blue" },
+      "type": "MCP Multi-Sport",
+      "email": "map@venuemap.io",
+      "budget": 550
+    },
+    {
+      "id": 40030,
+      "name": "RivalryGraph Live",
+      "prefix": "RGL",
+      "repo": "rivalrygraph-live",
+      "category": "MCP Sports Analytics",
+      "description": "Historical rivalry tracker with MCP feeds for head-to-head records across all sports. Series history timelines, all-time stat comparisons, rivalry heat index based on recent games, and fan intensity metrics from social MCP feeds.",
+      "features": [
+        "MCP head-to-head history feed",
+        "series history timeline",
+        "all-time stat comparison cards",
+        "rivalry heat index gauge",
+        "fan intensity from social MCP",
+        "next matchup countdown"
+      ],
+      "design": { "bg": "#1A0A0A", "primary": "#F97316", "vibe": "Rivalry fire dark with orange flame" },
+      "type": "MCP Sports Analytics",
+      "email": "rivals@rivalrygraph.io",
+      "budget": 550
+    }
+  ]
+}

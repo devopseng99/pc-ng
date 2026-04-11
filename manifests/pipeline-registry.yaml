@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pipeline-registry
+  namespace: paperclip-v3
+  labels:
+    app: pc-ng
+    component: pipeline-registry
+data:
+  # Pipeline Registry — single source of truth for pipeline→instance mapping.
+  # All scripts read this instead of hardcoded case statements.
+  #
+  # To add a new pipeline:
+  #   1. Add an entry below
+  #   2. kubectl apply -f manifests/pipeline-registry.yaml
+  #   3. Run new-pipeline.sh — it reads this ConfigMap automatically
+  #
+  # Format: JSON object keyed by pipeline name
+  registry.json: |
+    {
+      "v1": {
+        "instance": "pc",
+        "namespace": "paperclip",
+        "secret": "pc-board-api-key",
+        "manifest": "use-cases-201-400.json"
+      },
+      "tech": {
+        "instance": "pc-v2",
+        "namespace": "paperclip-v2",
+        "secret": "pc-v2-board-api-key",
+        "manifest": "use-cases-401-600.json"
+      },
+      "wasm": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "wasm-sandbox-apps.json"
+      },
+      "soa": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "pc-soa-v3-templates.json"
+      },
+      "ai": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "ai-income-apps.json"
+      },
+      "cf": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "cf-platform-apps.json"
+      },
+      "mcp": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "mcp-sports-feeds.json"
+      },
+      "ecom": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "ecom-apparel-retail.json"
+      },
+      "crypto": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "crypto-block-explorer.json"
+      },
+      "invest": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "invest-ai-stocks.json"
+      },
+      "saas": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "saas.json"
+      },
+      "streaming": {
+        "instance": "pc-v4",
+        "namespace": "paperclip-v4",
+        "secret": "pc-v4-board-api-key",
+        "manifest": "streaming.json"
+      }
+    }

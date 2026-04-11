@@ -1,0 +1,114 @@
+# Pipeline: streaming
+# Category: TV & Movie Streaming
+# 10 apps — streaming platforms, watchlists, and discovery tools
+# Generated: 2026-04-06
+
+name: FlixVault Cinema
+prefix: FVC
+type: Movie Streaming Platform
+category: Streaming Video
+description: Netflix-style movie streaming with HLS adaptive bitrate via Video.js. Stripe subscription tiers (Free/Standard/4K). TMDb API integration for metadata, poster art, and cast info. Includes continue-watching, multiple profiles, and parental controls.
+features: HLS adaptive streaming, Stripe subscription tiers, TMDb metadata sync, multi-profile support, continue-watching queue, parental content locks
+design_bg: #0A0A0A
+design_primary: #E50914
+design_vibe: Dark cinematic red
+budget: 750
+
+name: BingeRadar Discovery
+prefix: BGD
+type: Show Discovery Engine
+category: Streaming Discovery
+description: AI-powered TV show and movie recommendation engine using collaborative filtering and OpenAI embeddings. Cross-platform watchlist aggregation from Netflix, Hulu, Prime via JustWatch API. Includes mood-based filters, "surprise me" roulette, and taste-match scores.
+features: AI recommendation engine, JustWatch API aggregation, mood-based filters, surprise-me roulette, taste-match percentage, cross-platform search
+design_bg: #1A1A2E
+design_primary: #E94560
+design_vibe: Dark discovery neon pink
+budget: 650
+
+name: SeriesSync Tracker
+prefix: SST
+type: Episode Tracker
+category: Streaming Productivity
+description: Trakt.tv-style episode tracking with automatic progress sync via Plex and Jellyfin webhooks. Calendar integration via Google Calendar API for upcoming episodes. Push notifications via OneSignal when new episodes air. Community ratings and spoiler-free discussion boards.
+features: Plex/Jellyfin webhook sync, episode air-date calendar, OneSignal push alerts, spoiler-free forums, seasonal binge planner, watch history export
+design_bg: #16213E
+design_primary: #0F3460
+design_vibe: Deep navy organized
+budget: 600
+
+name: CritiqHub Reviews
+prefix: CHR
+type: Review Aggregator
+category: Streaming Social
+description: Letterboxd-meets-Rotten-Tomatoes review platform for movies and TV shows. User reviews with spoiler tags, critic vs audience scores, and half-star ratings. OAuth via Google and Apple. Share watchlists as curated lists with custom cover art and OG meta previews.
+features: critic vs audience dual scores, spoiler-tag system, curated shareable lists, OAuth Google/Apple login, OG meta social previews, half-star granular ratings
+design_bg: #F5F5F5
+design_primary: #FFB400
+design_vibe: Clean review gold light
+budget: 600
+
+name: WatchPartyGo Live
+prefix: WPG
+type: Synchronized Watch Party
+category: Streaming Social
+description: Teleparty-style synchronized viewing rooms with WebSocket-based playback sync. Video chat overlay via Daily.co WebRTC. Supports YouTube, Twitch embed, and self-hosted HLS streams. Emoji reactions, live polls, and integrated group chat with GIF support via Giphy API.
+features: WebSocket playback sync, Daily.co video chat overlay, YouTube/Twitch embed, Giphy-powered chat, live polls during playback, emoji reaction stream
+design_bg: #1B0536
+design_primary: #9B59B6
+design_vibe: Dark party purple
+budget: 700
+
+name: SubDub Localize
+prefix: SDL
+type: Subtitle & Dubbing Platform
+category: Streaming Tools
+description: OpenSubtitles API-powered subtitle search and editor with in-browser timing sync. AI auto-translate via DeepL API for 30+ languages. Community subtitle upload and voting. SRT/VTT/ASS format conversion and style editor for font, color, and positioning.
+features: OpenSubtitles API search, DeepL auto-translate, in-browser timing editor, SRT/VTT/ASS converter, community subtitle voting, custom style presets
+design_bg: #212121
+design_primary: #00BFA5
+design_vibe: Dark subtitle teal
+budget: 550
+
+name: TrailerDrop Preview
+prefix: TDP
+type: Trailer & Preview Hub
+category: Streaming Discovery
+description: YouTube Data API-powered trailer aggregation with upcoming release calendars. TMDB and OMDB API for metadata enrichment. Personalized hype-score algorithm based on genre preferences and watch history. Countdown timers for theatrical and streaming release dates.
+features: YouTube trailer aggregation, TMDB/OMDB metadata, personalized hype-score, release countdown timers, genre preference engine, watchlist-to-calendar sync
+design_bg: #0D0D0D
+design_primary: #FF6F00
+design_vibe: Dark trailer orange
+budget: 500
+
+name: CinemaLedger Catalog
+prefix: CLC
+type: Personal Media Library
+category: Streaming Productivity
+description: Plex-style personal media catalog for physical and digital collections. Barcode scanning via QuaggaJS for Blu-ray and DVD lookup against OMDB. Lending tracker, insurance valuations, and shelf-location organizer. Export collection to CSV and Notion via API.
+features: QuaggaJS barcode scanner, OMDB disc lookup, lending tracker with reminders, insurance valuation calculator, Notion export integration, shelf-location map
+design_bg: #FAFAFA
+design_primary: #37474F
+design_vibe: Clean catalog slate light
+budget: 500
+
+name: SceneCut Clips
+prefix: SCC
+type: Video Clip & Meme Creator
+category: Streaming Social
+description: FFmpeg-powered in-browser video clipper for creating shareable GIFs and short clips from movie scenes. Cloudinary for CDN hosting and image transforms. Watermark overlays, caption generators with meme-style fonts, and direct share to Twitter/Reddit via OAuth.
+features: FFmpeg in-browser clipping, Cloudinary CDN hosting, meme caption generator, watermark overlay, Twitter/Reddit direct share, GIF/MP4/WebM export
+design_bg: #18181B
+design_primary: #F43F5E
+design_vibe: Dark creator rose
+budget: 600
+
+name: NightOwl Schedule
+prefix: NOS
+type: Streaming TV Schedule
+category: Streaming Tools
+description: TV Maze API-powered live TV and streaming schedule aggregator. Personalized prime-time planner that organizes tonight's shows across all subscribed platforms. Slack and Discord bot integration for group viewing coordination. Time-zone-aware scheduling with DVR conflict detection.
+features: TV Maze API schedule sync, multi-platform prime-time planner, Slack/Discord bot alerts, timezone-aware grid view, DVR conflict detector, weekly digest email
+design_bg: #0F172A
+design_primary: #6366F1
+design_vibe: Dark schedule indigo
+budget: 550

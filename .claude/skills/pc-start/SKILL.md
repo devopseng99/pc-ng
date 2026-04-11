@@ -13,24 +13,28 @@ Resume pipeline operations. Clears emergency halt, resets circuit breaker, start
 ## Arguments
 
 - `$ARGUMENTS` — Options like `--pipeline tech`, `--concurrency 2`, `--with-supervisor`, `--with-deploy`
-- `--pipeline` — Which pipeline to start: v1, tech, wasm, soa (default: starts both v1 + tech)
-- `--concurrency N` — Max concurrent builds (default: 2, max recommended: 2 per pipeline)
+- `--pipeline` — Which pipeline to start (any registered pipeline; default: starts v1 + tech)
+- `--concurrency N` — Max concurrent builds (default: 2; 4 OK for single pipeline; never >4)
 - Default: concurrency 2, no supervisor, no auto-deploy
 
-## Pipelines & Manifests
-| Pipeline | Manifest | Category |
-|---|---|---|
-| v1 | use-cases-201-400.json | Original apps |
-| tech | use-cases-401-600.json | Tech apps |
-| wasm | wasm-sandbox-apps.json | WASM & Sandbox Runtimes |
-| soa | pc-soa-v3-templates.json | Next-Gen UI Platform |
+## Pipelines
+
+Pipeline → instance mappings are in the `pipeline-registry` ConfigMap (`paperclip-v3` namespace).
+List all registered pipelines:
+```bash
+source /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/pipeline-registry.sh && list_pipelines
+```
 
 ## Steps
 
-1. Clear halt state and circuit breaker:
+1. Clear halt state and circuit breaker (per-pipeline from registry + legacy):
 ```bash
 rm -f /tmp/pc-autopilot/.emergency-halt
-echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state
+PIPELINES=$(source /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/pipeline-registry.sh && list_pipelines)
+for p in $PIPELINES default; do
+  echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state-${p} 2>/dev/null
+done
+echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state 2>/dev/null
 > /tmp/pc-autopilot/.circuit-breaker-results
 ```
 

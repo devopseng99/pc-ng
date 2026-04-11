@@ -1,0 +1,114 @@
+# Pipeline: saas
+# Category: SaaS Hosting & Payments
+# 10 apps — open-source-as-a-service platforms with billing
+# Generated: 2026-04-06
+
+name: GitForge Hosting
+prefix: GFH
+type: Git Platform Hosting
+category: SaaS Dev Tools
+description: One-click Gitea and Forgejo deployments with per-seat billing via Stripe. Includes backup snapshots, custom domain binding, and SSO via Keycloak integration.
+features: one-click Gitea deploy, per-seat Stripe billing, automated backups, custom domain SSL, LDAP/OIDC SSO, usage metering dashboard
+design_bg: #0D1117
+design_primary: #58A6FF
+design_vibe: GitHub-dark developer
+budget: 700
+
+name: MatrixPay Chat
+prefix: MPC
+type: Chat Server Hosting
+category: SaaS Communication
+description: Managed Matrix/Element chat hosting with per-user monthly billing. Bridges to Slack, Discord, and IRC. Includes E2EE key management and media storage quotas via S3-compatible backends.
+features: Matrix Synapse hosting, Slack/Discord bridges, per-user billing, E2EE key backup, S3 media storage, admin federation panel
+design_bg: #1B1F23
+design_primary: #0DBD8B
+design_vibe: Secure messaging dark
+budget: 650
+
+name: WikiStack Pro
+prefix: WSP
+type: Wiki Hosting
+category: SaaS Knowledge Base
+description: Managed Wiki.js and BookStack hosting with team-based pricing via Paddle. Features markdown + WYSIWYG, diagram support via Mermaid, and Git-backed version history.
+features: Wiki.js one-click deploy, team-tier Paddle billing, Mermaid diagrams, Git-backed versioning, full-text search, custom branding
+design_bg: #FAFAFA
+design_primary: #1565C0
+design_vibe: Clean knowledge base light
+budget: 550
+
+name: MailRelay Cloud
+prefix: MRC
+type: Email Server Hosting
+category: SaaS Communication
+description: Hosted Mailu and Postal SMTP with volume-based billing. Includes DKIM/SPF/DMARC auto-config, spam filtering via Rspamd, and deliverability monitoring dashboards.
+features: Mailu/Postal deploy, volume-based billing, DKIM auto-config, Rspamd spam filter, deliverability dashboard, multi-domain routing
+design_bg: #F8F9FA
+design_primary: #D93025
+design_vibe: Clean professional email
+budget: 600
+
+name: NocoDB Gateway
+prefix: NDG
+type: Database UI Hosting
+category: SaaS Data Tools
+description: Managed NocoDB and Baserow hosting as Airtable alternatives. Pay-per-row pricing via Stripe metered billing. REST API auto-generation and webhook triggers for all tables.
+features: NocoDB one-click deploy, pay-per-row metered billing, REST API auto-gen, webhook triggers, form builder, Zapier integration
+design_bg: #1F2937
+design_primary: #7C3AED
+design_vibe: Modern data purple dark
+budget: 600
+
+name: AnalyticsPod
+prefix: APD
+type: Analytics Hosting
+category: SaaS Analytics
+description: Hosted Plausible and Umami analytics with per-site billing. Privacy-first, GDPR-compliant, no cookies. Includes custom event tracking, goal funnels, and data export via API.
+features: Plausible/Umami deploy, per-site pricing, cookie-free tracking, goal funnels, API data export, real-time visitor dashboard
+design_bg: #0F172A
+design_primary: #F97316
+design_vibe: Analytics dark orange
+budget: 500
+
+name: FormVault Hosted
+prefix: FVH
+type: Form Backend Hosting
+category: SaaS Data Tools
+description: Managed Formbricks and Heyform hosting with per-submission pricing. Includes conditional logic, file uploads to S3, Stripe payment forms, and webhook delivery with retry.
+features: Formbricks deploy, per-submission billing, conditional logic builder, S3 file uploads, Stripe payment fields, webhook retries
+design_bg: #FFFFFF
+design_primary: #2563EB
+design_vibe: Clean form builder light
+budget: 500
+
+name: AuthStack Cloud
+prefix: ATC
+type: Auth Provider Hosting
+category: SaaS Security
+description: Managed Keycloak and Authentik hosting with monthly-active-user billing. Includes social logins, MFA via TOTP/WebAuthn, SCIM provisioning, and audit logs.
+features: Keycloak/Authentik deploy, MAU-based pricing, social OAuth, WebAuthn MFA, SCIM user sync, compliance audit logs
+design_bg: #111827
+design_primary: #10B981
+design_vibe: Secure identity dark green
+budget: 700
+
+name: StatusPing Hosted
+prefix: SPH
+type: Status Page Hosting
+category: SaaS Monitoring
+description: Managed Gatus and Upptime status page hosting with flat-rate per-monitor pricing. Includes incident management, Slack/PagerDuty alerts, and custom branded status pages.
+features: Gatus one-click deploy, per-monitor pricing, incident timeline, Slack/PagerDuty alerts, branded status pages, uptime SLA reports
+design_bg: #F0FDF4
+design_primary: #16A34A
+design_vibe: Status green light trust
+budget: 450
+
+name: PasteBin Pro
+prefix: PBP
+type: Paste & Snippet Hosting
+category: SaaS Dev Tools
+description: Managed PrivateBin and Hastebin hosting with team-plan billing. Features E2EE pastes, syntax highlighting for 200+ languages, expiry controls, and burn-after-read secrets.
+features: PrivateBin deploy, team plan billing, E2EE pastes, 200+ syntax langs, burn-after-read, API paste creation
+design_bg: #18181B
+design_primary: #FACC15
+design_vibe: Hacker dark yellow
+budget: 450

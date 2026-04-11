@@ -7,8 +7,22 @@
       "repo": "pixelforge-ai-studio",
       "category": "AI Image Generation",
       "description": "SaaS image generation platform with credit-based billing. Users generate images via HuggingFace Stable Diffusion + FLUX models. Stripe payments, usage metering, gallery sharing.",
-      "features": ["HuggingFace Inference API", "Stripe credit packs", "image gallery", "prompt templates", "batch generation", "download/export"],
-      "design": {"bg": "#0F0F23", "primary": "#8B5CF6", "vibe": "Dark creative studio"}
+      "features": [
+        "HuggingFace Inference API",
+        "Stripe credit packs",
+        "image gallery",
+        "prompt templates",
+        "batch generation",
+        "download/export"
+      ],
+      "design": {
+        "bg": "#0F0F23",
+        "primary": "#8B5CF6",
+        "vibe": "Dark creative studio"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@pixelforge-ai-studio.com"
     },
     {
       "id": 20002,
@@ -17,8 +31,22 @@
       "repo": "vidcraft-ai",
       "category": "AI Video Generation",
       "description": "Video generation SaaS using Sora2 and Runway APIs. Text-to-video, image-to-video, video extension. Subscription tiers with usage limits.",
-      "features": ["Sora2 API integration", "Runway ML fallback", "subscription billing", "video editor timeline", "export 720p/1080p/4K", "project management"],
-      "design": {"bg": "#0A0A1A", "primary": "#EC4899", "vibe": "Cinematic dark"}
+      "features": [
+        "Sora2 API integration",
+        "Runway ML fallback",
+        "subscription billing",
+        "video editor timeline",
+        "export 720p/1080p/4K",
+        "project management"
+      ],
+      "design": {
+        "bg": "#0A0A1A",
+        "primary": "#EC4899",
+        "vibe": "Cinematic dark"
+      },
+      "type": "AI Video Generation Platform",
+      "budget": 800,
+      "email": "client@vidcraft-ai.com"
     },
     {
       "id": 20003,
@@ -27,8 +55,22 @@
       "repo": "grokvision-api",
       "category": "AI Image Generation",
       "description": "Image generation API gateway aggregating xAI Grok, DALL-E, and HuggingFace models. Pay-per-call pricing, API key management, usage dashboard. Built for developers.",
-      "features": ["xAI Grok vision API", "multi-model routing", "API key management", "usage analytics", "rate limiting", "Stripe metered billing"],
-      "design": {"bg": "#111827", "primary": "#F59E0B", "vibe": "Developer-focused dark"}
+      "features": [
+        "xAI Grok vision API",
+        "multi-model routing",
+        "API key management",
+        "usage analytics",
+        "rate limiting",
+        "Stripe metered billing"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#F59E0B",
+        "vibe": "Developer-focused dark"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@grokvision-api.com"
     },
     {
       "id": 20004,
@@ -37,8 +79,22 @@
       "repo": "groqchat-turbo",
       "category": "AI Chat & Agents",
       "description": "Ultra-fast AI chat platform powered by Groq LPU inference. Multi-model chat with Llama, Mixtral, Gemma. Freemium with paid pro tier for higher limits.",
-      "features": ["Groq API (Llama 3.1, Mixtral)", "conversation history", "system prompts", "Stripe subscriptions", "usage metering", "export conversations"],
-      "design": {"bg": "#0C0C1D", "primary": "#F97316", "vibe": "Speed-focused futuristic"}
+      "features": [
+        "Groq API (Llama 3.1, Mixtral)",
+        "conversation history",
+        "system prompts",
+        "Stripe subscriptions",
+        "usage metering",
+        "export conversations"
+      ],
+      "design": {
+        "bg": "#0C0C1D",
+        "primary": "#F97316",
+        "vibe": "Speed-focused futuristic"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@groqchat-turbo.com"
     },
     {
       "id": 20005,
@@ -47,8 +103,22 @@
       "repo": "headshotpro-ai",
       "category": "AI Image Generation",
       "description": "Professional AI headshot generator. Upload selfies, get studio-quality headshots for LinkedIn/resumes. Per-pack pricing ($9.99/pack). Uses HuggingFace fine-tuned models.",
-      "features": ["face detection + enhancement", "background replacement", "style presets (corporate, creative, casual)", "batch processing", "Stripe one-time payments", "download hi-res"],
-      "design": {"bg": "#FFFFFF", "primary": "#2563EB", "vibe": "Clean professional white"}
+      "features": [
+        "face detection + enhancement",
+        "background replacement",
+        "style presets (corporate, creative, casual)",
+        "batch processing",
+        "Stripe one-time payments",
+        "download hi-res"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#2563EB",
+        "vibe": "Clean professional white"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@headshotpro-ai.com"
     },
     {
       "id": 20006,
@@ -57,8 +127,22 @@
       "repo": "logomint-ai",
       "category": "AI Image Generation",
       "description": "AI logo generator SaaS. Describe your brand, get 20+ logo variations instantly. SVG export, brand kit generation. Credit-based pricing.",
-      "features": ["FLUX model for logos", "SVG vectorization", "brand color extraction", "mockup previews", "Stripe credits", "brand kit PDF export"],
-      "design": {"bg": "#FAFAFA", "primary": "#10B981", "vibe": "Bright creative minimal"}
+      "features": [
+        "FLUX model for logos",
+        "SVG vectorization",
+        "brand color extraction",
+        "mockup previews",
+        "Stripe credits",
+        "brand kit PDF export"
+      ],
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#10B981",
+        "vibe": "Bright creative minimal"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@logomint-ai.com"
     },
     {
       "id": 20007,
@@ -67,8 +151,22 @@
       "repo": "thumbnailgenius",
       "category": "AI Image Generation",
       "description": "YouTube thumbnail generator using AI. Paste video URL or describe content, get click-optimized thumbnails. A/B test variants. Subscription for YouTubers.",
-      "features": ["HuggingFace image gen", "text overlay engine", "face highlighting", "A/B analytics", "Stripe monthly sub", "bulk generation"],
-      "design": {"bg": "#1A1A2E", "primary": "#FF0050", "vibe": "YouTube creator energy"}
+      "features": [
+        "HuggingFace image gen",
+        "text overlay engine",
+        "face highlighting",
+        "A/B analytics",
+        "Stripe monthly sub",
+        "bulk generation"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#FF0050",
+        "vibe": "YouTube creator energy"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@thumbnailgenius.com"
     },
     {
       "id": 20008,
@@ -77,8 +175,22 @@
       "repo": "stockforge-ai",
       "category": "AI Image Generation",
       "description": "AI stock photo marketplace. Generate and sell AI stock images. Creators earn per download, buyers get cheap licensed images. Two-sided marketplace.",
-      "features": ["FLUX/SDXL generation", "auto-tagging + categorization", "license management", "creator payouts", "Stripe Connect", "search + filtering"],
-      "design": {"bg": "#F8FAFC", "primary": "#6366F1", "vibe": "Clean marketplace"}
+      "features": [
+        "FLUX/SDXL generation",
+        "auto-tagging + categorization",
+        "license management",
+        "creator payouts",
+        "Stripe Connect",
+        "search + filtering"
+      ],
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#6366F1",
+        "vibe": "Clean marketplace"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@stockforge-ai.com"
     },
     {
       "id": 20009,
@@ -87,8 +199,22 @@
       "repo": "fabricflow-agent",
       "category": "AI Chat & Agents",
       "description": "Daniel Missler's Fabric-inspired AI agent platform. Chain prompts into workflows (extract wisdom, summarize, analyze). API access + web UI. Usage-based billing.",
-      "features": ["Fabric patterns library", "Groq + OpenAI backends", "workflow chaining", "API endpoints per pattern", "Stripe usage billing", "custom pattern editor"],
-      "design": {"bg": "#0D1117", "primary": "#58A6FF", "vibe": "GitHub-inspired developer dark"}
+      "features": [
+        "Fabric patterns library",
+        "Groq + OpenAI backends",
+        "workflow chaining",
+        "API endpoints per pattern",
+        "Stripe usage billing",
+        "custom pattern editor"
+      ],
+      "design": {
+        "bg": "#0D1117",
+        "primary": "#58A6FF",
+        "vibe": "GitHub-inspired developer dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@fabricflow-agent.com"
     },
     {
       "id": 20010,
@@ -96,9 +222,23 @@
       "prefix": "WEP",
       "repo": "wisdomextract-pro",
       "category": "AI Chat & Agents",
-      "description": "Content intelligence SaaS inspired by extract_wisdom pattern. Feed it podcasts, articles, videos — get structured insights, quotes, action items. Subscription model.",
-      "features": ["YouTube transcript extraction", "podcast RSS ingestion", "structured output (insights, quotes, habits)", "Groq for speed", "weekly digest emails", "Stripe subscriptions"],
-      "design": {"bg": "#1C1917", "primary": "#D97706", "vibe": "Warm knowledge-focused"}
+      "description": "Content intelligence SaaS inspired by extract_wisdom pattern. Feed it podcasts, articles, videos \u2014 get structured insights, quotes, action items. Subscription model.",
+      "features": [
+        "YouTube transcript extraction",
+        "podcast RSS ingestion",
+        "structured output (insights, quotes, habits)",
+        "Groq for speed",
+        "weekly digest emails",
+        "Stripe subscriptions"
+      ],
+      "design": {
+        "bg": "#1C1917",
+        "primary": "#D97706",
+        "vibe": "Warm knowledge-focused"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@wisdomextract-pro.com"
     },
     {
       "id": 20011,
@@ -107,8 +247,22 @@
       "repo": "bannerblitz-ai",
       "category": "AI Image Generation",
       "description": "Social media banner/ad generator. Input brand + message, get sized banners for Twitter, LinkedIn, Facebook, Instagram. Subscription for agencies.",
-      "features": ["multi-platform sizing", "brand kit import", "text + image composition", "HuggingFace backgrounds", "Canva-like editor", "Stripe team plans"],
-      "design": {"bg": "#18181B", "primary": "#A855F7", "vibe": "Creative agency dark"}
+      "features": [
+        "multi-platform sizing",
+        "brand kit import",
+        "text + image composition",
+        "HuggingFace backgrounds",
+        "Canva-like editor",
+        "Stripe team plans"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#A855F7",
+        "vibe": "Creative agency dark"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@bannerblitz-ai.com"
     },
     {
       "id": 20012,
@@ -117,8 +271,22 @@
       "repo": "reelforge-ai",
       "category": "AI Video Generation",
       "description": "Short-form video creator for TikTok/Reels/Shorts. AI generates scripts, voiceover, and video clips. Bulk creation for content agencies. Per-video pricing.",
-      "features": ["script generation (Groq)", "text-to-speech", "stock video matching", "auto-captioning", "batch rendering", "Stripe per-video billing"],
-      "design": {"bg": "#000000", "primary": "#25D366", "vibe": "Creator black"}
+      "features": [
+        "script generation (Groq)",
+        "text-to-speech",
+        "stock video matching",
+        "auto-captioning",
+        "batch rendering",
+        "Stripe per-video billing"
+      ],
+      "design": {
+        "bg": "#000000",
+        "primary": "#25D366",
+        "vibe": "Creator black"
+      },
+      "type": "AI Video Generation Platform",
+      "budget": 800,
+      "email": "client@reelforge-ai.com"
     },
     {
       "id": 20013,
@@ -127,8 +295,22 @@
       "repo": "productshot-ai",
       "category": "AI Image Generation",
       "description": "E-commerce product photo generator. Upload product on white bg, get lifestyle shots with AI backgrounds. Per-image pricing for Shopify/Amazon sellers.",
-      "features": ["background removal", "scene generation (kitchen, office, outdoor)", "shadow/reflection", "batch processing", "Shopify integration", "Stripe pay-per-image"],
-      "design": {"bg": "#FFFFFF", "primary": "#FF6900", "vibe": "Clean e-commerce"}
+      "features": [
+        "background removal",
+        "scene generation (kitchen, office, outdoor)",
+        "shadow/reflection",
+        "batch processing",
+        "Shopify integration",
+        "Stripe pay-per-image"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#FF6900",
+        "vibe": "Clean e-commerce"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@productshot-ai.com"
     },
     {
       "id": 20014,
@@ -137,8 +319,22 @@
       "repo": "agentforge-studio",
       "category": "AI Chat & Agents",
       "description": "No-code AI agent builder. Create, deploy, and monetize AI agents with custom tools. Marketplace for agent templates. Revenue share model.",
-      "features": ["visual agent builder", "tool integration (web search, APIs, code exec)", "agent marketplace", "embed widget", "Stripe revenue share", "analytics dashboard"],
-      "design": {"bg": "#0F172A", "primary": "#06B6D4", "vibe": "Builder platform dark"}
+      "features": [
+        "visual agent builder",
+        "tool integration (web search, APIs, code exec)",
+        "agent marketplace",
+        "embed widget",
+        "Stripe revenue share",
+        "analytics dashboard"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#06B6D4",
+        "vibe": "Builder platform dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@agentforge-studio.com"
     },
     {
       "id": 20015,
@@ -147,8 +343,22 @@
       "repo": "voiceclone-pro",
       "category": "AI Audio & Voice",
       "description": "AI voice cloning and text-to-speech SaaS. Clone your voice, generate audiobooks, podcasts, voiceovers. Per-minute pricing.",
-      "features": ["voice cloning (3s sample)", "multi-language TTS", "audiobook generation", "podcast intros", "HuggingFace speech models", "Stripe per-minute billing"],
-      "design": {"bg": "#1E1B4B", "primary": "#818CF8", "vibe": "Audio-focused deep purple"}
+      "features": [
+        "voice cloning (3s sample)",
+        "multi-language TTS",
+        "audiobook generation",
+        "podcast intros",
+        "HuggingFace speech models",
+        "Stripe per-minute billing"
+      ],
+      "design": {
+        "bg": "#1E1B4B",
+        "primary": "#818CF8",
+        "vibe": "Audio-focused deep purple"
+      },
+      "type": "AI Audio Processing Platform",
+      "budget": 800,
+      "email": "client@voiceclone-pro.com"
     },
     {
       "id": 20016,
@@ -157,8 +367,22 @@
       "repo": "mockupmagic-ai",
       "category": "AI Image Generation",
       "description": "Device mockup generator. Upload screenshots, get photorealistic mockups on phones, laptops, tablets. For app developers and designers. Credit-based.",
-      "features": ["50+ device templates", "AI scene generation", "perspective transform", "batch export", "Figma plugin", "Stripe credit packs"],
-      "design": {"bg": "#F1F5F9", "primary": "#7C3AED", "vibe": "Designer light"}
+      "features": [
+        "50+ device templates",
+        "AI scene generation",
+        "perspective transform",
+        "batch export",
+        "Figma plugin",
+        "Stripe credit packs"
+      ],
+      "design": {
+        "bg": "#F1F5F9",
+        "primary": "#7C3AED",
+        "vibe": "Designer light"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@mockupmagic-ai.com"
     },
     {
       "id": 20017,
@@ -167,8 +391,22 @@
       "repo": "apimonetize-hub",
       "category": "API Infrastructure",
       "description": "API monetization platform. Wrap any AI model into a paid API. Auto-generates docs, handles auth, billing, rate limits. For AI developers selling API access.",
-      "features": ["API gateway + proxy", "Stripe metered billing", "auto-generated OpenAPI docs", "API key management", "usage dashboards", "rate limiting"],
-      "design": {"bg": "#0C0A09", "primary": "#22D3EE", "vibe": "Infrastructure dark"}
+      "features": [
+        "API gateway + proxy",
+        "Stripe metered billing",
+        "auto-generated OpenAPI docs",
+        "API key management",
+        "usage dashboards",
+        "rate limiting"
+      ],
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#22D3EE",
+        "vibe": "Infrastructure dark"
+      },
+      "type": "API Infrastructure Service",
+      "budget": 800,
+      "email": "client@apimonetize-hub.com"
     },
     {
       "id": 20018,
@@ -177,8 +415,22 @@
       "repo": "contentpilot-ai",
       "category": "AI Chat & Agents",
       "description": "AI content agent for blogs, SEO, and social media. Auto-generates weekly content calendars, drafts posts, optimizes for SEO. Subscription for solopreneurs.",
-      "features": ["Groq-powered drafting", "SEO keyword research", "content calendar", "auto-publish to WordPress/Ghost", "social media scheduling", "Stripe monthly plans"],
-      "design": {"bg": "#FFFFFF", "primary": "#3B82F6", "vibe": "Clean SaaS white"}
+      "features": [
+        "Groq-powered drafting",
+        "SEO keyword research",
+        "content calendar",
+        "auto-publish to WordPress/Ghost",
+        "social media scheduling",
+        "Stripe monthly plans"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#3B82F6",
+        "vibe": "Clean SaaS white"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@contentpilot-ai.com"
     },
     {
       "id": 20019,
@@ -187,8 +439,22 @@
       "repo": "faceswap-studio",
       "category": "AI Image Generation",
       "description": "AI face swap and transformation tool. Professional face compositing for entertainment, marketing, film. Ethical usage policy enforced. Per-image pricing.",
-      "features": ["face detection + swap", "age/style transformation", "video face swap", "watermark protection", "NSFW filtering", "Stripe pay-per-use"],
-      "design": {"bg": "#0A0A0A", "primary": "#F43F5E", "vibe": "Dark studio"}
+      "features": [
+        "face detection + swap",
+        "age/style transformation",
+        "video face swap",
+        "watermark protection",
+        "NSFW filtering",
+        "Stripe pay-per-use"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#F43F5E",
+        "vibe": "Dark studio"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@faceswap-studio.com"
     },
     {
       "id": 20020,
@@ -197,8 +463,22 @@
       "repo": "slidedeck-ai",
       "category": "AI Productivity",
       "description": "AI presentation generator. Describe your topic, get a full slide deck with AI images and speaker notes. Export to PPTX/PDF. Per-deck pricing.",
-      "features": ["topic-to-slides pipeline", "AI image per slide", "speaker notes", "PPTX export", "template themes", "Stripe per-deck billing"],
-      "design": {"bg": "#F8FAFC", "primary": "#0EA5E9", "vibe": "Presentation clean"}
+      "features": [
+        "topic-to-slides pipeline",
+        "AI image per slide",
+        "speaker notes",
+        "PPTX export",
+        "template themes",
+        "Stripe per-deck billing"
+      ],
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#0EA5E9",
+        "vibe": "Presentation clean"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@slidedeck-ai.com"
     },
     {
       "id": 20021,
@@ -207,8 +487,22 @@
       "repo": "promptvault-market",
       "category": "AI Chat & Agents",
       "description": "Marketplace for AI prompts and prompt chains. Creators sell tested prompts, buyers get guaranteed outputs. Revenue share via Stripe Connect.",
-      "features": ["prompt listing + preview", "output examples", "ratings + reviews", "Stripe Connect payouts", "prompt versioning", "API access to purchased prompts"],
-      "design": {"bg": "#1A1A2E", "primary": "#FBBF24", "vibe": "Marketplace gold-dark"}
+      "features": [
+        "prompt listing + preview",
+        "output examples",
+        "ratings + reviews",
+        "Stripe Connect payouts",
+        "prompt versioning",
+        "API access to purchased prompts"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#FBBF24",
+        "vibe": "Marketplace gold-dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@promptvault-market.com"
     },
     {
       "id": 20022,
@@ -217,8 +511,22 @@
       "repo": "dataviz-genie",
       "category": "AI Productivity",
       "description": "AI-powered data visualization. Upload CSV/JSON, get interactive charts and dashboards instantly. AI explains trends. Subscription for analysts.",
-      "features": ["CSV/JSON/Excel upload", "auto chart selection", "AI trend analysis (Groq)", "interactive D3.js charts", "embed/share dashboards", "Stripe pro tier"],
-      "design": {"bg": "#111827", "primary": "#34D399", "vibe": "Data-focused dark green"}
+      "features": [
+        "CSV/JSON/Excel upload",
+        "auto chart selection",
+        "AI trend analysis (Groq)",
+        "interactive D3.js charts",
+        "embed/share dashboards",
+        "Stripe pro tier"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#34D399",
+        "vibe": "Data-focused dark green"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@dataviz-genie.com"
     },
     {
       "id": 20023,
@@ -227,8 +535,22 @@
       "repo": "invoicebot-ai",
       "category": "AI Productivity",
       "description": "AI invoice generator and tracker for freelancers. Auto-generates from conversation, tracks payments, sends reminders. Freemium with pro features.",
-      "features": ["natural language to invoice", "PDF generation", "payment tracking", "Stripe invoicing", "client portal", "late payment reminders"],
-      "design": {"bg": "#FFFFFF", "primary": "#059669", "vibe": "Finance clean green"}
+      "features": [
+        "natural language to invoice",
+        "PDF generation",
+        "payment tracking",
+        "Stripe invoicing",
+        "client portal",
+        "late payment reminders"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#059669",
+        "vibe": "Finance clean green"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@invoicebot-ai.com"
     },
     {
       "id": 20024,
@@ -237,8 +559,22 @@
       "repo": "codescreenshot-pro",
       "category": "AI Productivity",
       "description": "Beautiful code screenshot generator with AI enhancements. Carbon-like but with AI themes, annotations, and explanations. Pro tier for teams.",
-      "features": ["syntax highlighting 100+ languages", "AI-generated themes", "code explanation overlay", "social media sizing", "VS Code extension", "Stripe team billing"],
-      "design": {"bg": "#282A36", "primary": "#BD93F9", "vibe": "Dracula code editor"}
+      "features": [
+        "syntax highlighting 100+ languages",
+        "AI-generated themes",
+        "code explanation overlay",
+        "social media sizing",
+        "VS Code extension",
+        "Stripe team billing"
+      ],
+      "design": {
+        "bg": "#282A36",
+        "primary": "#BD93F9",
+        "vibe": "Dracula code editor"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@codescreenshot-pro.com"
     },
     {
       "id": 20025,
@@ -247,8 +583,22 @@
       "repo": "seoagent-pro",
       "category": "AI Chat & Agents",
       "description": "AI SEO agent that audits sites, generates meta tags, suggests content, and tracks rankings. Automated weekly reports. Subscription for small businesses.",
-      "features": ["site crawl + audit", "meta tag generation", "keyword tracking", "competitor analysis", "Groq-powered suggestions", "Stripe monthly plans"],
-      "design": {"bg": "#0F172A", "primary": "#4ADE80", "vibe": "SEO growth dark"}
+      "features": [
+        "site crawl + audit",
+        "meta tag generation",
+        "keyword tracking",
+        "competitor analysis",
+        "Groq-powered suggestions",
+        "Stripe monthly plans"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#4ADE80",
+        "vibe": "SEO growth dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@seoagent-pro.com"
     },
     {
       "id": 20026,
@@ -257,8 +607,22 @@
       "repo": "memeforge-ai",
       "category": "AI Image Generation",
       "description": "AI meme generator. Trending templates + AI-generated custom memes. Viral content toolkit for social media managers. Credit-based.",
-      "features": ["trending meme templates", "AI caption generation", "custom image generation", "watermark branding", "social sharing", "Stripe credit packs"],
-      "design": {"bg": "#000000", "primary": "#FACC15", "vibe": "Meme culture dark-yellow"}
+      "features": [
+        "trending meme templates",
+        "AI caption generation",
+        "custom image generation",
+        "watermark branding",
+        "social sharing",
+        "Stripe credit packs"
+      ],
+      "design": {
+        "bg": "#000000",
+        "primary": "#FACC15",
+        "vibe": "Meme culture dark-yellow"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@memeforge-ai.com"
     },
     {
       "id": 20027,
@@ -267,8 +631,22 @@
       "repo": "bookcover-ai",
       "category": "AI Image Generation",
       "description": "AI book cover designer for self-published authors. Input genre + title, get professional covers. Amazon KDP ready export. Per-cover pricing.",
-      "features": ["genre-specific styles", "typography engine", "spine + back cover", "KDP/IngramSpark templates", "mockup preview", "Stripe per-cover"],
-      "design": {"bg": "#1C1917", "primary": "#D946EF", "vibe": "Literary dark purple"}
+      "features": [
+        "genre-specific styles",
+        "typography engine",
+        "spine + back cover",
+        "KDP/IngramSpark templates",
+        "mockup preview",
+        "Stripe per-cover"
+      ],
+      "design": {
+        "bg": "#1C1917",
+        "primary": "#D946EF",
+        "vibe": "Literary dark purple"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@bookcover-ai.com"
     },
     {
       "id": 20028,
@@ -277,8 +655,22 @@
       "repo": "transcribeflow",
       "category": "AI Audio & Voice",
       "description": "AI transcription SaaS with speaker diarization, summaries, and action items. Upload audio/video, get structured transcripts. Per-minute pricing.",
-      "features": ["Whisper transcription", "speaker identification", "AI summary + action items", "timestamp linking", "export SRT/VTT/TXT", "Stripe per-minute"],
-      "design": {"bg": "#18181B", "primary": "#38BDF8", "vibe": "Audio tech dark"}
+      "features": [
+        "Whisper transcription",
+        "speaker identification",
+        "AI summary + action items",
+        "timestamp linking",
+        "export SRT/VTT/TXT",
+        "Stripe per-minute"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#38BDF8",
+        "vibe": "Audio tech dark"
+      },
+      "type": "AI Audio Processing Platform",
+      "budget": 800,
+      "email": "client@transcribeflow.com"
     },
     {
       "id": 20029,
@@ -287,8 +679,22 @@
       "repo": "chatwidget-pro",
       "category": "AI Chat & Agents",
       "description": "Embeddable AI chatbot for websites. Train on your docs/FAQ, deploy in 5 minutes. Lead capture + handoff to human. Subscription per site.",
-      "features": ["knowledge base training", "embed script (2 lines)", "lead capture forms", "human handoff", "Groq backend for speed", "Stripe per-site billing"],
-      "design": {"bg": "#FFFFFF", "primary": "#7C3AED", "vibe": "Widget clean purple"}
+      "features": [
+        "knowledge base training",
+        "embed script (2 lines)",
+        "lead capture forms",
+        "human handoff",
+        "Groq backend for speed",
+        "Stripe per-site billing"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#7C3AED",
+        "vibe": "Widget clean purple"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@chatwidget-pro.com"
     },
     {
       "id": 20030,
@@ -297,8 +703,22 @@
       "repo": "resumecraft-ai",
       "category": "AI Productivity",
       "description": "AI resume builder and optimizer. Paste job description, AI tailors your resume. ATS scoring. Freemium with paid PDF exports.",
-      "features": ["job description matching", "ATS score checker", "multiple templates", "cover letter generation", "PDF/DOCX export", "Stripe one-time + subscription"],
-      "design": {"bg": "#F8FAFC", "primary": "#2563EB", "vibe": "Professional resume blue"}
+      "features": [
+        "job description matching",
+        "ATS score checker",
+        "multiple templates",
+        "cover letter generation",
+        "PDF/DOCX export",
+        "Stripe one-time + subscription"
+      ],
+      "design": {
+        "bg": "#F8FAFC",
+        "primary": "#2563EB",
+        "vibe": "Professional resume blue"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@resumecraft-ai.com"
     },
     {
       "id": 20031,
@@ -307,8 +727,22 @@
       "repo": "artprint-shop-ai",
       "category": "AI Image Generation",
       "description": "AI art print-on-demand storefront. Generate art, sell as prints/posters/canvases. Integrates with Printful. Creator earns per sale.",
-      "features": ["AI art generation", "Printful integration", "storefront builder", "pricing controls", "order tracking", "Stripe Connect payouts"],
-      "design": {"bg": "#0C0A09", "primary": "#FB923C", "vibe": "Art gallery dark orange"}
+      "features": [
+        "AI art generation",
+        "Printful integration",
+        "storefront builder",
+        "pricing controls",
+        "order tracking",
+        "Stripe Connect payouts"
+      ],
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#FB923C",
+        "vibe": "Art gallery dark orange"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@artprint-shop-ai.com"
     },
     {
       "id": 20032,
@@ -317,8 +751,22 @@
       "repo": "emailcraft-ai",
       "category": "AI Productivity",
       "description": "AI email copywriter. Generate cold emails, newsletters, sequences. A/B test subject lines. Subscription for sales teams and marketers.",
-      "features": ["email templates by type", "AI personalization", "A/B subject line testing", "sequence builder", "analytics tracking", "Stripe team plans"],
-      "design": {"bg": "#1E293B", "primary": "#F472B6", "vibe": "Email marketing dark pink"}
+      "features": [
+        "email templates by type",
+        "AI personalization",
+        "A/B subject line testing",
+        "sequence builder",
+        "analytics tracking",
+        "Stripe team plans"
+      ],
+      "design": {
+        "bg": "#1E293B",
+        "primary": "#F472B6",
+        "vibe": "Email marketing dark pink"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@emailcraft-ai.com"
     },
     {
       "id": 20033,
@@ -327,8 +775,22 @@
       "repo": "qrcode-ai-designer",
       "category": "AI Image Generation",
       "description": "AI-styled QR codes that actually look good. Embed logos, artistic styles, brand colors. Still scannable. Per-QR pricing for businesses.",
-      "features": ["artistic QR generation", "logo embedding", "brand color matching", "scan verification", "batch generation", "Stripe credits"],
-      "design": {"bg": "#FFFFFF", "primary": "#1D4ED8", "vibe": "Clean tech white"}
+      "features": [
+        "artistic QR generation",
+        "logo embedding",
+        "brand color matching",
+        "scan verification",
+        "batch generation",
+        "Stripe credits"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#1D4ED8",
+        "vibe": "Clean tech white"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@qrcode-ai-designer.com"
     },
     {
       "id": 20034,
@@ -337,8 +799,22 @@
       "repo": "podcastclip-ai",
       "category": "AI Video Generation",
       "description": "Auto-generate short clips from long podcasts. AI finds highlights, adds captions, creates shareable clips for social. Subscription for podcasters.",
-      "features": ["highlight detection", "auto-captioning", "audiogram generation", "multi-platform export", "episode management", "Stripe podcaster plans"],
-      "design": {"bg": "#1C1917", "primary": "#E11D48", "vibe": "Podcast creator warm"}
+      "features": [
+        "highlight detection",
+        "auto-captioning",
+        "audiogram generation",
+        "multi-platform export",
+        "episode management",
+        "Stripe podcaster plans"
+      ],
+      "design": {
+        "bg": "#1C1917",
+        "primary": "#E11D48",
+        "vibe": "Podcast creator warm"
+      },
+      "type": "AI Video Generation Platform",
+      "budget": 800,
+      "email": "client@podcastclip-ai.com"
     },
     {
       "id": 20035,
@@ -347,8 +823,22 @@
       "repo": "fluxart-gallery",
       "category": "AI Image Generation",
       "description": "Community art gallery powered by FLUX model. Generate, curate, and sell AI art NFTs or prints. Social features + marketplace.",
-      "features": ["FLUX.1 model integration", "community gallery", "likes + comments", "print ordering", "creator profiles", "Stripe artist payouts"],
-      "design": {"bg": "#0A0A0A", "primary": "#C084FC", "vibe": "Art community dark purple"}
+      "features": [
+        "FLUX.1 model integration",
+        "community gallery",
+        "likes + comments",
+        "print ordering",
+        "creator profiles",
+        "Stripe artist payouts"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#C084FC",
+        "vibe": "Art community dark purple"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@fluxart-gallery.com"
     },
     {
       "id": 20036,
@@ -357,8 +847,22 @@
       "repo": "screentocode-ai",
       "category": "AI Productivity",
       "description": "Screenshot-to-code converter. Upload a UI screenshot, get React/HTML/Tailwind code. Pro tier for full project export. Per-conversion pricing.",
-      "features": ["xAI Grok vision for analysis", "React + Tailwind output", "responsive code", "Figma import", "project export", "Stripe per-conversion"],
-      "design": {"bg": "#0D1117", "primary": "#58A6FF", "vibe": "Code editor dark"}
+      "features": [
+        "xAI Grok vision for analysis",
+        "React + Tailwind output",
+        "responsive code",
+        "Figma import",
+        "project export",
+        "Stripe per-conversion"
+      ],
+      "design": {
+        "bg": "#0D1117",
+        "primary": "#58A6FF",
+        "vibe": "Code editor dark"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@screentocode-ai.com"
     },
     {
       "id": 20037,
@@ -367,8 +871,22 @@
       "repo": "interiorvision-ai",
       "category": "AI Image Generation",
       "description": "AI interior design tool. Upload room photo, get redesigned versions in different styles. For homeowners and interior designers. Per-render pricing.",
-      "features": ["room photo analysis", "style transfer (modern, minimalist, bohemian)", "furniture suggestions", "before/after comparison", "hi-res export", "Stripe per-render"],
-      "design": {"bg": "#FDF2F8", "primary": "#DB2777", "vibe": "Interior design pink-light"}
+      "features": [
+        "room photo analysis",
+        "style transfer (modern, minimalist, bohemian)",
+        "furniture suggestions",
+        "before/after comparison",
+        "hi-res export",
+        "Stripe per-render"
+      ],
+      "design": {
+        "bg": "#FDF2F8",
+        "primary": "#DB2777",
+        "vibe": "Interior design pink-light"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@interiorvision-ai.com"
     },
     {
       "id": 20038,
@@ -377,8 +895,22 @@
       "repo": "gitagent-pro",
       "category": "AI Chat & Agents",
       "description": "AI agent that reviews PRs, writes commit messages, and manages GitHub issues. Installs as GitHub App. Subscription per repo.",
-      "features": ["PR review agent", "commit message generation", "issue triage", "code explanation", "Groq for speed", "Stripe per-repo billing"],
-      "design": {"bg": "#0D1117", "primary": "#238636", "vibe": "GitHub dark green"}
+      "features": [
+        "PR review agent",
+        "commit message generation",
+        "issue triage",
+        "code explanation",
+        "Groq for speed",
+        "Stripe per-repo billing"
+      ],
+      "design": {
+        "bg": "#0D1117",
+        "primary": "#238636",
+        "vibe": "GitHub dark green"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@gitagent-pro.com"
     },
     {
       "id": 20039,
@@ -387,8 +919,22 @@
       "repo": "socialpost-ai",
       "category": "AI Productivity",
       "description": "AI social media content generator. Multi-platform posts from a single brief. Schedule and auto-publish. Subscription for creators.",
-      "features": ["multi-platform formatting", "AI image generation for posts", "scheduling calendar", "hashtag optimization", "analytics", "Stripe creator plans"],
-      "design": {"bg": "#18181B", "primary": "#8B5CF6", "vibe": "Social creator dark"}
+      "features": [
+        "multi-platform formatting",
+        "AI image generation for posts",
+        "scheduling calendar",
+        "hashtag optimization",
+        "analytics",
+        "Stripe creator plans"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#8B5CF6",
+        "vibe": "Social creator dark"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@socialpost-ai.com"
     },
     {
       "id": 20040,
@@ -397,8 +943,22 @@
       "repo": "websiteroast-ai",
       "category": "AI Chat & Agents",
       "description": "AI website critic/auditor. Paste URL, get brutally honest UX/design/performance feedback with actionable fixes. Viral shareability. Freemium + pro reports.",
-      "features": ["screenshot capture", "xAI Grok vision analysis", "Lighthouse integration", "shareable report cards", "competitor comparison", "Stripe pro reports"],
-      "design": {"bg": "#1C1917", "primary": "#EF4444", "vibe": "Roast red-dark"}
+      "features": [
+        "screenshot capture",
+        "xAI Grok vision analysis",
+        "Lighthouse integration",
+        "shareable report cards",
+        "competitor comparison",
+        "Stripe pro reports"
+      ],
+      "design": {
+        "bg": "#1C1917",
+        "primary": "#EF4444",
+        "vibe": "Roast red-dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@websiteroast-ai.com"
     },
     {
       "id": 20041,
@@ -407,8 +967,22 @@
       "repo": "receiptsnap-ai",
       "category": "AI Productivity",
       "description": "AI receipt scanner and expense tracker. Snap photo, auto-categorize, export to accounting. For freelancers and small businesses. Subscription.",
-      "features": ["OCR receipt scanning", "auto-categorization", "expense reports", "CSV/QBO export", "multi-currency", "Stripe business plans"],
-      "design": {"bg": "#FFFFFF", "primary": "#16A34A", "vibe": "Finance clean green"}
+      "features": [
+        "OCR receipt scanning",
+        "auto-categorization",
+        "expense reports",
+        "CSV/QBO export",
+        "multi-currency",
+        "Stripe business plans"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#16A34A",
+        "vibe": "Finance clean green"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@receiptsnap-ai.com"
     },
     {
       "id": 20042,
@@ -417,8 +991,22 @@
       "repo": "leadgen-ai-agent",
       "category": "AI Chat & Agents",
       "description": "AI lead generation agent. Scrapes public data, enriches leads, writes personalized outreach emails. For B2B sales teams. Per-lead pricing.",
-      "features": ["LinkedIn-safe scraping", "email finder", "AI personalized outreach", "CRM export", "campaign tracking", "Stripe per-lead billing"],
-      "design": {"bg": "#0F172A", "primary": "#3B82F6", "vibe": "Sales pipeline dark blue"}
+      "features": [
+        "LinkedIn-safe scraping",
+        "email finder",
+        "AI personalized outreach",
+        "CRM export",
+        "campaign tracking",
+        "Stripe per-lead billing"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#3B82F6",
+        "vibe": "Sales pipeline dark blue"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@leadgen-ai-agent.com"
     },
     {
       "id": 20043,
@@ -427,8 +1015,22 @@
       "repo": "patternlib-ai",
       "category": "AI Image Generation",
       "description": "AI seamless pattern generator for textile/wallpaper/packaging designers. Generate tileable patterns from descriptions. Per-pattern pricing.",
-      "features": ["seamless tile generation", "color palette control", "scale/repeat preview", "SVG + PNG export", "commercial license", "Stripe per-pattern"],
-      "design": {"bg": "#F0FDF4", "primary": "#15803D", "vibe": "Pattern design green-light"}
+      "features": [
+        "seamless tile generation",
+        "color palette control",
+        "scale/repeat preview",
+        "SVG + PNG export",
+        "commercial license",
+        "Stripe per-pattern"
+      ],
+      "design": {
+        "bg": "#F0FDF4",
+        "primary": "#15803D",
+        "vibe": "Pattern design green-light"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@patternlib-ai.com"
     },
     {
       "id": 20044,
@@ -437,8 +1039,22 @@
       "repo": "docusign-ai-clone",
       "category": "AI Productivity",
       "description": "AI-powered document signing with contract analysis. Upload contract, AI highlights risky clauses, parties sign digitally. Per-document pricing.",
-      "features": ["contract AI analysis", "risk highlighting", "digital signatures", "audit trail", "template library", "Stripe per-document"],
-      "design": {"bg": "#FFFFFF", "primary": "#4F46E5", "vibe": "Legal clean indigo"}
+      "features": [
+        "contract AI analysis",
+        "risk highlighting",
+        "digital signatures",
+        "audit trail",
+        "template library",
+        "Stripe per-document"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#4F46E5",
+        "vibe": "Legal clean indigo"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@docusign-ai-clone.com"
     },
     {
       "id": 20045,
@@ -447,8 +1063,22 @@
       "repo": "colorpalette-ai",
       "category": "AI Image Generation",
       "description": "AI color palette generator from images, moods, or text descriptions. Export to CSS, Tailwind, Figma. Free tier with pro brand kit features.",
-      "features": ["image-to-palette extraction", "mood-based generation", "accessibility checker", "CSS/Tailwind export", "Figma plugin", "Stripe pro tier"],
-      "design": {"bg": "#FAFAFA", "primary": "#EC4899", "vibe": "Colorful design light"}
+      "features": [
+        "image-to-palette extraction",
+        "mood-based generation",
+        "accessibility checker",
+        "CSS/Tailwind export",
+        "Figma plugin",
+        "Stripe pro tier"
+      ],
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#EC4899",
+        "vibe": "Colorful design light"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@colorpalette-ai.com"
     },
     {
       "id": 20046,
@@ -457,8 +1087,22 @@
       "repo": "meetingmind-ai",
       "category": "AI Productivity",
       "description": "AI meeting assistant. Records, transcribes, extracts action items, sends follow-ups. Integrates with Zoom/Google Meet. Subscription per seat.",
-      "features": ["meeting recording", "Whisper transcription", "action item extraction", "follow-up email drafts", "Zoom integration", "Stripe per-seat billing"],
-      "design": {"bg": "#1E293B", "primary": "#0EA5E9", "vibe": "Meeting tech dark blue"}
+      "features": [
+        "meeting recording",
+        "Whisper transcription",
+        "action item extraction",
+        "follow-up email drafts",
+        "Zoom integration",
+        "Stripe per-seat billing"
+      ],
+      "design": {
+        "bg": "#1E293B",
+        "primary": "#0EA5E9",
+        "vibe": "Meeting tech dark blue"
+      },
+      "type": "AI Productivity Tool",
+      "budget": 800,
+      "email": "client@meetingmind-ai.com"
     },
     {
       "id": 20047,
@@ -467,8 +1111,22 @@
       "repo": "dropship-ai-scout",
       "category": "AI Chat & Agents",
       "description": "AI product research agent for dropshippers. Finds trending products, analyzes competition, generates listings. Subscription for e-commerce sellers.",
-      "features": ["trend detection", "AliExpress/Amazon scanning", "competition analysis", "listing generator", "profit calculator", "Stripe monthly plans"],
-      "design": {"bg": "#111827", "primary": "#F59E0B", "vibe": "E-commerce gold dark"}
+      "features": [
+        "trend detection",
+        "AliExpress/Amazon scanning",
+        "competition analysis",
+        "listing generator",
+        "profit calculator",
+        "Stripe monthly plans"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#F59E0B",
+        "vibe": "E-commerce gold dark"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@dropship-ai-scout.com"
     },
     {
       "id": 20048,
@@ -477,8 +1135,22 @@
       "repo": "iconforge-ai",
       "category": "AI Image Generation",
       "description": "AI icon set generator. Describe your app's style, get consistent icon sets. SVG export, multiple sizes. Per-set pricing for developers.",
-      "features": ["consistent style generation", "multiple sizes (16-512px)", "SVG + PNG export", "icon search", "style matching", "Stripe per-icon-set"],
-      "design": {"bg": "#18181B", "primary": "#A78BFA", "vibe": "Icon design dark violet"}
+      "features": [
+        "consistent style generation",
+        "multiple sizes (16-512px)",
+        "SVG + PNG export",
+        "icon search",
+        "style matching",
+        "Stripe per-icon-set"
+      ],
+      "design": {
+        "bg": "#18181B",
+        "primary": "#A78BFA",
+        "vibe": "Icon design dark violet"
+      },
+      "type": "AI Image Generation SaaS",
+      "budget": 800,
+      "email": "client@iconforge-ai.com"
     },
     {
       "id": 20049,
@@ -487,8 +1159,22 @@
       "repo": "finbot-advisor",
       "category": "AI Chat & Agents",
       "description": "AI personal finance advisor chatbot. Analyzes spending, suggests savings, tracks goals. Freemium with premium insights. NOT investment advice.",
-      "features": ["spending categorization", "budget recommendations", "goal tracking", "Groq-powered chat", "bank CSV import", "Stripe premium tier"],
-      "design": {"bg": "#0F172A", "primary": "#10B981", "vibe": "Finance dark green"}
+      "features": [
+        "spending categorization",
+        "budget recommendations",
+        "goal tracking",
+        "Groq-powered chat",
+        "bank CSV import",
+        "Stripe premium tier"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#10B981",
+        "vibe": "Finance dark green"
+      },
+      "type": "AI Agent & Chat Platform",
+      "budget": 800,
+      "email": "client@finbot-advisor.com"
     },
     {
       "id": 20050,
@@ -497,8 +1183,22 @@
       "repo": "hugginghub-gateway",
       "category": "API Infrastructure",
       "description": "Unified API gateway for HuggingFace models. One API key, access 100+ models. Caching, rate limiting, usage analytics. Developer-first pricing.",
-      "features": ["HuggingFace model proxy", "response caching", "API key management", "usage analytics", "model comparison", "Stripe developer plans"],
-      "design": {"bg": "#0C0A09", "primary": "#FFD21E", "vibe": "HuggingFace-inspired dark yellow"}
+      "features": [
+        "HuggingFace model proxy",
+        "response caching",
+        "API key management",
+        "usage analytics",
+        "model comparison",
+        "Stripe developer plans"
+      ],
+      "design": {
+        "bg": "#0C0A09",
+        "primary": "#FFD21E",
+        "vibe": "HuggingFace-inspired dark yellow"
+      },
+      "type": "API Infrastructure Service",
+      "budget": 800,
+      "email": "client@hugginghub-gateway.com"
     }
   ]
 }

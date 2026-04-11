@@ -520,6 +520,48 @@ PAGES
 10. **Contact** (`/contact`) — Contact form, enterprise inquiries, support tiers, community, status page.
 PAGES
       ;;
+    "MCP Live Baseball"|"MCP Live Football"|"MCP Live Basketball"|"MCP Live Soccer")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with live game preview card showing real-time score. "Live Now" indicator with pulsing dot. Sport-specific field/court/diamond SVG. Stats counter (games tracked, feeds connected). "Watch Live" CTA.
+2. **Live Feed** (`/live`) — Main real-time dashboard: active game cards with SSE live scores, play-by-play event stream, animated field/court position diagram (SVG canvas). Auto-refreshing stat overlays. Game selector sidebar.
+3. **Scoreboard** (`/scores`) — Multi-game grid: all active and recent games in card layout. Score, period/inning/quarter, time remaining. Click to expand with box score. Filterable by date and team.
+4. **Stats** (`/stats`) — Player and team statistics: leaderboards, comparison tool, stat category filters. Charts (bar, radar, line) for performance trends. Search by player name.
+5. **Schedule** (`/schedule`) — Upcoming games calendar grid. Countdown timers. TV/streaming info. Timezone selector. Add to calendar export.
+6. **Standings** (`/standings`) — League/division standings table with record, streak, last 10, GB. Playoff picture bracket. Sortable columns.
+7. **MCP Feeds** (`/feeds`) — Connected MCP data source status: API health indicators, last sync time, data freshness gauges. Feed configuration panel.
+8. **About** (`/about`) — Platform overview, MCP architecture diagram, data sources, update frequency, team.
+9. **FAQ** (`/faq`) — Accordion Q&A: data delay, supported leagues, MCP connectors, API access, mobile support.
+10. **Contact** (`/contact`) — Contact form, feature requests, API partnership inquiries, community Discord.
+PAGES
+      ;;
+    "MCP Live UFC"|"MCP Live MMA"|"MCP Live Boxing")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with fight card preview, main event tale-of-the-tape overlay. "Fight Night Live" banner with countdown to next event. Strike stat counters. "Track Fights" CTA.
+2. **Live Fight** (`/live`) — Fight night tracker: round-by-round scorecard, strike accuracy heatmap on body diagram SVG, significant strike differential bar chart, takedown/control time gauges. SSE live round events.
+3. **Fight Card** (`/card`) — Full event card: each bout as comparison card (fighter photos as gradient placeholders, records, reach, style). Odds display. Result cards for completed bouts.
+4. **Rankings** (`/rankings`) — Division/weight class rankings: ranked fighter cards, recent results, title holder spotlight. Cross-promotion comparison toggle.
+5. **Fighter Stats** (`/fighters`) — Fighter search and profile: record, finish rate pie chart, striking/grappling radar chart, win method breakdown, fight history timeline.
+6. **Schedule** (`/schedule`) — Upcoming events calendar: event name, venue, main card, prelims. Countdown timers. PPV/broadcast info.
+7. **Analytics** (`/analytics`) — Advanced fight analytics: strike volume trends, finish probability model, style matchup matrix, historical performance by round.
+8. **MCP Feeds** (`/feeds`) — MCP connector status: UFC Stats API, sportsbook odds feed, social sentiment feed. Health checks and sync status.
+9. **FAQ** (`/faq`) — Accordion Q&A: scoring methodology, data sources, supported promotions, API access.
+10. **Contact** (`/contact`) — Contact form, feature requests, partnership, community.
+PAGES
+      ;;
+    "MCP Multi-Sport"|"MCP Sports Analytics")
+      cat << 'PAGES'
+1. **Landing page** (`/`) — Hero with multi-sport ticker preview showing live scores across sports. Sport icon grid (baseball, football, basketball, soccer, UFC, boxing). Connected feeds counter. "Explore Feeds" CTA.
+2. **Dashboard** (`/dashboard`) — Unified multi-sport dashboard: sport-tabbed sections, active game cards per sport, configurable widget grid (drag-and-drop). Personal favorites pinned at top. SSE live updates.
+3. **Live Scores** (`/scores`) — All-sport scoreboard: filterable by sport, league, date. Sport-specific score cards (diamond, field, court, octagon icons). Status badges (live, final, upcoming).
+4. **Analytics** (`/analytics`) — Cross-sport analytics tools: player comparison, team trends, odds tracker, prop analyzer. Chart builder with data source selector. Export as image/CSV.
+5. **Feeds Manager** (`/feeds`) — MCP connector marketplace: browse available sport feeds, connection status, data freshness, rate limits. Add/remove feed sources. Health monitoring.
+6. **Favorites** (`/favorites`) — Personal watchlist: followed teams/players across sports, custom alert rules, notification preferences. Quick-glance status cards.
+7. **Calendar** (`/calendar`) — Unified sports calendar: all followed games/events. Conflict detection overlay. Timezone support. iCal sync.
+8. **Pricing** (`/pricing`) — Free tier (3 sports, delayed). Pro ($8/mo, all sports, real-time). API access tier. Feature comparison.
+9. **FAQ** (`/faq`) — Accordion Q&A: supported sports, data delay, MCP architecture, customization, mobile, API.
+10. **Contact** (`/contact`) — Contact form, API partnerships, feature requests, community, status page.
+PAGES
+      ;;
     "AI Services Management")
       cat << 'PAGES'
 1. **Landing page** (`/`) — Hero with multi-service dashboard preview. Businesses managed count. Platform logos (Paperclip, n8n, Dify). "Get Started" CTA.

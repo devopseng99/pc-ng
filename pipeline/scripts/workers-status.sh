@@ -6,6 +6,8 @@ set -uo pipefail
 # Use workers-dashboard.sh for auto-refreshing version
 # ============================================================================
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/pipeline-registry.sh"
 WORKSPACE="/tmp/pc-autopilot"
 WORKER_DIR="$WORKSPACE/.workers"
 BOLD="\033[1m" DIM="\033[2m" GREEN="\033[32m" RED="\033[31m" YELLOW="\033[33m" CYAN="\033[36m" RESET="\033[0m"
@@ -13,7 +15,16 @@ BOLD="\033[1m" DIM="\033[2m" GREEN="\033[32m" RED="\033[31m" YELLOW="\033[33m" C
 # --- Worker Status ---
 printf "\n${BOLD}${CYAN}=== PC Pipeline Workers ===${RESET}  %s\n\n" "$(date '+%Y-%m-%d %H:%M:%S')"
 
-for pipeline in v1 tech; do
+# Discover all pipelines from registry + any with local log/pid files
+ALL_PIPELINES=$(list_pipelines)
+for f in "$WORKER_DIR"/*.pid "$WORKER_DIR"/*.log; do
+  [[ -f "$f" ]] || continue
+  p=$(basename "$f" | sed 's/\.\(pid\|log\|started\)$//')
+  [[ "$p" == "supervisor" || "$p" == supervisor-* ]] && continue
+  echo "$ALL_PIPELINES" | grep -qw "$p" || ALL_PIPELINES="$ALL_PIPELINES $p"
+done
+
+for pipeline in $ALL_PIPELINES; do
   pid_file="$WORKER_DIR/${pipeline}.pid"
   log_file="$WORKER_DIR/${pipeline}.log"
   started_file="$WORKER_DIR/${pipeline}.started"
@@ -93,7 +104,7 @@ echo ""
 
 # --- Recent Activity (last 5 completed builds) ---
 printf "\n${BOLD}${CYAN}=== Recent Activity ===${RESET}\n"
-for pipeline in v1 tech; do
+for pipeline in $ALL_PIPELINES; do
   log_file="$WORKER_DIR/${pipeline}.log"
   [[ -f "$log_file" ]] || continue
   grep "CODE READY\|BUILD FAILED\|SKIP:" "$log_file" | tail -3 | while read line; do

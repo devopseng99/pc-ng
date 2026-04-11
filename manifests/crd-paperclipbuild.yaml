@@ -24,7 +24,7 @@ spec:
         - name: PIPELINE
           type: string
           jsonPath: .spec.pipeline
-          description: Pipeline tenant (v1, tech, wasm, soa)
+          description: Pipeline tenant (v1, tech, wasm, soa, ecom, etc.)
         - name: PHASE
           type: string
           jsonPath: .status.phase
@@ -33,6 +33,10 @@ spec:
           type: string
           jsonPath: .spec.appName
           description: Human-readable app name
+        - name: INSTANCE
+          type: string
+          jsonPath: .spec.targetInstance
+          description: Target Paperclip instance
         - name: CATEGORY
           type: string
           jsonPath: .spec.category
@@ -60,6 +64,8 @@ spec:
                 - prefix
                 - pipeline
                 - repo
+                - targetInstance
+                - targetNamespace
               properties:
                 appId:
                   type: integer
@@ -75,14 +81,14 @@ spec:
                   description: Build category for grouping related applications.
                 pipeline:
                   type: string
-                  description: Which pipeline tenant this build belongs to.
-                  enum:
-                    - v1
-                    - tech
-                    - wasm
-                    - soa
-                    - ai
-                    - cf
+                  description: Which pipeline tenant this build belongs to. Valid pipelines are registered in the pipeline-registry ConfigMap.
+                  pattern: "^[a-z][a-z0-9-]{0,29}$"
+                targetInstance:
+                  type: string
+                  description: Target Paperclip instance name (e.g. pc, pc-v2, pc-v4).
+                targetNamespace:
+                  type: string
+                  description: K8s namespace of the target Paperclip instance (e.g. paperclip, paperclip-v4).
                 repo:
                   type: string
                   description: GitHub repository name.
@@ -107,6 +113,9 @@ spec:
                     - Deploying
                     - Deployed
                     - Failed
+                companyId:
+                  type: string
+                  description: Paperclip company ID after successful onboarding.
                 deployUrl:
                   type: string
                   description: URL where the application is deployed.

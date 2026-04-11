@@ -55,9 +55,37 @@ done
 
 [[ -z "$MANIFEST" ]] && { echo "Error: --manifest required"; exit 1; }
 
+# --- Pipeline registry (shared) ---
+source "$SCRIPT_DIR/pipeline-registry.sh"
+
+# Legacy wrappers for compatibility
+resolve_pc_instance() {
+  local pipeline="$1"
+  if resolve_pipeline "$pipeline"; then
+    PC_API_SECRET="$PC_SECRET"
+  else
+    # Ultimate fallback for unregistered pipelines
+    PC_NAMESPACE="paperclip"; PC_DEPLOY="deploy/pc"; PC_API_SECRET="pc-board-api-key"
+    export NAMESPACE="$PC_NAMESPACE" DEPLOY="pc"
+  fi
+}
+
+resolve_target_from_crd() {
+  local crd_name="$1"
+  if resolve_pipeline_for_crd "$crd_name"; then
+    PC_API_SECRET="$PC_SECRET"
+    return 0
+  fi
+  return 1
+}
+
+resolve_pc_instance "$PIPELINE_ID"
+
 # --- Load secrets ---
 export GH_TOKEN="${GH_TOKEN:-$(kubectl get secret github-credentials -n paperclip -o jsonpath='{.data.GITHUB_TOKEN}' | base64 -d)}"
-export BOARD_API_KEY="${BOARD_API_KEY:-$(kubectl get secret pc-board-api-key -n paperclip -o jsonpath='{.data.key}' | base64 -d 2>/dev/null || echo '')}"
+export BOARD_API_KEY="${BOARD_API_KEY:-$(kubectl get secret "$PC_API_SECRET" -n "$PC_NAMESPACE" -o jsonpath='{.data.key}' | base64 -d 2>/dev/null || echo '')}"
+# Fallback: try paperclip-v3 namespace (cross-namespace copy)
+[[ -z "$BOARD_API_KEY" ]] && BOARD_API_KEY=$(kubectl get secret "$PC_API_SECRET" -n paperclip-v3 -o jsonpath='{.data.key}' | base64 -d 2>/dev/null || echo '')
 
 # --- Redis ---
 REDIS_PASS_FILE="/tmp/pc-autopilot/.redis-pass"
@@ -93,9 +121,12 @@ mkdir -p "$LOG_DIR" "$READY_DIR"
 # Resume:          rm /tmp/pc-autopilot/.emergency-halt
 # ============================================================================
 
-CB_STATE_FILE="$WORKSPACE/.circuit-breaker-state"
+# Per-pipeline state files so one pipeline's failures don't block others
+# Results file is shared (entries tagged with pipeline ID for filtering)
+# Emergency halt is shared (global kill switch)
+CB_STATE_FILE="$WORKSPACE/.circuit-breaker-state-${PIPELINE_ID:-default}"
 CB_RESULTS_FILE="$WORKSPACE/.circuit-breaker-results"
-CB_TRIPPED_FILE="$WORKSPACE/.circuit-breaker-tripped"
+CB_TRIPPED_FILE="$WORKSPACE/.circuit-breaker-tripped-${PIPELINE_ID:-default}"
 HALT_FILE="$WORKSPACE/.emergency-halt"
 
 # Initialize circuit breaker state if not present
@@ -144,6 +175,7 @@ detect_usage_cap_inline() {
 }
 
 # --- Calculate failure rate from rolling window ---
+# Filters to current PIPELINE_ID so one pipeline's failures don't trip another's breaker
 cb_failure_rate() {
   local window="$CB_WINDOW"
   local results
@@ -152,6 +184,7 @@ cb_failure_rate() {
 
   local total=0 fails=0
   while IFS='|' read -r ts result pipeline reason; do
+    [[ "$pipeline" != "$PIPELINE_ID" ]] && continue
     total=$((total + 1))
     [[ "$result" == "fail" ]] && fails=$((fails + 1))
   done <<< "$results"
@@ -162,9 +195,11 @@ cb_failure_rate() {
 }
 
 # --- Count consecutive failures ---
+# Filters to current PIPELINE_ID so one pipeline's failures don't trip another's breaker
 cb_consecutive_fails() {
   local count=0
   tac "$CB_RESULTS_FILE" 2>/dev/null | while IFS='|' read -r ts result pipeline reason; do
+    [[ "$pipeline" != "$PIPELINE_ID" ]] && continue
     if [[ "$result" == "fail" ]]; then
       count=$((count + 1))
       echo "$count"
@@ -308,24 +343,52 @@ cb_after_build() {
 }
 
 # --- CRD helpers ---
-create_crd_entry() {
-  local id="$1" name="$2" prefix="$3" repo="$4" category="${5:-Misc}"
-  local crd_name="pb-${id}-$(echo "$prefix" | tr '[:upper:]' '[:lower:]')"
-  kubectl get paperclipbuild "$crd_name" -n paperclip-v3 &>/dev/null && return 0
-  kubectl apply -f - <<EOF || { echo "WARN: CRD creation failed for $crd_name — continuing without CRD tracking"; return 0; }
-apiVersion: paperclip.istayintek.com/v1alpha1
-kind: PaperclipBuild
-metadata:
-  name: ${crd_name}
-  namespace: paperclip-v3
-spec:
-  appId: ${id}
-  appName: "${name}"
-  prefix: "${prefix}"
-  repo: "${repo}"
-  category: "${category}"
-  pipeline: "${PIPELINE_ID}"
-EOF
+# CRDs must be pre-created by generate-crds.sh. Workers never create CRDs.
+# Deterministic naming: pb-{appId}-{prefix-lowercase}
+crd_name_for() {
+  local id="$1" prefix="$2"
+  echo "pb-${id}-$(echo "$prefix" | tr '[:upper:]' '[:lower:]')"
+}
+
+ensure_crd_exists() {
+  local id="$1" prefix="$2"
+  local crd_name
+  crd_name=$(crd_name_for "$id" "$prefix")
+  if kubectl get pb "$crd_name" -n paperclip-v3 &>/dev/null; then
+    return 0
+  fi
+  log_app "$prefix" "SKIP: CRD $crd_name not found — run generate-crds.sh first"
+  return 1
+}
+
+# Get CRD phase (for resume logic)
+get_crd_phase() {
+  local id="$1" prefix="$2"
+  local crd_name
+  crd_name=$(crd_name_for "$id" "$prefix")
+  kubectl get pb "$crd_name" -n paperclip-v3 -o jsonpath='{.status.phase}' 2>/dev/null || echo "Unknown"
+}
+
+# Get companyId from CRD status (set after onboarding)
+get_crd_company_id() {
+  local id="$1" prefix="$2"
+  local crd_name
+  crd_name=$(crd_name_for "$id" "$prefix")
+  kubectl get pb "$crd_name" -n paperclip-v3 -o jsonpath='{.status.companyId}' 2>/dev/null || echo ""
+}
+
+# Check if company already exists by NAME in target PC instance (prevents duplicates)
+find_existing_company() {
+  local name="$1" ns="$2" deploy="$3" api_key="$4"
+  kubectl exec -n "$ns" "deploy/$deploy" -- curl -s \
+    -H "Authorization: Bearer $api_key" \
+    "http://localhost:3100/api/companies" 2>/dev/null | python3 -c "
+import json,sys
+name = '$name'
+for c in json.load(sys.stdin):
+    if c.get('name','').strip() == name:
+        print(c['id']); break
+" 2>/dev/null || echo ""
 }
 
 update_crd_status() {
@@ -511,19 +574,45 @@ print(f'email={shlex.quote(e.get(\"email\", f\"client@{e[chr(114)+chr(101)+chr(1
 print(f'category={shlex.quote(e.get(\"category\", \"Misc Services\"))}')
 ")"
 
-  create_crd_entry "$id" "$name" "$prefix" "$repo" "$category"
+  # --- CRD must pre-exist (created by generate-crds.sh) ---
+  if ! ensure_crd_exists "$id" "$prefix"; then
+    return 1
+  fi
 
-  # Skip if already deployed
-  if is_deployed "$id"; then
+  # --- Resolve target instance from CRD (preferred) or fallback ---
+  local crd_name
+  crd_name=$(crd_name_for "$id" "$prefix")
+  if ! resolve_target_from_crd "$crd_name"; then
+    resolve_pc_instance "$PIPELINE_ID"
+  fi
+
+  # Load API key for resolved target and export for onboard-full.sh
+  local api_key
+  api_key=$(kubectl get secret "$PC_API_SECRET" -n "$PC_NAMESPACE" -o jsonpath='{.data.key}' 2>/dev/null | base64 -d 2>/dev/null || echo '')
+  [[ -z "$api_key" ]] && api_key="$BOARD_API_KEY"
+  export BOARD_API_KEY="$api_key"
+
+  # --- Resume logic: check CRD phase to skip completed steps ---
+  local current_phase
+  current_phase=$(get_crd_phase "$id" "$prefix")
+
+  # Skip if already deployed or deploying (code already pushed)
+  if [[ "$current_phase" == "Deployed" ]]; then
     log_app "$prefix" "DEPLOYED: already live"
     return 0
   fi
-
-  # Skip if already has code (already built)
-  if is_built "$repo"; then
+  if [[ "$current_phase" == "Deploying" ]]; then
     log_app "$prefix" "CODE+PUSH COMPLETE: devopseng99/$repo — deploy pending"
     echo "$entry" > "$READY_DIR/${id}-${prefix}.json"
-    # Signal to parent that this was a code-ready skip (not a new build)
+    touch "$WORKSPACE/.code-ok-${id}"
+    return 0
+  fi
+
+  # Skip if already has code on GitHub (already built, may need CRD update)
+  if is_built "$repo"; then
+    log_app "$prefix" "CODE+PUSH COMPLETE: devopseng99/$repo — deploy pending"
+    update_crd_status "$id" "$prefix" "Deploying" "code-pushed" "\"errorMessage\":\"\""
+    echo "$entry" > "$READY_DIR/${id}-${prefix}.json"
     touch "$WORKSPACE/.code-ok-${id}"
     return 0
   fi
@@ -534,22 +623,51 @@ print(f'category={shlex.quote(e.get(\"category\", \"Misc Services\"))}')
   # Step 1: Create GitHub repo
   gh repo create "devopseng99/$repo" --public --description "$name — $description" 2>&1 || true
 
-  # Step 2: Onboard
-  if [[ "$SKIP_ONBOARD" != "true" ]] && [[ -n "$BOARD_API_KEY" ]]; then
-    update_crd_status "$id" "$prefix" "Onboarding" "onboarding"
-    log_app "$prefix" "Onboarding..."
-    local company_id
-    company_id=$("$PC_DIR/client-onboarding/scripts/onboard-full.sh" \
-      --name "$name" --prefix "$prefix" --email "$email" --budget "$budget" \
-      --business-type "$type" --repo "https://github.com/devopseng99/$repo" 2>&1 | \
-      grep -oP 'company_id[=:]\s*\K[a-f0-9-]+' | head -1 || echo "unknown")
+  # Step 2: Onboard (with duplicate prevention)
+  if [[ "$SKIP_ONBOARD" != "true" ]] && [[ -n "$api_key" ]]; then
+    local company_id=""
+
+    # Check 1: companyId already in CRD status (from previous run)
+    company_id=$(get_crd_company_id "$id" "$prefix")
+
+    # Check 2: company already exists by NAME in target instance
+    if [[ -z "$company_id" ]]; then
+      local existing_id
+      existing_id=$(find_existing_company "$name" "$PC_NAMESPACE" "${PC_DEPLOY#deploy/}" "$api_key")
+      if [[ -n "$existing_id" ]]; then
+        company_id="$existing_id"
+        log_app "$prefix" "Company already exists: $company_id (skipping onboard)"
+        # Store in CRD so future runs don't re-query
+        kubectl patch pb "$crd_name" -n paperclip-v3 --type merge \
+          -p "{\"status\":{\"companyId\":\"$company_id\"}}" --subresource=status 2>/dev/null || true
+      fi
+    fi
+
+    # Only onboard if company doesn't exist anywhere
+    if [[ -z "$company_id" ]]; then
+      update_crd_status "$id" "$prefix" "Onboarding" "onboarding"
+      log_app "$prefix" "Onboarding..."
+      company_id=$("$PC_DIR/client-onboarding/scripts/onboard-full.sh" \
+        --name "$name" --prefix "$prefix" --email "$email" --budget "$budget" \
+        --business-type "$type" --repo "https://github.com/devopseng99/$repo" 2>&1 | \
+        grep -oP 'company_id[=:]\s*\K[a-f0-9-]+' | head -1 || echo "")
+
+      if [[ -n "$company_id" ]]; then
+        log_app "$prefix" "Onboarded: company $company_id"
+        # Store companyId in CRD for durability
+        kubectl patch pb "$crd_name" -n paperclip-v3 --type merge \
+          -p "{\"status\":{\"companyId\":\"$company_id\"}}" --subresource=status 2>/dev/null || true
+      else
+        log_app "$prefix" "WARN: Onboarding returned no company ID — continuing with build"
+      fi
+    fi
 
     # Move issues to todo
-    if [[ "$company_id" != "unknown" ]]; then
-      log_app "$prefix" "Moving issues to todo..."
+    if [[ -n "$company_id" ]]; then
+      log_app "$prefix" "Moving issues to todo (${PC_NAMESPACE}/${PC_DEPLOY})..."
       local issue_ids
-      issue_ids=$(kubectl exec -n paperclip deploy/pc -- curl -s \
-        -H "Authorization: Bearer $BOARD_API_KEY" \
+      issue_ids=$(kubectl exec -n "$PC_NAMESPACE" "$PC_DEPLOY" -- curl -s \
+        -H "Authorization: Bearer $api_key" \
         "http://localhost:3100/api/companies/$company_id/issues?limit=15" | \
         python3 -c "
 import json,sys
@@ -559,8 +677,8 @@ for i in issues:
     if i.get('status') == 'backlog': print(i['id'])
 " 2>/dev/null || true)
       for iid in $issue_ids; do
-        kubectl exec -n paperclip deploy/pc -- curl -s -X PATCH \
-          -H "Authorization: Bearer $BOARD_API_KEY" \
+        kubectl exec -n "$PC_NAMESPACE" "$PC_DEPLOY" -- curl -s -X PATCH \
+          -H "Authorization: Bearer $api_key" \
           -H "Content-Type: application/json" \
           -d '{"status":"todo"}' \
           "http://localhost:3100/api/issues/$iid" > /dev/null 2>&1
