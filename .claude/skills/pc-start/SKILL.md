@@ -12,10 +12,11 @@ Resume pipeline operations. Clears emergency halt, resets circuit breaker, start
 
 ## Arguments
 
-- `$ARGUMENTS` — Options like `--pipeline tech`, `--concurrency 2`, `--with-supervisor`, `--with-deploy`
+- `$ARGUMENTS` — Options like `--pipeline tech`, `--concurrency 2`, `--with-supervisor`, `--with-deploy`, `--auto-build`
 - `--pipeline` — Which pipeline to start (any registered pipeline; default: starts v1 + tech)
 - `--concurrency N` — Max concurrent builds (default: 2; 4 OK for single pipeline; never >4)
-- Default: concurrency 2, no supervisor, no auto-deploy
+- `--auto-build` — After Phase A pushes code, auto-trigger Phase B build-and-deploy (no manual gap)
+- Default: concurrency 2, no supervisor, no auto-deploy, no auto-build
 
 ## Pipelines
 
@@ -43,14 +44,18 @@ echo "closed" > /tmp/pc-autopilot/.circuit-breaker-state 2>/dev/null
    - Extract `--concurrency N` (default: 2)
    - Check for `--with-supervisor` flag
    - Check for `--with-deploy` flag
+   - Check for `--auto-build` flag
 
 3. Start workers:
 ```bash
 # If --pipeline specified, start only that pipeline:
-bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --pipeline <NAME> --concurrency <N>
+bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --pipeline <NAME> --concurrency <N> [--auto-build]
 
 # If no --pipeline, start default (v1 + tech):
-bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --concurrency <N>
+bash /var/lib/rancher/ansible/db/pc-ng/pipeline/scripts/workers-start.sh --concurrency <N> [--auto-build]
+
+# With --auto-build: apps go Pending → Building → Deploying → Deployed with zero manual gaps
+# Phase B runs in background per-app after Phase A pushes code to GitHub
 ```
 
 4. If `--with-supervisor` requested, start supervisor:

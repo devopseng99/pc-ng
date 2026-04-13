@@ -28,6 +28,7 @@ BUILD_TIMEOUT=300
 PIPELINE_ID="v1"
 DRY_RUN=false
 SKIP_ONBOARD=false
+AUTO_BUILD=false
 STALL_TIMEOUT=90  # kill build if no file changes in this many seconds
 
 # --- Circuit breaker defaults ---
@@ -49,6 +50,7 @@ while [[ $# -gt 0 ]]; do
     --cb-hard-stop)    CB_HARD_STOP="$2"; shift 2 ;;
     --dry-run)         DRY_RUN=true; shift ;;
     --skip-onboard)    SKIP_ONBOARD=true; shift ;;
+    --auto-build)      AUTO_BUILD=true; shift ;;
     *) echo "Unknown: $1"; exit 1 ;;
   esac
 done
@@ -802,6 +804,21 @@ GIEOF
     redis_publish "build_complete" "\"app\":\"$prefix\",\"id\":$id,\"status\":\"success\""
     echo "$entry" > "$READY_DIR/${id}-${prefix}.json"
     cb_after_build "pass"
+
+    # Auto-build: trigger Phase B immediately if enabled
+    if [[ "${AUTO_BUILD:-false}" == "true" ]]; then
+      local crd_name
+      crd_name=$(kubectl get pb -n paperclip-v3 -o json 2>/dev/null | python3 -c "
+import json,sys
+for i in json.load(sys.stdin)['items']:
+    if i['spec'].get('appId') == $id: print(i['metadata']['name']); break
+" 2>/dev/null || true)
+      if [[ -n "$crd_name" ]]; then
+        log_app "$prefix" "Auto-build: triggering Phase B for $crd_name..."
+        bash /var/lib/rancher/ansible/db/pc/builder/build-and-deploy.sh \
+          --crd "$crd_name" >> "$LOG_DIR/${prefix}-build.log" 2>&1 &
+      fi
+    fi
   else
     log_app "$prefix" "PUSH FAILED: Code exists locally but could not reach GitHub"
     update_crd_status "$id" "$prefix" "Failed" "git-push" "\"errorMessage\":\"Git push failed — code not verified on GitHub\""

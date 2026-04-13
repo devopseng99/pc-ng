@@ -32,10 +32,19 @@
 4. Workers auto-call `generate-crds.sh` on startup (idempotent — skips existing)
 **Impact:** Zero duplicates on re-runs. Workers can be safely restarted mid-pipeline. `bulk-onboard.sh` becomes optional catch-up only.
 
-### Pipeline Expansion to 12 Pipelines (2026-04-06)
-**Decision:** Added 5 new pipelines (ecom, crypto, invest, saas, streaming) mapped to pc-v4. Total: 12 pipelines, 641 CRDs.
-**Rationale:** Diversify app portfolio. E-commerce (20 apps), crypto (20 apps), investment (20 apps), SaaS hosting (10 apps), TV/movie streaming (10 apps). pc-v5 designated as external-ops (17 companies, not for pipeline builds).
-**Build strategy:** Workers run concurrency 1 each. Phase B deploys skipped for now. All Phase A builds completed 2026-04-06.
+### Pipeline Expansion to 17 Pipelines (2026-04-12)
+**Decision:** Expanded from original 7 pipelines to 17. Total: 721 CRDs across 4 PC instances.
+**Timeline:**
+- 2026-04-06: +5 pipelines (ecom/20, crypto/20, invest/20, saas/10, streaming/10) → 12 pipelines, 641 CRDs
+- 2026-04-12: +5 pipelines (retail/15, flink-ai/15, etl-edi/15, tradebot/15, api-jobs/20) → 17 pipelines, 721 CRDs
+**Categories added (2026-04-12):**
+- **retail** — Retail & E-Commerce (POS, loyalty, marketplace, headless commerce)
+- **flink-ai** — Flink Realtime AI & Processing (CDC, CEP, agent orchestration, observability)
+- **etl-edi** — Data Pipeline ETL & EDI (X12/EDIFACT, CDC, data vault, file transfer)
+- **tradebot** — AI Trading & Investment (stock/crypto/ETF bots, research, RSS, CMS dashboards)
+- **api-jobs** — API Jobs & Streaming (batch queues, streaming tail, workflow orchestration, cron scheduling)
+**Rationale:** Diversify app portfolio across high-demand verticals. All new pipelines map to pc-v4. Workers run concurrency 1 each.
+**Build strategy:** Phase A codegen workers run autonomously. 5 workers active for new pipelines (2026-04-12).
 
 ### pc-v5 as External-Ops (2026-04-01)
 **Decision:** pc-v5 is designated "external-ops" — not for pipeline-generated apps.
@@ -91,19 +100,44 @@
 ### Phase B Deploy Queue (2026-03-31)
 **Decision:** Phase A (codegen + GitHub push) must fully complete before Phase B (K8s deploy) begins for any app.
 **Rationale:** Phase B clones the GitHub repo, runs `npm build`, and creates static export. If Phase A hasn't pushed code, Phase B fails silently with empty builds.
-**Status:** Phase A complete for **641/641** apps across 12 pipelines (2026-04-10). 472 apps in Deploying state ready for Phase B. 169 already Deployed.
+**Status:** Phase A complete for all 17 pipelines. Phase B first full run completed (2026-04-12). 629/721 Deployed (87.2%), 68 Failed (build errors), 23 NoBuildScript, 1 Deploying. 745 companies across 4 instances.
 
-### Phase B Capacity Constraint (2026-04-10)
-**Decision:** Phase B deploy of all 472 remaining apps is blocked by cluster capacity, not software readiness.
-**Analysis:**
-- Each app pod: 32Mi request / 64Mi limit, 10m CPU request / 50m limit (nginx:alpine serving static content)
-- 641 pods total need: ~20 Gi RAM requests, 6.4 CPU cores, 641 pod slots
-- Cluster has: ~18.4 Gi free RAM, 10 allocatable cores, **220 max pods** (110 per node)
-- **Pod count is the hard wall** — 641 pods vs 220 limit (3x over)
-- RAM requests (20 Gi) also exceed free capacity (~18.4 Gi)
-**Options ranked:**
-1. Reduce pod requests to 16Mi/32Mi (halves RAM to ~10 Gi) — still blocked by pod count
-2. Add a 3rd worker node (16 Gi) — solves RAM, need `--max-pods=500` on kubelet to solve pod count
-3. Consolidate multiple static sites per nginx pod (vhost) — most efficient, drops to ~65 pods, but complex deploy changes
-4. Deploy in batches — deploy subsets per pipeline, skip rest until scaled
-**Impact:** Must resolve capacity before Phase B can complete. Option 2 + 1 is the cleanest path.
+### Phase B Automation — Build, Deploy, Fix (2026-04-12)
+**Decision:** Three-layer Phase B automation: `/pc-build` skill triggers `build-and-deploy.sh`, `--auto-build` flag on Phase A chains A→B with zero gap, `build-fix-loop.sh` uses Claude to patch failed builds instead of full regen.
+**Skills:** `/pc-build` (canonical Phase B trigger), `/pc-deploy` (alias), `/pc-build-fix` (fix loop), `/pc-start --auto-build` (end-to-end).
+**Scripts:** `build-and-deploy.sh` (pc repo, unchanged), `build-fix-loop.sh` (pc repo, new), `phase-a-codegen.sh --auto-build` (pc-ng, updated), `workers-start.sh --auto-build` (pc-ng, updated).
+**Rationale:** Previous workflow required manual Phase B trigger after Phase A. Build failures required full Phase A regen (5+ min, Claude API heavy) when 90%+ of code was fine — usually a config/dep issue fixable in seconds. The fix loop reads the npm build error, asks Claude to make a targeted patch, pushes, retries (max 3 attempts).
+**First run results:** 163 Deploying → 77 newly Deployed + 68 Failed. Fix loop ran on ZRC (1/68) before time limit — needs batch optimization.
+**Old `/pc-deploy` was broken:** Wrapped obsolete `batch-deploy-k8s.sh` (per-pod model). Now correctly wraps `build-and-deploy.sh`.
+
+### Phase B: Nginx Wildcard Vhost — NOT Per-Pod (2026-04-12)
+**Decision:** All apps deploy as static files into a **single shared Nginx pod**, NOT as individual K8s pods. The prior capacity constraint analysis (per-pod model) is **permanently obsolete**.
+**Architecture:**
+- **Namespace:** `static-sites` on mgplcb05
+- **Pod:** Single `nginx-static-*` (`nginx:1-alpine`) with wildcard vhost ConfigMap
+- **PV:** `static-sites-pv`, 20 GiB local-storage at `/opt/k8s-pers/vol1/static-sites`
+- **Traffic:** `*.istayintek.com` wildcard CNAME → CF edge → tunnel → `nginx-static.static-sites:80` → Nginx extracts subdomain from `$host` → serves `/sites/{subdomain}/index.html`
+**Measured resource usage (476 sites live):**
+- RAM: 43 MiB (vs ~30 GiB if per-pod — **700x less**)
+- CPU: 1m (vs ~24 cores if per-pod)
+- Disk: 610 MiB (avg 1.3 MiB per site)
+- Pod slots: **1** (vs 476 if per-pod — would have exceeded 440 cluster max)
+**Deploy script:** `/var/lib/rancher/ansible/db/pc/builder/build-and-deploy.sh` — clones repo, detects framework (next/turbo-next/astro/turbo-astro), patches config, builds, `kubectl cp` output to `/sites/{slug}/`, patches CRD → Deployed. Flags: `--concurrency 4`, `--retry-failed`, `--pipeline NAME`.
+**Impact:** Cluster can host **1000+ apps** with existing resources. New pipelines of any size cost only disk space. Pod count and RAM-per-app are no longer constraints. **Never propose per-pod deploys, Helm charts per app, or Deployment/Service/Ingress manifests per app.**
+**Focus:** Codegen quality (prompt improvements for turbo-astro, soa failures) and build-and-deploy script fixes (legacy-peer-deps), not infrastructure scaling.
+
+### Deploy Target Audit — Three Layers Discovered (2026-04-12)
+**Decision:** Added `deployTarget`, `hosting`, `platform`, `framework` to CRD spec and `deployTargets[]` array to CRD status to track where each app is actually deployed.
+**Discovery:** Apps exist across three deploy layers, not just nginx:
+1. **Nginx wildcard vhost** (`static-sites` ns) — 629 apps, single pod, `{repo}.istayintek.com`. The canonical deploy target for all pipeline apps.
+2. **Cloudflare Pages** — 97 projects at `{repo}.pages.dev`. Created 2026-03-27/28 for early v1/tech pipeline apps. 95 have CRD matches, 2 are orphans (zr-nail-beauty, zuzu-beauty-salon).
+3. **K8s per-app Deployments** (paperclip ns) — 75 old deploys from obsolete per-pod model, **all scaled to replicas=0** (disabled). 46 have CRD matches, 29 are orphans with no CRD.
+**Multi-target:** 95 apps deployed to BOTH nginx AND CF Pages (both active). 46 have disabled K8s per-app deploys too. 2 apps (sensorgrid-hub, legacy-plan-estates) exist on all 3 targets.
+**CRD schema additions:**
+- `spec.deployTarget`: nginx | cf-pages | k8s-pod | multi
+- `spec.hosting`: static-sites | cloudflare | paperclip-ns | multi
+- `spec.platform`: static | node | wasm | worker
+- `spec.framework`: next | astro | turbo-next | turbo-astro | unknown
+- `status.deployTargets[]`: array of `{target, state, url, lastDeployed}` per location
+**Impact:** 95 apps are serving from two active origins (nginx + CF Pages). The 75 disabled K8s deploys and 29 orphan deploys are cleanup candidates. CF Pages projects may have stale content if not updated since initial deploy. The `framework` field needs population by inspecting each repo's package.json.
+**Next:** Decide whether to (a) keep CF Pages as CDN edge cache, (b) disable CF Pages deploys and consolidate to nginx-only, or (c) migrate fully to CF Pages for edge performance.

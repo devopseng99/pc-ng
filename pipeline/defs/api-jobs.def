@@ -1,0 +1,219 @@
+name: JobRunner API Gateway
+prefix: JBR
+type: Unified Job Execution API
+category: API Jobs & Streaming
+description: REST/GraphQL API gateway for submitting, monitoring, and tailing long-running jobs. Supports batch, streaming, and cron-triggered execution modes. WebSocket live tail, RBAC per-job-type, OpenTelemetry distributed tracing, and full execution audit log.
+features: REST + GraphQL job submission API, WebSocket live log tail, batch/stream/cron execution modes, RBAC per-job-type, OpenTelemetry tracing, execution audit log, job priority queue, retry with exponential backoff
+design_bg: #0A0E1A
+design_primary: #6366F1
+design_vibe: Dark API indigo
+budget: 850
+
+name: BatchQueue Engine
+prefix: BQE
+type: Distributed Batch Job Processor
+category: API Jobs & Streaming
+description: High-throughput batch job engine with priority queues and worker pools. API-driven job submission with payload validation, parallel chunk processing, dead-letter queues for failed items, and real-time progress streaming via SSE.
+features: Priority queue with fair scheduling, chunked parallel processing, SSE progress streaming, dead-letter queue, payload schema validation, worker pool auto-scaling, batch job audit trail, API rate limiting
+design_bg: #0F172A
+design_primary: #22C55E
+design_vibe: Dark batch green
+budget: 800
+
+name: StreamLine Tail
+prefix: SLT
+type: Real-Time Log Streaming Platform
+category: API Jobs & Streaming
+description: Live log aggregation and tail platform for distributed jobs. Kafka-backed log ingestion, WebSocket fan-out to browsers, regex-based log filtering, and RBAC-controlled access to production job output with retention policies.
+features: Kafka log ingestion, WebSocket multi-stream tail, regex/jq log filtering, RBAC log access, log retention policies, search across historical logs, bookmarkable log positions, alert on log patterns
+design_bg: #111827
+design_primary: #0EA5E9
+design_vibe: Dark stream cyan
+budget: 750
+
+name: LongRun Executor
+prefix: LRX
+type: Long-Running Process Manager
+category: API Jobs & Streaming
+description: Orchestrate processes that run for hours or days — ML training, data migrations, video transcoding. Checkpoint-based resumption, heartbeat monitoring, and API-driven pause/resume/cancel with full state persistence.
+features: Checkpoint-based resume, heartbeat liveness monitor, API pause/resume/cancel, state persistence to S3/MinIO, progress percentage API, resource limit enforcement, execution timeline UI, webhook completion callbacks
+design_bg: #0C0C0C
+design_primary: #F59E0B
+design_vibe: Dark executor gold
+budget: 850
+
+name: TailView Live
+prefix: TLV
+type: Multi-Job Live Dashboard
+category: API Jobs & Streaming
+description: Real-time dashboard showing live output from hundreds of concurrent jobs. Multiplexed WebSocket streams, filterable job grid, and tail -f experience in the browser with ANSI color rendering and scroll-lock.
+features: Multiplexed WebSocket streams, ANSI color rendering, scroll-lock per pane, job grid with status badges, regex search across live output, RBAC dashboard access, split-pane multi-tail, export log snapshots
+design_bg: #0A0A0A
+design_primary: #A855F7
+design_vibe: Dark terminal purple
+budget: 750
+
+name: CronReactor Engine
+prefix: CRJ
+type: Cron Job Scheduling API
+category: API Jobs & Streaming
+description: API-first cron scheduler with timezone-aware scheduling, job dependency DAGs, and missed-run catch-up policies. Slack/webhook notifications on completion or failure, execution history with drift analysis.
+features: Cron expression builder with timezone support, job dependency DAGs, missed-run catch-up, Slack/webhook notifications, execution drift analysis, RBAC schedule management, calendar visualization, idempotency guarantees
+design_bg: #1A1A2E
+design_primary: #3B82F6
+design_vibe: Dark scheduler blue
+budget: 750
+
+name: PipeBatch Queue
+prefix: PBQ
+type: Multi-Stage Batch Pipeline
+category: API Jobs & Streaming
+description: Chain batch jobs into multi-stage pipelines with conditional branching. Each stage streams output to the next via internal queues. API-driven pipeline composition, stage-level retry, and live tail per stage.
+features: Multi-stage pipeline builder, conditional stage branching, inter-stage queue streaming, per-stage live tail, stage-level retry policies, pipeline template library, RBAC pipeline access, execution cost tracking
+design_bg: #FAFAF9
+design_primary: #2563EB
+design_vibe: Light pipeline clean
+budget: 800
+
+name: WorkflowForge Studio
+prefix: WKF
+type: Visual Workflow Orchestrator
+category: API Jobs & Streaming
+description: Drag-and-drop workflow builder for complex job orchestration. Supports human-in-the-loop approval steps, parallel fan-out/fan-in, timer delays, and API triggers. Every workflow execution is fully auditable with step-level replay.
+features: Visual DAG workflow editor, human approval steps, parallel fan-out/fan-in, timer/delay steps, API trigger endpoints, step-level replay/debug, RBAC workflow permissions, execution audit with duration breakdown
+design_bg: #0F0A1E
+design_primary: #EC4899
+design_vibe: Dark workflow pink
+budget: 850
+
+name: EventPump Stream
+prefix: EVP
+type: Event-Driven Job Trigger
+category: API Jobs & Streaming
+description: React to events from Kafka, webhooks, S3 uploads, or database changes by triggering jobs automatically. Event routing rules engine, dead-letter for unmatched events, and live event stream tail for debugging.
+features: Kafka/webhook/S3/CDC event sources, routing rules engine, dead-letter for unmatched events, event stream live tail, fan-out to multiple jobs, event replay from offset, RBAC event source management, event schema validation
+design_bg: #111111
+design_primary: #14B8A6
+design_vibe: Dark event teal
+budget: 800
+
+name: DigiScale Scheduler
+prefix: DGS
+type: Auto-Scaling Job Scheduler
+category: API Jobs & Streaming
+description: Intelligent job scheduler that auto-scales worker pools based on queue depth, time-of-day patterns, and resource availability. Bin-packing optimization for heterogeneous jobs with GPU/CPU/memory constraints.
+features: Queue-depth auto-scaling, time-of-day scaling profiles, bin-packing job placement, GPU/CPU/memory constraints, worker health monitoring, scaling event audit log, cost optimization dashboard, RBAC scaling policies
+design_bg: #1E293B
+design_primary: #D946EF
+design_vibe: Dark scale violet
+budget: 800
+
+name: JobMux Multiplexer
+prefix: JMX
+type: Job Output Multiplexer
+category: API Jobs & Streaming
+description: Aggregate and multiplex output from thousands of concurrent jobs into unified streams. Fan-in from distributed workers, tag-based stream routing, and API for subscribing to filtered output channels with backpressure.
+features: Fan-in output aggregation, tag-based stream routing, filtered subscription API, backpressure management, output buffering with replay, RBAC channel access, Prometheus metrics per stream, WebSocket + SSE delivery
+design_bg: #0F172A
+design_primary: #F97316
+design_vibe: Dark mux orange
+budget: 750
+
+name: RunQueue Worker
+prefix: RQW
+type: Distributed Task Queue
+category: API Jobs & Streaming
+description: Celery/Sidekiq-style distributed task queue with REST API. Submit tasks with payloads, route to typed worker pools, track progress in real-time, and tail worker stdout/stderr from the dashboard.
+features: REST task submission API, typed worker pool routing, real-time progress tracking, stdout/stderr live tail, task result caching, dead-letter reprocessing, RBAC task type permissions, Grafana metrics integration
+design_bg: #0A1628
+design_primary: #8B5CF6
+design_vibe: Dark queue purple
+budget: 750
+
+name: FunnelStream Processor
+prefix: FNL
+type: Stream Processing API
+category: API Jobs & Streaming
+description: API-driven stream processing engine for real-time data transformation. Define processing topologies via API, deploy windowed aggregations, and tail intermediate results at any stage for debugging.
+features: API-defined processing topologies, windowed aggregations, intermediate stage tailing, exactly-once processing, watermark management, topology hot-update, RBAC topology access, latency percentile dashboard
+design_bg: #0C0C0C
+design_primary: #EF4444
+design_vibe: Dark funnel red
+budget: 800
+
+name: BatchForge Runtime
+prefix: BKR
+type: Containerized Batch Runtime
+category: API Jobs & Streaming
+description: Run batch jobs as isolated containers with resource limits. API submits Docker images + params, runtime provisions ephemeral containers, captures all output for live tail, and cleans up on completion.
+features: Container-per-job isolation, resource limit enforcement, Docker image registry, live container log tail, ephemeral volume management, job artifact collection, RBAC image approval, container lifecycle audit
+design_bg: #1A0A2E
+design_primary: #0EA5E9
+design_vibe: Dark container cyan
+budget: 800
+
+name: Tapestry Executor
+prefix: TPX
+type: Polyglot Job Execution Engine
+category: API Jobs & Streaming
+description: Execute jobs written in Python, Node.js, Go, Rust, or Java from a unified API. Language runtime management, dependency resolution, sandboxed execution, and live output streaming with ANSI rendering.
+features: Python/Node/Go/Rust/Java runtimes, dependency auto-install, sandboxed execution, live ANSI output stream, job template marketplace, version-pinned environments, RBAC runtime access, execution replay
+design_bg: #FFFFFF
+design_primary: #059669
+design_vibe: Clean executor green
+budget: 750
+
+name: HavenJob Store
+prefix: HVN
+type: Job State & Artifact Store
+category: API Jobs & Streaming
+description: Persistent store for job state, checkpoints, and output artifacts. S3-compatible API for artifact upload/download, job metadata search, and retention policies. Powers resume-from-checkpoint across all job types.
+features: S3-compatible artifact API, job metadata search, checkpoint versioning, retention policy engine, artifact lineage tracking, RBAC artifact access, deduplication, storage cost dashboard
+design_bg: #0A0E1A
+design_primary: #22C55E
+design_vibe: Dark store green
+budget: 700
+
+name: OpEx Runtime Monitor
+prefix: OPX
+type: Job Operational Excellence Dashboard
+category: API Jobs & Streaming
+description: Operational dashboard for job fleet health. SLA tracking per job type, failure rate trending, resource utilization heatmaps, and anomaly detection on execution duration. RBAC-gated ops views with on-call integration.
+features: SLA tracking per job type, failure rate trend charts, resource utilization heatmaps, duration anomaly detection, PagerDuty/Slack on-call integration, RBAC ops views, SLA breach audit log, capacity planning forecasts
+design_bg: #0F172A
+design_primary: #F59E0B
+design_vibe: Dark ops gold
+budget: 750
+
+name: KubeJob Builder
+prefix: KJB
+type: Kubernetes-Native Job Builder
+category: API Jobs & Streaming
+description: API for creating and managing Kubernetes Jobs and CronJobs. Template library for common patterns, live pod log tail via WebSocket, automatic cleanup policies, and RBAC-controlled job submission per namespace.
+features: K8s Job/CronJob API, template library, WebSocket pod log tail, TTL cleanup policies, namespace RBAC, resource quota enforcement, job event stream, Helm chart generator
+design_bg: #111827
+design_primary: #6366F1
+design_vibe: Dark kube indigo
+budget: 800
+
+name: PipelineRunner Hub
+prefix: PLR
+type: CI/CD-Style Job Pipeline
+category: API Jobs & Streaming
+description: GitHub Actions-inspired job pipeline engine. Define pipelines in YAML, trigger via API/webhook/schedule, with parallel stages, matrix builds, live step output tail, and artifact passing between stages.
+features: YAML pipeline definitions, API/webhook/schedule triggers, parallel stages + matrix, live step output tail, inter-stage artifact passing, conditional step execution, RBAC pipeline management, pipeline run comparison
+design_bg: #0C0C0C
+design_primary: #A855F7
+design_vibe: Dark pipeline purple
+budget: 850
+
+name: Valex Stream Gateway
+prefix: VLX
+type: Streaming API Gateway
+category: API Jobs & Streaming
+description: API gateway specialized for long-lived streaming connections. WebSocket/SSE/gRPC-stream multiplexing, connection lifecycle management, backpressure signaling, and live connection tail for debugging production streams.
+features: WebSocket/SSE/gRPC-stream support, connection multiplexing, backpressure signaling, live connection debugging tail, connection lifecycle audit, rate limiting per stream, RBAC stream access, health-check ping/pong
+design_bg: #1A1A2E
+design_primary: #00D4AA
+design_vibe: Dark gateway emerald
+budget: 800

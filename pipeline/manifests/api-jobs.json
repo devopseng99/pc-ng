@@ -1,0 +1,524 @@
+{
+  "apps": [
+    {
+      "id": 50901,
+      "name": "JobRunner API Gateway",
+      "prefix": "JBR",
+      "repo": "jobrunner-api-gateway",
+      "category": "API Jobs & Streaming",
+      "description": "REST/GraphQL API gateway for submitting, monitoring, and tailing long-running jobs. Supports batch, streaming, and cron-triggered execution modes. WebSocket live tail, RBAC per-job-type, OpenTelemetry distributed tracing, and full execution audit log.",
+      "features": [
+        "REST + GraphQL job submission API",
+        "WebSocket live log tail",
+        "batch/stream/cron execution modes",
+        "RBAC per-job-type",
+        "OpenTelemetry tracing",
+        "execution audit log",
+        "job priority queue",
+        "retry with exponential backoff"
+      ],
+      "design": {
+        "bg": "#0A0E1A",
+        "primary": "#6366F1",
+        "vibe": "Dark API indigo"
+      },
+      "type": "Unified Job Execution API",
+      "budget": 850,
+      "email": "ops@jobrunner-api-gateway.com"
+    },
+    {
+      "id": 50902,
+      "name": "BatchQueue Engine",
+      "prefix": "BQE",
+      "repo": "batchqueue-engine",
+      "category": "API Jobs & Streaming",
+      "description": "High-throughput batch job engine with priority queues and worker pools. API-driven job submission with payload validation, parallel chunk processing, dead-letter queues for failed items, and real-time progress streaming via SSE.",
+      "features": [
+        "Priority queue with fair scheduling",
+        "chunked parallel processing",
+        "SSE progress streaming",
+        "dead-letter queue",
+        "payload schema validation",
+        "worker pool auto-scaling",
+        "batch job audit trail",
+        "API rate limiting"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#22C55E",
+        "vibe": "Dark batch green"
+      },
+      "type": "Distributed Batch Job Processor",
+      "budget": 800,
+      "email": "ops@batchqueue-engine.com"
+    },
+    {
+      "id": 50903,
+      "name": "StreamLine Tail",
+      "prefix": "SLT",
+      "repo": "streamline-tail",
+      "category": "API Jobs & Streaming",
+      "description": "Live log aggregation and tail platform for distributed jobs. Kafka-backed log ingestion, WebSocket fan-out to browsers, regex-based log filtering, and RBAC-controlled access to production job output with retention policies.",
+      "features": [
+        "Kafka log ingestion",
+        "WebSocket multi-stream tail",
+        "regex/jq log filtering",
+        "RBAC log access",
+        "log retention policies",
+        "search across historical logs",
+        "bookmarkable log positions",
+        "alert on log patterns"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#0EA5E9",
+        "vibe": "Dark stream cyan"
+      },
+      "type": "Real-Time Log Streaming Platform",
+      "budget": 750,
+      "email": "ops@streamline-tail.com"
+    },
+    {
+      "id": 50904,
+      "name": "LongRun Executor",
+      "prefix": "LRX",
+      "repo": "longrun-executor",
+      "category": "API Jobs & Streaming",
+      "description": "Orchestrate processes that run for hours or days \u2014 ML training, data migrations, video transcoding. Checkpoint-based resumption, heartbeat monitoring, and API-driven pause/resume/cancel with full state persistence.",
+      "features": [
+        "Checkpoint-based resume",
+        "heartbeat liveness monitor",
+        "API pause/resume/cancel",
+        "state persistence to S3/MinIO",
+        "progress percentage API",
+        "resource limit enforcement",
+        "execution timeline UI",
+        "webhook completion callbacks"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#F59E0B",
+        "vibe": "Dark executor gold"
+      },
+      "type": "Long-Running Process Manager",
+      "budget": 850,
+      "email": "ops@longrun-executor.com"
+    },
+    {
+      "id": 50905,
+      "name": "TailView Live",
+      "prefix": "TLV",
+      "repo": "tailview-live",
+      "category": "API Jobs & Streaming",
+      "description": "Real-time dashboard showing live output from hundreds of concurrent jobs. Multiplexed WebSocket streams, filterable job grid, and tail -f experience in the browser with ANSI color rendering and scroll-lock.",
+      "features": [
+        "Multiplexed WebSocket streams",
+        "ANSI color rendering",
+        "scroll-lock per pane",
+        "job grid with status badges",
+        "regex search across live output",
+        "RBAC dashboard access",
+        "split-pane multi-tail",
+        "export log snapshots"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#A855F7",
+        "vibe": "Dark terminal purple"
+      },
+      "type": "Multi-Job Live Dashboard",
+      "budget": 750,
+      "email": "ops@tailview-live.com"
+    },
+    {
+      "id": 50906,
+      "name": "CronReactor Engine",
+      "prefix": "CRJ",
+      "repo": "cronreactor-engine",
+      "category": "API Jobs & Streaming",
+      "description": "API-first cron scheduler with timezone-aware scheduling, job dependency DAGs, and missed-run catch-up policies. Slack/webhook notifications on completion or failure, execution history with drift analysis.",
+      "features": [
+        "Cron expression builder with timezone support",
+        "job dependency DAGs",
+        "missed-run catch-up",
+        "Slack/webhook notifications",
+        "execution drift analysis",
+        "RBAC schedule management",
+        "calendar visualization",
+        "idempotency guarantees"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#3B82F6",
+        "vibe": "Dark scheduler blue"
+      },
+      "type": "Cron Job Scheduling API",
+      "budget": 750,
+      "email": "ops@cronreactor-engine.com"
+    },
+    {
+      "id": 50907,
+      "name": "PipeBatch Queue",
+      "prefix": "PBQ",
+      "repo": "pipebatch-queue",
+      "category": "API Jobs & Streaming",
+      "description": "Chain batch jobs into multi-stage pipelines with conditional branching. Each stage streams output to the next via internal queues. API-driven pipeline composition, stage-level retry, and live tail per stage.",
+      "features": [
+        "Multi-stage pipeline builder",
+        "conditional stage branching",
+        "inter-stage queue streaming",
+        "per-stage live tail",
+        "stage-level retry policies",
+        "pipeline template library",
+        "RBAC pipeline access",
+        "execution cost tracking"
+      ],
+      "design": {
+        "bg": "#FAFAF9",
+        "primary": "#2563EB",
+        "vibe": "Light pipeline clean"
+      },
+      "type": "Multi-Stage Batch Pipeline",
+      "budget": 800,
+      "email": "ops@pipebatch-queue.com"
+    },
+    {
+      "id": 50908,
+      "name": "WorkflowForge Studio",
+      "prefix": "WKF",
+      "repo": "workflowforge-studio",
+      "category": "API Jobs & Streaming",
+      "description": "Drag-and-drop workflow builder for complex job orchestration. Supports human-in-the-loop approval steps, parallel fan-out/fan-in, timer delays, and API triggers. Every workflow execution is fully auditable with step-level replay.",
+      "features": [
+        "Visual DAG workflow editor",
+        "human approval steps",
+        "parallel fan-out/fan-in",
+        "timer/delay steps",
+        "API trigger endpoints",
+        "step-level replay/debug",
+        "RBAC workflow permissions",
+        "execution audit with duration breakdown"
+      ],
+      "design": {
+        "bg": "#0F0A1E",
+        "primary": "#EC4899",
+        "vibe": "Dark workflow pink"
+      },
+      "type": "Visual Workflow Orchestrator",
+      "budget": 850,
+      "email": "ops@workflowforge-studio.com"
+    },
+    {
+      "id": 50909,
+      "name": "EventPump Stream",
+      "prefix": "EVP",
+      "repo": "eventpump-stream",
+      "category": "API Jobs & Streaming",
+      "description": "React to events from Kafka, webhooks, S3 uploads, or database changes by triggering jobs automatically. Event routing rules engine, dead-letter for unmatched events, and live event stream tail for debugging.",
+      "features": [
+        "Kafka/webhook/S3/CDC event sources",
+        "routing rules engine",
+        "dead-letter for unmatched events",
+        "event stream live tail",
+        "fan-out to multiple jobs",
+        "event replay from offset",
+        "RBAC event source management",
+        "event schema validation"
+      ],
+      "design": {
+        "bg": "#111111",
+        "primary": "#14B8A6",
+        "vibe": "Dark event teal"
+      },
+      "type": "Event-Driven Job Trigger",
+      "budget": 800,
+      "email": "ops@eventpump-stream.com"
+    },
+    {
+      "id": 50910,
+      "name": "DigiScale Scheduler",
+      "prefix": "DGS",
+      "repo": "digiscale-scheduler",
+      "category": "API Jobs & Streaming",
+      "description": "Intelligent job scheduler that auto-scales worker pools based on queue depth, time-of-day patterns, and resource availability. Bin-packing optimization for heterogeneous jobs with GPU/CPU/memory constraints.",
+      "features": [
+        "Queue-depth auto-scaling",
+        "time-of-day scaling profiles",
+        "bin-packing job placement",
+        "GPU/CPU/memory constraints",
+        "worker health monitoring",
+        "scaling event audit log",
+        "cost optimization dashboard",
+        "RBAC scaling policies"
+      ],
+      "design": {
+        "bg": "#1E293B",
+        "primary": "#D946EF",
+        "vibe": "Dark scale violet"
+      },
+      "type": "Auto-Scaling Job Scheduler",
+      "budget": 800,
+      "email": "ops@digiscale-scheduler.com"
+    },
+    {
+      "id": 50911,
+      "name": "JobMux Multiplexer",
+      "prefix": "JMX",
+      "repo": "jobmux-multiplexer",
+      "category": "API Jobs & Streaming",
+      "description": "Aggregate and multiplex output from thousands of concurrent jobs into unified streams. Fan-in from distributed workers, tag-based stream routing, and API for subscribing to filtered output channels with backpressure.",
+      "features": [
+        "Fan-in output aggregation",
+        "tag-based stream routing",
+        "filtered subscription API",
+        "backpressure management",
+        "output buffering with replay",
+        "RBAC channel access",
+        "Prometheus metrics per stream",
+        "WebSocket + SSE delivery"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F97316",
+        "vibe": "Dark mux orange"
+      },
+      "type": "Job Output Multiplexer",
+      "budget": 750,
+      "email": "ops@jobmux-multiplexer.com"
+    },
+    {
+      "id": 50912,
+      "name": "RunQueue Worker",
+      "prefix": "RQW",
+      "repo": "runqueue-worker",
+      "category": "API Jobs & Streaming",
+      "description": "Celery/Sidekiq-style distributed task queue with REST API. Submit tasks with payloads, route to typed worker pools, track progress in real-time, and tail worker stdout/stderr from the dashboard.",
+      "features": [
+        "REST task submission API",
+        "typed worker pool routing",
+        "real-time progress tracking",
+        "stdout/stderr live tail",
+        "task result caching",
+        "dead-letter reprocessing",
+        "RBAC task type permissions",
+        "Grafana metrics integration"
+      ],
+      "design": {
+        "bg": "#0A1628",
+        "primary": "#8B5CF6",
+        "vibe": "Dark queue purple"
+      },
+      "type": "Distributed Task Queue",
+      "budget": 750,
+      "email": "ops@runqueue-worker.com"
+    },
+    {
+      "id": 50913,
+      "name": "FunnelStream Processor",
+      "prefix": "FNL",
+      "repo": "funnelstream-processor",
+      "category": "API Jobs & Streaming",
+      "description": "API-driven stream processing engine for real-time data transformation. Define processing topologies via API, deploy windowed aggregations, and tail intermediate results at any stage for debugging.",
+      "features": [
+        "API-defined processing topologies",
+        "windowed aggregations",
+        "intermediate stage tailing",
+        "exactly-once processing",
+        "watermark management",
+        "topology hot-update",
+        "RBAC topology access",
+        "latency percentile dashboard"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#EF4444",
+        "vibe": "Dark funnel red"
+      },
+      "type": "Stream Processing API",
+      "budget": 800,
+      "email": "ops@funnelstream-processor.com"
+    },
+    {
+      "id": 50914,
+      "name": "BatchForge Runtime",
+      "prefix": "BKR",
+      "repo": "batchforge-runtime",
+      "category": "API Jobs & Streaming",
+      "description": "Run batch jobs as isolated containers with resource limits. API submits Docker images + params, runtime provisions ephemeral containers, captures all output for live tail, and cleans up on completion.",
+      "features": [
+        "Container-per-job isolation",
+        "resource limit enforcement",
+        "Docker image registry",
+        "live container log tail",
+        "ephemeral volume management",
+        "job artifact collection",
+        "RBAC image approval",
+        "container lifecycle audit"
+      ],
+      "design": {
+        "bg": "#1A0A2E",
+        "primary": "#0EA5E9",
+        "vibe": "Dark container cyan"
+      },
+      "type": "Containerized Batch Runtime",
+      "budget": 800,
+      "email": "ops@batchforge-runtime.com"
+    },
+    {
+      "id": 50915,
+      "name": "Tapestry Executor",
+      "prefix": "TPX",
+      "repo": "tapestry-executor",
+      "category": "API Jobs & Streaming",
+      "description": "Execute jobs written in Python, Node.js, Go, Rust, or Java from a unified API. Language runtime management, dependency resolution, sandboxed execution, and live output streaming with ANSI rendering.",
+      "features": [
+        "Python/Node/Go/Rust/Java runtimes",
+        "dependency auto-install",
+        "sandboxed execution",
+        "live ANSI output stream",
+        "job template marketplace",
+        "version-pinned environments",
+        "RBAC runtime access",
+        "execution replay"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#059669",
+        "vibe": "Clean executor green"
+      },
+      "type": "Polyglot Job Execution Engine",
+      "budget": 750,
+      "email": "ops@tapestry-executor.com"
+    },
+    {
+      "id": 50916,
+      "name": "HavenJob Store",
+      "prefix": "HVN",
+      "repo": "havenjob-store",
+      "category": "API Jobs & Streaming",
+      "description": "Persistent store for job state, checkpoints, and output artifacts. S3-compatible API for artifact upload/download, job metadata search, and retention policies. Powers resume-from-checkpoint across all job types.",
+      "features": [
+        "S3-compatible artifact API",
+        "job metadata search",
+        "checkpoint versioning",
+        "retention policy engine",
+        "artifact lineage tracking",
+        "RBAC artifact access",
+        "deduplication",
+        "storage cost dashboard"
+      ],
+      "design": {
+        "bg": "#0A0E1A",
+        "primary": "#22C55E",
+        "vibe": "Dark store green"
+      },
+      "type": "Job State & Artifact Store",
+      "budget": 700,
+      "email": "ops@havenjob-store.com"
+    },
+    {
+      "id": 50917,
+      "name": "OpEx Runtime Monitor",
+      "prefix": "OPX",
+      "repo": "opex-runtime-monitor",
+      "category": "API Jobs & Streaming",
+      "description": "Operational dashboard for job fleet health. SLA tracking per job type, failure rate trending, resource utilization heatmaps, and anomaly detection on execution duration. RBAC-gated ops views with on-call integration.",
+      "features": [
+        "SLA tracking per job type",
+        "failure rate trend charts",
+        "resource utilization heatmaps",
+        "duration anomaly detection",
+        "PagerDuty/Slack on-call integration",
+        "RBAC ops views",
+        "SLA breach audit log",
+        "capacity planning forecasts"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F59E0B",
+        "vibe": "Dark ops gold"
+      },
+      "type": "Job Operational Excellence Dashboard",
+      "budget": 750,
+      "email": "ops@opex-runtime-monitor.com"
+    },
+    {
+      "id": 50918,
+      "name": "KubeJob Builder",
+      "prefix": "KJB",
+      "repo": "kubejob-builder",
+      "category": "API Jobs & Streaming",
+      "description": "API for creating and managing Kubernetes Jobs and CronJobs. Template library for common patterns, live pod log tail via WebSocket, automatic cleanup policies, and RBAC-controlled job submission per namespace.",
+      "features": [
+        "K8s Job/CronJob API",
+        "template library",
+        "WebSocket pod log tail",
+        "TTL cleanup policies",
+        "namespace RBAC",
+        "resource quota enforcement",
+        "job event stream",
+        "Helm chart generator"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#6366F1",
+        "vibe": "Dark kube indigo"
+      },
+      "type": "Kubernetes-Native Job Builder",
+      "budget": 800,
+      "email": "ops@kubejob-builder.com"
+    },
+    {
+      "id": 50919,
+      "name": "PipelineRunner Hub",
+      "prefix": "PLR",
+      "repo": "pipelinerunner-hub",
+      "category": "API Jobs & Streaming",
+      "description": "GitHub Actions-inspired job pipeline engine. Define pipelines in YAML, trigger via API/webhook/schedule, with parallel stages, matrix builds, live step output tail, and artifact passing between stages.",
+      "features": [
+        "YAML pipeline definitions",
+        "API/webhook/schedule triggers",
+        "parallel stages + matrix",
+        "live step output tail",
+        "inter-stage artifact passing",
+        "conditional step execution",
+        "RBAC pipeline management",
+        "pipeline run comparison"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#A855F7",
+        "vibe": "Dark pipeline purple"
+      },
+      "type": "CI/CD-Style Job Pipeline",
+      "budget": 850,
+      "email": "ops@pipelinerunner-hub.com"
+    },
+    {
+      "id": 50920,
+      "name": "Valex Stream Gateway",
+      "prefix": "VLX",
+      "repo": "valex-stream-gateway",
+      "category": "API Jobs & Streaming",
+      "description": "API gateway specialized for long-lived streaming connections. WebSocket/SSE/gRPC-stream multiplexing, connection lifecycle management, backpressure signaling, and live connection tail for debugging production streams.",
+      "features": [
+        "WebSocket/SSE/gRPC-stream support",
+        "connection multiplexing",
+        "backpressure signaling",
+        "live connection debugging tail",
+        "connection lifecycle audit",
+        "rate limiting per stream",
+        "RBAC stream access",
+        "health-check ping/pong"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#00D4AA",
+        "vibe": "Dark gateway emerald"
+      },
+      "type": "Streaming API Gateway",
+      "budget": 800,
+      "email": "ops@valex-stream-gateway.com"
+    }
+  ]
+}

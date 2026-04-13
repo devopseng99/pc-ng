@@ -1,0 +1,164 @@
+name: SquarePulse POS
+prefix: SQP
+type: Cloud Point-of-Sale System
+category: Retail & E-Commerce
+description: Modern cloud POS system with Stripe Terminal integration, inventory sync, and real-time sales analytics. Built for independent retailers and pop-up shops with offline-first capability.
+features: Stripe Terminal card reader, barcode scanner UI, real-time inventory sync, daily sales dashboard, receipt customization, multi-location support
+design_bg: #0A0E1A
+design_primary: #6366F1
+design_vibe: Dark enterprise minimal
+budget: 700
+
+name: BrickRoute Commerce
+prefix: BRX
+type: Omnichannel Retail Platform
+category: Retail & E-Commerce
+description: Unified commerce platform bridging physical stores and online sales. Shopify-style storefront builder with in-store pickup, local delivery via DoorDash Drive API, and unified inventory.
+features: Storefront builder, click-and-collect scheduling, DoorDash Drive delivery, unified inventory, customer profiles, abandoned cart recovery
+design_bg: #FAFAF9
+design_primary: #EA580C
+design_vibe: Warm retail bright
+budget: 750
+
+name: LoyalLoop Rewards
+prefix: LYL
+type: Customer Loyalty Platform
+category: Retail & E-Commerce
+description: Points-based loyalty and rewards engine for retail chains. Twilio SMS for point notifications, Stripe for gift card issuance, and AI-powered personalized offers based on purchase history.
+features: Points accumulation engine, tiered rewards, SMS notifications via Twilio, digital gift cards, referral program, purchase analytics
+design_bg: #1A0A2E
+design_primary: #A855F7
+design_vibe: Dark purple premium
+budget: 650
+
+name: CrateBase Inventory
+prefix: CRB
+type: Warehouse Inventory Manager
+category: Retail & E-Commerce
+description: Real-time warehouse management for mid-size retailers. Barcode/QR scanning, predictive restock alerts using historical sales data, and multi-warehouse transfer management.
+features: Barcode/QR scanning, predictive restock alerts, multi-warehouse transfers, cycle counting, dead stock detection, supplier portal
+design_bg: #0F172A
+design_primary: #0EA5E9
+design_vibe: Dark industrial clean
+budget: 600
+
+name: PriceMatrix Retail
+prefix: PMR
+type: Dynamic Pricing Engine
+category: Retail & E-Commerce
+description: AI-driven dynamic pricing for retail and e-commerce. Competitor price monitoring via web scraping, demand-based price adjustments, and margin optimization with Stripe billing integration.
+features: Competitor price monitoring, demand-based pricing, margin calculator, A/B price testing, bulk price rules, Stripe billing sync
+design_bg: #0C0C0C
+design_primary: #22C55E
+design_vibe: Dark fintech green
+budget: 700
+
+name: FlexReturn Hub
+prefix: FLX
+type: Returns & Exchange Platform
+category: Retail & E-Commerce
+description: Streamlined returns management for e-commerce brands. Branded return portals, automated RMA processing, ShipStation integration for prepaid labels, and refund analytics dashboard.
+features: Branded return portal, automated RMA workflow, ShipStation label generation, exchange recommendations, refund analytics, fraud detection
+design_bg: #FFFFFF
+design_primary: #2563EB
+design_vibe: Clean corporate blue
+budget: 600
+
+name: VendorNest Marketplace
+prefix: VND
+type: Multi-Vendor Marketplace Builder
+category: Retail & E-Commerce
+description: Launch multi-vendor marketplaces like Etsy or Amazon Marketplace. Stripe Connect for split payments, vendor onboarding workflows, and commission management with automated payouts.
+features: Vendor onboarding portal, Stripe Connect split payments, commission tiers, product approval queue, vendor analytics, automated payouts
+design_bg: #0F172A
+design_primary: #F59E0B
+design_vibe: Dark marketplace gold
+budget: 800
+
+name: RackTrack Retail Analytics
+prefix: RCK
+type: Retail Store Analytics
+category: Retail & E-Commerce
+description: In-store analytics platform using foot traffic sensors and POS data. Heatmap visualization, conversion funnel from browse to purchase, and staff scheduling optimization based on traffic patterns.
+features: Foot traffic dashboard, conversion funnel analysis, heatmap visualization, staff scheduling optimizer, peak hour alerts, revenue per sqft
+design_bg: #111827
+design_primary: #EC4899
+design_vibe: Dark analytics pink
+budget: 650
+
+name: QuickPay Checkout
+prefix: QPY
+type: One-Click Checkout Solution
+category: Retail & E-Commerce
+description: Embeddable one-click checkout widget for e-commerce sites. Stripe Elements for PCI-compliant card storage, Apple Pay and Google Pay support, and conversion rate optimization tools.
+features: One-click checkout widget, Stripe Elements integration, Apple Pay / Google Pay, address autocomplete, conversion A/B testing, cart abandonment emails
+design_bg: #FAFAFA
+design_primary: #7C3AED
+design_vibe: Light modern purple
+budget: 700
+
+name: ShelfView Merchandising
+prefix: SHV
+type: Visual Merchandising Planner
+category: Retail & E-Commerce
+description: Planogram and visual merchandising tool for retail chains. Drag-and-drop shelf layout builder, compliance photo verification, and sales performance by product placement analysis.
+features: Drag-and-drop planogram builder, compliance photo upload, placement performance analytics, seasonal reset templates, multi-store rollout, category management
+design_bg: #1E293B
+design_primary: #14B8A6
+design_vibe: Dark teal professional
+budget: 600
+
+name: HelloLocal Storefront
+prefix: HLO
+type: Local Business Commerce
+category: Retail & E-Commerce
+description: Hyperlocal commerce platform for neighborhood shops. Google Maps integration for store discovery, same-day delivery coordination, and community marketplace features with local SEO optimization.
+features: Google Maps storefront, same-day delivery scheduler, community reviews, local SEO tools, neighborhood marketplace, social media auto-posting
+design_bg: #FFFBEB
+design_primary: #D97706
+design_vibe: Warm local artisan
+budget: 550
+
+name: MarkdownHQ Promotions
+prefix: MRK
+type: Retail Promotion Engine
+category: Retail & E-Commerce
+description: Promotion and markdown management for retail buyers. Schedule flash sales, BOGO offers, tiered discounts, and clearance markdowns with sell-through rate tracking and margin impact analysis.
+features: Flash sale scheduler, BOGO/tiered discount builder, clearance markdown automation, sell-through tracking, margin impact calculator, email campaign triggers
+design_bg: #0F0A1E
+design_primary: #EF4444
+design_vibe: Dark sale red
+budget: 600
+
+name: GrabCart Mobile Commerce
+prefix: GRB
+type: Mobile Shopping App Builder
+category: Retail & E-Commerce
+description: No-code mobile commerce app builder for retailers. Push notifications via Firebase, barcode scan-to-cart, in-app loyalty points, and AR product preview powered by Three.js.
+features: No-code app builder, Firebase push notifications, barcode scan-to-cart, AR product preview, in-app loyalty, deep linking
+design_bg: #0A0A0A
+design_primary: #3B82F6
+design_vibe: Dark mobile sleek
+budget: 750
+
+name: NexCommerce Headless
+prefix: NXC
+type: Headless Commerce API
+category: Retail & E-Commerce
+description: Headless commerce backend with REST and GraphQL APIs. Stripe for payments, Algolia for product search, and webhook-driven order orchestration. Built for developers building custom storefronts.
+features: REST + GraphQL product API, Stripe checkout sessions, Algolia instant search, webhook order events, multi-currency support, developer docs portal
+design_bg: #111111
+design_primary: #00D4AA
+design_vibe: Dark developer terminal
+budget: 800
+
+name: WalletLane Subscriptions
+prefix: WLT
+type: Subscription Commerce Platform
+category: Retail & E-Commerce
+description: Subscription box and recurring commerce platform. Stripe Billing for subscription management, customizable box builder, churn prediction using ML, and subscriber lifecycle analytics.
+features: Subscription box builder, Stripe Billing recurring payments, churn prediction dashboard, subscriber lifecycle analytics, pause/swap/skip controls, referral program
+design_bg: #1A1A2E
+design_primary: #8B5CF6
+design_vibe: Dark subscription purple
+budget: 700

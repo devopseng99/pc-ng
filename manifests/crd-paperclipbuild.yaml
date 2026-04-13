@@ -98,6 +98,39 @@ spec:
                   default: 5
                   minimum: 1
                   maximum: 10
+                framework:
+                  type: string
+                  description: Detected build framework.
+                  enum:
+                    - next
+                    - astro
+                    - turbo-next
+                    - turbo-astro
+                    - unknown
+                deployTarget:
+                  type: string
+                  description: Where the app is deployed.
+                  enum:
+                    - nginx
+                    - cf-pages
+                    - k8s-pod
+                    - multi
+                hosting:
+                  type: string
+                  description: Hosting platform for the deployed app.
+                  enum:
+                    - static-sites
+                    - cloudflare
+                    - paperclip-ns
+                    - multi
+                platform:
+                  type: string
+                  description: Runtime platform.
+                  enum:
+                    - static
+                    - node
+                    - wasm
+                    - worker
             status:
               type: object
               description: Observed state of the PaperclipBuild, managed by the controller.
@@ -130,6 +163,27 @@ spec:
                   type: string
                   format: date-time
                   description: Timestamp when the build completed or failed.
+                deployTargets:
+                  type: array
+                  description: All locations where this app is deployed, with active/disabled state.
+                  items:
+                    type: object
+                    properties:
+                      target:
+                        type: string
+                        description: Deploy target name (nginx, cf-pages, k8s-pod).
+                      state:
+                        type: string
+                        description: Whether this deploy target is active or disabled.
+                        enum:
+                          - active
+                          - disabled
+                      url:
+                        type: string
+                        description: URL for this deploy target.
+                      lastDeployed:
+                        type: string
+                        description: Timestamp of last deploy to this target.
                 checkpoints:
                   type: array
                   description: Ordered list of pipeline stage checkpoints.

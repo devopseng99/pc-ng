@@ -1,0 +1,364 @@
+{
+  "apps": [
+    {
+      "id": 50501,
+      "name": "SquarePulse POS",
+      "prefix": "SQP",
+      "repo": "squarepulse-pos",
+      "category": "Retail & E-Commerce",
+      "description": "Modern cloud POS system with Stripe Terminal integration, inventory sync, and real-time sales analytics. Built for independent retailers and pop-up shops with offline-first capability.",
+      "features": [
+        "Stripe Terminal card reader",
+        "barcode scanner UI",
+        "real-time inventory sync",
+        "daily sales dashboard",
+        "receipt customization",
+        "multi-location support"
+      ],
+      "design": {
+        "bg": "#0A0E1A",
+        "primary": "#6366F1",
+        "vibe": "Dark enterprise minimal"
+      },
+      "type": "Cloud Point-of-Sale System",
+      "budget": 700,
+      "email": "ops@squarepulse-pos.com"
+    },
+    {
+      "id": 50502,
+      "name": "BrickRoute Commerce",
+      "prefix": "BRX",
+      "repo": "brickroute-commerce",
+      "category": "Retail & E-Commerce",
+      "description": "Unified commerce platform bridging physical stores and online sales. Shopify-style storefront builder with in-store pickup, local delivery via DoorDash Drive API, and unified inventory.",
+      "features": [
+        "Storefront builder",
+        "click-and-collect scheduling",
+        "DoorDash Drive delivery",
+        "unified inventory",
+        "customer profiles",
+        "abandoned cart recovery"
+      ],
+      "design": {
+        "bg": "#FAFAF9",
+        "primary": "#EA580C",
+        "vibe": "Warm retail bright"
+      },
+      "type": "Omnichannel Retail Platform",
+      "budget": 750,
+      "email": "ops@brickroute-commerce.com"
+    },
+    {
+      "id": 50503,
+      "name": "LoyalLoop Rewards",
+      "prefix": "LYL",
+      "repo": "loyalloop-rewards",
+      "category": "Retail & E-Commerce",
+      "description": "Points-based loyalty and rewards engine for retail chains. Twilio SMS for point notifications, Stripe for gift card issuance, and AI-powered personalized offers based on purchase history.",
+      "features": [
+        "Points accumulation engine",
+        "tiered rewards",
+        "SMS notifications via Twilio",
+        "digital gift cards",
+        "referral program",
+        "purchase analytics"
+      ],
+      "design": {
+        "bg": "#1A0A2E",
+        "primary": "#A855F7",
+        "vibe": "Dark purple premium"
+      },
+      "type": "Customer Loyalty Platform",
+      "budget": 650,
+      "email": "ops@loyalloop-rewards.com"
+    },
+    {
+      "id": 50504,
+      "name": "CrateBase Inventory",
+      "prefix": "CRB",
+      "repo": "cratebase-inventory",
+      "category": "Retail & E-Commerce",
+      "description": "Real-time warehouse management for mid-size retailers. Barcode/QR scanning, predictive restock alerts using historical sales data, and multi-warehouse transfer management.",
+      "features": [
+        "Barcode/QR scanning",
+        "predictive restock alerts",
+        "multi-warehouse transfers",
+        "cycle counting",
+        "dead stock detection",
+        "supplier portal"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#0EA5E9",
+        "vibe": "Dark industrial clean"
+      },
+      "type": "Warehouse Inventory Manager",
+      "budget": 600,
+      "email": "ops@cratebase-inventory.com"
+    },
+    {
+      "id": 50505,
+      "name": "PriceMatrix Retail",
+      "prefix": "PMR",
+      "repo": "pricematrix-retail",
+      "category": "Retail & E-Commerce",
+      "description": "AI-driven dynamic pricing for retail and e-commerce. Competitor price monitoring via web scraping, demand-based price adjustments, and margin optimization with Stripe billing integration.",
+      "features": [
+        "Competitor price monitoring",
+        "demand-based pricing",
+        "margin calculator",
+        "A/B price testing",
+        "bulk price rules",
+        "Stripe billing sync"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#22C55E",
+        "vibe": "Dark fintech green"
+      },
+      "type": "Dynamic Pricing Engine",
+      "budget": 700,
+      "email": "ops@pricematrix-retail.com"
+    },
+    {
+      "id": 50506,
+      "name": "FlexReturn Hub",
+      "prefix": "FLX",
+      "repo": "flexreturn-hub",
+      "category": "Retail & E-Commerce",
+      "description": "Streamlined returns management for e-commerce brands. Branded return portals, automated RMA processing, ShipStation integration for prepaid labels, and refund analytics dashboard.",
+      "features": [
+        "Branded return portal",
+        "automated RMA workflow",
+        "ShipStation label generation",
+        "exchange recommendations",
+        "refund analytics",
+        "fraud detection"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#2563EB",
+        "vibe": "Clean corporate blue"
+      },
+      "type": "Returns & Exchange Platform",
+      "budget": 600,
+      "email": "ops@flexreturn-hub.com"
+    },
+    {
+      "id": 50507,
+      "name": "VendorNest Marketplace",
+      "prefix": "VND",
+      "repo": "vendornest-marketplace",
+      "category": "Retail & E-Commerce",
+      "description": "Launch multi-vendor marketplaces like Etsy or Amazon Marketplace. Stripe Connect for split payments, vendor onboarding workflows, and commission management with automated payouts.",
+      "features": [
+        "Vendor onboarding portal",
+        "Stripe Connect split payments",
+        "commission tiers",
+        "product approval queue",
+        "vendor analytics",
+        "automated payouts"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#F59E0B",
+        "vibe": "Dark marketplace gold"
+      },
+      "type": "Multi-Vendor Marketplace Builder",
+      "budget": 800,
+      "email": "ops@vendornest-marketplace.com"
+    },
+    {
+      "id": 50508,
+      "name": "RackTrack Retail Analytics",
+      "prefix": "RCK",
+      "repo": "racktrack-retail-analytics",
+      "category": "Retail & E-Commerce",
+      "description": "In-store analytics platform using foot traffic sensors and POS data. Heatmap visualization, conversion funnel from browse to purchase, and staff scheduling optimization based on traffic patterns.",
+      "features": [
+        "Foot traffic dashboard",
+        "conversion funnel analysis",
+        "heatmap visualization",
+        "staff scheduling optimizer",
+        "peak hour alerts",
+        "revenue per sqft"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#EC4899",
+        "vibe": "Dark analytics pink"
+      },
+      "type": "Retail Store Analytics",
+      "budget": 650,
+      "email": "ops@racktrack-retail-analytics.com"
+    },
+    {
+      "id": 50509,
+      "name": "QuickPay Checkout",
+      "prefix": "QPY",
+      "repo": "quickpay-checkout",
+      "category": "Retail & E-Commerce",
+      "description": "Embeddable one-click checkout widget for e-commerce sites. Stripe Elements for PCI-compliant card storage, Apple Pay and Google Pay support, and conversion rate optimization tools.",
+      "features": [
+        "One-click checkout widget",
+        "Stripe Elements integration",
+        "Apple Pay / Google Pay",
+        "address autocomplete",
+        "conversion A/B testing",
+        "cart abandonment emails"
+      ],
+      "design": {
+        "bg": "#FAFAFA",
+        "primary": "#7C3AED",
+        "vibe": "Light modern purple"
+      },
+      "type": "One-Click Checkout Solution",
+      "budget": 700,
+      "email": "ops@quickpay-checkout.com"
+    },
+    {
+      "id": 50510,
+      "name": "ShelfView Merchandising",
+      "prefix": "SHV",
+      "repo": "shelfview-merchandising",
+      "category": "Retail & E-Commerce",
+      "description": "Planogram and visual merchandising tool for retail chains. Drag-and-drop shelf layout builder, compliance photo verification, and sales performance by product placement analysis.",
+      "features": [
+        "Drag-and-drop planogram builder",
+        "compliance photo upload",
+        "placement performance analytics",
+        "seasonal reset templates",
+        "multi-store rollout",
+        "category management"
+      ],
+      "design": {
+        "bg": "#1E293B",
+        "primary": "#14B8A6",
+        "vibe": "Dark teal professional"
+      },
+      "type": "Visual Merchandising Planner",
+      "budget": 600,
+      "email": "ops@shelfview-merchandising.com"
+    },
+    {
+      "id": 50511,
+      "name": "HelloLocal Storefront",
+      "prefix": "HLO",
+      "repo": "hellolocal-storefront",
+      "category": "Retail & E-Commerce",
+      "description": "Hyperlocal commerce platform for neighborhood shops. Google Maps integration for store discovery, same-day delivery coordination, and community marketplace features with local SEO optimization.",
+      "features": [
+        "Google Maps storefront",
+        "same-day delivery scheduler",
+        "community reviews",
+        "local SEO tools",
+        "neighborhood marketplace",
+        "social media auto-posting"
+      ],
+      "design": {
+        "bg": "#FFFBEB",
+        "primary": "#D97706",
+        "vibe": "Warm local artisan"
+      },
+      "type": "Local Business Commerce",
+      "budget": 550,
+      "email": "ops@hellolocal-storefront.com"
+    },
+    {
+      "id": 50512,
+      "name": "MarkdownHQ Promotions",
+      "prefix": "MRK",
+      "repo": "markdownhq-promotions",
+      "category": "Retail & E-Commerce",
+      "description": "Promotion and markdown management for retail buyers. Schedule flash sales, BOGO offers, tiered discounts, and clearance markdowns with sell-through rate tracking and margin impact analysis.",
+      "features": [
+        "Flash sale scheduler",
+        "BOGO/tiered discount builder",
+        "clearance markdown automation",
+        "sell-through tracking",
+        "margin impact calculator",
+        "email campaign triggers"
+      ],
+      "design": {
+        "bg": "#0F0A1E",
+        "primary": "#EF4444",
+        "vibe": "Dark sale red"
+      },
+      "type": "Retail Promotion Engine",
+      "budget": 600,
+      "email": "ops@markdownhq-promotions.com"
+    },
+    {
+      "id": 50513,
+      "name": "GrabCart Mobile Commerce",
+      "prefix": "GRB",
+      "repo": "grabcart-mobile-commerce",
+      "category": "Retail & E-Commerce",
+      "description": "No-code mobile commerce app builder for retailers. Push notifications via Firebase, barcode scan-to-cart, in-app loyalty points, and AR product preview powered by Three.js.",
+      "features": [
+        "No-code app builder",
+        "Firebase push notifications",
+        "barcode scan-to-cart",
+        "AR product preview",
+        "in-app loyalty",
+        "deep linking"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#3B82F6",
+        "vibe": "Dark mobile sleek"
+      },
+      "type": "Mobile Shopping App Builder",
+      "budget": 750,
+      "email": "ops@grabcart-mobile-commerce.com"
+    },
+    {
+      "id": 50514,
+      "name": "NexCommerce Headless",
+      "prefix": "NXC",
+      "repo": "nexcommerce-headless",
+      "category": "Retail & E-Commerce",
+      "description": "Headless commerce backend with REST and GraphQL APIs. Stripe for payments, Algolia for product search, and webhook-driven order orchestration. Built for developers building custom storefronts.",
+      "features": [
+        "REST + GraphQL product API",
+        "Stripe checkout sessions",
+        "Algolia instant search",
+        "webhook order events",
+        "multi-currency support",
+        "developer docs portal"
+      ],
+      "design": {
+        "bg": "#111111",
+        "primary": "#00D4AA",
+        "vibe": "Dark developer terminal"
+      },
+      "type": "Headless Commerce API",
+      "budget": 800,
+      "email": "ops@nexcommerce-headless.com"
+    },
+    {
+      "id": 50515,
+      "name": "WalletLane Subscriptions",
+      "prefix": "WLT",
+      "repo": "walletlane-subscriptions",
+      "category": "Retail & E-Commerce",
+      "description": "Subscription box and recurring commerce platform. Stripe Billing for subscription management, customizable box builder, churn prediction using ML, and subscriber lifecycle analytics.",
+      "features": [
+        "Subscription box builder",
+        "Stripe Billing recurring payments",
+        "churn prediction dashboard",
+        "subscriber lifecycle analytics",
+        "pause/swap/skip controls",
+        "referral program"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#8B5CF6",
+        "vibe": "Dark subscription purple"
+      },
+      "type": "Subscription Commerce Platform",
+      "budget": 700,
+      "email": "ops@walletlane-subscriptions.com"
+    }
+  ]
+}

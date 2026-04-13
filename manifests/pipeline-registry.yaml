@@ -7,87 +7,38 @@ metadata:
     app: pc-ng
     component: pipeline-registry
 data:
-  # Pipeline Registry — single source of truth for pipeline→instance mapping.
-  # All scripts read this instead of hardcoded case statements.
-  #
-  # To add a new pipeline:
-  #   1. Add an entry below
-  #   2. kubectl apply -f manifests/pipeline-registry.yaml
-  #   3. Run new-pipeline.sh — it reads this ConfigMap automatically
-  #
-  # Format: JSON object keyed by pipeline name
-  registry.json: |
-    {
-      "v1": {
-        "instance": "pc",
-        "namespace": "paperclip",
-        "secret": "pc-board-api-key",
-        "manifest": "use-cases-201-400.json"
-      },
-      "tech": {
-        "instance": "pc-v2",
-        "namespace": "paperclip-v2",
-        "secret": "pc-v2-board-api-key",
-        "manifest": "use-cases-401-600.json"
-      },
-      "wasm": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "wasm-sandbox-apps.json"
-      },
-      "soa": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "pc-soa-v3-templates.json"
-      },
-      "ai": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "ai-income-apps.json"
-      },
-      "cf": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "cf-platform-apps.json"
-      },
-      "mcp": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "mcp-sports-feeds.json"
-      },
-      "ecom": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "ecom-apparel-retail.json"
-      },
-      "crypto": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "crypto-block-explorer.json"
-      },
-      "invest": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "invest-ai-stocks.json"
-      },
-      "saas": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "saas.json"
-      },
-      "streaming": {
-        "instance": "pc-v4",
-        "namespace": "paperclip-v4",
-        "secret": "pc-v4-board-api-key",
-        "manifest": "streaming.json"
-      }
-    }
+  registry.json: "{\n  \"v1\": {\n    \"instance\": \"pc\",\n    \"namespace\": \"\
+    paperclip\",\n    \"secret\": \"pc-board-api-key\",\n    \"manifest\": \"use-cases-201-400.json\"\
+    \n  },\n  \"tech\": {\n    \"instance\": \"pc-v2\",\n    \"namespace\": \"paperclip-v2\"\
+    ,\n    \"secret\": \"pc-v2-board-api-key\",\n    \"manifest\": \"use-cases-401-600.json\"\
+    \n  },\n  \"wasm\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"wasm-sandbox-apps.json\"\
+    \n  },\n  \"soa\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"pc-soa-v3-templates.json\"\
+    \n  },\n  \"ai\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"ai-income-apps.json\"\
+    \n  },\n  \"cf\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"cf-platform-apps.json\"\
+    \n  },\n  \"mcp\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"mcp-sports-feeds.json\"\
+    \n  },\n  \"ecom\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"ecom-apparel-retail.json\"\
+    \n  },\n  \"crypto\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"crypto-block-explorer.json\"\
+    \n  },\n  \"invest\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"invest-ai-stocks.json\"\
+    \n  },\n  \"saas\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"paperclip-v4\"\
+    ,\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"saas.json\"\n\
+    \  },\n  \"streaming\": {\n    \"instance\": \"pc-v4\",\n    \"namespace\": \"\
+    paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\",\n    \"manifest\": \"\
+    streaming.json\"\n  },\n  \"retail\": {\n    \"instance\": \"pc-v4\",\n    \"\
+    namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\",\n   \
+    \ \"manifest\": \"retail.json\"\n  },\n  \"flink-ai\": {\n    \"instance\": \"\
+    pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"flink-ai.json\"\n  },\n  \"etl-edi\": {\n    \"instance\"\
+    : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"etl-edi.json\"\n  },\n  \"tradebot\": {\n    \"instance\"\
+    : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"tradebot.json\"\n  },\n  \"api-jobs\": {\n    \"instance\"\
+    : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"api-jobs.json\"\n  }\n}"

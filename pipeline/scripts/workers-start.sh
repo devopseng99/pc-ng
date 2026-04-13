@@ -23,6 +23,7 @@ PIPELINE=""
 STOP=false
 TIMEOUT=300
 STALL=90
+AUTO_BUILD=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -31,6 +32,7 @@ while [[ $# -gt 0 ]]; do
     --timeout)      TIMEOUT="$2"; shift 2 ;;
     --stall)        STALL="$2"; shift 2 ;;
     --stop)         STOP=true; shift ;;
+    --auto-build)   AUTO_BUILD=true; shift ;;
     *) echo "Unknown: $1"; exit 1 ;;
   esac
 done
@@ -106,6 +108,10 @@ start_worker() {
   # Record start time
   date +%s > "$WORKER_DIR/${pipeline_id}.started"
 
+  # Build extra args
+  local extra_args=""
+  [[ "$AUTO_BUILD" == "true" ]] && extra_args="--auto-build"
+
   # Launch in background
   nohup bash "$SCRIPT_DIR/phase-a-codegen.sh" \
     --manifest "$manifest" \
@@ -113,6 +119,7 @@ start_worker() {
     --concurrency "$CONCURRENCY" \
     --timeout "$TIMEOUT" \
     --stall-timeout "$STALL" \
+    $extra_args \
     >> "$log_file" 2>&1 &
 
   local pid=$!

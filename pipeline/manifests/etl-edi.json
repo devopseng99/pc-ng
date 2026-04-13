@@ -1,0 +1,379 @@
+{
+  "apps": [
+    {
+      "id": 50701,
+      "name": "EltForge Pipeline Builder",
+      "prefix": "ELT",
+      "repo": "eltforge-pipeline-builder",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Drag-and-drop ETL pipeline builder with 200+ connectors. Extract from databases, APIs, and flat files, transform with SQL or Python, load to warehouses. dbt-style lineage tracking, scheduling via Airflow-compatible DAGs.",
+      "features": [
+        "Visual DAG editor",
+        "200+ source connectors",
+        "SQL/Python transform editor",
+        "dbt lineage graph",
+        "Airflow-compatible scheduling",
+        "incremental load support",
+        "pipeline versioning"
+      ],
+      "design": {
+        "bg": "#0A0E1A",
+        "primary": "#6366F1",
+        "vibe": "Dark pipeline indigo"
+      },
+      "type": "Visual ETL Pipeline Designer",
+      "budget": 800,
+      "email": "ops@eltforge-pipeline-builder.com"
+    },
+    {
+      "id": 50702,
+      "name": "BatchPlex Orchestrator",
+      "prefix": "BPX",
+      "repo": "batchplex-orchestrator",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Enterprise batch job orchestrator for nightly ETL runs. Dependency-aware DAG execution, SLA monitoring, retry policies with exponential backoff, and Slack/PagerDuty alerting on job failures. Built for terabyte-scale data movement.",
+      "features": [
+        "DAG dependency engine",
+        "SLA breach alerts",
+        "retry with exponential backoff",
+        "Slack/PagerDuty notifications",
+        "job history timeline",
+        "resource quota management",
+        "parallel execution pools"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#0EA5E9",
+        "vibe": "Dark orchestration cyan"
+      },
+      "type": "Batch Processing Orchestrator",
+      "budget": 750,
+      "email": "ops@batchplex-orchestrator.com"
+    },
+    {
+      "id": 50703,
+      "name": "EDIxchange Hub",
+      "prefix": "EDX",
+      "repo": "edixchange-hub",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Full EDI translation and trading partner management. Support for X12 (810, 850, 856, 997), EDIFACT, and AS2/SFTP transport. Partner onboarding wizard, document mapping editor, and compliance dashboard for HIPAA/retail EDI mandates.",
+      "features": [
+        "X12/EDIFACT parser and generator",
+        "AS2/SFTP transport",
+        "trading partner portal",
+        "document mapping editor",
+        "997 functional ack auto-reply",
+        "HIPAA compliance dashboard",
+        "document archive search"
+      ],
+      "design": {
+        "bg": "#111827",
+        "primary": "#22C55E",
+        "vibe": "Dark EDI green"
+      },
+      "type": "EDI Trading Partner Platform",
+      "budget": 800,
+      "email": "ops@edixchange-hub.com"
+    },
+    {
+      "id": 50704,
+      "name": "FiberTap Data Ingest",
+      "prefix": "FBT",
+      "repo": "fibertap-data-ingest",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Real-time and batch data ingestion engine. Kafka Connect-compatible connectors for databases (CDC via Debezium), REST APIs, SFTP file drops, and cloud storage. Schema validation on ingest, dead-letter queue for malformed records.",
+      "features": [
+        "Kafka Connect compatibility",
+        "Debezium CDC connectors",
+        "SFTP file watcher",
+        "schema validation on ingest",
+        "dead-letter queue",
+        "backpressure management",
+        "exactly-once delivery guarantees"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#F59E0B",
+        "vibe": "Dark ingest gold"
+      },
+      "type": "High-Volume Data Ingestion",
+      "budget": 750,
+      "email": "ops@fibertap-data-ingest.com"
+    },
+    {
+      "id": 50705,
+      "name": "DataLink Warehouse Sync",
+      "prefix": "DLK",
+      "repo": "datalink-warehouse-sync",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Bi-directional sync engine between operational databases and data warehouses. Supports Snowflake, BigQuery, Redshift, and PostgreSQL. Change data capture, merge/upsert strategies, and data freshness SLA monitoring.",
+      "features": [
+        "Snowflake/BigQuery/Redshift connectors",
+        "CDC-based incremental sync",
+        "merge/upsert strategies",
+        "data freshness SLA dashboard",
+        "schema drift detection",
+        "cost estimator per sync",
+        "parallel loading"
+      ],
+      "design": {
+        "bg": "#1A1A2E",
+        "primary": "#A855F7",
+        "vibe": "Dark warehouse purple"
+      },
+      "type": "Data Warehouse Synchronization",
+      "budget": 700,
+      "email": "ops@datalink-warehouse-sync.com"
+    },
+    {
+      "id": 50706,
+      "name": "SchemaHawk Validator",
+      "prefix": "SCH",
+      "repo": "schemahawk-validator",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Schema enforcement and data quality gate for ETL pipelines. JSON Schema, Avro, and Protobuf validation. Great Expectations-style test suites, anomaly detection on column distributions, and quarantine workflow for bad records.",
+      "features": [
+        "JSON Schema/Avro/Protobuf validation",
+        "Great Expectations integration",
+        "column distribution anomaly detection",
+        "quarantine queue",
+        "data quality scorecards",
+        "freshness checks",
+        "dbt test compatibility"
+      ],
+      "design": {
+        "bg": "#FAFAF9",
+        "primary": "#2563EB",
+        "vibe": "Light quality blue"
+      },
+      "type": "Data Quality & Schema Validation",
+      "budget": 700,
+      "email": "ops@schemahawk-validator.com"
+    },
+    {
+      "id": 50707,
+      "name": "TransformPro ETL Engine",
+      "prefix": "TPM",
+      "repo": "transformpro-etl-engine",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Serverless data transformation engine supporting SQL, Python, and Spark. Write transforms as code, test against sample data, and deploy to production with one click. Git-backed versioning and rollback for all transform logic.",
+      "features": [
+        "SQL/Python/Spark transform editor",
+        "sample data testing",
+        "one-click deploy",
+        "git-backed versioning",
+        "transform lineage graph",
+        "performance profiler",
+        "column-level impact analysis"
+      ],
+      "design": {
+        "bg": "#0F0A1E",
+        "primary": "#EC4899",
+        "vibe": "Dark transform pink"
+      },
+      "type": "Data Transformation Engine",
+      "budget": 750,
+      "email": "ops@transformpro-etl-engine.com"
+    },
+    {
+      "id": 50708,
+      "name": "CrossFlow Integration Hub",
+      "prefix": "XFR",
+      "repo": "crossflow-integration-hub",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "iPaaS-style integration platform for connecting REST/GraphQL APIs to databases and warehouses. Pre-built connectors for Salesforce, HubSpot, Stripe, and Shopify. Webhook-triggered or scheduled sync with field mapping UI.",
+      "features": [
+        "REST/GraphQL API connectors",
+        "Salesforce/HubSpot/Stripe pre-built",
+        "webhook triggers",
+        "visual field mapping",
+        "scheduled sync",
+        "error retry with dead-letter",
+        "OAuth2 credential vault"
+      ],
+      "design": {
+        "bg": "#111111",
+        "primary": "#14B8A6",
+        "vibe": "Dark integration teal"
+      },
+      "type": "API-to-Database Integration",
+      "budget": 700,
+      "email": "ops@crossflow-integration-hub.com"
+    },
+    {
+      "id": 50709,
+      "name": "DataVault Historian",
+      "prefix": "DVT",
+      "repo": "datavault-historian",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Automated Data Vault 2.0 modeling and loading. Generate hubs, links, and satellites from source metadata. Incremental loading patterns, business vault automation, and point-in-time reconstruction for audit queries.",
+      "features": [
+        "Auto-generate hubs/links/satellites",
+        "metadata-driven loading",
+        "business vault builder",
+        "point-in-time query engine",
+        "source-to-target lineage",
+        "hash key management",
+        "incremental load orchestration"
+      ],
+      "design": {
+        "bg": "#1E293B",
+        "primary": "#8B5CF6",
+        "vibe": "Dark vault purple"
+      },
+      "type": "Data Vault Modeling Platform",
+      "budget": 800,
+      "email": "ops@datavault-historian.com"
+    },
+    {
+      "id": 50710,
+      "name": "HelixStream CDC",
+      "prefix": "HLX",
+      "repo": "helixstream-cdc",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Managed CDC platform powered by Debezium. Capture row-level changes from PostgreSQL, MySQL, SQL Server, and Oracle. Stream changes to Kafka, S3, or directly to data warehouses. Schema evolution handling and exactly-once delivery.",
+      "features": [
+        "Debezium-powered CDC",
+        "PostgreSQL/MySQL/MSSQL/Oracle sources",
+        "Kafka/S3/warehouse sinks",
+        "schema evolution handling",
+        "exactly-once delivery",
+        "snapshot management",
+        "lag monitoring dashboard"
+      ],
+      "design": {
+        "bg": "#0A1628",
+        "primary": "#F97316",
+        "vibe": "Dark CDC orange"
+      },
+      "type": "Change Data Capture Platform",
+      "budget": 750,
+      "email": "ops@helixstream-cdc.com"
+    },
+    {
+      "id": 50711,
+      "name": "MidWare EDI Translator",
+      "prefix": "MDW",
+      "repo": "midware-edi-translator",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "EDI-to-JSON and JSON-to-EDI translation engine. Supports X12, EDIFACT, HL7, and TRADACOMS standards. Visual segment mapper, custom code list management, and batch translation API for high-volume B2B document exchange.",
+      "features": [
+        "X12/EDIFACT/HL7/TRADACOMS support",
+        "visual segment mapper",
+        "custom code lists",
+        "batch translation API",
+        "validation error reports",
+        "partner-specific profiles",
+        "document versioning"
+      ],
+      "design": {
+        "bg": "#0F172A",
+        "primary": "#EF4444",
+        "vibe": "Dark translator red"
+      },
+      "type": "EDI Message Translator",
+      "budget": 700,
+      "email": "ops@midware-edi-translator.com"
+    },
+    {
+      "id": 50712,
+      "name": "PacketRoute File Transfer",
+      "prefix": "PKT",
+      "repo": "packetroute-file-transfer",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Enterprise managed file transfer with SFTP, FTPS, AS2, and S3 support. Automated pickup/delivery schedules, PGP encryption, file integrity checksums, and trading partner SLA tracking. Built for B2B EDI file exchange.",
+      "features": [
+        "SFTP/FTPS/AS2/S3 transport",
+        "automated schedules",
+        "PGP encryption/decryption",
+        "SHA-256 integrity checks",
+        "partner SLA tracking",
+        "file archive with 7-year retention",
+        "bandwidth throttling"
+      ],
+      "design": {
+        "bg": "#FFFFFF",
+        "primary": "#059669",
+        "vibe": "Clean transfer green"
+      },
+      "type": "Managed File Transfer (MFT)",
+      "budget": 650,
+      "email": "ops@packetroute-file-transfer.com"
+    },
+    {
+      "id": 50713,
+      "name": "ReconEngine Reconciler",
+      "prefix": "RCN",
+      "repo": "reconengine-reconciler",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Automated reconciliation between source and target datasets after ETL runs. Row-count, checksum, and value-level comparison. Break detection with root-cause attribution, and self-healing rerun triggers for mismatched records.",
+      "features": [
+        "Row-count/checksum/value reconciliation",
+        "break detection dashboard",
+        "root-cause attribution",
+        "auto-rerun triggers",
+        "tolerance thresholds",
+        "historical match rates",
+        "scheduled recon jobs"
+      ],
+      "design": {
+        "bg": "#0A0A0A",
+        "primary": "#3B82F6",
+        "vibe": "Dark recon blue"
+      },
+      "type": "Data Reconciliation Engine",
+      "budget": 700,
+      "email": "ops@reconengine-reconciler.com"
+    },
+    {
+      "id": 50714,
+      "name": "SilverLine Data Catalog",
+      "prefix": "SVL",
+      "repo": "silverline-data-catalog",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Data catalog and lineage tracker for ETL pipelines. Auto-discover tables, columns, and transforms. Business glossary with data stewardship, impact analysis for schema changes, and search across all pipeline metadata.",
+      "features": [
+        "Auto-discovery crawler",
+        "column-level lineage",
+        "business glossary",
+        "data stewardship assignments",
+        "schema change impact analysis",
+        "full-text metadata search",
+        "classification tags"
+      ],
+      "design": {
+        "bg": "#1A0A2E",
+        "primary": "#D946EF",
+        "vibe": "Dark catalog violet"
+      },
+      "type": "ETL Metadata & Data Catalog",
+      "budget": 750,
+      "email": "ops@silverline-data-catalog.com"
+    },
+    {
+      "id": 50715,
+      "name": "WareHarbor Data Lake",
+      "prefix": "WRH",
+      "repo": "wareharbor-data-lake",
+      "category": "Data Pipeline ETL & EDI",
+      "description": "Data lake ingestion and governance platform. Land raw files in S3/MinIO zones (bronze/silver/gold), apply schema-on-read with Apache Iceberg, and govern access with row-level security policies. Cost tracking per dataset.",
+      "features": [
+        "Bronze/silver/gold zone management",
+        "Apache Iceberg table format",
+        "schema-on-read",
+        "row-level security policies",
+        "cost-per-dataset tracking",
+        "data retention policies",
+        "compaction scheduler"
+      ],
+      "design": {
+        "bg": "#0C0C0C",
+        "primary": "#00D4AA",
+        "vibe": "Dark lake emerald"
+      },
+      "type": "Data Lake Ingestion & Governance",
+      "budget": 800,
+      "email": "ops@wareharbor-data-lake.com"
+    }
+  ]
+}

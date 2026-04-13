@@ -1,0 +1,164 @@
+name: EltForge Pipeline Builder
+prefix: ELT
+type: Visual ETL Pipeline Designer
+category: Data Pipeline ETL & EDI
+description: Drag-and-drop ETL pipeline builder with 200+ connectors. Extract from databases, APIs, and flat files, transform with SQL or Python, load to warehouses. dbt-style lineage tracking, scheduling via Airflow-compatible DAGs.
+features: Visual DAG editor, 200+ source connectors, SQL/Python transform editor, dbt lineage graph, Airflow-compatible scheduling, incremental load support, pipeline versioning
+design_bg: #0A0E1A
+design_primary: #6366F1
+design_vibe: Dark pipeline indigo
+budget: 800
+
+name: BatchPlex Orchestrator
+prefix: BPX
+type: Batch Processing Orchestrator
+category: Data Pipeline ETL & EDI
+description: Enterprise batch job orchestrator for nightly ETL runs. Dependency-aware DAG execution, SLA monitoring, retry policies with exponential backoff, and Slack/PagerDuty alerting on job failures. Built for terabyte-scale data movement.
+features: DAG dependency engine, SLA breach alerts, retry with exponential backoff, Slack/PagerDuty notifications, job history timeline, resource quota management, parallel execution pools
+design_bg: #0F172A
+design_primary: #0EA5E9
+design_vibe: Dark orchestration cyan
+budget: 750
+
+name: EDIxchange Hub
+prefix: EDX
+type: EDI Trading Partner Platform
+category: Data Pipeline ETL & EDI
+description: Full EDI translation and trading partner management. Support for X12 (810, 850, 856, 997), EDIFACT, and AS2/SFTP transport. Partner onboarding wizard, document mapping editor, and compliance dashboard for HIPAA/retail EDI mandates.
+features: X12/EDIFACT parser and generator, AS2/SFTP transport, trading partner portal, document mapping editor, 997 functional ack auto-reply, HIPAA compliance dashboard, document archive search
+design_bg: #111827
+design_primary: #22C55E
+design_vibe: Dark EDI green
+budget: 800
+
+name: FiberTap Data Ingest
+prefix: FBT
+type: High-Volume Data Ingestion
+category: Data Pipeline ETL & EDI
+description: Real-time and batch data ingestion engine. Kafka Connect-compatible connectors for databases (CDC via Debezium), REST APIs, SFTP file drops, and cloud storage. Schema validation on ingest, dead-letter queue for malformed records.
+features: Kafka Connect compatibility, Debezium CDC connectors, SFTP file watcher, schema validation on ingest, dead-letter queue, backpressure management, exactly-once delivery guarantees
+design_bg: #0C0C0C
+design_primary: #F59E0B
+design_vibe: Dark ingest gold
+budget: 750
+
+name: DataLink Warehouse Sync
+prefix: DLK
+type: Data Warehouse Synchronization
+category: Data Pipeline ETL & EDI
+description: Bi-directional sync engine between operational databases and data warehouses. Supports Snowflake, BigQuery, Redshift, and PostgreSQL. Change data capture, merge/upsert strategies, and data freshness SLA monitoring.
+features: Snowflake/BigQuery/Redshift connectors, CDC-based incremental sync, merge/upsert strategies, data freshness SLA dashboard, schema drift detection, cost estimator per sync, parallel loading
+design_bg: #1A1A2E
+design_primary: #A855F7
+design_vibe: Dark warehouse purple
+budget: 700
+
+name: SchemaHawk Validator
+prefix: SCH
+type: Data Quality & Schema Validation
+category: Data Pipeline ETL & EDI
+description: Schema enforcement and data quality gate for ETL pipelines. JSON Schema, Avro, and Protobuf validation. Great Expectations-style test suites, anomaly detection on column distributions, and quarantine workflow for bad records.
+features: JSON Schema/Avro/Protobuf validation, Great Expectations integration, column distribution anomaly detection, quarantine queue, data quality scorecards, freshness checks, dbt test compatibility
+design_bg: #FAFAF9
+design_primary: #2563EB
+design_vibe: Light quality blue
+budget: 700
+
+name: TransformPro ETL Engine
+prefix: TPM
+type: Data Transformation Engine
+category: Data Pipeline ETL & EDI
+description: Serverless data transformation engine supporting SQL, Python, and Spark. Write transforms as code, test against sample data, and deploy to production with one click. Git-backed versioning and rollback for all transform logic.
+features: SQL/Python/Spark transform editor, sample data testing, one-click deploy, git-backed versioning, transform lineage graph, performance profiler, column-level impact analysis
+design_bg: #0F0A1E
+design_primary: #EC4899
+design_vibe: Dark transform pink
+budget: 750
+
+name: CrossFlow Integration Hub
+prefix: XFR
+type: API-to-Database Integration
+category: Data Pipeline ETL & EDI
+description: iPaaS-style integration platform for connecting REST/GraphQL APIs to databases and warehouses. Pre-built connectors for Salesforce, HubSpot, Stripe, and Shopify. Webhook-triggered or scheduled sync with field mapping UI.
+features: REST/GraphQL API connectors, Salesforce/HubSpot/Stripe pre-built, webhook triggers, visual field mapping, scheduled sync, error retry with dead-letter, OAuth2 credential vault
+design_bg: #111111
+design_primary: #14B8A6
+design_vibe: Dark integration teal
+budget: 700
+
+name: DataVault Historian
+prefix: DVT
+type: Data Vault Modeling Platform
+category: Data Pipeline ETL & EDI
+description: Automated Data Vault 2.0 modeling and loading. Generate hubs, links, and satellites from source metadata. Incremental loading patterns, business vault automation, and point-in-time reconstruction for audit queries.
+features: Auto-generate hubs/links/satellites, metadata-driven loading, business vault builder, point-in-time query engine, source-to-target lineage, hash key management, incremental load orchestration
+design_bg: #1E293B
+design_primary: #8B5CF6
+design_vibe: Dark vault purple
+budget: 800
+
+name: HelixStream CDC
+prefix: HLX
+type: Change Data Capture Platform
+category: Data Pipeline ETL & EDI
+description: Managed CDC platform powered by Debezium. Capture row-level changes from PostgreSQL, MySQL, SQL Server, and Oracle. Stream changes to Kafka, S3, or directly to data warehouses. Schema evolution handling and exactly-once delivery.
+features: Debezium-powered CDC, PostgreSQL/MySQL/MSSQL/Oracle sources, Kafka/S3/warehouse sinks, schema evolution handling, exactly-once delivery, snapshot management, lag monitoring dashboard
+design_bg: #0A1628
+design_primary: #F97316
+design_vibe: Dark CDC orange
+budget: 750
+
+name: MidWare EDI Translator
+prefix: MDW
+type: EDI Message Translator
+category: Data Pipeline ETL & EDI
+description: EDI-to-JSON and JSON-to-EDI translation engine. Supports X12, EDIFACT, HL7, and TRADACOMS standards. Visual segment mapper, custom code list management, and batch translation API for high-volume B2B document exchange.
+features: X12/EDIFACT/HL7/TRADACOMS support, visual segment mapper, custom code lists, batch translation API, validation error reports, partner-specific profiles, document versioning
+design_bg: #0F172A
+design_primary: #EF4444
+design_vibe: Dark translator red
+budget: 700
+
+name: PacketRoute File Transfer
+prefix: PKT
+type: Managed File Transfer (MFT)
+category: Data Pipeline ETL & EDI
+description: Enterprise managed file transfer with SFTP, FTPS, AS2, and S3 support. Automated pickup/delivery schedules, PGP encryption, file integrity checksums, and trading partner SLA tracking. Built for B2B EDI file exchange.
+features: SFTP/FTPS/AS2/S3 transport, automated schedules, PGP encryption/decryption, SHA-256 integrity checks, partner SLA tracking, file archive with 7-year retention, bandwidth throttling
+design_bg: #FFFFFF
+design_primary: #059669
+design_vibe: Clean transfer green
+budget: 650
+
+name: ReconEngine Reconciler
+prefix: RCN
+type: Data Reconciliation Engine
+category: Data Pipeline ETL & EDI
+description: Automated reconciliation between source and target datasets after ETL runs. Row-count, checksum, and value-level comparison. Break detection with root-cause attribution, and self-healing rerun triggers for mismatched records.
+features: Row-count/checksum/value reconciliation, break detection dashboard, root-cause attribution, auto-rerun triggers, tolerance thresholds, historical match rates, scheduled recon jobs
+design_bg: #0A0A0A
+design_primary: #3B82F6
+design_vibe: Dark recon blue
+budget: 700
+
+name: SilverLine Data Catalog
+prefix: SVL
+type: ETL Metadata & Data Catalog
+category: Data Pipeline ETL & EDI
+description: Data catalog and lineage tracker for ETL pipelines. Auto-discover tables, columns, and transforms. Business glossary with data stewardship, impact analysis for schema changes, and search across all pipeline metadata.
+features: Auto-discovery crawler, column-level lineage, business glossary, data stewardship assignments, schema change impact analysis, full-text metadata search, classification tags
+design_bg: #1A0A2E
+design_primary: #D946EF
+design_vibe: Dark catalog violet
+budget: 750
+
+name: WareHarbor Data Lake
+prefix: WRH
+type: Data Lake Ingestion & Governance
+category: Data Pipeline ETL & EDI
+description: Data lake ingestion and governance platform. Land raw files in S3/MinIO zones (bronze/silver/gold), apply schema-on-read with Apache Iceberg, and govern access with row-level security policies. Cost tracking per dataset.
+features: Bronze/silver/gold zone management, Apache Iceberg table format, schema-on-read, row-level security policies, cost-per-dataset tracking, data retention policies, compaction scheduler
+design_bg: #0C0C0C
+design_primary: #00D4AA
+design_vibe: Dark lake emerald
+budget: 800
