@@ -41,4 +41,8 @@ data:
     : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
     ,\n    \"manifest\": \"tradebot.json\"\n  },\n  \"api-jobs\": {\n    \"instance\"\
     : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
-    ,\n    \"manifest\": \"api-jobs.json\"\n  }\n}"
+    ,\n    \"manifest\": \"api-jobs.json\"\n  },\n  \"deep-trade\": {\n    \"instance\"\
+    : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"deep-trade.json\"\n  },\n  \"invest-bots\": {\n    \"instance\"\
+    : \"pc-v4\",\n    \"namespace\": \"paperclip-v4\",\n    \"secret\": \"pc-v4-board-api-key\"\
+    ,\n    \"manifest\": \"invest-bots.json\"\n  }\n}"

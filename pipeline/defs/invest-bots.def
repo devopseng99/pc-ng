@@ -1,0 +1,164 @@
+name: QuantumEdge AI Trader
+prefix: QET
+type: AI Multi-Asset Trading Bot
+category: AI Investment Trading Bots
+description: Institutional-grade multi-asset trading bot with reinforcement learning strategy engine. Generates high-accuracy BUY/SELL/HOLD signals across stocks, crypto, and ETFs as three independent recommendation streams. Integrates 80+ RSS financial feeds with NLP sentiment scoring. RBAC with portfolio manager, analyst, and auditor roles. Complete audit trail with SOC2-ready logging. Next-gen headless CMS for publishing trading signals and market commentary. Dark analytics dashboard with real-time P&L tracking.
+features: RL strategy engine, tri-asset BUY/SELL/HOLD signals, 80+ RSS feed NLP sentiment, RBAC PM/analyst/auditor roles, SOC2 audit logging, headless CMS signal publisher, real-time P&L dashboard, backtesting engine, alpha decay monitor
+design_bg: #030712
+design_primary: #10B981
+design_vibe: Quantum dark terminal
+budget: 950
+
+name: StockPulse AI Research
+prefix: SPR
+type: AI Stock Research Bot
+category: AI Investment Trading Bots
+description: Deep learning stock research platform with transformer-based earnings prediction and momentum analysis. Three-tier recommendation engine: BUY/SELL/HOLD with accuracy confidence scores backed by 5-year historical validation. RSS aggregation from Bloomberg, Reuters, SEC filings. RBAC team workspaces with shared watchlists. Full decision audit trail. CMS for publishing equity research reports with embedded charts.
+features: Transformer earnings predictor, momentum analyzer, accuracy-scored stock recs, 5yr historical backtest, SEC filing RSS parser, Bloomberg/Reuters feed, RBAC team watchlists, decision audit trail, CMS equity research publisher, embedded TradingView charts
+design_bg: #0C0E1A
+design_primary: #6366F1
+design_vibe: Indigo research dark
+budget: 900
+
+name: CryptoOracle Signals
+prefix: COS
+type: AI Crypto Trading Signal Bot
+category: AI Investment Trading Bots
+description: On-chain analytics crypto trading bot with whale wallet detection, DeFi protocol analysis, and cross-exchange arbitrage scanner. Delivers BUY/SELL/HOLD per token with probability-weighted accuracy metrics. RSS integration from CoinDesk, The Block, DeFi Pulse. Granular RBAC with trading desk hierarchy. Immutable audit log for regulatory compliance. Headless CMS for crypto alpha alerts and market intelligence briefs.
+features: On-chain whale detection, DeFi protocol analyzer, cross-exchange arb scanner, probability-weighted crypto recs, CoinDesk/The Block RSS, RBAC trading desk hierarchy, immutable audit log, CMS alpha alerts, gas fee optimizer, liquidation risk monitor
+design_bg: #0A0D14
+design_primary: #F59E0B
+design_vibe: Amber crypto terminal
+budget: 900
+
+name: ETFGenius Allocator
+prefix: EGA
+type: AI ETF Allocation Bot
+category: AI Investment Trading Bots
+description: Factor-model ETF allocation engine with Monte Carlo simulation and Black-Litterman optimization. Produces risk-adjusted BUY/SELL/HOLD for 500+ ETFs with Sharpe ratio targets. RSS from Vanguard, iShares, Morningstar research. RBAC for wealth managers with client-level permissions. MiFID-compliant audit logging. CMS for ETF model portfolio documentation and rebalance alerts.
+features: Factor model allocator, Monte Carlo simulator, Black-Litterman optimizer, 500+ ETF coverage, Sharpe-targeted recs, Morningstar RSS, RBAC client-level permissions, MiFID audit logging, CMS portfolio docs, automated rebalance alerts
+design_bg: #0F172A
+design_primary: #3B82F6
+design_vibe: Blue institutional clean
+budget: 850
+
+name: AlphaVault Portfolio
+prefix: AVP
+type: AI Portfolio Management Bot
+category: AI Investment Trading Bots
+description: AI-first portfolio management platform with mean-variance optimization and tail-risk hedging. Tri-asset class recommendations (stocks/crypto/ETFs) with independent accuracy tracking per asset class. RSS from 40+ macro-economic sources with GPT-4 summarization. RBAC with CIO/PM/analyst tiers. SOX-compliant audit trail. Headless CMS for investor letters and quarterly performance attribution reports.
+features: Mean-variance optimizer, tail-risk hedger, tri-asset accuracy tracking, 40+ macro RSS with GPT-4 summary, RBAC CIO/PM/analyst, SOX audit compliance, CMS investor letters, performance attribution, drawdown alert system, correlation dashboard
+design_bg: #0D1117
+design_primary: #8B5CF6
+design_vibe: Purple vault premium
+budget: 950
+
+name: SignalForge Trading
+prefix: SFT
+type: AI Trade Signal Generator
+category: AI Investment Trading Bots
+description: High-frequency signal generation engine with LSTM neural networks for price prediction across equities, digital assets, and exchange-traded funds. Delivers precision BUY/SELL/HOLD with win-rate statistics. RSS from Yahoo Finance, Seeking Alpha, CryptoSlate. RBAC with quant team roles and strategy compartmentalization. Audit trail with P&L attribution per signal. CMS for strategy documentation and signal performance leaderboards.
+features: LSTM price predictor, win-rate statistics, equities/crypto/ETF coverage, Yahoo Finance RSS, Seeking Alpha feed, RBAC quant team roles, strategy compartments, P&L attribution per signal, CMS strategy docs, signal leaderboard
+design_bg: #111827
+design_primary: #EF4444
+design_vibe: Red forge industrial
+budget: 900
+
+name: MarketSage Insight
+prefix: MSI
+type: AI Market Intelligence Bot
+category: AI Investment Trading Bots
+description: Natural language market intelligence platform with GPT-powered research assistant. Generates fundamental and technical BUY/SELL/HOLD across all three asset classes with reasoning explanations. RSS from Financial Times, WSJ, Bloomberg Terminal feeds. RBAC with research director and junior analyst workflows. Complete reasoning audit trail for compliance review. CMS with Notion-style blocks for market commentary publishing.
+features: GPT research assistant, fundamental + technical analysis, reasoning explanations per rec, FT/WSJ/Bloomberg RSS, RBAC director/analyst workflows, reasoning audit trail, Notion-style CMS blocks, sentiment heatmap, earnings calendar integration
+design_bg: #1A1A2E
+design_primary: #00D4FF
+design_vibe: Sage cyan futuristic
+budget: 900
+
+name: TradeTitan Analytics
+prefix: TTA
+type: AI Trading Analytics Dashboard
+category: AI Investment Trading Bots
+description: Enterprise trading analytics dashboard with real-time market microstructure analysis. Generates volume-weighted BUY/SELL/HOLD across stocks, crypto, and ETFs with smart order routing suggestions. RSS from Benzinga, MarketWatch, CoinTelegraph. RBAC with desk head, senior trader, and compliance officer roles. Tick-level audit logging. CMS for daily trade recap and risk commentary.
+features: Market microstructure analyzer, volume-weighted signals, smart order routing, Benzinga/MarketWatch RSS, CoinTelegraph feed, RBAC desk/trader/compliance, tick-level audit log, CMS daily recaps, VWAP/TWAP benchmarks, slippage tracker
+design_bg: #0F0F1A
+design_primary: #22D3EE
+design_vibe: Titanium cyan grid
+budget: 850
+
+name: DeepQuant Research
+prefix: DQR
+type: AI Quantitative Research Bot
+category: AI Investment Trading Bots
+description: Quantitative research platform with statistical arbitrage models and regime detection. Multi-timeframe BUY/SELL/HOLD across stocks, crypto, and ETFs with Bayesian confidence intervals. RSS from SSRN papers, arXiv quant-finance, Fed speeches. RBAC with research lead and quant developer roles. Reproducible research audit trail. CMS for publishing quant research with LaTeX equation support.
+features: Statistical arbitrage models, regime detection, Bayesian confidence intervals, SSRN/arXiv RSS, Fed speech parser, RBAC research/quant roles, reproducible audit trail, CMS with LaTeX support, factor backtester, alpha research notebook
+design_bg: #070B14
+design_primary: #A78BFA
+design_vibe: Deep quant purple
+budget: 950
+
+name: RiskRadar Pro
+prefix: RRP
+type: AI Risk Management Bot
+category: AI Investment Trading Bots
+description: Risk-first trading intelligence platform with VaR modeling, stress testing, and correlation breakdown detection. Generates risk-adjusted BUY/SELL/HOLD with maximum drawdown targets per asset class. RSS from risk management journals, central bank bulletins. RBAC with CRO, risk analyst, and portfolio manager roles. Regulatory-grade audit logging with Basel III metrics. CMS for risk reports and stress test scenarios.
+features: VaR modeling, stress tester, correlation breakdown detector, max drawdown targets, risk journal RSS, central bank bulletin feed, RBAC CRO/analyst/PM, Basel III audit metrics, CMS risk reports, scenario generator
+design_bg: #1C1917
+design_primary: #DC2626
+design_vibe: Risk red alert
+budget: 850
+
+name: SentimentAI Desk
+prefix: SAD
+type: AI Sentiment Trading Bot
+category: AI Investment Trading Bots
+description: Social sentiment-driven trading bot with Twitter/Reddit NLP analysis, options flow detection, and short interest tracking. BUY/SELL/HOLD based on sentiment shifts across stocks, crypto, and ETFs with contrarian indicator scoring. RSS from social aggregators and alternative data providers. RBAC with sentiment analyst and execution trader roles. Sentiment-source audit trail. CMS for sentiment alpha reports.
+features: Twitter/Reddit NLP analysis, options flow detector, short interest tracker, contrarian indicator scoring, social aggregator RSS, alternative data feeds, RBAC sentiment/execution roles, source audit trail, CMS sentiment reports, meme stock detector
+design_bg: #0F0D15
+design_primary: #EC4899
+design_vibe: Pink pulse social
+budget: 850
+
+name: MacroLens Global
+prefix: MLG
+type: AI Macro Trading Bot
+category: AI Investment Trading Bots
+description: Global macro trading intelligence with cross-asset correlation analysis and central bank policy modeling. Top-down BUY/SELL/HOLD for stocks, crypto, and ETFs with macro regime classification. RSS from IMF, World Bank, central bank minutes. RBAC with macro strategist and regional analyst roles. Policy-impact audit trail. CMS for macro thesis publishing with interactive world maps.
+features: Cross-asset correlator, central bank policy modeler, macro regime classifier, IMF/World Bank RSS, central bank minutes parser, RBAC strategist/regional roles, policy-impact audit trail, CMS with world maps, FX carry monitor, yield curve analyzer
+design_bg: #0C1222
+design_primary: #14B8A6
+design_vibe: Teal globe macro
+budget: 900
+
+name: AlgoStream Trader
+prefix: AST
+type: AI Algorithmic Trading Bot
+category: AI Investment Trading Bots
+description: Algorithmic trading platform with genetic programming strategy evolution and walk-forward optimization. Generates systematic BUY/SELL/HOLD across all asset classes with out-of-sample validation. RSS from quant trading blogs and academic journals. RBAC with algo dev, strategy reviewer, and compliance roles. Complete backtest audit trail with version control. CMS for algo documentation and performance attribution.
+features: Genetic programming strategies, walk-forward optimizer, out-of-sample validation, quant blog RSS, academic journal feed, RBAC algo dev/reviewer/compliance, backtest version control, CMS algo docs, performance attribution, strategy tournament
+design_bg: #0A0F1C
+design_primary: #84CC16
+design_vibe: Lime algo matrix
+budget: 900
+
+name: WealthPilot AI
+prefix: WPA
+type: AI Wealth Advisory Bot
+category: AI Investment Trading Bots
+description: AI-powered wealth advisory platform with goal-based investing and tax-loss harvesting. Personalized BUY/SELL/HOLD for stocks, crypto, and ETFs aligned to client risk profiles. RSS from wealth management publications and tax authority updates. RBAC with wealth advisor, client relationship manager, and compliance roles. Fiduciary-grade audit trail. CMS for client-facing investment proposals and quarterly reviews.
+features: Goal-based investing engine, tax-loss harvester, client risk profiling, personalized recs, wealth management RSS, tax authority feed, RBAC advisor/CRM/compliance, fiduciary audit trail, CMS investment proposals, quarterly review generator
+design_bg: #14120E
+design_primary: #D97706
+design_vibe: Gold wealth premium
+budget: 900
+
+name: NexusTrader Terminal
+prefix: NTT
+type: AI Trading Terminal
+category: AI Investment Trading Bots
+description: All-in-one AI trading terminal unifying technical analysis, fundamental research, and alternative data. Triple BUY/SELL/HOLD recommendation engine for stocks, crypto, and ETFs with ensemble model accuracy tracking. RSS from 100+ sources with smart categorization. Full RBAC with customizable role builder. Immutable decision-chain audit log. Next-gen CMS with drag-and-drop dashboard builder for publishing market views.
+features: Unified TA/fundamental/alt-data, ensemble model accuracy, 100+ RSS smart categorizer, customizable RBAC builder, immutable decision-chain audit, drag-and-drop CMS dashboard, real-time screener, watchlist alerts, multi-screen terminal layout, API webhook integrations
+design_bg: #020617
+design_primary: #06B6D4
+design_vibe: Nexus cyan command center
+budget: 950

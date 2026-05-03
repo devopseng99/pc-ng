@@ -1,105 +1,105 @@
 # Paperclip Pipeline — Next Steps
 
-## URGENT (2026-04-12)
+## URGENT (2026-04-21)
 
-### 1. Run Build-Fix Loop on 68 Failed Apps
-- 68 apps failed Phase B (npm build errors) — code on GitHub but builds broken
+### 1. Phase B for 21 Deploying Apps
+- invest-bots: 15 (Phase A complete, all code on GitHub, awaiting Phase B)
+- v1: 4 (incl. ziprun-courier reset + short-name orphans)
+- deep-trade: 1, cf: 1
+- Run `/pc-build --concurrency 4` to clear the queue
+
+### 2. Run Build-Fix Loop on 85 Failed Apps
+- 85 apps failed Phase B (npm build errors) — code on GitHub but builds broken
 - Script: `/var/lib/rancher/ansible/db/pc/builder/build-fix-loop.sh --all-failed --max-fixes 3`
 - Skill: `/pc-build-fix --all-failed`
-- Worst pipelines: soa (18/20 Failed), api-jobs (8/20), tech (17), v1 (16)
-- SOA 90% failure rate suggests prompt/architecture issue, not just build config
+- Worst pipelines: v1 (33 Failed), soa (18/20), tech (17), api-jobs (8)
+- Fix build-fix-loop.sh subshell bug first (while-read counter propagation)
 
-### 2. Fix build-fix-loop.sh Batch Processing
-- First run only processed 1/68 apps (ZRC) before auto script ended
-- `while read` subshell means FIXED/STILL_FAILED counters don't propagate
-- Need: sequential loop without pipe subshell, or process apps from a temp file
-- Consider: `--concurrency` flag for parallel fix attempts (careful with Claude API quota)
+### 3. Phase A for 29 Long-Name Orphans
+- 29 Pending CRDs (IDs 60000-60028) — long-name variant repos, no code on GitHub yet
+- Need: either add to v1 manifest or create dedicated manifest for these
 
-### 3. Handle 23 NoBuildScript Apps
-- wasm: 4, tech: 8, v1: 3, ai: 3, cf: 4, mcp: 1
-- These have skeleton repos with no package.json or build scripts
-- Need: codegen prompt improvements or manual scaffolding
-- Lower priority than Failed apps (which have real code that almost works)
+### 4. Handle 20 NoBuildScript Apps
+- wasm: 4, tech: 8, ai: 3, cf: 4, mcp: 1
+- Skeleton repos with no package.json or build scripts
 
-### 4. Deploy Target Consolidation Decision
-- 95 apps deployed to BOTH nginx AND CF Pages (both active, potentially serving different content)
-- 75 old K8s per-app deploys in paperclip namespace (all replicas=0, disabled)
-- 29 orphan K8s deploys with no CRD match — safe to delete
-- Decision needed: (a) keep CF Pages as edge CDN, (b) disable and consolidate to nginx, (c) migrate to CF Pages
-- Check if CF Pages content is stale (all created 2026-03-27/28, may not reflect latest codegen)
-- Populate `spec.framework` field by inspecting each repo's package.json
-
-### 5. Commit All Pending Changes
-- New skills: `/pc-build`, `/pc-build-fix`
-- Updated skills: `/pc-deploy`, `/pc-start`
-- Updated scripts: `phase-a-codegen.sh` (--auto-build), `workers-start.sh` (--auto-build)
-- New script: `build-fix-loop.sh` (in pc repo)
-- Updated CRD schema: added deployTarget, hosting, platform, framework, status.deployTargets[]
-- Pipeline defs, manifests, registry updates
+### 5. Commit pc-ng Changes
+- Modified: DECISIONS.md, NEXT-STEPS.md, pipeline-registry.yaml, provision-pc.sh
+- New: invest-bots (.def, manifest), deep-trade (.def, manifest), contexts/v7.env
 
 ---
 
 ## SHORT TERM
 
-### 6. SOA Pipeline Rework
-- 18/20 Failed (90%) — worst pipeline by far
-- Root cause: SOA architecture apps (microservices, event-driven) don't fit single-page static export model
-- Options: (a) rework prompts for SPA dashboard pattern, (b) accept SOA as incompatible, (c) hybrid approach
-- Only 2/20 SOA apps deployed successfully — study what made them different
+### 6. Direct File Namespace — Scaled to Zero
+- All deployments and statefulsets in `direct-file` ns at 0/0 replicas (discovered 2026-04-21)
+- OpenFile namespace still running (5/5 pods, all 1/1 Running, uptime ~6d)
+- Likely scaled down in isolated pc-v7 session — check if intentional or resource pressure
+- To restore: `kubectl scale deploy --all --replicas=1 -n direct-file && kubectl scale sts --all --replicas=1 -n direct-file`
 
-### 7. API-Jobs Pipeline Triage
+### 7. OpenFile & Direct File — Factgraph Fix
+- Both APIs have factgraph disabled (ClassCastException workaround)
+- Upstream fix: IRS-Public/fact-graph PR #82 (commit `79a9529`)
+- Need: merge upstream fix → rebuild API image → set `LOAD_AT_STARTUP=true` → redeploy
+- **Managed in isolated pc-v7 session**
+
+### 8. SOA Pipeline Rework
+- 18/20 Failed (90%) — worst pipeline by far
+- Root cause: turbo-astro broken imports/missing output
+- Use build-fix-loop first before reworking prompts
+
+### 9. API-Jobs Pipeline Triage
 - 8/20 Failed (40%) — second worst
-- These are batch queue / streaming apps — may have complex dependency chains
 - Run build-fix-loop first, then assess remaining failures
 
-### 8. Showroom Verification
-- 629 Deployed apps should all be live at `{slug}.istayintek.com`
-- Showroom synced (721 apps), but verify new deploys render correctly
-- Check the 77 newly deployed apps from this Phase B run
+### 10. Per-Pod Deploy Cleanup
+- ~74 remaining per-pod deploys in paperclip namespace (all replicas=0, disabled)
+- Pattern: verify nginx has files → delete deploy+svc+tunnel → if no files, reset CRD to Deploying
+
+### 11. Deploy Target Consolidation
+- 95 apps deployed to BOTH nginx AND CF Pages
+- Decision needed: keep CF Pages, disable, or migrate
 
 ---
 
 ## MEDIUM TERM
 
-### 9. Codegen Quality Improvements
-- 68 Failed + 23 NoBuildScript = 91 apps needing attention (12.6%)
+### 12. Skill Registry Phase 3 — MCP Server
+- Wrap skill operations as MCP tools → available as native tools in ANY Claude session without synced files
+- Auth, logging, remote triggers (CI/cron)
+- See `~/claude-skills/README.md` for architecture
+
+### 13. Codegen Quality Improvements
+- 85 Failed + 20 NoBuildScript = 105 apps needing attention (13%)
 - Per-pipeline prompt tuning for problem categories (soa, api-jobs)
-- Consider framework detection improvements in codegen
 
-### 10. Cleanup Old K8s Deploys
-- 75 deployments in paperclip namespace (all replicas=0, disabled)
-- 29 are orphans (no CRD match) — safe to delete
-- 46 have CRD matches — CRDs now track them as `k8s-pod=disabled` in `status.deployTargets[]`
-- Run: `kubectl delete deploy -n paperclip <name>` for orphans, then for CRD-matched ones after confirming nginx serves them
+### 14. Pipeline Monitoring Hardening
+- Formalize `pipeline-supervisor.sh` with: auto Phase B, auto fix-loop, progress alerts
 
-### 11. Pipeline Monitoring Hardening
-- Phase B auto script (`phase-b-auto.sh`) proved the pattern works
-- Formalize as `pipeline-supervisor.sh` with: auto Phase B, auto fix-loop, progress alerts
-- Emergency halt integration
-
-### 12. CF Token Automation
+### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
-- Consider: store token in K8s secret, auto-rotate via CronJob
 
 ---
 
 ## COMPLETED
 
-- [x] **Deploy target audit** (2026-04-12) — discovered 3 layers: nginx (629), CF Pages (97), K8s pods (75 disabled). CRD schema updated with deployTarget, hosting, platform, framework, deployTargets[]. All 721 CRDs patched.
-- [x] **Phase B first full run** (2026-04-12) — 629/721 Deployed (87.2%), 77 newly deployed
-- [x] **Phase B automation implemented** — `/pc-build`, `/pc-build-fix`, `--auto-build` flag, `build-fix-loop.sh`
-- [x] **`/pc-deploy` fixed** — was wrapping obsolete `batch-deploy-k8s.sh`, now uses correct `build-and-deploy.sh`
-- [x] **All Pending cleared** — 0 Pending, 0 Building (all Phase A complete)
-- [x] **Capacity constraint resolved** — Nginx wildcard vhost model, NOT per-pod. 1 pod serves all 721+ apps
-- [x] **Phase A — all 17 pipelines complete** (2026-04-12) — all apps have code on GitHub
+- [x] **Versioned skill registry** (2026-05-02) — 12 skills in `devopseng99/claude-skills` at v1.1.0. `skill-sync.sh` with --diff, --update, --quiet, variable overrides, .gitignore, pre-session hook. pc-v8 consuming 7 skills at v1.0.0.
+- [x] **OpenFile & Direct File APIs LIVE** (2026-04-13) — Both IRS tax apps fully running on pc-v7. Spring Boot API + React + PG + Redis + LocalStack per namespace. Factgraph disabled (upstream fix needed), all 4 URLs returning 200.
+- [x] **invest-bots Phase A complete** (2026-04-13) — 19th pipeline, 15 AI trading bots. All 15/15 code on GitHub, all Deploying. 809 total CRDs.
+- [x] **pc-v7 provisioned + populated** (2026-04-13) — Instance at https://pc-v7.istayintek.com. Hosts OpenFile + Direct File (2 companies). NOT for pipeline apps.
+- [x] **CF tunnel wildcard ordering fix** (2026-04-13) — `provision-pc.sh` insert(-1) → insert before wildcard.
+- [x] **Openfile + Direct File tunnel entries** (2026-04-13) — 4 tunnel routes (2 per app) + DNS CNAMEs.
+- [x] **deep-trade pipeline** (2026-04-13) — 18th pipeline, 15 AI research dashboards. **14/15 Deployed (93%)**.
+- [x] **Dual-variant orphan model** (2026-04-13) — 29 pre-pipeline apps get TWO CRDs each. 794→809 total CRDs.
+- [x] **ziprun-courier cleanup** (2026-04-13) — Template for remaining 74 per-pod cleanups.
+- [x] **Deploy target audit** (2026-04-12) — 3 layers: nginx (654), CF Pages (97), K8s pods (75 disabled).
+- [x] **Phase B first full run** (2026-04-12) — 629/721 Deployed (87.2%)
+- [x] **Phase B automation** — `/pc-build`, `/pc-build-fix`, `--auto-build` flag, `build-fix-loop.sh`
+- [x] **Phase A — all 19 pipelines complete** — all apps have code on GitHub
 - [x] **5 new pipelines (2026-04-12)** — retail, flink-ai, etl-edi, tradebot, api-jobs
-- [x] **3 new pipelines 100% deployed** — etl-edi (15/15), flink-ai (15/15), tradebot (15/15)
-- [x] **pc-v4 onboarding** — 306 companies, 15 pipelines
+- [x] **7 pipelines at 100%** — invest, etl-edi, flink-ai, tradebot, saas, streaming + crypto (19/20)
 - [x] **Pipeline Registry ConfigMap** — all scripts + skills use dynamic discovery
-- [x] **CRD pattern regex** — no CRD schema edit needed for new pipelines
-- [x] **Refactored 6 scripts + 4 skills** — fully dynamic pipeline resolution
 - [x] Pipeline creation tooling — `.def` → `generate-manifest.sh` → `new-pipeline.sh`
-- [x] `/pc-new-pipeline` skill — tested with 7 pipeline creations
-- [x] Bulk onboarding — 745 companies across 4 instances (zero dupes)
-- [x] Showroom deployed — CRD watch + Redis sub, 721 apps synced
+- [x] Bulk onboarding — 760+ companies across 4 instances (zero dupes)
+- [x] Showroom deployed — CRD watch + Redis sub, 809 apps synced
 - [x] CF token renewed to 2026-11-30

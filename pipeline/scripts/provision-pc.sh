@@ -398,7 +398,10 @@ ingress = config['ingress']
 hostname = '${HOSTNAME}'
 service = 'http://${RELEASE}.${NAMESPACE}.svc.cluster.local:${SERVICE_PORT}'
 if not any(r.get('hostname') == hostname for r in ingress):
-    ingress.insert(-1, {'hostname': hostname, 'service': service})
+    # Insert BEFORE the wildcard (*.istayintek.com) so it takes priority.
+    # Wildcard must come after all explicit hostnames or it catches them first.
+    insert_idx = next((i for i, r in enumerate(ingress) if r.get('hostname','').startswith('*.')), len(ingress) - 1)
+    ingress.insert(insert_idx, {'hostname': hostname, 'service': service})
 config['ingress'] = ingress
 print(json.dumps({'config': config}))
 " 2>/dev/null)

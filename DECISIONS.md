@@ -141,3 +141,77 @@
 - `status.deployTargets[]`: array of `{target, state, url, lastDeployed}` per location
 **Impact:** 95 apps are serving from two active origins (nginx + CF Pages). The 75 disabled K8s deploys and 29 orphan deploys are cleanup candidates. CF Pages projects may have stale content if not updated since initial deploy. The `framework` field needs population by inspecting each repo's package.json.
 **Next:** Decide whether to (a) keep CF Pages as CDN edge cache, (b) disable CF Pages deploys and consolidate to nginx-only, or (c) migrate fully to CF Pages for edge performance.
+
+### 18th Pipeline: deep-trade (2026-04-13)
+**Decision:** Created `deep-trade` pipeline — 15 AI-powered investment research dashboards with stock/crypto/ETF tri-recommendation engines.
+**Apps:** IDs 60101-60115, targeting pc-v4 (paperclip-v4). All 15 feature RSS feeds, RBAC, audit logging, headless CMS, and BUY/SELL/HOLD signals across three asset classes.
+**Rationale:** Diversifies investment vertical alongside existing `invest` (20 analysis apps) and `tradebot` (15 execution bots). deep-trade focuses on research dashboards with compliance and CMS — a distinct niche.
+**Result:** Phase A completed in ~1h22m (concurrency 1). 15/15 code on GitHub. Phase B in progress.
+
+### Dual-Variant App Model — Short-Name vs Long-Name Repos (2026-04-13)
+**Decision:** Maintain two CRD variants for 29 pre-pipeline orphan apps: short-name repos (existing code) AND long-name repos (fresh Phase A codegen).
+**Discovery:** 29 K8s deployments in `paperclip` namespace had NO matching GitHub repos when checked by their CRD repo names (`aquastroke-swimming-school`, etc.). Investigation revealed the repos existed under abbreviated names (`aquastroke-swimming`, `beanorigin-coffee`, etc.) — pre-pipeline naming used `{brand}-{short-descriptor}` while CRDs used `{brand}-{full-descriptive-name}`.
+**Approach:**
+- Created 29 NEW CRDs (IDs 60201-60229) with `repo` = short-name GitHub repos, set to `Deploying` for immediate Phase B
+- Kept 29 ORIGINAL CRDs (IDs 60000-60028) with long-name repos at `Pending` for Phase A fresh codegen
+- Same company, two isolated codebases — enables v1 (legacy) vs v2 (pipeline-generated) comparison
+**Rationale:** User identified this as a valuable pattern: same app concept, two independent implementations, no git conflicts, independent build/test/deploy cycles. Useful for A/B testing, migration validation, or next-gen rewrites.
+**Impact:** Total CRDs: 794 (was 765). v1 pipeline: 271 CRDs (was 242). Short-name apps deploying successfully via Phase B.
+
+### CF Tunnel Wildcard Ordering Fix (2026-04-13)
+**Decision:** `provision-pc.sh` must insert tunnel routes BEFORE the `*.istayintek.com` wildcard entry, not at `insert(-1)` (before catch-all).
+**Bug:** The old code used `ingress.insert(-1, ...)` which inserts before the catch-all `http_status:404` — but AFTER the `*.istayintek.com` wildcard. Since CF tunnel ingress rules match top-to-bottom, the wildcard caught all traffic first, routing new instances to nginx-static instead of their service. Caused pc-v7 to return 500.
+**Fix:** Find the wildcard position: `insert_idx = next((i for i, r in enumerate(ingress) if r.get('hostname','').startswith('*.')), len(ingress) - 1)` then `ingress.insert(insert_idx, ...)`.
+**Impact:** All future `provision-pc.sh` runs will correctly insert before the wildcard. Existing entries after the wildcard (e.g., ziprun-courier) were manually reordered.
+
+### Per-Pod Deploy Cleanup Pattern (2026-04-13)
+**Decision:** When cleaning up old per-pod deploys, remove Deployment + Service + CF tunnel route, then reset CRD to `Deploying` for nginx Phase B build.
+**Example:** `ziprun-courier` — had a CrashLoopBackOff per-pod deploy in `paperclip` ns, a ClusterIP service, and a dedicated CF tunnel route pointing to the per-pod service. CRD said `Deployed` but nginx had no static files (deploy target was `disabled`). Cleaned up: deleted deploy+svc, removed tunnel route, reset CRD to Deploying.
+**Pattern:** For each of the remaining ~74 old per-pod deploys: (1) verify nginx has static files, (2) if yes → just delete deploy+svc+tunnel, (3) if no → also reset CRD to Deploying for Phase B.
+
+### pc-v7 Instance Provisioned (2026-04-13)
+**Decision:** Provisioned `pc-v7` (namespace `paperclip-v7`) on mgplcb05 as a new empty instance.
+**Details:** Helm release deployed, CF tunnel route added (before wildcard), DNS CNAME created, bootstrap completed (admin user + API key + K8s secrets). Currently 0 companies — ready for pipeline assignment or manual use.
+**URL:** https://pc-v7.istayintek.com
+
+### Openfile Tunnel Routes (2026-04-13)
+**Decision:** Added two CF tunnel entries for the OpenFile app before the wildcard:
+- `openfile.istayintek.com` → `openfile-df-client.openfile.svc.cluster.local:3000`
+- `openfile-api.istayintek.com` → `openfile-api.openfile.svc.cluster.local:8080`
+**DNS:** CNAME records created for both, proxied through CF.
+
+### OpenFile & Direct File APIs Live (2026-04-13)
+**Decision:** Deployed both IRS tax filing apps (OpenFile + Direct File) as full-stack K8s apps on pc-v7 — NOT through the pipeline/nginx model.
+**Architecture:** Spring Boot 3.3.10 API (:8080) + React df-client (:3000) + PostgreSQL 15 + Redis 7.0 + LocalStack 3.0. Per-pod deploys with own namespaces (`openfile`, `direct-file`). Helm charts in separate deploy repos.
+**Key workarounds:**
+1. **Factgraph disabled** — `DIRECT_FILE_LOADER_LOAD_AT_STARTUP=false` to bypass `ClassCastException: CollectionItemNode cannot be cast to BooleanNode` in fact-graph-scala. Upstream fix: IRS-Public/fact-graph PR #82 (commit `79a9529`).
+2. **LocalStack for AWS** — All AWS deps (S3, SQS, SNS, KMS) mocked via LocalStack pods. Init containers pre-create 12 queues, 1 topic, 2 buckets before API starts.
+3. **SNS publishing disabled** — `DIRECT_FILE_AWS_SNS_SUBMISSION_CONFIRMATION_PUBLISH_ENABLED=false` to avoid `PublisherException` at startup.
+4. **Spring Boot 3.x env vars** — `SPRING_DATA_REDIS_HOST` not `SPRING_REDIS_HOST`.
+5. **Startup probes** — `failureThreshold: 30, periodSeconds: 10` (5.5 min tolerance) because Spring Boot + Hibernate + AWS takes 2-5 min to start.
+6. **Redis protected-mode no** — Required for cross-pod access without auth.
+**URLs:** openfile.istayintek.com, openfile-api.istayintek.com, direct-file.istayintek.com, direct-file-api.istayintek.com — all returning 200.
+**Impact:** Both frontends and APIs live. Tax return processing disabled until factgraph fix is merged from upstream.
+
+### 19th Pipeline: invest-bots (2026-04-13)
+**Decision:** Created `invest-bots` pipeline — 15 AI investment trading bots with tri-asset BUY/SELL/HOLD recommendation engines.
+**Apps:** IDs 60301-60315, targeting pc-v4 (paperclip-v4). All 15 feature RSS feeds (80-100+ sources), RBAC with role hierarchies, audit logging (SOC2/SOX/MiFID/Basel III), headless CMS with signal publishing, real-time analytics dashboards.
+**Differentiation from existing investment pipelines:**
+- `invest` (20 apps) — General AI investment analysis
+- `tradebot` (15 apps) — Algorithmic trading execution
+- `deep-trade` (15 apps) — Research dashboards with compliance
+- `invest-bots` (15 apps) — Trading bots with accuracy tracking, RSS sentiment, and specialized CMS
+**Result:** Phase A completed 2026-04-13. All 15/15 code on GitHub. All 15 at Deploying — awaiting Phase B.
+
+### Versioned Skill Registry (2026-05-02)
+**Decision:** Extracted all 12 Claude Code skills (9 from pc-ng, 3 from pc-v7) into a dedicated GitHub repo (`devopseng99/claude-skills`) with version pinning, a sync CLI, and per-project manifests.
+**Problem:** Skills were flat files scoped to one project directory. No versioning, no sharing across projects, no rollback. Adding a new instance (pc-v8) meant copying skills manually.
+**Architecture:**
+1. **Registry repo** (`~/claude-skills/` → `devopseng99/claude-skills`) — single source of truth, git-tagged releases (v1.0.0, v1.1.0)
+2. **`skill-sync.sh`** — CLI that reads `.claude/skill-manifest.yaml`, clones registry at pinned version, writes skills to `.claude/skills/`, generates lock file + `.gitignore`
+3. **Per-project manifest** — declares which skills at which version, with optional variable overrides
+4. **Lock file** — records exact commit + SHA256 integrity per skill
+5. **Pre-session hook** — auto-syncs on Claude Code session start (optional)
+**Flags:** `--list`, `--diff`, `--update [SKILL]`, `--global`, `--version TAG`, `--quiet`
+**Key constraint:** pc-ng and pc-v7 retain their original local skills — the registry is additive. New projects (pc-v8+) consume from the registry.
+**Impact:** Any new project gets infrastructure skills in 3 lines of YAML + one `skill-sync.sh` command. Skill updates are tagged, diffable, and rollback-safe.

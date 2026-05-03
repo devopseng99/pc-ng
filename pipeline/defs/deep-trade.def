@@ -1,0 +1,164 @@
+name: DeepAlpha Research Terminal
+prefix: DAR
+type: AI Stock Research Dashboard
+category: Deep AI Trading & Research
+description: Next-gen stock research terminal with transformer-based fundamental analysis. Tri-signal engine produces BUY/SELL/HOLD for stocks, crypto, and ETFs independently. RSS feed aggregation from 50+ financial sources with AI summarization. RBAC with team-level strategy sharing, complete audit trail, and headless CMS for publishing research notes.
+features: Transformer fundamental analysis, tri-signal BUY/SELL/HOLD engine, stock/crypto/ETF independent recs, RSS 50+ feed aggregator, AI news summarizer, RBAC team strategy sharing, audit trail every decision, headless CMS research publisher, dark terminal UI
+design_bg: #050A15
+design_primary: #00FF88
+design_vibe: Deep terminal green-on-black
+budget: 950
+
+name: CryptoSentinel AI Desk
+prefix: CSD
+type: AI Crypto Trading Dashboard
+category: Deep AI Trading & Research
+description: Crypto-focused deep analysis dashboard with on-chain metrics, whale wallet tracking, and DeFi yield analysis. Produces accuracy-scored BUY/SELL/HOLD on top 200 tokens. RSS crypto news with sentiment scoring. RBAC admin/analyst/viewer roles with full audit log. CMS for publishing crypto market reports.
+features: On-chain metric analysis, whale wallet tracker, DeFi yield scanner, accuracy-scored crypto recs, RSS crypto news sentiment, RBAC admin/analyst/viewer, audit log every action, CMS market report publisher, token correlation matrix
+design_bg: #0B0D19
+design_primary: #F0B90B
+design_vibe: Crypto gold matrix
+budget: 900
+
+name: ETFNavigator Intelligence
+prefix: ENI
+type: AI ETF Analysis Dashboard
+category: Deep AI Trading & Research
+description: ETF-specialist dashboard with factor exposure analysis, sector rotation model, and AI-driven allocation recommendations. Produces risk-adjusted BUY/SELL/HOLD per ETF with confidence intervals. RSS economic data feeds. RBAC portfolio manager roles. Audit-compliant logging. CMS for ETF strategy documentation.
+features: Factor exposure decomposition, sector rotation AI model, risk-adjusted ETF recs with confidence, RSS economic data feeds, RBAC portfolio manager roles, MiFID-style audit logging, CMS ETF strategy docs, expense ratio optimizer, rebalance scheduler
+design_bg: #0F172A
+design_primary: #3B82F6
+design_vibe: Institutional blue terminal
+budget: 900
+
+name: TriSignal Portfolio Hub
+prefix: TPH
+type: AI Tri-Asset Recommendation Engine
+category: Deep AI Trading & Research
+description: Unified dashboard showing BUY/SELL/HOLD recommendations across stocks, crypto, AND ETFs in one view. Deep AI analysis combines technical, fundamental, and sentiment signals. RSS from Bloomberg, CoinDesk, ETF.com aggregated. RBAC with audit trail. Next-gen CMS for portfolio commentary and client-facing reports.
+features: Tri-asset BUY/SELL/HOLD unified view, technical + fundamental + sentiment fusion, Bloomberg/CoinDesk/ETF.com RSS, client-facing report CMS, RBAC advisor/client roles, trade decision audit chain, confidence score with explanation, portfolio drift alerting
+design_bg: #0A0F1C
+design_primary: #8B5CF6
+design_vibe: Purple unified terminal
+budget: 950
+
+name: AlphaResearch AI Lab
+prefix: ARL
+type: AI Investment Research Platform
+category: Deep AI Trading & Research
+description: Institutional-grade research platform with AI-powered deep dives into company fundamentals. Generates analyst-quality research reports with BUY/SELL targets and price forecasts. RSS earnings calendar and SEC filing feeds. RBAC research team hierarchy. Full audit trail. CMS for publishing internal research.
+features: AI analyst report generator, DCF model automation, price target forecasting, RSS earnings + SEC feed, research team RBAC hierarchy, compliance audit trail, internal research CMS, peer comparison engine, management quality scoring
+design_bg: #1A1A2E
+design_primary: #10B981
+design_vibe: Research green institutional
+budget: 900
+
+name: QuantFlow Trading Console
+prefix: QFC
+type: AI Quantitative Trading Dashboard
+category: Deep AI Trading & Research
+description: Quantitative trading console with backtesting, live signal generation, and multi-asset recommendation engine. AI produces accuracy-rated calls across equities, crypto, and ETF baskets. RSS quant research feeds. RBAC for strategy teams. Every backtest and live signal audited. CMS for strategy documentation.
+features: Multi-asset quant signal engine, backtesting with walk-forward, accuracy-rated stock/crypto/ETF calls, RSS quant research feeds, strategy team RBAC, backtest + signal audit log, strategy documentation CMS, Monte Carlo risk analysis, Sharpe ratio optimizer
+design_bg: #0D0D1F
+design_primary: #06B6D4
+design_vibe: Quant cyan matrix
+budget: 950
+
+name: RSSTrader Market Wire
+prefix: RTM
+type: AI RSS Trading Intelligence
+category: Deep AI Trading & Research
+description: RSS-first trading intelligence platform. Aggregates 100+ financial RSS feeds with AI categorization, urgency scoring, and automatic stock/crypto/ETF impact analysis. Produces trade recommendations triggered by breaking news. RBAC newsroom roles. Audit trail on all AI-generated recs. CMS editorial dashboard.
+features: 100+ RSS feed aggregator, AI urgency scoring, breaking news trade trigger, stock/crypto/ETF impact scorer, newsroom RBAC roles, AI rec audit trail, editorial CMS dashboard, custom RSS feed builder, news-to-trade latency tracker
+design_bg: #111827
+design_primary: #F59E0B
+design_vibe: News wire amber
+budget: 850
+
+name: DeepCrypto Whale Scanner
+prefix: DCW
+type: AI Crypto Whale Intelligence
+category: Deep AI Trading & Research
+description: Deep crypto intelligence platform tracking whale movements, exchange flows, and smart money patterns. AI generates accuracy-scored BUY/SELL signals for tokens and crypto ETFs. RSS DeFi protocol feeds. RBAC trading desk roles. Complete whale-alert audit log. CMS for publishing on-chain research.
+features: Whale wallet movement tracker, exchange flow analysis, smart money pattern AI, accuracy-scored crypto signals, crypto ETF correlation, RSS DeFi protocol feeds, trading desk RBAC, whale alert audit log, on-chain research CMS
+design_bg: #070B14
+design_primary: #EC4899
+design_vibe: Whale pink dark
+budget: 900
+
+name: MacroTrader AI Deck
+prefix: MTD
+type: AI Macro Trading Dashboard
+category: Deep AI Trading & Research
+description: Macro-driven trading dashboard with Fed policy analysis, yield curve modeling, and cross-asset recommendations spanning equities, crypto, and bond ETFs. RSS central bank feeds with AI interpretation. RBAC macro strategy roles. Audit-compliant decision logging. CMS for macro outlook publications.
+features: Fed policy AI interpreter, yield curve model, cross-asset macro recs, central bank RSS feeds, macro strategy RBAC, decision audit logging, macro outlook CMS, inflation nowcasting, currency impact analysis
+design_bg: #1E1E30
+design_primary: #F97316
+design_vibe: Macro orange institutional
+budget: 900
+
+name: StockPulse Accuracy Engine
+prefix: SAE
+type: AI Stock Prediction Accuracy Platform
+category: Deep AI Trading & Research
+description: Accuracy-obsessed stock prediction platform. Tracks and publishes hit rates for every BUY/SELL/HOLD recommendation with transparent methodology. AI models compete on accuracy leaderboard. RSS market data feeds. RBAC analyst roles. Full prediction audit trail. CMS for publishing accuracy reports and methodology docs.
+features: Prediction accuracy leaderboard, transparent hit rate tracking, multi-model competition, RSS market data feeds, analyst RBAC roles, prediction audit trail, accuracy report CMS, methodology documentation, Brier score tracking
+design_bg: #0F1A2E
+design_primary: #22D3EE
+design_vibe: Accuracy cyan clean
+budget: 850
+
+name: FutureGen Portfolio CMS
+prefix: FPC
+type: Next-Gen Portfolio Content Management
+category: Deep AI Trading & Research
+description: Future-generation CMS platform purpose-built for investment content. AI auto-generates market commentary, portfolio updates, and client newsletters from live data. Stocks, crypto, and ETF modules with recommendation widgets. RSS syndication engine. RBAC content workflow (draft/review/publish). Full audit trail.
+features: AI market commentary generator, portfolio update auto-writer, client newsletter engine, stock/crypto/ETF recommendation widgets, RSS syndication, content workflow RBAC, publishing audit trail, template library, white-label support
+design_bg: #FAFAFA
+design_primary: #7C3AED
+design_vibe: Future purple clean CMS
+budget: 900
+
+name: SmartETF Allocator Pro
+prefix: SEP
+type: AI ETF Allocation Dashboard
+category: Deep AI Trading & Research
+description: Professional ETF allocation dashboard with AI-driven portfolio construction. Produces risk-scored BUY/SELL/HOLD on 500+ ETFs across equity, bond, commodity, and crypto categories. RSS ETF launch and flow feeds. RBAC advisor/client hierarchy. MiFID-compliant audit logging. CMS for allocation strategy publishing.
+features: 500+ ETF coverage, AI portfolio construction, risk-scored BUY/SELL/HOLD, ETF flow RSS feeds, advisor/client RBAC, MiFID audit compliance, allocation strategy CMS, tax-efficient rebalancing, fee impact calculator
+design_bg: #0C1222
+design_primary: #14B8A6
+design_vibe: Teal professional ETF
+budget: 900
+
+name: TradeAudit Compliance Hub
+prefix: TAC
+type: AI Trading Audit & Compliance Dashboard
+category: Deep AI Trading & Research
+description: Compliance-first trading dashboard with complete audit trail for every recommendation and execution. AI monitors for insider trading patterns, wash sales, and regulatory violations across stocks, crypto, and ETFs. RSS regulatory feed from SEC/CFTC/FINRA. RBAC compliance officer roles. CMS for compliance policy management.
+features: Complete trade audit trail, insider trading pattern detector, wash sale monitor, SEC/CFTC/FINRA RSS feeds, compliance officer RBAC, regulatory violation alerts, compliance policy CMS, best execution analysis, recordkeeping automation
+design_bg: #1A1A1A
+design_primary: #EF4444
+design_vibe: Compliance red serious
+budget: 950
+
+name: CryptoETF Bridge Analyzer
+prefix: CBA
+type: AI Crypto-ETF Cross Analysis
+category: Deep AI Trading & Research
+description: Bridging crypto native and crypto ETF analysis. Compares spot crypto vs ETF premiums/discounts, tracks inflows, and produces BUY/SELL/HOLD for both asset types. RSS crypto regulatory feeds. RBAC institutional trading roles. Audit trail for all cross-market recs. CMS for publishing bridge analysis reports.
+features: Spot vs ETF premium tracker, crypto ETF inflow analysis, cross-market BUY/SELL/HOLD, regulatory RSS feeds, institutional RBAC, cross-market audit trail, bridge analysis CMS, NAV discount alerting, creation/redemption flow tracking
+design_bg: #0D1017
+design_primary: #A855F7
+design_vibe: Bridge purple dual
+budget: 850
+
+name: AlphaStream Research Feed
+prefix: ASF
+type: AI Research Streaming Dashboard
+category: Deep AI Trading & Research
+description: Real-time streaming research dashboard with continuous AI analysis. Live BUY/SELL/HOLD signals for stocks, crypto, and ETFs update as market data flows. 200+ RSS feed firehose with AI filtering. RBAC subscriber tiers. Streaming audit log. Headless CMS for research distribution and API syndication.
+features: Real-time streaming research, continuous AI signal updates, 200+ RSS feed firehose, AI relevance filtering, subscriber tier RBAC, streaming audit log, headless CMS distribution, API syndication endpoints, signal latency monitoring
+design_bg: #060812
+design_primary: #4ADE80
+design_vibe: Stream green real-time
+budget: 950
