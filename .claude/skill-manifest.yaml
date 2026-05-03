@@ -1,0 +1,26 @@
+# pc-ng Skill Manifest
+# Source of truth: devopseng99/claude-skills (versioned registry)
+# Skills are synced into .claude/skills/ — do NOT edit locally.
+#
+# Commands:
+#   ~/claude-skills/skill-sync.sh              # sync to manifest versions
+#   ~/claude-skills/skill-sync.sh --diff       # preview changes before sync
+#   ~/claude-skills/skill-sync.sh --update     # pull latest from registry
+#   ~/claude-skills/skill-sync.sh --list       # show available vs installed
+
+registry: https://github.com/devopseng99/claude-skills.git
+default_version: v1.2.0
+
+skills:
+  pc-provision:
+    vars:
+      default_node: mgplcb05
+      default_email: hrsd0001@gmail.com
+  pc-status: {}
+  pc-build: {}
+  pc-build-fix: {}
+  pc-deploy: {}
+  pc-new-pipeline: {}
+  pc-reset: {}
+  pc-start: {}
+  pc-halt: {}
