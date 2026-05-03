@@ -64,7 +64,7 @@
 
 ## MEDIUM TERM
 
-### 12. Skill Registry Phase 3 — MCP Server
+### 12. Skill Registry — MCP Server
 - Wrap skill operations as MCP tools → available as native tools in ANY Claude session without synced files
 - Auth, logging, remote triggers (CI/cron)
 - See `~/claude-skills/README.md` for architecture
@@ -79,11 +79,21 @@
 ### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
 
+### 16. SDK Agent Intake — Push to GitHub
+- `/var/lib/rancher/ansible/db/sdk-agent-intake` has no remote yet
+- `--skill` flag and config-level `skill:` field working locally
+- Needs remote repo creation + initial push
+
 ---
 
 ## COMPLETED
 
-- [x] **Versioned skill registry** (2026-05-02) — 12 skills in `devopseng99/claude-skills` at v1.1.0. `skill-sync.sh` with --diff, --update, --quiet, variable overrides, .gitignore, pre-session hook. pc-v8 consuming 7 skills at v1.0.0.
+- [x] **Composable profile system** (2026-05-03) — v3.0.0. 3-layer profiles (capability/domain/composite) with `include:` and `layer:` fields. Recursive resolver with cycle detection. Multi-profile `--init`. Smart two-pass detection. 10 profiles across 3 layers.
+- [x] **Skill consolidation — 3-phase** (2026-05-03) — 45→34 skills. Phase 1 (dedup), Phase 2 (universal skills with embedded gotchas), Phase 3 (test-suite replaces 5 test skills). 11 orphan dirs cleaned up.
+- [x] **SDK agent intake integration** (2026-05-03) — `intake.py` has `--skill` flag + config-level `skill:` field. 3-level resolution: local→registry→prefixed. `bootstrap-project.sh --for-intake` creates symlinks + config template.
+- [x] **Use-case guides** (2026-05-03) — 3 guides in `~/claude-skills/guides/`: container-build, k8s-deploy, test-suite. Common failures + use cases per universal skill.
+- [x] **bootstrap-project.sh** (2026-05-03) — One-command onboarding. `--profile`, `--with-claude-md`, `--for-intake`, `--dry-run`. Generates manifests, CLAUDE.md, intake symlinks.
+- [x] **Versioned skill registry** (2026-05-02→05-03) — 34 skills in `devopseng99/claude-skills` at v3.0.0. `skill-sync.sh` (~1400 lines, 17+ flags). All 6 projects synced. `skill-analyze.sh` for reports.
 - [x] **OpenFile & Direct File APIs LIVE** (2026-04-13) — Both IRS tax apps fully running on pc-v7. Spring Boot API + React + PG + Redis + LocalStack per namespace. Factgraph disabled (upstream fix needed), all 4 URLs returning 200.
 - [x] **invest-bots Phase A complete** (2026-04-13) — 19th pipeline, 15 AI trading bots. All 15/15 code on GitHub, all Deploying. 809 total CRDs.
 - [x] **pc-v7 provisioned + populated** (2026-04-13) — Instance at https://pc-v7.istayintek.com. Hosts OpenFile + Direct File (2 companies). NOT for pipeline apps.

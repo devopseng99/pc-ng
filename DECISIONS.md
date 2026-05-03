@@ -204,14 +204,41 @@
 **Result:** Phase A completed 2026-04-13. All 15/15 code on GitHub. All 15 at Deploying — awaiting Phase B.
 
 ### Versioned Skill Registry (2026-05-02)
-**Decision:** Extracted all 12 Claude Code skills (9 from pc-ng, 3 from pc-v7) into a dedicated GitHub repo (`devopseng99/claude-skills`) with version pinning, a sync CLI, and per-project manifests.
-**Problem:** Skills were flat files scoped to one project directory. No versioning, no sharing across projects, no rollback. Adding a new instance (pc-v8) meant copying skills manually.
+**Decision:** Extracted all Claude Code skills into a dedicated GitHub repo (`devopseng99/claude-skills`) with version pinning, a sync CLI, and per-project manifests.
+**Problem:** Skills were flat files scoped to one project directory. No versioning, no sharing across projects, no rollback.
 **Architecture:**
-1. **Registry repo** (`~/claude-skills/` → `devopseng99/claude-skills`) — single source of truth, git-tagged releases (v1.0.0, v1.1.0)
-2. **`skill-sync.sh`** — CLI that reads `.claude/skill-manifest.yaml`, clones registry at pinned version, writes skills to `.claude/skills/`, generates lock file + `.gitignore`
-3. **Per-project manifest** — declares which skills at which version, with optional variable overrides
+1. **Registry repo** (`~/claude-skills/` → `devopseng99/claude-skills`) — single source of truth, git-tagged releases
+2. **`skill-sync.sh`** (~1400 lines) — CLI with 17+ flags: `--init`, `--profiles`, `--push`, `--bump`, `--rollback`, `--status`, `--adopt`, `--diff`, `--update`, `--global`, `--quiet`, etc.
+3. **Per-project manifest** — `.claude/skill-manifest.yaml` declares skills + version
 4. **Lock file** — records exact commit + SHA256 integrity per skill
-5. **Pre-session hook** — auto-syncs on Claude Code session start (optional)
-**Flags:** `--list`, `--diff`, `--update [SKILL]`, `--global`, `--version TAG`, `--quiet`
-**Key constraint:** pc-ng and pc-v7 retain their original local skills — the registry is additive. New projects (pc-v8+) consume from the registry.
-**Impact:** Any new project gets infrastructure skills in 3 lines of YAML + one `skill-sync.sh` command. Skill updates are tagged, diffable, and rollback-safe.
+5. **`skill-analyze.sh`** — optimization tool for overlap/cluster analysis
+6. **`bootstrap-project.sh`** — one-command onboarding with `--with-claude-md` and `--for-intake`
+**Impact:** 6 projects consuming from registry. Skill updates are tagged, diffable, and rollback-safe.
+
+### Skill Consolidation — 3-Phase Optimization (2026-05-03)
+**Decision:** Consolidated 45 skills to 34 via three phases.
+- **Phase 1:** Deduplicated pc-deploy (→ redirect to pc-build), merged bead + convoy (→ gtcc-entities)
+- **Phase 2:** Created universal `container-build` (14 podman/K8s gotchas) and `k8s-deploy` (11 Helm/CF/auth gotchas) replacing 4 project-specific skills
+- **Phase 3:** Unified `test-suite` replacing 5 individual test skills (audit-score, deploy-test, filing-test, ocr-test, tax-test)
+**Key principle:** Operational lessons (CF tunnel ID, podman TMPDIR, Better Auth endpoints, bootstrap password) are embedded directly in universal skills — they travel with the skill, not just in memory.
+**Impact:** 34 skills, 10 profiles, all 6 projects at v2.0.0.
+
+### Composable Profile System (2026-05-03)
+**Decision:** Restructured profiles into 3 composable layers with `include:` and `layer:` support.
+**Problem:** Profiles were monolithic. `v7-apps` duplicated `infra-core` skills. `az-taxoptics` mixed universal + domain skills. Every new project needing a different combo required a new flat profile.
+**Layers:**
+- **Capability** (reusable building blocks): infra-core (3), pipeline-ops (6), container-ops (2), testing (1)
+- **Domain** (project-specific): taxoptics (11), gtcc (10), prefect (1)
+- **Composite** (convenience): full = infra+pipeline, v7-apps = infra+container+v7-status, az-taxoptics = container+testing+taxoptics
+**Features:**
+- `include:` field in profile YAML — recursive resolution with cycle detection
+- Comma-separated init: `--init --profile "infra-core,container-ops"` → merged manifest
+- Smart detection: `--status` resolves include chains, greedy set-cover fallback
+**Impact:** v3.0.0. New projects compose capabilities without creating new profiles. Changes to capability profiles auto-propagate to all composites.
+
+### SDK Agent Intake Integration (2026-05-03)
+**Decision:** Added `--skill` flag to `sdk-agent-intake/sdk-tmpl/intake.py` for shared registry skill resolution.
+**Problem:** intake.py hardcoded a single local skill file. Knowledge in registry skills (gotchas, patterns) was duplicated.
+**Resolution order:** Local `skill-registry/` → shared `~/claude-skills/skills/<name>/SKILL.md`
+**Usage:** `python intake.py --skill container-build agentX/app.yaml` or `skill: k8s-deploy` in YAML config.
+**Impact:** Agent SDK harness can now leverage any of the 34 registry skills.

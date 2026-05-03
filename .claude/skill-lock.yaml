@@ -2,43 +2,43 @@
 # To update: skill-sync.sh --update
 # To diff:   skill-sync.sh --diff
 registry: "https://github.com/devopseng99/claude-skills.git"
-synced_at: "2026-05-03T06:34:11Z"
-default_version: "v1.4.1"
+synced_at: "2026-05-03T09:50:26Z"
+default_version: "v2.0.1"
 skills:
   pc-build:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:5c98d07eb65a9c61"
   pc-build-fix:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:345a978beab1a674"
   pc-deploy:
-    version: "v1.4.1"
-    commit: "3187a001"
-    integrity: "sha256:395aff70c366d1c5"
+    version: "v2.0.1"
+    commit: "72b13224"
+    integrity: "sha256:9f735e5bf87ccb10"
   pc-halt:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:cf0a8cfb58affdf4"
   pc-new-pipeline:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:cd77e489965a8ff0"
   pc-provision:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:98d373641346cc0f"
   pc-reset:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:5826fa3f2ddbf032"
   pc-start:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:4743af233e34f80d"
   pc-status:
-    version: "v1.4.1"
-    commit: "3187a001"
+    version: "v2.0.1"
+    commit: "72b13224"
     integrity: "sha256:1c6194e055139ef5"
 
