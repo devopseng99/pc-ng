@@ -2,22 +2,22 @@
 
 ## URGENT (2026-05-03)
 
-### 1. Phase B for 22 Deploying Apps (pc-v4 is UP)
-- invest-bots: 15 (Phase A complete, all code on GitHub, awaiting Phase B)
-- v1: 3 (need pc instance scaled up — still at 0/0)
-- cf: 1, deep-trade: 1, ecom: 2 (zr-nail-beauty, zuzu-beauty-salon — new)
-- pc-v4 is running (336 companies). pc/pc-v2/pc-v5 still at 0/0.
-- Run `/pc-build --pipeline invest-bots --concurrency 4` first
+### 1. Phase B for 16 Deploying Apps — AGENTS ACTIVE
+- invest-bots: 9 remaining (6 deployed, worker #6 completed $0.30)
+- v1: 3, cf: 1, deep-trade: 1, ecom: 2
+- Builds deploy to shared nginx (static-sites ns) — does NOT need pc/pc-v2 up
+- **Autonomous:** Dispatcher spawns workers from supervisor tasks. Re-run invest-bots worker for remaining 9.
 
-### 2. Run Build-Fix Loop on 86 Failed Apps
-- 86 apps failed Phase B (npm build errors) — all build-only, no PC instance needed
-- Worst: v1 (34), soa (18 turbo-astro), tech (17), api-jobs (8 No build output dir)
-- Script: `/var/lib/rancher/ansible/db/pc/builder/build-fix-loop.sh --all-failed --max-fixes 3`
+### 2. Build-Fix on 86 Failed — AGENTS ACTIVE
+- v1 build-fix worker #8 RUNNING (PID active, processing 5/34)
+- soa build-fix worker #7 RUNNING (PID active, processing 5/18)
+- Remaining: tech (17), api-jobs (8), cf (3), ai (2), crypto (1), retail (1), ecom (1), mcp (1)
+- Next supervisor run will pick up remaining pipelines
 
-### 3. pc-ng-v2 Agent Infrastructure
-- Build headless supervisor + build-fix agents in `/var/lib/rancher/ansible/db/pc-ng-v2`
-- Numbered sessions (#1-, #2-) with full audit logging
-- Supervisor decides, dispatcher spawns workers, human reviews
+### 3. Host Resource Monitoring & Agent HUD
+- 12+ stale claude processes (Mar 30–Apr 25) consuming ~6.5GB RAM
+- /var/lib/rancher at 90% disk (45/50GB) — needs cleanup
+- Use `bash agents/hud.sh` for one-screen view of agents, resources, progress
 
 ### 4. Phase A for 2 Pending + 20 NoBuildScript Apps
 - 2 Pending CRDs in v1 — long-name variant repos
@@ -52,10 +52,11 @@
 - ~74 remaining per-pod deploys in paperclip namespace (all replicas=0, disabled)
 - Pattern: verify nginx has files → delete deploy+svc+tunnel → if no files, reset CRD to Deploying
 
-### 11. Scale Up pc Instance for v1 Stragglers
-- 3 Deploying + 2 Pending in v1 need pc (paperclip namespace)
-- pc + pc-postgresql both at 0/0 for 37 days
-- Low priority — only 5 apps affected
+### 11. Scale Up pc/pc-v2 for Onboarding Only (NOT for builds)
+- Builds deploy to shared nginx — does NOT need PC instances up
+- pc + pc-v2 only needed if new companies must be created (onboarding)
+- All existing CRDs already have companies — scaling up is low priority
+- pc (v1): 0/0 for 39 days. pc-v2 (tech): 0/0 for similar period.
 
 ---
 
@@ -71,7 +72,9 @@
 - Per-pipeline prompt tuning for problem categories (soa, api-jobs)
 
 ### 14. Pipeline Monitoring Hardening
-- Formalize `pipeline-supervisor.sh` with: auto Phase B, auto fix-loop, progress alerts
+- `agents/hud.sh` provides one-screen view (agents, resources, progress)
+- Formalize supervisor→dispatcher→worker loop as cron (currently manual)
+- Add alerting: Slack/email on worker completion or circuit breaker trips
 
 ### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
@@ -91,6 +94,8 @@
 - [x] **Use-case guides** (2026-05-03) — 3 guides in `~/claude-skills/guides/`: container-build, k8s-deploy, test-suite. Common failures + use cases per universal skill.
 - [x] **bootstrap-project.sh** (2026-05-03) — One-command onboarding. `--profile`, `--with-claude-md`, `--for-intake`, `--dry-run`. Generates manifests, CLAUDE.md, intake symlinks.
 - [x] **Versioned skill registry** (2026-05-02→05-03) — 34 skills in `devopseng99/claude-skills` at v3.0.0. `skill-sync.sh` (~1400 lines, 17+ flags). All 6 projects synced. `skill-analyze.sh` for reports.
+- [x] **pc-ng-v2 agent control plane** (2026-05-03) — Supervisor, dispatcher, build-fix agents. #N- session numbering, audit hooks, 365d retention. Dispatcher stdin-inheritance bug fixed.
+- [x] **First autonomous run** (2026-05-03) — Supervisor produced 3 tasks ($0.20). Dispatcher spawned 3 workers. invest-bots: 6/15 deployed ($0.30). soa + v1 fix workers active.
 - [x] **CF Pages cleanup** (2026-05-03) — Deleted 95 duplicate CF Pages projects (all had nginx equivalents). 5 remaining: sui, pc-showroom, tech-showroom + 2 beauty apps added as CRDs.
 - [x] **pc-v4 scaled up** (2026-05-03) — pc-v4 running (1/1 app + 1/1 PG, 336 companies). Ready for invest-bots Phase B.
 - [x] **811 total CRDs** (2026-05-03) — Added pb-60316-znb (ZR Nail Beauty) + pb-60317-zbs (Zuzu Beauty Salon) to ecom pipeline.

@@ -252,6 +252,16 @@
 **Rationale:** Human was implicit orchestrator across 4 projects (pc-ng, pc, pc-researcher, pc-v7), carrying context manually. This shifts to "human as reviewer" — agents propose, human approves. Based on patterns from Elastic (self-correcting CI), Anthropic (Agent Teams), Google (A2A), Arthur AI (ADLC).
 **Key principle:** Idempotent/ephemeral sessions — can be started, stopped, and restarted cleanly. Each session in a `#N-` prefix directory for ordered history.
 
+### Dispatcher Stdin Fix & Worker Isolation (2026-05-03)
+**Decision:** Restructured dispatcher to use `mapfile` + `nohup`/`disown`/`< /dev/null` instead of `python3 | while read` piping.
+**Bug:** Background workers (`bash build-fix.sh &`) inherited stdin from the pipe, consuming lines meant for the `while IFS='|' read` loop. Only 1 of 3 tasks dispatched, and that worker died when the dispatcher exited.
+**Fix:**
+1. Read all tasks into a bash array via `mapfile < <(python3 ...)` — no pipe inheritance
+2. Each worker spawned with `nohup ... < /dev/null >> logs/worker-${pipeline}-${action}.log 2>&1 &`
+3. `disown` each worker PID so it survives parent exit
+4. Per-pipeline log files for worker stdout/stderr
+**Impact:** All 3 supervisor tasks dispatched correctly. Workers run independently and survive terminal disconnects.
+
 ### SDK Agent Intake Integration (2026-05-03)
 **Decision:** Added `--skill` flag to `sdk-agent-intake/sdk-tmpl/intake.py` for shared registry skill resolution.
 **Problem:** intake.py hardcoded a single local skill file. Knowledge in registry skills (gotchas, patterns) was duplicated.
