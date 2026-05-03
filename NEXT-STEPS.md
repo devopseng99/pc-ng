@@ -79,10 +79,12 @@
 ### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
 
-### 16. SDK Agent Intake — Push to GitHub
-- `/var/lib/rancher/ansible/db/sdk-agent-intake` has no remote yet
-- `--skill` flag and config-level `skill:` field working locally
-- Needs remote repo creation + initial push
+### 16. SDK Agent Intake — ADLC Evolution
+- Repo live at `devopseng99/sdk-agent-intake` (private, 4 branches pushed)
+- Current: 30+ app configs, deploy-app-scaffold skill, intake.py harness v2.0.0
+- Next: compound versioning (prompt+model+schema tuple), expand-and-contract migrations
+- Next: OpenFeature flags for per-pipeline agent A/B testing
+- Next: Langfuse self-hosted for trace/cost/prompt observability
 
 ---
 
