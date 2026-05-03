@@ -236,6 +236,22 @@
 - Smart detection: `--status` resolves include chains, greedy set-cover fallback
 **Impact:** v3.0.0. New projects compose capabilities without creating new profiles. Changes to capability profiles auto-propagate to all composites.
 
+### CF Pages Consolidation (2026-05-03)
+**Decision:** Deleted 95 duplicate CF Pages projects. Kept 5: sui (standalone), pc-showroom, tech-showroom, zr-nail-beauty, zuzu-beauty-salon.
+**Discovery:** CF Pages API returns max 10 results per call with broken pagination (no page/per_page params). Had to loop-delete to discover full inventory. Original 98 projects dated to 2026-03-28 — early v1/tech pipeline before nginx wildcard approach. All 95 deleted were confirmed Deployed on nginx.
+**Impact:** CF Pages freed for future use. 2 non-pipeline beauty apps (zr-nail-beauty, zuzu-beauty-salon) added as CRDs to ecom pipeline targeting pc-v4.
+
+### Headless Agent Architecture — pc-ng-v2 (2026-05-03)
+**Decision:** Created `/var/lib/rancher/ansible/db/pc-ng-v2` as the autonomous agent control plane. Headless Claude sessions run numbered (#1-, #2-, etc.) for traceability.
+**Architecture:**
+1. **Supervisor agent** — headless Claude (`-p`) reads CRD state, decides actions, outputs task JSON. Runs every 15min via cron.
+2. **Build-fix agent** — headless Claude takes CRD name + error, fixes code, pushes. Spawned by dispatcher per supervisor task.
+3. **Dispatcher** — reads supervisor output, spawns numbered worker sessions.
+4. **Audit hooks** — PreToolUse/PostToolUse/SessionStart/SessionEnd log to `/var/log/claude-audit/`.
+5. **Session logging** — `cleanupPeriodDays: 365`, debug logging, stream-json output, OTEL-ready.
+**Rationale:** Human was implicit orchestrator across 4 projects (pc-ng, pc, pc-researcher, pc-v7), carrying context manually. This shifts to "human as reviewer" — agents propose, human approves. Based on patterns from Elastic (self-correcting CI), Anthropic (Agent Teams), Google (A2A), Arthur AI (ADLC).
+**Key principle:** Idempotent/ephemeral sessions — can be started, stopped, and restarted cleanly. Each session in a `#N-` prefix directory for ordered history.
+
 ### SDK Agent Intake Integration (2026-05-03)
 **Decision:** Added `--skill` flag to `sdk-agent-intake/sdk-tmpl/intake.py` for shared registry skill resolution.
 **Problem:** intake.py hardcoded a single local skill file. Knowledge in registry skills (gotchas, patterns) was duplicated.

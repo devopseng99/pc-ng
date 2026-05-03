@@ -1,31 +1,27 @@
 # Paperclip Pipeline — Next Steps
 
-## URGENT (2026-04-21)
+## URGENT (2026-05-03)
 
-### 1. Phase B for 21 Deploying Apps
+### 1. Phase B for 22 Deploying Apps (pc-v4 is UP)
 - invest-bots: 15 (Phase A complete, all code on GitHub, awaiting Phase B)
-- v1: 4 (incl. ziprun-courier reset + short-name orphans)
-- deep-trade: 1, cf: 1
-- Run `/pc-build --concurrency 4` to clear the queue
+- v1: 3 (need pc instance scaled up — still at 0/0)
+- cf: 1, deep-trade: 1, ecom: 2 (zr-nail-beauty, zuzu-beauty-salon — new)
+- pc-v4 is running (336 companies). pc/pc-v2/pc-v5 still at 0/0.
+- Run `/pc-build --pipeline invest-bots --concurrency 4` first
 
-### 2. Run Build-Fix Loop on 85 Failed Apps
-- 85 apps failed Phase B (npm build errors) — code on GitHub but builds broken
+### 2. Run Build-Fix Loop on 86 Failed Apps
+- 86 apps failed Phase B (npm build errors) — all build-only, no PC instance needed
+- Worst: v1 (34), soa (18 turbo-astro), tech (17), api-jobs (8 No build output dir)
 - Script: `/var/lib/rancher/ansible/db/pc/builder/build-fix-loop.sh --all-failed --max-fixes 3`
-- Skill: `/pc-build-fix --all-failed`
-- Worst pipelines: v1 (33 Failed), soa (18/20), tech (17), api-jobs (8)
-- Fix build-fix-loop.sh subshell bug first (while-read counter propagation)
 
-### 3. Phase A for 29 Long-Name Orphans
-- 29 Pending CRDs (IDs 60000-60028) — long-name variant repos, no code on GitHub yet
-- Need: either add to v1 manifest or create dedicated manifest for these
+### 3. pc-ng-v2 Agent Infrastructure
+- Build headless supervisor + build-fix agents in `/var/lib/rancher/ansible/db/pc-ng-v2`
+- Numbered sessions (#1-, #2-) with full audit logging
+- Supervisor decides, dispatcher spawns workers, human reviews
 
-### 4. Handle 20 NoBuildScript Apps
-- wasm: 4, tech: 8, ai: 3, cf: 4, mcp: 1
-- Skeleton repos with no package.json or build scripts
-
-### 5. Commit pc-ng Changes
-- Modified: DECISIONS.md, NEXT-STEPS.md, pipeline-registry.yaml, provision-pc.sh
-- New: invest-bots (.def, manifest), deep-trade (.def, manifest), contexts/v7.env
+### 4. Phase A for 2 Pending + 20 NoBuildScript Apps
+- 2 Pending CRDs in v1 — long-name variant repos
+- 20 NoBuildScript: wasm (4), tech (8), ai (3), cf (4), mcp (1)
 
 ---
 
@@ -56,9 +52,10 @@
 - ~74 remaining per-pod deploys in paperclip namespace (all replicas=0, disabled)
 - Pattern: verify nginx has files → delete deploy+svc+tunnel → if no files, reset CRD to Deploying
 
-### 11. Deploy Target Consolidation
-- 95 apps deployed to BOTH nginx AND CF Pages
-- Decision needed: keep CF Pages, disable, or migrate
+### 11. Scale Up pc Instance for v1 Stragglers
+- 3 Deploying + 2 Pending in v1 need pc (paperclip namespace)
+- pc + pc-postgresql both at 0/0 for 37 days
+- Low priority — only 5 apps affected
 
 ---
 
@@ -94,6 +91,9 @@
 - [x] **Use-case guides** (2026-05-03) — 3 guides in `~/claude-skills/guides/`: container-build, k8s-deploy, test-suite. Common failures + use cases per universal skill.
 - [x] **bootstrap-project.sh** (2026-05-03) — One-command onboarding. `--profile`, `--with-claude-md`, `--for-intake`, `--dry-run`. Generates manifests, CLAUDE.md, intake symlinks.
 - [x] **Versioned skill registry** (2026-05-02→05-03) — 34 skills in `devopseng99/claude-skills` at v3.0.0. `skill-sync.sh` (~1400 lines, 17+ flags). All 6 projects synced. `skill-analyze.sh` for reports.
+- [x] **CF Pages cleanup** (2026-05-03) — Deleted 95 duplicate CF Pages projects (all had nginx equivalents). 5 remaining: sui, pc-showroom, tech-showroom + 2 beauty apps added as CRDs.
+- [x] **pc-v4 scaled up** (2026-05-03) — pc-v4 running (1/1 app + 1/1 PG, 336 companies). Ready for invest-bots Phase B.
+- [x] **811 total CRDs** (2026-05-03) — Added pb-60316-znb (ZR Nail Beauty) + pb-60317-zbs (Zuzu Beauty Salon) to ecom pipeline.
 - [x] **OpenFile & Direct File APIs LIVE** (2026-04-13) — Both IRS tax apps fully running on pc-v7. Spring Boot API + React + PG + Redis + LocalStack per namespace. Factgraph disabled (upstream fix needed), all 4 URLs returning 200.
 - [x] **invest-bots Phase A complete** (2026-04-13) — 19th pipeline, 15 AI trading bots. All 15/15 code on GitHub, all Deploying. 809 total CRDs.
 - [x] **pc-v7 provisioned + populated** (2026-04-13) — Instance at https://pc-v7.istayintek.com. Hosts OpenFile + Direct File (2 companies). NOT for pipeline apps.
