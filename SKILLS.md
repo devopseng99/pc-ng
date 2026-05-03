@@ -12,7 +12,10 @@ Local copies live in `.claude/skills/` but are **not committed** — they're syn
 | Update all to latest registry tag | `~/claude-skills/skill-sync.sh --update` |
 | Update one skill only | `~/claude-skills/skill-sync.sh --update pc-provision` |
 | List available vs installed | `~/claude-skills/skill-sync.sh --list` |
-| Pin all to a specific version | `~/claude-skills/skill-sync.sh --version v1.2.0` |
+| Pin all to a specific version | `~/claude-skills/skill-sync.sh --version v1.3.0` |
+| List profiles | `~/claude-skills/skill-sync.sh --profiles` |
+| Init new project with a profile | `~/claude-skills/skill-sync.sh --init --profile infra-core` |
+| Push local changes to registry | `~/claude-skills/skill-sync.sh --push pc-provision` |
 
 ## Files
 
@@ -164,8 +167,8 @@ git push origin main --tags
 
 ## Current State
 
-**Registry:** `devopseng99/claude-skills` at v1.2.0
-**This project:** 9 skills synced at v1.2.0
+**Registry:** `devopseng99/claude-skills` at v1.3.0
+**This project:** 9 skills synced at v1.3.0
 
 | Skill | Description |
 |-------|-------------|
@@ -183,8 +186,56 @@ git push origin main --tags
 
 | Project | Path | Skills | Version |
 |---------|------|--------|---------|
-| pc-ng | `/var/lib/rancher/ansible/db/pc-ng` | 9 | v1.2.0 |
-| pc-v8 | `/var/lib/rancher/ansible/db/pc-v8` | 7 | v1.0.0 |
+| pc-ng | `/var/lib/rancher/ansible/db/pc-ng` | 9 (full) | v1.3.0 |
+| pc-v8 | `/var/lib/rancher/ansible/db/pc-v8` | 7 (infra-core + pipeline-ops subset) | v1.0.0 |
+
+## Profiles
+
+Profiles let new projects install only the skills they need:
+
+```bash
+~/claude-skills/skill-sync.sh --profiles
+```
+
+| Profile | Skills | Use Case |
+|---------|--------|----------|
+| `infra-core` | pc-provision, pc-status, pc-halt (3) | Ops projects, new instances |
+| `pipeline-ops` | pc-build, pc-build-fix, pc-deploy, pc-new-pipeline, pc-start, pc-reset (6) | Pipeline automation |
+| `full` | All 9 | Control-plane projects like pc-ng |
+
+### Init a new project with a profile
+
+```bash
+cd /path/to/new-project
+~/claude-skills/skill-sync.sh --init --profile infra-core
+~/claude-skills/skill-sync.sh   # sync the skills
+git add .claude/skill-manifest.yaml .claude/skill-lock.yaml .claude/skills/.gitignore
+git commit -m "chore: add skill manifest"
+```
+
+## Pushing Changes Back
+
+If you fix or improve a skill locally, push it to the registry:
+
+```bash
+# Push a specific skill
+~/claude-skills/skill-sync.sh --push pc-provision
+
+# Push all changed skills
+~/claude-skills/skill-sync.sh --push
+```
+
+This shows the diff, copies to the registry, and prints the commit/tag/push commands.
+
+## Onboarding New Sessions
+
+For other Claude Code sessions that need registry access, paste the context prompt:
+
+```bash
+cat ~/claude-skills/CONTEXT-PROMPT.md
+```
+
+This gives the session everything it needs: architecture, commands, contribution rules, and infrastructure context.
 
 ## Troubleshooting
 
