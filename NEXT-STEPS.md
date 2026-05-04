@@ -75,18 +75,18 @@
 - Next: OpenFeature flags for per-pipeline agent A/B testing
 - Next: Langfuse self-hosted for trace/cost/prompt observability
 
-### 17. ADLC Remaining Phases (5-7)
-- **Phase 5:** OpenFeature flags — per-pipeline A/B testing of agent model/config (`agentX/openfeature.yaml`)
-- **Phase 6:** intake-hud.sh — real-time terminal HUD watching AgentIntake CRDs (phase progression, cost, session IDs)
-- **Phase 7:** Multi-cluster — `--cluster` flag on both harnesses, CRD `targetCluster` field, cross-cluster credentials
-- Full plan: `docs/ADLC-PLAN.md` (Phases 5-7 marked PENDING)
+### 17. ~~ADLC Remaining Phases (5-7)~~ — DONE
+- **Phase 5:** OpenFeature flags — IMPLEMENTED (openfeature.py, `--flags`, `_flags.yaml`, deterministic A/B bucketing)
+- **Phase 6:** intake-hud.sh — IMPLEMENTED (real-time terminal HUD, `--watch`, `--pipeline`, `--json`)
+- **Phase 7:** Multi-cluster — IMPLEMENTED (cluster.py, `--cluster`, `clusters.yaml`, CRD `spec.targetCluster`)
+- Full plan: `docs/ADLC-PLAN.md`
 
-### 18. Agent-Intake-Controller Plugin System — IMPLEMENTED, needs deploy
-- Plugin system implemented (9 files, 351 lines) with 4 built-in plugins + external loading
-- CRD schema updated with `spec.hooks[]` field (applied to cluster)
-- **Not yet deployed:** controller image needs rebuild + Helm upgrade to pick up plugin code
-- **Not yet tested end-to-end:** create an AgentIntake CR with hooks, verify reconciler runs them
-- Next: rebuild controller image with plugins, Helm upgrade, test with ai-hedge-fund CR
+### 18. Agent-Intake-Controller — v1.2.0 (plugin system + GC + targetCluster)
+- Plugin system: 5 lifecycle phases, 4 built-in plugins, CRD hooks[] field
+- CRD garbage collection: kopf daemon, configurable retention, monthly archive ConfigMaps
+- Multi-cluster: `spec.targetCluster` field with printer column
+- **Not yet deployed:** controller image needs rebuild + Helm upgrade
+- Next: rebuild image, Helm upgrade, test end-to-end with hooks + GC
 
 ### 20. ~~ai-hedge-fund Full-Stack Frontend~~ — DONE
 - Full-stack same-origin deployment live at `https://ai-hedge-fund.istayintek.com` (v1.1.0)
@@ -96,6 +96,7 @@
 ### 19. ADLC Outstanding Items
 - [ ] Phase 2.5: Bump builder to v1.2.0-r1
 - [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
+- [x] Phase 2.5: Builder bumped to v1.2.0-r1 (multi-cluster, flags, tests)
 - [x] Phase 3B.5: ai-hedge-fund full-stack SPA deployed (v1.1.0)
 - [ ] Phase 3B.6: Verify ai-hedge-fund with real API keys
 - [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
@@ -105,9 +106,10 @@
 
 ## COMPLETED
 
+- [x] **ADLC v2.0.0 — 14 features** (2026-05-04) — OpenFeature flags, agent replay, intake templates (10), CRD garbage collection, intake-hud.sh, cost-report.sh, multi-cluster, 112 builder tests, self-healing pipeline, webhook triggers, showroom portfolio, audit logging, multi-tenant skill registry. 5,640 lines across 6 repos.
 - [x] **Agent-Intake-Controller plugin system** (2026-05-04) — 5 lifecycle phases, 4 built-in plugins (secret-provisioner, http-health, tunnel-router, startup-command), CRD hooks[] field, external plugin loading via PLUGIN_DIR.
 - [x] **ai-hedge-fund full-stack live** (2026-05-04) — React SPA + FastAPI API on same origin at ai-hedge-fund.istayintek.com. v1.1.0: multi-stage Dockerfile, zero CORS, 40+ endpoints, 19 AI analysts. Swagger at /docs, React UI at /.
-- [x] **ADLC Phases 0-4 complete** (2026-05-04) — Foundation, builder hardening, AgentIntake CRD controller, Langfuse, ai-hedge-fund, JSONL converter. All deployed + verified.
+- [x] **ADLC Phases 0-7 complete** (2026-05-04) — All phases implemented. Foundation, builder, CRD controller, Langfuse, ai-hedge-fund, JSONL converter, OpenFeature, HUD, multi-cluster.
 - [x] **Composable profile system** (2026-05-03) — v3.0.0. 3-layer profiles (capability/domain/composite) with `include:` and `layer:` fields. Recursive resolver with cycle detection. Multi-profile `--init`. Smart two-pass detection. 10 profiles across 3 layers.
 - [x] **Skill consolidation — 3-phase** (2026-05-03) — 45→34 skills. Phase 1 (dedup), Phase 2 (universal skills with embedded gotchas), Phase 3 (test-suite replaces 5 test skills). 11 orphan dirs cleaned up.
 - [x] **SDK agent intake integration** (2026-05-03) — `intake.py` has `--skill` flag + config-level `skill:` field. 3-level resolution: local→registry→prefixed. `bootstrap-project.sh --for-intake` creates symlinks + config template.
