@@ -288,3 +288,21 @@
 **Resolution order:** Local `skill-registry/` → shared `~/claude-skills/skills/<name>/SKILL.md`
 **Usage:** `python intake.py --skill container-build agentX/app.yaml` or `skill: k8s-deploy` in YAML config.
 **Impact:** Agent SDK harness can now leverage any of the 34 registry skills.
+
+### 811/811 Deployed — Pipeline 100% Complete (2026-05-03)
+**Decision:** Used direct build-fix worker dispatch (bypassing supervisor) to clear the final 20 NoBuildScript CRDs.
+**Context:** Autoloop cleared 728→791 (97.5%) in Round 1. Remaining 20 were NoBuildScript — repos existed on GitHub but contained only scaffold (bare `package.json` or `.gitignore`). These needed full code generation, not just build script fixes.
+**Approach:**
+1. Reset 20 NoBuildScript CRDs to `Failed` with descriptive errors: `"Repo {name} is empty scaffold. Generate full {AppName} ({Category}) app: React/Vite SPA with working build script, then push and build."`
+2. Dispatched build-fix workers directly per pipeline (no supervisor needed — scope was known)
+3. Batch 1: tech (8) + wasm (4) in parallel. Batch 2: cf (4) + ai (3) + mcp (1) in parallel
+4. Workers scaffolded full Next.js apps, fixed Tailwind v4/v3 mismatches, pinned deps, built, and deployed
+**Results:**
+- 20/20 fixed and deployed, $5.82 total (~$0.29/app), ~12 min wall time
+- Common issues: Tailwind v4 with v3 config, nonexistent `next@16`, missing build scripts, TypeScript 6 (nonexistent version)
+- All apps live and serving via CF tunnel: `https://{repo}.istayintek.com`
+**Key insight:** Build-fix agents handle code generation from scratch just as well as fixing existing code — the error message IS the prompt. Descriptive CRD error messages unlock the agents' full capability.
+**Cost model — full pipeline completion:**
+- Autoloop (728→791): ~$540 for 63 apps (~$8.57/app)
+- Build-fix direct (791→811): $5.82 for 20 apps (~$0.29/app)
+- Total: ~$546 for 83 apps fixed/generated across the entire run
