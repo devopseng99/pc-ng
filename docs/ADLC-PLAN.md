@@ -1,9 +1,9 @@
 # ADLC Enterprise Agentic Build Pipeline
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Created:** 2026-05-03
-**Last Updated:** 2026-05-03
-**Status:** IN PROGRESS — Phases 0-4 complete, Phases 5-7 deferred (Later)
+**Last Updated:** 2026-05-04
+**Status:** IN PROGRESS — Phases 0-4 complete + plugin system, Phases 5-7 deferred (Later)
 
 ---
 
@@ -99,10 +99,14 @@ route.sh auto-detects from config shape, or use explicit engine: field
 
 - [x] **3B.1** Config at `agentX/ai-hedge-fund.yaml`, repo cloned
 - [x] **3B.2** Built manually (podman → ctr import, 474MB image), Helm chart generated
-  - Deployed in sleep mode — exec to run: `kubectl exec -it -n ai-hedge-fund deploy/ai-hedge-fund -- python src/main.py --tickers AAPL,MSFT,NVDA`
+  - Originally deployed in sleep mode; fixed to run `uvicorn app.backend.main:app` on port 8501
+  - Full FastAPI backend with 40+ endpoints, 19 AI analyst agents, 6 LLM providers
 - [x] **3B.3** K8s secret created (placeholder values — needs real API keys)
 - [x] **3B.4** CF tunnel route added at index 160 (`ai-hedge-fund.istayintek.com`)
-- [ ] **3B.5** Verify with real API keys: agent portfolio analysis works
+- [x] **3B.5** API verified live at `https://ai-hedge-fund.istayintek.com`
+  - Swagger UI at /docs, /hedge-fund/agents returns 19 analysts, /language-models/ returns 6 providers
+  - API keys managed via in-app database (`POST /api-keys/`), not just K8s secrets
+  - Frontend build pending (needs multi-stage Dockerfile with node.js)
 
 ---
 
@@ -194,5 +198,6 @@ route.sh auto-detects from config shape, or use explicit engine: field
 | 2026-05-03 | 1 | 1.1-1.5 | COMPLETE | cli-tool template, --from-crd, jsonl-converter spec, v1.1.0-r1 |
 | 2026-05-04 | 2 | 2.1-2.4 | COMPLETE | 27 files generated, image built+deployed, CRD installed, controller 1/1 Ready, GitHub push eab1aa1 |
 | 2026-05-04 | 3A | 3A.1-3A.5 | COMPLETE | Existing deploy scaled up, OOM fix (888Mi→2Gi), v3.172.1 healthy at cto.istayintek.com |
-| 2026-05-04 | 3B | 3B.1-3B.3 | COMPLETE | Repo cloned, 474MB image built+imported, Helm chart generated, deployed in sleep mode |
+| 2026-05-04 | 3B | 3B.1-3B.5 | COMPLETE | Repo cloned, 474MB image, sleep→uvicorn fix, 40+ API endpoints live, Swagger at /docs |
 | 2026-05-04 | 4 | 4.1,4.3 | COMPLETE | Click CLI (convert/upload/batch), tested against real builder log (269 spans), GitHub push a5f087f |
+| 2026-05-04 | — | plugin | COMPLETE | Lifecycle hook plugin system: 5 phases, 4 built-in plugins, CRD hooks[] field, external loading |

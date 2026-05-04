@@ -322,6 +322,32 @@
 **Incident:** Phase 3B.4 (add CF tunnel route for ai-hedge-fund) was skipped during autonomous execution despite being a checked plan item. The app deployed but was unreachable until the route was manually added.
 **Rule:** Infrastructure steps (DNS, tunnel routes, secrets, health validation) are first-class plan items. "Deployed" means reachable-and-healthy, not just pods-running.
 
+### Agent-Intake-Controller Plugin System (2026-05-04)
+**Decision:** Added a lifecycle hook plugin system to the AgentIntake controller reconciler, with 5 hook phases and 4 built-in plugins.
+**Problem:** ai-hedge-fund deployed but returned 502 — the pod ran `sleep infinity` with placeholder API key secrets and no CF tunnel route. The controller reported `Ready` because pods were running, but the app was non-functional. The reconciler had no concept of app-specific requirements.
+**Architecture:**
+1. **CRD spec.hooks[]** — array of `{phase, plugin, config}` objects, declared per-CR
+2. **5 lifecycle phases** — `pre-build`, `post-build`, `pre-deploy`, `post-deploy`, `verify`
+3. **Plugin base class** — `HookPlugin` ABC with `execute()` method
+4. **Built-in plugins:**
+   - `secret-provisioner` — validates K8s secrets have real values (not placeholders) before deploy
+   - `http-health` — HTTP endpoint health check with retries (not just pod Ready)
+   - `tunnel-router` — CF tunnel route provisioning (insert before wildcard)
+   - `startup-command` — patch deployment command/args (replace sleep with actual app command)
+5. **External plugin loading** — `PLUGIN_DIR` env var points to ConfigMap-mounted directory; plugins expose `PLUGIN_NAME` + `PLUGIN_CLASS`
+**Impact:** Future intakes can declare hooks in the CR spec. Secret validation blocks deploy until keys are real. HTTP health blocks Ready until app responds. Tunnel routes are created automatically. No more "deployed but broken" states.
+
+### ai-hedge-fund Fixed — sleep→uvicorn (2026-05-04)
+**Decision:** Replaced `sleep infinity` with actual `uvicorn app.backend.main:app` command in ai-hedge-fund Helm chart.
+**Discovery:** The app has a full FastAPI backend (40+ endpoints, 19 AI analyst agents, 6 LLM providers) and a React/Vite frontend. The CLI mode (`src/main.py`) uses `questionary` (TTY-dependent), so the original deployment used sleep. But the app also has `/app/app/backend/` — a complete FastAPI web API.
+**Key endpoints verified live at `https://ai-hedge-fund.istayintek.com`:**
+- `GET /` → welcome, `GET /ping` → SSE stream, `GET /docs` → Swagger UI
+- `GET /hedge-fund/agents` → 19 analysts (Damodaran, Graham, Munger, Cathie Wood, Burry...)
+- `GET /language-models/` → 6 providers (Claude, GPT, Gemini, DeepSeek, Grok, Kimi)
+- `POST /hedge-fund/run` → run analysis, `POST /hedge-fund/backtest` → backtest strategies
+- `POST /api-keys/` → manage API keys via in-app database
+**Frontend:** React/Vite app exists but needs node.js to build (not in Python image). Swagger `/docs` serves as the interactive UI for now.
+
 ### 811/811 Deployed — Pipeline 100% Complete (2026-05-03)
 **Decision:** Used direct build-fix worker dispatch (bypassing supervisor) to clear the final 20 NoBuildScript CRDs.
 **Context:** Autoloop cleared 728→791 (97.5%) in Round 1. Remaining 20 were NoBuildScript — repos existed on GitHub but contained only scaffold (bare `package.json` or `.gitignore`). These needed full code generation, not just build script fixes.

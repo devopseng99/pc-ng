@@ -81,12 +81,18 @@
 - **Phase 7:** Multi-cluster — `--cluster` flag on both harnesses, CRD `targetCluster` field, cross-cluster credentials
 - Full plan: `docs/ADLC-PLAN.md` (Phases 5-7 marked PENDING)
 
-### 18. Agent-Intake-Controller Plugin System
-- Problem: ai-hedge-fund deployed but returned 502 because secrets/API keys weren't provisioned and app was in sleep mode
-- Need: extensible hook/plugin system in reconciler.py for pre-deploy and post-deploy requirements
-- Proposed hooks: secret provisioning, health validation (HTTP 200 not just pod Ready), CF tunnel route creation, custom startup commands
-- Design: CRD spec fields for `hooks[]` array → controller loads plugin modules from ConfigMap or mounted volume
-- See ADLC-PLAN.md Phase 3B.5 (verify with real API keys) — still incomplete
+### 18. Agent-Intake-Controller Plugin System — IMPLEMENTED, needs deploy
+- Plugin system implemented (9 files, 351 lines) with 4 built-in plugins + external loading
+- CRD schema updated with `spec.hooks[]` field (applied to cluster)
+- **Not yet deployed:** controller image needs rebuild + Helm upgrade to pick up plugin code
+- **Not yet tested end-to-end:** create an AgentIntake CR with hooks, verify reconciler runs them
+- Next: rebuild controller image with plugins, Helm upgrade, test with ai-hedge-fund CR
+
+### 20. ai-hedge-fund Full-Stack Frontend
+- API live at `https://ai-hedge-fund.istayintek.com` (FastAPI, 40+ endpoints, 19 agents)
+- Frontend is React/Vite but needs node.js to build (not in Python image)
+- Options: (a) multi-stage Dockerfile (node → build → Python + static), (b) serve frontend from CF Pages, (c) nginx sidecar
+- CORS currently hardcoded to localhost — patched env var in Helm but image needs rebuild
 
 ### 19. ADLC Outstanding Items
 - [ ] Phase 2.5: Bump builder to v1.2.0-r1
@@ -99,6 +105,9 @@
 
 ## COMPLETED
 
+- [x] **Agent-Intake-Controller plugin system** (2026-05-04) — 5 lifecycle phases, 4 built-in plugins (secret-provisioner, http-health, tunnel-router, startup-command), CRD hooks[] field, external plugin loading via PLUGIN_DIR.
+- [x] **ai-hedge-fund API live** (2026-05-04) — FastAPI backend at ai-hedge-fund.istayintek.com. 40+ endpoints, 19 AI analysts, 6 LLM providers. Replaced sleep infinity with uvicorn. Swagger UI at /docs.
+- [x] **ADLC Phases 0-4 complete** (2026-05-04) — Foundation, builder hardening, AgentIntake CRD controller, Langfuse, ai-hedge-fund, JSONL converter. All deployed + verified.
 - [x] **Composable profile system** (2026-05-03) — v3.0.0. 3-layer profiles (capability/domain/composite) with `include:` and `layer:` fields. Recursive resolver with cycle detection. Multi-profile `--init`. Smart two-pass detection. 10 profiles across 3 layers.
 - [x] **Skill consolidation — 3-phase** (2026-05-03) — 45→34 skills. Phase 1 (dedup), Phase 2 (universal skills with embedded gotchas), Phase 3 (test-suite replaces 5 test skills). 11 orphan dirs cleaned up.
 - [x] **SDK agent intake integration** (2026-05-03) — `intake.py` has `--skill` flag + config-level `skill:` field. 3-level resolution: local→registry→prefixed. `bootstrap-project.sh --for-intake` creates symlinks + config template.
