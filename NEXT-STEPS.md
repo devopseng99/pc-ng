@@ -75,6 +75,26 @@
 - Next: OpenFeature flags for per-pipeline agent A/B testing
 - Next: Langfuse self-hosted for trace/cost/prompt observability
 
+### 17. ADLC Remaining Phases (5-7)
+- **Phase 5:** OpenFeature flags — per-pipeline A/B testing of agent model/config (`agentX/openfeature.yaml`)
+- **Phase 6:** intake-hud.sh — real-time terminal HUD watching AgentIntake CRDs (phase progression, cost, session IDs)
+- **Phase 7:** Multi-cluster — `--cluster` flag on both harnesses, CRD `targetCluster` field, cross-cluster credentials
+- Full plan: `docs/ADLC-PLAN.md` (Phases 5-7 marked PENDING)
+
+### 18. Agent-Intake-Controller Plugin System
+- Problem: ai-hedge-fund deployed but returned 502 because secrets/API keys weren't provisioned and app was in sleep mode
+- Need: extensible hook/plugin system in reconciler.py for pre-deploy and post-deploy requirements
+- Proposed hooks: secret provisioning, health validation (HTTP 200 not just pod Ready), CF tunnel route creation, custom startup commands
+- Design: CRD spec fields for `hooks[]` array → controller loads plugin modules from ConfigMap or mounted volume
+- See ADLC-PLAN.md Phase 3B.5 (verify with real API keys) — still incomplete
+
+### 19. ADLC Outstanding Items
+- [ ] Phase 2.5: Bump builder to v1.2.0-r1
+- [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
+- [ ] Phase 3B.5: Verify ai-hedge-fund with real API keys
+- [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
+- [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible
+
 ---
 
 ## COMPLETED

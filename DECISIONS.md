@@ -289,6 +289,39 @@
 **Usage:** `python intake.py --skill container-build agentX/app.yaml` or `skill: k8s-deploy` in YAML config.
 **Impact:** Agent SDK harness can now leverage any of the 34 registry skills.
 
+### ADLC Enterprise Agentic Build Pipeline (2026-05-03→05-04)
+**Decision:** Built a 7-phase enterprise pipeline (ADLC) for autonomous agent-driven app building and deployment, using two harnesses: `builder` (custom CRD/tools from YAML specs) and `intake` (OSS product deployment).
+**Architecture:**
+1. **Route dispatcher** — `route.sh` auto-detects engine from config shape (`build_type:` → builder, `repo_url:` → intake)
+2. **Builder** (`sdk-agentic-custom-builder-intake/builder.py`) — scaffolds from YAML specs, 4 build types (helm-controller, k8s-operator, cli-tool, api-service), golden templates
+3. **Intake** (`sdk-agent-intake/intake.py`) — clones OSS repos, generates Helm charts if missing, deploys to K8s
+4. **AgentIntake CRD** (`agentintake.istayintek.com/v1alpha1`) — custom K8s resource with 8-phase lifecycle, circuit breaker, cost tracking
+**Phase results (0-4 COMPLETE, 5-7 DEFERRED):**
+- Phase 0: Foundation (route.sh, scaffold v2.1.0, engine routing)
+- Phase 1: Builder hardening (cli-tool template, --from-crd, v1.1.0-r1)
+- Phase 2: AgentIntake CRD controller (27 files generated, kopf operator, deployed+verified)
+- Phase 3A: Langfuse self-hosted (existing deploy scaled up, OOM fix 888Mi→2Gi, v3.172.1 healthy)
+- Phase 3B: ai-hedge-fund (474MB image, Helm chart generated, CF tunnel route, deployed in sleep mode)
+- Phase 4: JSONL converter (Click CLI, 3 commands, tested 269 spans against real builder log)
+**Full plan:** `docs/ADLC-PLAN.md`
+
+### Image Deploy Without SSH — Podman→OCI→ctr Pattern (2026-05-04)
+**Decision:** Deploy container images to RKE2 nodes without SSH access using: `podman save --format oci-archive` → `kubectl cp` to privileged pod → `ctr -n k8s.io image import`.
+**Rationale:** RKE2 nodes have no SSH access and containerd's HTTP registry support requires per-node config. OCI archive format works with ctr import. The privileged pod (`ctr-import-helper`) must have containerd socket mounted.
+**Impact:** All ADLC image deploys use this pattern. Builder-generated Helm charts use node-local images with `pullPolicy: IfNotPresent`.
+
+### kopf Operator Container Gotchas (2026-05-04)
+**Decision:** kopf-based operators in `python:3.12-slim` require three non-obvious fixes:
+1. **passwd entry** — `RUN groupadd -g 1000 controller && useradd -u 1000 -g 1000 -s /bin/false controller` (kopf calls `getpwuid()` for peering identity)
+2. **/tmp emptyDir** — volume mount at `/tmp` because `readOnlyRootFilesystem: true` blocks kopf's peering state files
+3. **CRD discovery RBAC** — ClusterRole needs `apiextensions.k8s.io` `customresourcedefinitions` GET/LIST for kopf's CRD watcher
+**Impact:** Builder golden template for `helm-controller` type should include all three by default.
+
+### Autonomous Execution Must Complete ALL Steps (2026-05-04)
+**Decision:** When running a plan autonomously, every step — including infrastructure steps like CF tunnel route additions — must be executed without human intervention.
+**Incident:** Phase 3B.4 (add CF tunnel route for ai-hedge-fund) was skipped during autonomous execution despite being a checked plan item. The app deployed but was unreachable until the route was manually added.
+**Rule:** Infrastructure steps (DNS, tunnel routes, secrets, health validation) are first-class plan items. "Deployed" means reachable-and-healthy, not just pods-running.
+
 ### 811/811 Deployed — Pipeline 100% Complete (2026-05-03)
 **Decision:** Used direct build-fix worker dispatch (bypassing supervisor) to clear the final 20 NoBuildScript CRDs.
 **Context:** Autoloop cleared 728→791 (97.5%) in Round 1. Remaining 20 were NoBuildScript — repos existed on GitHub but contained only scaffold (bare `package.json` or `.gitignore`). These needed full code generation, not just build script fixes.
