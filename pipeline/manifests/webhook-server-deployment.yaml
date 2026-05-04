@@ -1,0 +1,138 @@
+# ============================================================================
+# Webhook Server — Kubernetes Deployment + Service
+#
+# Deploys the GitHub webhook receiver as a lightweight pod in paperclip-v3.
+# The server listens on port 9090 and resets PaperclipBuild CRDs on push events.
+#
+# Prerequisites:
+#   1. Create the webhook secret:
+#      kubectl create secret generic webhook-secret -n paperclip-v3 \
+#        --from-literal=secret=YOUR_WEBHOOK_SECRET
+#
+#   2. Apply this manifest:
+#      kubectl apply -f pipeline/manifests/webhook-server-deployment.yaml
+#
+#   3. Configure CF tunnel route for webhooks.istayintek.com -> webhook-server:9090
+#
+# NOTE: Review before applying — this is a reference manifest, not auto-applied.
+# ============================================================================
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: webhook-server
+  namespace: paperclip-v3
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: webhook-server
+  namespace: paperclip-v3
+rules:
+  - apiGroups: ["paperclip.istayintek.com"]
+    resources: ["paperclipbuilds"]
+    verbs: ["get", "list", "patch"]
+  - apiGroups: ["paperclip.istayintek.com"]
+    resources: ["paperclipbuilds/status"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: webhook-server
+  namespace: paperclip-v3
+subjects:
+  - kind: ServiceAccount
+    name: webhook-server
+    namespace: paperclip-v3
+roleRef:
+  kind: Role
+  name: webhook-server
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webhook-server
+  namespace: paperclip-v3
+  labels:
+    app: webhook-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webhook-server
+  template:
+    metadata:
+      labels:
+        app: webhook-server
+    spec:
+      serviceAccountName: webhook-server
+      containers:
+        - name: webhook-server
+          image: python:3.11-slim
+          command:
+            - python3
+            - /app/webhook-server.py
+            - --port
+            - "9090"
+            - --secret-file
+            - /secrets/secret
+          ports:
+            - containerPort: 9090
+              name: http
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9090
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 9090
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          volumeMounts:
+            - name: app-code
+              mountPath: /app
+              readOnly: true
+            - name: webhook-secret
+              mountPath: /secrets
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: app-code
+          configMap:
+            name: webhook-server-code
+        - name: webhook-secret
+          secret:
+            secretName: webhook-secret
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webhook-server
+  namespace: paperclip-v3
+  labels:
+    app: webhook-server
+spec:
+  selector:
+    app: webhook-server
+  ports:
+    - port: 9090
+      targetPort: 9090
+      protocol: TCP
+      name: http
+  type: ClusterIP
