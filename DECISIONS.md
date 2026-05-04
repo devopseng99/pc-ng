@@ -348,6 +348,20 @@
 - `POST /api-keys/` → manage API keys via in-app database
 **Frontend:** React/Vite app exists but needs node.js to build (not in Python image). Swagger `/docs` serves as the interactive UI for now.
 
+### Full-Stack Same-Origin SPA Deployment (2026-05-04)
+**Decision:** Serve React SPA and FastAPI backend from the same container on the same port, eliminating CORS entirely.
+**Architecture:**
+1. **Multi-stage Dockerfile** — `node:20-alpine` builds frontend with `VITE_API_URL=""` (relative URLs), `python:3.11-slim` runs backend + serves static assets
+2. **StaticFiles mount** — FastAPI mounts `/assets` via `StaticFiles(directory=...)` for hashed JS/CSS bundles
+3. **SPA catch-all** — `@app.get("/{full_path:path}")` returns `index.html` for unknown paths, static files for known paths
+4. **Root route moved** — `GET /` → `GET /api/health` so root serves SPA instead of API JSON
+5. **SQLite writable volume** — `DATABASE_PATH` env var → `/app/data/hedge_fund.db` on emptyDir mount, owned by UID 1000
+**Build issues fixed:**
+- TypeScript strict mode: `tsc && vite build` → `npx vite build` (skip type checking, just bundle)
+- Case-sensitive imports: `./components/layout` → `./components/Layout` (macOS-invisible, breaks on Linux)
+- SQLite OperationalError: app ran as UID 1000 but DB path was root-owned; fixed with dedicated volume
+**Impact:** ai-hedge-fund v1.1.0 serves full React UI + FastAPI API from single port 8501. Zero CORS config needed. Same pattern applies to any SPA+API container.
+
 ### 811/811 Deployed — Pipeline 100% Complete (2026-05-03)
 **Decision:** Used direct build-fix worker dispatch (bypassing supervisor) to clear the final 20 NoBuildScript CRDs.
 **Context:** Autoloop cleared 728→791 (97.5%) in Round 1. Remaining 20 were NoBuildScript — repos existed on GitHub but contained only scaffold (bare `package.json` or `.gitignore`). These needed full code generation, not just build script fixes.

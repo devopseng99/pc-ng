@@ -88,16 +88,16 @@
 - **Not yet tested end-to-end:** create an AgentIntake CR with hooks, verify reconciler runs them
 - Next: rebuild controller image with plugins, Helm upgrade, test with ai-hedge-fund CR
 
-### 20. ai-hedge-fund Full-Stack Frontend
-- API live at `https://ai-hedge-fund.istayintek.com` (FastAPI, 40+ endpoints, 19 agents)
-- Frontend is React/Vite but needs node.js to build (not in Python image)
-- Options: (a) multi-stage Dockerfile (node → build → Python + static), (b) serve frontend from CF Pages, (c) nginx sidecar
-- CORS currently hardcoded to localhost — patched env var in Helm but image needs rebuild
+### 20. ~~ai-hedge-fund Full-Stack Frontend~~ — DONE
+- Full-stack same-origin deployment live at `https://ai-hedge-fund.istayintek.com` (v1.1.0)
+- Multi-stage Dockerfile: node builds React SPA → Python serves static + API on port 8501
+- Zero CORS — `VITE_API_URL=""` makes all API calls relative (same origin)
 
 ### 19. ADLC Outstanding Items
 - [ ] Phase 2.5: Bump builder to v1.2.0-r1
 - [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
-- [ ] Phase 3B.5: Verify ai-hedge-fund with real API keys
+- [x] Phase 3B.5: ai-hedge-fund full-stack SPA deployed (v1.1.0)
+- [ ] Phase 3B.6: Verify ai-hedge-fund with real API keys
 - [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
 - [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible
 
@@ -106,7 +106,7 @@
 ## COMPLETED
 
 - [x] **Agent-Intake-Controller plugin system** (2026-05-04) — 5 lifecycle phases, 4 built-in plugins (secret-provisioner, http-health, tunnel-router, startup-command), CRD hooks[] field, external plugin loading via PLUGIN_DIR.
-- [x] **ai-hedge-fund API live** (2026-05-04) — FastAPI backend at ai-hedge-fund.istayintek.com. 40+ endpoints, 19 AI analysts, 6 LLM providers. Replaced sleep infinity with uvicorn. Swagger UI at /docs.
+- [x] **ai-hedge-fund full-stack live** (2026-05-04) — React SPA + FastAPI API on same origin at ai-hedge-fund.istayintek.com. v1.1.0: multi-stage Dockerfile, zero CORS, 40+ endpoints, 19 AI analysts. Swagger at /docs, React UI at /.
 - [x] **ADLC Phases 0-4 complete** (2026-05-04) — Foundation, builder hardening, AgentIntake CRD controller, Langfuse, ai-hedge-fund, JSONL converter. All deployed + verified.
 - [x] **Composable profile system** (2026-05-03) — v3.0.0. 3-layer profiles (capability/domain/composite) with `include:` and `layer:` fields. Recursive resolver with cycle detection. Multi-profile `--init`. Smart two-pass detection. 10 profiles across 3 layers.
 - [x] **Skill consolidation — 3-phase** (2026-05-03) — 45→34 skills. Phase 1 (dedup), Phase 2 (universal skills with embedded gotchas), Phase 3 (test-suite replaces 5 test skills). 11 orphan dirs cleaned up.
