@@ -2,26 +2,19 @@
 
 ## URGENT (2026-05-03)
 
-### 1. Phase B for 16 Deploying Apps — AGENTS ACTIVE
-- invest-bots: 9 remaining (6 deployed, worker #6 completed $0.30)
-- v1: 3, cf: 1, deep-trade: 1, ecom: 2
-- Builds deploy to shared nginx (static-sites ns) — does NOT need pc/pc-v2 up
-- **Autonomous:** Dispatcher spawns workers from supervisor tasks. Re-run invest-bots worker for remaining 9.
+### 1. Phase A for 20 NoBuildScript Apps — ONLY REMAINING WORK
+- 20 NoBuildScript CRDs need Phase A codegen (not build fixes)
+- By pipeline: tech (8), wasm (4), cf (4), ai (3), mcp (1)
+- These apps have NO code on GitHub — need `phase-a-codegen.sh` or manual generation
 
-### 2. Build-Fix on 86 Failed — AGENTS ACTIVE
-- v1 build-fix worker #8 RUNNING (PID active, processing 5/34)
-- soa build-fix worker #7 RUNNING (PID active, processing 5/18)
-- Remaining: tech (17), api-jobs (8), cf (3), ai (2), crypto (1), retail (1), ecom (1), mcp (1)
-- Next supervisor run will pick up remaining pipelines
+### 2. Production Agentic Enablement
+- Autoloop proved autonomous agent orchestration works (9 rounds, 63 deploys, 0 human intervention)
+- Need to formalize as persistent infrastructure — see `docs/agentic-enablement-options.md`
+- Key decision: cron-triggered vs event-driven vs always-on daemon
 
-### 3. Host Resource Monitoring & Agent HUD
-- 12+ stale claude processes (Mar 30–Apr 25) consuming ~6.5GB RAM
-- /var/lib/rancher at 90% disk (45/50GB) — needs cleanup
-- Use `bash agents/hud.sh` for one-screen view of agents, resources, progress
-
-### 4. Phase A for 2 Pending + 20 NoBuildScript Apps
-- 2 Pending CRDs in v1 — long-name variant repos
-- 20 NoBuildScript: wasm (4), tech (8), ai (3), cf (4), mcp (1)
+### 3. Host Resource Cleanup
+- /var/lib/rancher at 90% disk (45/50GB) — needs stale session/log cleanup
+- Check for stale claude processes consuming RAM
 
 ---
 
@@ -39,16 +32,11 @@
 - Need: merge upstream fix → rebuild API image → set `LOAD_AT_STARTUP=true` → redeploy
 - **Managed in isolated pc-v7 session**
 
-### 8. SOA Pipeline Rework
-- 18/20 Failed (90%) — worst pipeline by far
-- Root cause: turbo-astro broken imports/missing output
-- Use build-fix-loop first before reworking prompts
+### 8. SOA + API-Jobs Pipelines — NOW 100% DEPLOYED
+- Both fully cleared by autoloop (soa 20/20, api-jobs 20/20)
+- No further action needed
 
-### 9. API-Jobs Pipeline Triage
-- 8/20 Failed (40%) — second worst
-- Run build-fix-loop first, then assess remaining failures
-
-### 10. Per-Pod Deploy Cleanup
+### 9. Per-Pod Deploy Cleanup
 - ~74 remaining per-pod deploys in paperclip namespace (all replicas=0, disabled)
 - Pattern: verify nginx has files → delete deploy+svc+tunnel → if no files, reset CRD to Deploying
 
@@ -71,10 +59,11 @@
 - 85 Failed + 20 NoBuildScript = 105 apps needing attention (13%)
 - Per-pipeline prompt tuning for problem categories (soa, api-jobs)
 
-### 14. Pipeline Monitoring Hardening
-- `agents/hud.sh` provides one-screen view (agents, resources, progress)
-- Formalize supervisor→dispatcher→worker loop as cron (currently manual)
-- Add alerting: Slack/email on worker completion or circuit breaker trips
+### 14. Pipeline Monitoring Hardening — AUTOLOOP PROVEN
+- `autoloop.sh` proved the full loop works autonomously (9 rounds, 87 min, 63 deploys)
+- Need: cron entry or systemd timer to run autoloop on schedule
+- Need: Slack/email notifications on round completion or circuit breaker trips
+- Need: persistent monitoring dashboard (showroom already has SSE infra)
 
 ### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
@@ -97,6 +86,7 @@
 - [x] **bootstrap-project.sh** (2026-05-03) — One-command onboarding. `--profile`, `--with-claude-md`, `--for-intake`, `--dry-run`. Generates manifests, CLAUDE.md, intake symlinks.
 - [x] **Versioned skill registry** (2026-05-02→05-03) — 34 skills in `devopseng99/claude-skills` at v3.0.0. `skill-sync.sh` (~1400 lines, 17+ flags). All 6 projects synced. `skill-analyze.sh` for reports.
 - [x] **pc-ng-v2 agent control plane** (2026-05-03) — Supervisor, dispatcher, build-fix agents. #N- session numbering, audit hooks, 365d retention. Dispatcher stdin-inheritance bug fixed.
+- [x] **Autoloop clears ALL actionable CRDs** (2026-05-03) — 9 rounds, ~87 min, fully autonomous. 728→791 Deployed (+63). 0 Pending, 0 Failed, 0 Deploying. 14 pipelines at 100%. Only 20 NoBuildScript remain.
 - [x] **First autonomous run** (2026-05-03) — Supervisor produced 3 tasks ($0.20). Dispatcher spawned 3 workers. invest-bots: 6/15 deployed ($0.30). soa + v1 fix workers active.
 - [x] **CF Pages cleanup** (2026-05-03) — Deleted 95 duplicate CF Pages projects (all had nginx equivalents). 5 remaining: sui, pc-showroom, tech-showroom + 2 beauty apps added as CRDs.
 - [x] **pc-v4 scaled up** (2026-05-03) — pc-v4 running (1/1 app + 1/1 PG, 336 companies). Ready for invest-bots Phase B.

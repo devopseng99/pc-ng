@@ -252,6 +252,26 @@
 **Rationale:** Human was implicit orchestrator across 4 projects (pc-ng, pc, pc-researcher, pc-v7), carrying context manually. This shifts to "human as reviewer" — agents propose, human approves. Based on patterns from Elastic (self-correcting CI), Anthropic (Agent Teams), Google (A2A), Arthur AI (ADLC).
 **Key principle:** Idempotent/ephemeral sessions — can be started, stopped, and restarted cleanly. Each session in a `#N-` prefix directory for ordered history.
 
+### Autoloop — Autonomous Build-Fix Until Clear (2026-05-03)
+**Decision:** Created `autoloop.sh` — a fully autonomous loop that runs supervisor→dispatcher→wait→repeat until all Pending/Failed CRDs are cleared.
+**Architecture:**
+1. `has_work()` checks if Pending+Failed > 0
+2. `run_supervisor()` invokes headless Claude ($10 budget) to analyze CRD state → produce task JSON
+3. `run_dispatcher()` spawns build-fix workers (headless Claude, $50 each, max-fixes=6)
+4. `wait_for_workers()` polls `ps aux | grep "claude -p"` every 15s until 0 active
+5. Loop repeats until `has_work()` returns false or max rounds reached
+**First full run results (2026-05-03):**
+- 9 rounds, ~87 minutes, fully autonomous
+- 728→791 Deployed (+63 apps), 89%→97.5%
+- Cleared ALL Pending (47→0), ALL Failed (1→0), ALL Deploying (16→0)
+- Only 20 NoBuildScript remain (need Phase A codegen, not build fixes)
+- Workers handled retries automatically — stubborn CRDs that failed early rounds succeeded on later attempts with fresh Claude sessions
+**Bugs fixed during run:**
+- `local` keyword outside function body (line 274) — bash rejects this, crashed after Round 1. Fix: remove `local`.
+- `local` in dispatcher.sh case block — same issue. Fix: remove `local`.
+- build-fix.sh only matched Failed phase — after resetting Failed→Pending, no CRDs found. Fix: TARGET_PHASES="Failed,Pending".
+**Key insight:** Fresh Claude sessions on the same CRD often succeed where prior attempts failed — different approach to the same error. The loop pattern is inherently self-healing.
+
 ### Dispatcher Stdin Fix & Worker Isolation (2026-05-03)
 **Decision:** Restructured dispatcher to use `mapfile` + `nohup`/`disown`/`< /dev/null` instead of `python3 | while read` piping.
 **Bug:** Background workers (`bash build-fix.sh &`) inherited stdin from the pipe, consuming lines meant for the `while IFS='|' read` loop. Only 1 of 3 tasks dispatched, and that worker died when the dispatcher exited.
