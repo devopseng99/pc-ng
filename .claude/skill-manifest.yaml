@@ -9,7 +9,7 @@
 #   ~/claude-skills/skill-sync.sh --list       # show available vs installed
 
 registry: https://github.com/devopseng99/claude-skills.git
-default_version: v2.0.1
+default_version: v3.0.0
 
 skills:
   pc-provision:
