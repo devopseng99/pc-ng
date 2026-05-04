@@ -348,6 +348,21 @@
 - `POST /api-keys/` → manage API keys via in-app database
 **Frontend:** React/Vite app exists but needs node.js to build (not in Python image). Swagger `/docs` serves as the interactive UI for now.
 
+### ADLC v2.0.0 — 14 Features via Parallel Autonomous Agents (2026-05-04)
+**Decision:** Implemented all remaining ADLC phases (5-7) plus 6 new platform capabilities in a single session using 6 parallel autonomous agents.
+**Scope:** 14 features, ~5,640 lines, 6 repos, all committed/tagged/released in one pass.
+**Architecture decisions embedded in this release:**
+1. **OpenFeature flags** — YAML-based, no server dependency. Deterministic SHA256 hashing for percentage bucketing (same app always gets same variant). Flag hierarchy: global → per-pipeline → CLI override.
+2. **Agent replay** — Extracts original config from JSONL history, resumes from failure point. Decoupled from live sessions — replay.py is a standalone tool.
+3. **Intake templates** — 10 golden configs (fastapi, nextjs, spring-boot, etc.) with `_template:` field for inheritance. Templates are defaults, not constraints — app config overrides everything.
+4. **CRD garbage collection** — kopf daemon (not per-CR timer) with file-lock dedup. Archives to monthly ConfigMaps, never touches active phases. Configurable via Helm values.
+5. **Self-healing pipeline** — Classifies failures into 7 types, triages by cost (cheapest fixes first). Quarantine after 3 failed attempts prevents infinite loops. Respects existing circuit breakers.
+6. **Webhook triggers** — stdlib HTTP server (no framework). HMAC signature verification mandatory. 5-minute debounce per repo prevents rapid-push spam. Only main/master branch pushes trigger rebuilds.
+7. **Multi-cluster** — ClusterContext class wraps kubectl/helm with cluster-specific flags. Cluster config is YAML, not code. Defaults to "local" so zero config change for existing single-cluster usage.
+8. **Showroom portfolio** — Read-only, no-auth API. Server-rendered HTML page (no React build step required for portfolio view). Screenshot URLs via thum.io with placeholder fallback.
+**Execution pattern:** 6 independent agents working in parallel on non-overlapping repos. Each agent received a self-contained brief with file paths, schema examples, and integration points. All 6 completed successfully (no retries, no conflicts).
+**Impact:** ADLC Phases 0-7 all COMPLETE. Platform has observability (HUD, cost tracking, audit logging), resilience (self-healing, GC), extensibility (templates, flags, multi-cluster, multi-tenant registry), and developer experience (replay, 112 tests, validation).
+
 ### Full-Stack Same-Origin SPA Deployment (2026-05-04)
 **Decision:** Serve React SPA and FastAPI backend from the same container on the same port, eliminating CORS entirely.
 **Architecture:**

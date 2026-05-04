@@ -68,12 +68,9 @@
 ### 15. CF Token Automation
 - Current token expires 2026-11-30 (`~/cf-token--expires-nov-30-2026`)
 
-### 16. SDK Agent Intake — ADLC Evolution
-- Repo live at `devopseng99/sdk-agent-intake` (private, 4 branches pushed)
-- Current: 30+ app configs, deploy-app-scaffold skill, intake.py harness v2.0.0
-- Next: compound versioning (prompt+model+schema tuple), expand-and-contract migrations
-- Next: OpenFeature flags for per-pipeline agent A/B testing
-- Next: Langfuse self-hosted for trace/cost/prompt observability
+### 16. ~~SDK Agent Intake — ADLC Evolution~~ — v2.2.0 RELEASED
+- OpenFeature flags, agent replay, intake templates, multi-cluster, audit logging all IMPLEMENTED
+- Remaining: compound versioning (prompt+model+schema tuple), expand-and-contract migrations
 
 ### 17. ~~ADLC Remaining Phases (5-7)~~ — DONE
 - **Phase 5:** OpenFeature flags — IMPLEMENTED (openfeature.py, `--flags`, `_flags.yaml`, deterministic A/B bucketing)
@@ -94,10 +91,9 @@
 - Zero CORS — `VITE_API_URL=""` makes all API calls relative (same origin)
 
 ### 19. ADLC Outstanding Items
-- [ ] Phase 2.5: Bump builder to v1.2.0-r1
-- [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
-- [x] Phase 2.5: Builder bumped to v1.2.0-r1 (multi-cluster, flags, tests)
+- [x] Phase 2.5: Builder bumped to v1.2.0-r1 (multi-cluster, flags, 112 tests)
 - [x] Phase 3B.5: ai-hedge-fund full-stack SPA deployed (v1.1.0)
+- [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
 - [ ] Phase 3B.6: Verify ai-hedge-fund with real API keys
 - [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
 - [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible

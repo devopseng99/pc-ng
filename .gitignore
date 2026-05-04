@@ -3,3 +3,4 @@
 *~
 .DS_Store
 .env.local
+pipeline/scripts/__pycache__/
