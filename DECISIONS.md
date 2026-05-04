@@ -394,3 +394,22 @@
 - Autoloop (728→791): ~$540 for 63 apps (~$8.57/app)
 - Build-fix direct (791→811): $5.82 for 20 apps (~$0.29/app)
 - Total: ~$546 for 83 apps fixed/generated across the entire run
+
+### Orcha-Master — Parallel Agent Orchestrator (2026-05-04)
+**Decision:** Built `orcha-master` as a standalone Python project to formalize the parallel agent dispatch pattern into a reusable orchestration framework.
+**Problem:** Every multi-agent session required manually constructing agent prompts, deciding parallel vs sequential, managing budget constraints, and tracking state across agents. The dispatch pattern was proven (14 features via 6 parallel agents) but ad-hoc.
+**Architecture:**
+1. **Work queue (YAML)** — Declarative task definitions with id, type, target, priority, budget, dependencies, tags, isolation mode
+2. **Classifier** — Routes tasks to agent types (general-purpose/Explore/Plan) and prompt templates based on task type + config routing table
+3. **Dispatcher** — Generates Claude Code `Agent()` call specs. Groups tasks by target hash to detect file conflicts — same-target tasks are sequenced, different-target tasks run in parallel
+4. **Tracker** — Persists task state (JSON) and event history (JSONL) with atomic file writes. Marks started/completed/failed/retrying/skipped/quarantined
+5. **Safety layer** — Budget enforcement (pre-dispatch), per-target circuit breakers (3 failures → open, 300s cooldown), emergency halt file
+6. **Reporter** — Rich terminal output: status tables, dispatch plans, event history, one-line summaries
+7. **CLI** — Click-based with 8 commands: run, plan, validate, status, history, halt, clear, reset
+**Key design choices:**
+- Templates use `{variable}` string substitution, not Jinja — zero extra deps
+- Partition key is SHA256 of target path — conflict detection without parsing git state
+- Circuit breaker state is per-target JSON files — survives process restarts
+- `--dry-run` shows the full dispatch plan without executing — safe preview
+**Repo:** `devopseng99/orcha-master` v1.0.0. 35 files, 2183 lines, 37 tests.
+**Impact:** Any future multi-agent sprint can be expressed as a YAML queue and dispatched with `orcha run queue.yaml`. The orcha-master output is paste-ready into a Claude Code session for immediate parallel execution.

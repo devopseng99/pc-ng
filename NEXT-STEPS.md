@@ -98,10 +98,20 @@
 - [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
 - [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible
 
+### 21. Orcha-Master — Integration & Evolution
+- [x] v1.0.0 built and pushed to devopseng99/orcha-master (2026-05-04)
+- [ ] Real-world integration test: run a multi-repo sprint through orcha → Claude Code
+- [ ] `orcha run` direct execution mode (spawn agents programmatically, not just generate instructions)
+- [ ] Hook into pc-ng-v2 dispatcher: replace ad-hoc supervisor→dispatcher with orcha queue format
+- [ ] Depends-on graph resolution (topological sort, not just partition-key sequencing)
+- [ ] Cost tracking post-execution (parse agent output for cost summaries)
+- [ ] GitHub Actions integration: trigger orcha dispatch from CI on label/comment
+
 ---
 
 ## COMPLETED
 
+- [x] **Orcha-Master v1.0.0** (2026-05-04) — Parallel agent orchestrator. YAML work queues → classifier → dispatcher → Claude Code agents. Budget enforcement, circuit breakers, conflict-aware batching, rich CLI. 35 files, 2183 lines, 37 tests. `devopseng99/orcha-master`.
 - [x] **ADLC v2.0.0 — 14 features** (2026-05-04) — OpenFeature flags, agent replay, intake templates (10), CRD garbage collection, intake-hud.sh, cost-report.sh, multi-cluster, 112 builder tests, self-healing pipeline, webhook triggers, showroom portfolio, audit logging, multi-tenant skill registry. 5,640 lines across 6 repos.
 - [x] **Agent-Intake-Controller plugin system** (2026-05-04) — 5 lifecycle phases, 4 built-in plugins (secret-provisioner, http-health, tunnel-router, startup-command), CRD hooks[] field, external plugin loading via PLUGIN_DIR.
 - [x] **ai-hedge-fund full-stack live** (2026-05-04) — React SPA + FastAPI API on same origin at ai-hedge-fund.istayintek.com. v1.1.0: multi-stage Dockerfile, zero CORS, 40+ endpoints, 19 AI analysts. Swagger at /docs, React UI at /.
