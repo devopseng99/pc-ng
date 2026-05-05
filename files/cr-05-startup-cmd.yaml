@@ -1,0 +1,17 @@
+# cr-05 — CLI tool with startup-command hook
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-startup-cmd
+  namespace: agent-intake
+spec:
+  appName: test-startup-cmd
+  buildType: cli-tool
+  specRef: "specs/test-startup-cmd.yaml"
+  repoUrl: https://github.com/devopseng99/test-startup-cmd
+  hooks:
+    - phase: post-deploy
+      plugin: startup-command
+      config:
+        command: "curl -sf http://localhost:8080/healthz"
+        timeout_seconds: 15

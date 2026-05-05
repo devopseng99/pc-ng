@@ -1,0 +1,30 @@
+# cr-06 — API service with multiple hooks (secret + health + tunnel)
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-multi-hook
+  namespace: agent-intake
+spec:
+  appName: test-multi-hook
+  buildType: api-service
+  specRef: "specs/test-multi-hook.yaml"
+  repoUrl: https://github.com/devopseng99/test-multi-hook
+  maxCostUsd: 15.0
+  hooks:
+    - phase: pre-build
+      plugin: secret-provisioner
+      config:
+        secrets:
+          - name: BUILD_TOKEN
+            valueFrom: test-build-token
+    - phase: post-deploy
+      plugin: http-health
+      config:
+        url: "https://test-multi-hook.istayintek.com"
+        expect_status: 200
+        timeout_seconds: 30
+    - phase: post-deploy
+      plugin: tunnel-router
+      config:
+        hostname: test-multi-hook.istayintek.com
+        service: http://nginx.paperclip-v3.svc:80

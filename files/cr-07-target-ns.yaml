@@ -1,0 +1,19 @@
+# cr-07 — Worker with targetNamespace override
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-target-ns
+  namespace: agent-intake
+spec:
+  appName: test-target-ns
+  buildType: worker
+  specRef: "specs/test-target-ns.yaml"
+  repoUrl: https://github.com/devopseng99/test-target-ns
+  targetNamespace: paperclip-v3
+  hooks:
+    - phase: verify
+      plugin: http-health
+      config:
+        url: "https://test-target-ns.istayintek.com/health"
+        expect_status: 200
+        timeout_seconds: 60

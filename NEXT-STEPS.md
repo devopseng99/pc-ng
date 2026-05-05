@@ -78,12 +78,14 @@
 - **Phase 7:** Multi-cluster — IMPLEMENTED (cluster.py, `--cluster`, `clusters.yaml`, CRD `spec.targetCluster`)
 - Full plan: `docs/ADLC-PLAN.md`
 
-### 18. ~~Agent-Intake-Controller — v1.2.0~~ — DEPLOYED
+### 18. ~~Agent-Intake-Controller~~ — v1.3.0 LIVE (real builds)
 - Plugin system: 5 lifecycle phases, 4 built-in plugins, CRD hooks[] field
 - CRD garbage collection: kopf daemon, configurable retention, monthly archive ConfigMaps
-- Multi-cluster: `spec.targetCluster` field with printer column
-- **DEPLOYED v1.2.0** (2026-05-04): PYTHONPATH fix committed, gc.py→garbage_collector.py rename, health checks 200
-- Next: production test with 10 AgentIntake CRs (full lifecycle: build→deploy→verify→GC)
+- **v1.3.0** (2026-05-05): `build_runner.py` wired — controller spawns `claude -p` subprocess, generates real code
+- Tested: Go API service generated (Dockerfile, Helm chart, K8s manifests, health probes, graceful shutdown)
+- **Constraint:** In-cluster pod lacks claude CLI; run locally until registry restored for image rebuild
+- Next: fix async status propagation (buildPid, buildCostUsd not reaching CRD); integrate with Langfuse tracing
+- 10 test CRs ready in `pc-ng/files/cr-*.yaml` (validated against real schema)
 
 ### 20. ~~ai-hedge-fund Full-Stack Frontend~~ — DONE
 - Full-stack same-origin deployment live at `https://ai-hedge-fund.istayintek.com` (v1.1.0)
@@ -111,6 +113,7 @@
 
 ## COMPLETED
 
+- [x] **Agent-Intake-Controller v1.3.0** (2026-05-05) — Real builds via claude subprocess. `build_runner.py` async manager, prompt construction from CRD spec, timer-based polling, phase detection from stream output. Tested end-to-end: CR → Go API service generated. `devopseng99/agent-intake-controller`.
 - [x] **Orcha-Master v1.1.0** (2026-05-04) — Added `orcha exec` direct execution (subprocess spawning, parallel/sequential, timeout/kill, stream-json parsing). 57 tests. Integration test validated. `devopseng99/orcha-master`.
 - [x] **Orcha-Master v1.0.0** (2026-05-04) — Parallel agent orchestrator. YAML work queues → classifier → dispatcher → Claude Code agents. Budget enforcement, circuit breakers, conflict-aware batching, rich CLI. 35 files, 2183 lines, 37 tests. `devopseng99/orcha-master`.
 - [x] **pc-ng-v2 v1.0.0** (2026-05-04) — Autonomous agent control plane pushed to `devopseng99/pc-ng-v2` (private). Supervisor, dispatcher, build-fix, autoloop, monitor.sh, notify.sh, systemd timer.

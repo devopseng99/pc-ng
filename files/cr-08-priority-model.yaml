@@ -1,0 +1,14 @@
+# cr-08 — CRD controller with priority + model override + budget
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-priority-model
+  namespace: agent-intake
+spec:
+  appName: test-priority-model
+  buildType: crd-controller
+  specRef: "specs/test-priority-model.yaml"
+  repoUrl: https://github.com/devopseng99/test-priority-model
+  priority: 1
+  model: claude-sonnet-4-6
+  maxCostUsd: 5.0

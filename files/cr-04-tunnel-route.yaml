@@ -1,0 +1,17 @@
+# cr-04 — API service with tunnel-router hook
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-tunnel-route
+  namespace: agent-intake
+spec:
+  appName: test-tunnel-route
+  buildType: api-service
+  specRef: "specs/test-tunnel-route.yaml"
+  repoUrl: https://github.com/devopseng99/test-tunnel-route
+  hooks:
+    - phase: post-deploy
+      plugin: tunnel-router
+      config:
+        hostname: test-tunnel-route.istayintek.com
+        service: http://nginx.paperclip-v3.svc:80

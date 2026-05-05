@@ -1,0 +1,18 @@
+# cr-02 — CRD controller build with health hook
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-crd-health
+  namespace: agent-intake
+spec:
+  appName: test-crd-health
+  buildType: crd-controller
+  specRef: "specs/test-crd-health.yaml"
+  repoUrl: https://github.com/devopseng99/test-crd-health
+  hooks:
+    - phase: post-deploy
+      plugin: http-health
+      config:
+        url: "https://test-crd-health.istayintek.com/healthz"
+        expect_status: 200
+        timeout_seconds: 30

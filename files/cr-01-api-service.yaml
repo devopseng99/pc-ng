@@ -1,0 +1,11 @@
+# cr-01 — Minimal api-service, no hooks
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-api-hello
+  namespace: agent-intake
+spec:
+  appName: test-api-hello
+  buildType: api-service
+  specRef: "specs/test-api-hello.yaml"
+  repoUrl: https://github.com/devopseng99/test-api-hello

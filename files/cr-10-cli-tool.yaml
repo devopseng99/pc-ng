@@ -1,0 +1,26 @@
+# cr-10 — CLI tool, high-budget, all optional fields populated
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-cli-full
+  namespace: agent-intake
+spec:
+  appName: test-cli-full
+  buildType: cli-tool
+  specRef: "specs/test-cli-full.yaml"
+  repoUrl: https://github.com/devopseng99/test-cli-full
+  targetNamespace: default
+  priority: 3
+  model: claude-sonnet-4-6
+  maxCostUsd: 20.0
+  hooks:
+    - phase: post-build
+      plugin: startup-command
+      config:
+        command: "test-cli-full --version"
+        timeout_seconds: 10
+    - phase: verify
+      plugin: startup-command
+      config:
+        command: "test-cli-full --health"
+        timeout_seconds: 10

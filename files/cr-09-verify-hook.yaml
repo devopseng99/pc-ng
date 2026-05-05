@@ -1,0 +1,41 @@
+# cr-09 — API service with verify-phase hook (tests full 5-phase lifecycle)
+apiVersion: agentintake.istayintek.com/v1alpha1
+kind: AgentIntake
+metadata:
+  name: test-verify-phase
+  namespace: agent-intake
+spec:
+  appName: test-verify-phase
+  buildType: api-service
+  specRef: "specs/test-verify-phase.yaml"
+  repoUrl: https://github.com/devopseng99/test-verify-phase
+  maxCostUsd: 8.0
+  hooks:
+    - phase: pre-build
+      plugin: secret-provisioner
+      config:
+        secrets:
+          - name: DB_URL
+            valueFrom: test-db-secret
+    - phase: post-build
+      plugin: startup-command
+      config:
+        command: "echo build-complete"
+        timeout_seconds: 5
+    - phase: pre-deploy
+      plugin: secret-provisioner
+      config:
+        secrets:
+          - name: DEPLOY_KEY
+            valueFrom: test-deploy-key
+    - phase: post-deploy
+      plugin: tunnel-router
+      config:
+        hostname: test-verify-phase.istayintek.com
+        service: http://nginx.paperclip-v3.svc:80
+    - phase: verify
+      plugin: http-health
+      config:
+        url: "https://test-verify-phase.istayintek.com"
+        expect_status: 200
+        timeout_seconds: 45

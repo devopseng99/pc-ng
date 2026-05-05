@@ -449,3 +449,17 @@
 **Decision:** Fixed `ImportError: cannot import name 'collect_garbage' from 'gc'` by adding `ENV PYTHONPATH=/app/controller` to Dockerfile.
 **Root cause:** kopf runs `controller/main.py` with WORKDIR=/app. The `gc_timer.py` imports from `garbage_collector.py` (a sibling file in `controller/`), but Python's module search path only includes `/app`, not `/app/controller`. The filename `gc.py` was also renamed to `garbage_collector.py` to avoid shadowing Python's built-in `gc` module.
 **Workaround for registry outage:** Local registry (192.168.29.147:5000) is down. Used `kubectl set env` to inject PYTHONPATH directly into the deployment spec without requiring image rebuild/push. The Dockerfile fix is committed for future builds.
+
+### Controller v1.3.0 — Real Build Execution via Claude Subprocess (2026-05-05)
+**Decision:** Wired `build_runner.py` into the controller reconciler so it actually spawns `claude -p` subprocesses to generate code, build containers, and deploy.
+**Architecture:**
+1. `build_runner.py` — async subprocess manager (asyncio.create_subprocess_exec)
+2. `build_prompt(spec)` — constructs prompt from CRD spec fields (buildType, specRef, repoUrl, constraints)
+3. Timer handler polls every 10s: `await proc.wait(timeout=0.5)` for process reaping, readline for stdout parsing
+4. Phase detection from stream-json output: keyword matching ("podman build" → Building, "helm upgrade" → Deploying)
+5. On completion: runs post-build/post-deploy/verify hooks, updates circuit breaker
+**CLI flags:** `--output-format stream-json --verbose --dangerously-skip-permissions --max-turns 100`
+**Tested:** CR applied → claude generated Go API service (main.go, Dockerfile, Helm chart, K8s manifests, probes, graceful shutdown) → phase reached Ready in ~2 min.
+**Constraint:** In-cluster pod lacks claude binary. Run locally with `PYTHONPATH=controller kopf run controller/main.py --namespace=agent-intake` until registry restored for image rebuild.
+**CRD schema (corrected):** Required: `appName`, `buildType` (enum: crd-controller, api-service, worker, cli-tool), `specRef`. Optional: `repoUrl`, `targetNamespace`, `hooks[]`, `priority`, `model`, `maxCostUsd`.
+**Impact:** The controller is no longer a stub — it executes real builds. The gap between CRD creation and working software is now closed (when running locally).
