@@ -411,5 +411,41 @@
 - Partition key is SHA256 of target path — conflict detection without parsing git state
 - Circuit breaker state is per-target JSON files — survives process restarts
 - `--dry-run` shows the full dispatch plan without executing — safe preview
-**Repo:** `devopseng99/orcha-master` v1.0.0. 35 files, 2183 lines, 37 tests.
-**Impact:** Any future multi-agent sprint can be expressed as a YAML queue and dispatched with `orcha run queue.yaml`. The orcha-master output is paste-ready into a Claude Code session for immediate parallel execution.
+**Repo:** `devopseng99/orcha-master` v1.1.0. 35+ files, 57 tests.
+**Impact:** Any future multi-agent sprint can be expressed as a YAML queue and dispatched with `orcha run queue.yaml` (paste-ready) or `orcha exec queue.yaml` (direct subprocess execution).
+
+### Orcha-Master v1.1.0 — Direct Execution Mode (2026-05-04)
+**Decision:** Added `orcha exec` command that spawns `claude -p` subprocesses directly, eliminating the human copy-paste step.
+**Architecture:**
+1. `executor.py` — Manages subprocess lifecycle (Popen, poll, timeout, kill)
+2. Sequential tasks (same-target group): executed one at a time via `communicate(timeout=...)`
+3. Parallel tasks (independent targets): spawned up to `--max-concurrent` with 0.5s poll loop
+4. Stream-json output parsing extracts cost_usd and result text from JSONL
+5. Circuit breaker updated on every success/failure; halt file checked each iteration
+**Impact:** Full autonomous loop: `orcha exec queues/sprint.yaml --watch` — dispatches, monitors, reports, all without human intervention.
+
+### Production Monitoring — Systemd Timer + Notifications (2026-05-04)
+**Decision:** Created a 30-minute systemd timer that checks pipeline CRD state and triggers autoloop if work exists, with Slack webhook notifications.
+**Architecture:**
+1. `monitor.sh` — Checks Pending+Failed counts, active workers, circuit breakers, halt file
+2. `notify.sh` — POSTs to `.webhook-url` if present (Slack JSON format), otherwise stdout
+3. `pipeline-monitor.timer` — 30min OnCalendar with 60s jitter, Persistent=true
+4. `autoloop.sh` updated — calls notify.sh at round completion and on breaker trips
+**Repo:** `devopseng99/pc-ng-v2` v1.0.0
+**Impact:** Pipeline failures are detected within 30 minutes and automatically remediated. Notifications go to Slack when configured.
+
+### Langfuse Tracing Integration (2026-05-04)
+**Decision:** Wired Langfuse observability into both the intake and builder harnesses, with graceful degradation when credentials are absent.
+**Architecture:**
+1. `langfuse_trace.py` — Shared wrapper class `LangfuseTracer` that checks `LANGFUSE_SECRET_KEY` at init
+2. If env var absent or `langfuse` package not installed → all methods are no-ops (zero cost)
+3. All Langfuse calls wrapped in try/except — tracing failures never crash build sessions
+4. Trace per session with session_id matching audit log for cross-referencing
+5. Spans per task; cost recorded as Langfuse generation observation with model+tokens
+**Credentials:** `LANGFUSE_SECRET_KEY=sk-lf-*`, `LANGFUSE_PUBLIC_KEY=pk-lf-local-claude-code`, `LANGFUSE_HOST=https://cto.istayintek.com`
+**Impact:** Build sessions emit traces to self-hosted Langfuse (project: claude-code). Enables cost analysis, latency tracking, and failure investigation across all agent runs.
+
+### Controller v1.2.0 Deployed — PYTHONPATH Fix (2026-05-04)
+**Decision:** Fixed `ImportError: cannot import name 'collect_garbage' from 'gc'` by adding `ENV PYTHONPATH=/app/controller` to Dockerfile.
+**Root cause:** kopf runs `controller/main.py` with WORKDIR=/app. The `gc_timer.py` imports from `garbage_collector.py` (a sibling file in `controller/`), but Python's module search path only includes `/app`, not `/app/controller`. The filename `gc.py` was also renamed to `garbage_collector.py` to avoid shadowing Python's built-in `gc` module.
+**Workaround for registry outage:** Local registry (192.168.29.147:5000) is down. Used `kubectl set env` to inject PYTHONPATH directly into the deployment spec without requiring image rebuild/push. The Dockerfile fix is committed for future builds.

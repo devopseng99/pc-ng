@@ -78,12 +78,12 @@
 - **Phase 7:** Multi-cluster — IMPLEMENTED (cluster.py, `--cluster`, `clusters.yaml`, CRD `spec.targetCluster`)
 - Full plan: `docs/ADLC-PLAN.md`
 
-### 18. Agent-Intake-Controller — v1.2.0 (plugin system + GC + targetCluster)
+### 18. ~~Agent-Intake-Controller — v1.2.0~~ — DEPLOYED
 - Plugin system: 5 lifecycle phases, 4 built-in plugins, CRD hooks[] field
 - CRD garbage collection: kopf daemon, configurable retention, monthly archive ConfigMaps
 - Multi-cluster: `spec.targetCluster` field with printer column
-- **Not yet deployed:** controller image needs rebuild + Helm upgrade
-- Next: rebuild image, Helm upgrade, test end-to-end with hooks + GC
+- **DEPLOYED v1.2.0** (2026-05-04): PYTHONPATH fix committed, gc.py→garbage_collector.py rename, health checks 200
+- Next: production test with 10 AgentIntake CRs (full lifecycle: build→deploy→verify→GC)
 
 ### 20. ~~ai-hedge-fund Full-Stack Frontend~~ — DONE
 - Full-stack same-origin deployment live at `https://ai-hedge-fund.istayintek.com` (v1.1.0)
@@ -93,25 +93,28 @@
 ### 19. ADLC Outstanding Items
 - [x] Phase 2.5: Builder bumped to v1.2.0-r1 (multi-cluster, flags, 112 tests)
 - [x] Phase 3B.5: ai-hedge-fund full-stack SPA deployed (v1.1.0)
-- [ ] Phase 3A.4: Configure Langfuse API keys for builder.py and intake.py integration
+- [~] Phase 3A.4: LangfuseTracer module wired into builder.py + intake.py, .env.langfuse created — **need to verify traces in UI**
 - [ ] Phase 3B.6: Verify ai-hedge-fund with real API keys
-- [ ] Phase 4.2: Wire post-build hook into builder.py and intake.py
-- [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible
+- [~] Phase 4.2: Post-build hook wired (langfuse_trace.py shared module) — **need env vars injected into running pods**
+- [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible at https://cto.istayintek.com
 
 ### 21. Orcha-Master — Integration & Evolution
 - [x] v1.0.0 built and pushed to devopseng99/orcha-master (2026-05-04)
-- [ ] Real-world integration test: run a multi-repo sprint through orcha → Claude Code
-- [ ] `orcha run` direct execution mode (spawn agents programmatically, not just generate instructions)
+- [x] v1.1.0 released (2026-05-04): `orcha exec` direct execution mode — spawns claude subprocesses, parallel/sequential, timeout/kill, stream-json cost parsing, 57 tests
+- [x] Real-world integration test: multi-repo queue validated (conflict detection, filtering, partition-key sequencing)
 - [ ] Hook into pc-ng-v2 dispatcher: replace ad-hoc supervisor→dispatcher with orcha queue format
-- [ ] Depends-on graph resolution (topological sort, not just partition-key sequencing)
-- [ ] Cost tracking post-execution (parse agent output for cost summaries)
+- [ ] v1.2.0: Depends-on graph resolution (topological sort, not just partition-key sequencing)
+- [ ] v1.2.0: Cost tracking post-execution (aggregate per-task costs into reports + budget ledger)
 - [ ] GitHub Actions integration: trigger orcha dispatch from CI on label/comment
 
 ---
 
 ## COMPLETED
 
+- [x] **Orcha-Master v1.1.0** (2026-05-04) — Added `orcha exec` direct execution (subprocess spawning, parallel/sequential, timeout/kill, stream-json parsing). 57 tests. Integration test validated. `devopseng99/orcha-master`.
 - [x] **Orcha-Master v1.0.0** (2026-05-04) — Parallel agent orchestrator. YAML work queues → classifier → dispatcher → Claude Code agents. Budget enforcement, circuit breakers, conflict-aware batching, rich CLI. 35 files, 2183 lines, 37 tests. `devopseng99/orcha-master`.
+- [x] **pc-ng-v2 v1.0.0** (2026-05-04) — Autonomous agent control plane pushed to `devopseng99/pc-ng-v2` (private). Supervisor, dispatcher, build-fix, autoloop, monitor.sh, notify.sh, systemd timer.
+- [x] **Production monitoring** (2026-05-04) — monitor.sh (CRD state check), notify.sh (Slack webhook), systemd user timer (30min), autoloop notifications.
 - [x] **ADLC v2.0.0 — 14 features** (2026-05-04) — OpenFeature flags, agent replay, intake templates (10), CRD garbage collection, intake-hud.sh, cost-report.sh, multi-cluster, 112 builder tests, self-healing pipeline, webhook triggers, showroom portfolio, audit logging, multi-tenant skill registry. 5,640 lines across 6 repos.
 - [x] **Agent-Intake-Controller plugin system** (2026-05-04) — 5 lifecycle phases, 4 built-in plugins (secret-provisioner, http-health, tunnel-router, startup-command), CRD hooks[] field, external plugin loading via PLUGIN_DIR.
 - [x] **ai-hedge-fund full-stack live** (2026-05-04) — React SPA + FastAPI API on same origin at ai-hedge-fund.istayintek.com. v1.1.0: multi-stage Dockerfile, zero CORS, 40+ endpoints, 19 AI analysts. Swagger at /docs, React UI at /.
