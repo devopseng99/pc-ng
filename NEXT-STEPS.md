@@ -70,6 +70,8 @@
 
 ### 16. ~~SDK Agent Intake — ADLC Evolution~~ — v2.2.0 RELEASED
 - OpenFeature flags, agent replay, intake templates, multi-cluster, audit logging all IMPLEMENTED
+- v2.2.0: External chart search, pod resilience (5 iterations), browser verify, Bitnami legacy defaults
+- OpenHands deployed successfully via v2.2.0 ($3.00, 22 min, 6/6 pods, community chart discovered)
 - Remaining: compound versioning (prompt+model+schema tuple), expand-and-contract migrations
 
 ### 17. ~~ADLC Remaining Phases (5-7)~~ — DONE
@@ -100,6 +102,16 @@
 - [~] Phase 4.2: Post-build hook wired (langfuse_trace.py shared module) — **need env vars injected into running pods**
 - [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible at https://cto.istayintek.com
 
+### 22. SDK Agent Intake — Playwright Browser Validation
+- Playwright server LIVE in-cluster: `playwright-server.playwright.svc.cluster.local:3002/mcp` (21d uptime)
+- `taxoptics-browse` skill provides working pattern (navigate, screenshot, click, fill, run JS)
+- **Plan:** Enhance Task 17 with optional Playwright verification when MCP endpoint reachable
+  - Navigate to app URL → screenshot → verify login form → attempt sign-in → report pass/fail
+  - Output eval report: JSON with screenshots, assertions, timing, pass/fail per check
+  - Graceful degradation: falls back to existing curl-based check if Playwright unreachable
+- Skill needed: `browser-verify` (universal, capability layer) — wraps Playwright MCP for any deploy verification
+- Depends on: MCP tool availability in claude subprocess (--mcp-config flag)
+
 ### 21. Orcha-Master — Integration & Evolution
 - [x] v1.0.0 built and pushed to devopseng99/orcha-master (2026-05-04)
 - [x] v1.1.0 released (2026-05-04): `orcha exec` direct execution mode — spawns claude subprocesses, parallel/sequential, timeout/kill, stream-json cost parsing, 57 tests
@@ -113,6 +125,8 @@
 
 ## COMPLETED
 
+- [x] **SDK Agent Intake v2.2.0** (2026-05-05) — External chart search (GitHub org + Artifact Hub), pod failure resilience (5 iterations, never BLOCKED early), browser verification, Bitnami legacy defaults. Validated with OpenHands: $3.00, 22 min, 6/6 pods, community chart discovered. `devopseng99/sdk-agent-intake` branch PIT-003.
+- [x] **OpenHands deployed** (2026-05-05) — Full-stack AI coding platform at `openhands.istayintek.com`. Community chart from `All-Hands-AI/OpenHands-Cloud`, keycloak/litellm/runtime-api disabled. 6 pods running, CF tunnel routed.
 - [x] **Agent-Intake-Controller v1.3.0** (2026-05-05) — Real builds via claude subprocess. `build_runner.py` async manager, prompt construction from CRD spec, timer-based polling, phase detection from stream output. Tested end-to-end: CR → Go API service generated. `devopseng99/agent-intake-controller`.
 - [x] **Orcha-Master v1.1.0** (2026-05-04) — Added `orcha exec` direct execution (subprocess spawning, parallel/sequential, timeout/kill, stream-json parsing). 57 tests. Integration test validated. `devopseng99/orcha-master`.
 - [x] **Orcha-Master v1.0.0** (2026-05-04) — Parallel agent orchestrator. YAML work queues → classifier → dispatcher → Claude Code agents. Budget enforcement, circuit breakers, conflict-aware batching, rich CLI. 35 files, 2183 lines, 37 tests. `devopseng99/orcha-master`.

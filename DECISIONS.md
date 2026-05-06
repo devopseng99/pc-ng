@@ -450,6 +450,18 @@
 **Root cause:** kopf runs `controller/main.py` with WORKDIR=/app. The `gc_timer.py` imports from `garbage_collector.py` (a sibling file in `controller/`), but Python's module search path only includes `/app`, not `/app/controller`. The filename `gc.py` was also renamed to `garbage_collector.py` to avoid shadowing Python's built-in `gc` module.
 **Workaround for registry outage:** Local registry (192.168.29.147:5000) is down. Used `kubectl set env` to inject PYTHONPATH directly into the deployment spec without requiring image rebuild/push. The Dockerfile fix is committed for future builds.
 
+### SDK Agent Intake v2.2.0 — External Chart Search + Resilience (2026-05-05)
+**Decision:** Upgraded sdk-agent-intake from v2.1.0 (16 tasks) to v2.2.0 (17 tasks) after OpenHands deploy failure proved that generating charts from scratch for apps with dedicated helm repos wastes $6+ in iterative fixing.
+**Architecture:**
+1. **Task 4 — External chart search:** Searches GitHub org (suffixes: -Cloud, -helm, -charts, -deploy, -k8s) + Artifact Hub API before generating charts from scratch
+2. **Task 14 — Pod failure resilience:** 5 fix iterations (ImagePullBackOff → bitnamilegacy/, CrashLoop → logs+config, Pending → wait DiskPressure). NEVER reports BLOCKED until 3+ iterations attempted.
+3. **Task 17c — Browser verification:** curl-based UI render check (title tag, login page, HTML content) for post-deploy validation
+4. **Bitnami defaults:** `bitnamilegacy/` images + `charts.bitnami.com` (non-OCI) to avoid tag expiration
+5. **Postgres:** Always `listen_addresses = '*'` in generated config
+**Validation:** OpenHands re-deployed via v2.2.0 — $3.00, 22 min, 6/6 pods Running, HTTP 200. Community chart discovered at `All-Hands-AI/OpenHands-Cloud`, disabled keycloak/litellm/runtime-api subcharts.
+**Strategic:** Decided AGAINST shared postgres/redis skills — schema coupling between community charts and shared DBs creates fragile dependencies. Use chart-native subcharts with environment overrides instead.
+**Impact:** Cost went from $2.14 (0% success, v2.1.0 generated chart) to $3.00 (100% success, v2.2.0 with community chart discovery). The resilience loop ensures future deploys iterate through failures rather than giving up.
+
 ### Controller v1.3.0 — Real Build Execution via Claude Subprocess (2026-05-05)
 **Decision:** Wired `build_runner.py` into the controller reconciler so it actually spawns `claude -p` subprocesses to generate code, build containers, and deploy.
 **Architecture:**
