@@ -102,15 +102,13 @@
 - [~] Phase 4.2: Post-build hook wired (langfuse_trace.py shared module) — **need env vars injected into running pods**
 - [ ] Phase 4.3: Verify JSONL converter → Langfuse trace visible at https://cto.istayintek.com
 
-### 22. SDK Agent Intake — Playwright Browser Validation
-- Playwright server LIVE in-cluster: `playwright-server.playwright.svc.cluster.local:3002/mcp` (21d uptime)
-- `taxoptics-browse` skill provides working pattern (navigate, screenshot, click, fill, run JS)
-- **Plan:** Enhance Task 17 with optional Playwright verification when MCP endpoint reachable
-  - Navigate to app URL → screenshot → verify login form → attempt sign-in → report pass/fail
-  - Output eval report: JSON with screenshots, assertions, timing, pass/fail per check
-  - Graceful degradation: falls back to existing curl-based check if Playwright unreachable
-- Skill needed: `browser-verify` (universal, capability layer) — wraps Playwright MCP for any deploy verification
-- Depends on: MCP tool availability in claude subprocess (--mcp-config flag)
+### 22. ~~SDK Agent Intake — Playwright Browser Validation~~ — v2.3.0 RELEASED
+- `browser-verify` skill created (universal, capability layer) — wraps Playwright MCP via kubectl exec
+- Task 17d: Playwright deep verification integrated into scaffold skill
+- `--browser-verify` CLI flag + `BROWSER_VERIFY` env var for opt-in
+- JSON eval report: checks, screenshots, timing, pass/fail
+- Validated against OpenHands: 7/7 checks PASS, screenshot captured
+- **Remaining:** GitHub App setup for OpenHands (to get past identity provider setup screen → coding workspace)
 
 ### 21. Orcha-Master — Integration & Evolution
 - [x] v1.0.0 built and pushed to devopseng99/orcha-master (2026-05-04)
@@ -125,6 +123,8 @@
 
 ## COMPLETED
 
+- [x] **SDK Agent Intake v2.3.0** (2026-05-06) — Playwright browser verification (Task 17d), `--browser-verify` CLI flag, kubectl exec MCP transport, JSON eval reports with screenshots. OpenHands: 7/7 checks PASS. `devopseng99/sdk-agent-intake` tag v2.3.0.
+- [x] **browser-verify skill** (2026-05-06) — Universal Playwright MCP skill in `devopseng99/claude-skills`. kubectl exec transport, 15 tools, eval report format. Added to `container-ops` profile (now 3 skills).
 - [x] **SDK Agent Intake v2.2.0** (2026-05-05) — External chart search (GitHub org + Artifact Hub), pod failure resilience (5 iterations, never BLOCKED early), browser verification, Bitnami legacy defaults. Validated with OpenHands: $3.00, 22 min, 6/6 pods, community chart discovered. `devopseng99/sdk-agent-intake` branch PIT-003.
 - [x] **OpenHands deployed** (2026-05-05) — Full-stack AI coding platform at `openhands.istayintek.com`. Community chart from `All-Hands-AI/OpenHands-Cloud`, keycloak/litellm/runtime-api disabled. 6 pods running, CF tunnel routed.
 - [x] **Agent-Intake-Controller v1.3.0** (2026-05-05) — Real builds via claude subprocess. `build_runner.py` async manager, prompt construction from CRD spec, timer-based polling, phase detection from stream output. Tested end-to-end: CR → Go API service generated. `devopseng99/agent-intake-controller`.

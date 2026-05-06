@@ -450,6 +450,18 @@
 **Root cause:** kopf runs `controller/main.py` with WORKDIR=/app. The `gc_timer.py` imports from `garbage_collector.py` (a sibling file in `controller/`), but Python's module search path only includes `/app`, not `/app/controller`. The filename `gc.py` was also renamed to `garbage_collector.py` to avoid shadowing Python's built-in `gc` module.
 **Workaround for registry outage:** Local registry (192.168.29.147:5000) is down. Used `kubectl set env` to inject PYTHONPATH directly into the deployment spec without requiring image rebuild/push. The Dockerfile fix is committed for future builds.
 
+### SDK Agent Intake v2.3.0 — Playwright Browser Verification (2026-05-06)
+**Decision:** Added Playwright-based deep browser verification to sdk-agent-intake as Task 17d, using curl-based MCP calls via `kubectl exec` transport (pod IPs not routable from host).
+**Architecture:**
+1. `kubectl exec -n playwright deploy/playwright-server -- curl localhost:3002/mcp` as transport layer
+2. MCP session init → navigate → wait for SPA hydration → get_text → evaluate JS → screenshot → report
+3. JSON eval report: `{url, checks[{name,pass,detail}], summary, total_ms}` written to `/tmp/verify-<APP>-report.json`
+4. Graceful degradation: checks if Playwright pod is 1/1 Running before attempting; falls back to curl-only verification
+5. `--browser-verify` CLI flag + `BROWSER_VERIFY=true` env var for opt-in (not run by default)
+**Skill:** `browser-verify` added to `devopseng99/claude-skills` (35th skill, universal/capability layer, in `container-ops` profile)
+**Validation:** OpenHands verified — 7/7 checks PASS (page_loads, title_present, ui_renders, interactive_elements, screenshot, no_error_pages, spa_hydration). Screenshot captured showing React SPA with "Let's get started" setup page.
+**Impact:** Deploy verification now covers JavaScript-rendered SPAs that return blank HTML to curl. Screenshots provide visual evidence of successful deployment.
+
 ### SDK Agent Intake v2.2.0 — External Chart Search + Resilience (2026-05-05)
 **Decision:** Upgraded sdk-agent-intake from v2.1.0 (16 tasks) to v2.2.0 (17 tasks) after OpenHands deploy failure proved that generating charts from scratch for apps with dedicated helm repos wastes $6+ in iterative fixing.
 **Architecture:**
