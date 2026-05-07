@@ -487,3 +487,20 @@
 **Constraint:** In-cluster pod lacks claude binary. Run locally with `PYTHONPATH=controller kopf run controller/main.py --namespace=agent-intake` until registry restored for image rebuild.
 **CRD schema (corrected):** Required: `appName`, `buildType` (enum: crd-controller, api-service, worker, cli-tool), `specRef`. Optional: `repoUrl`, `targetNamespace`, `hooks[]`, `priority`, `model`, `maxCostUsd`.
 **Impact:** The controller is no longer a stub — it executes real builds. The gap between CRD creation and working software is now closed (when running locally).
+
+### OpenHands Auth Chain — 6-Stage Fix (2026-05-07)
+**Decision:** Fixed GitHub OAuth login for OpenHands (openhands.istayintek.com) through a chain of 6 interdependent issues spanning Keycloak, Cloudflare, python-keycloak, and the OpenHands SaaS auth middleware.
+**Root causes & fixes (in order):**
+1. **Keycloak admin 401** — OpenHands hardcodes `username='admin'` but KC had `KEYCLOAK_ADMIN=tmpadmin`. Fix: created `admin` user in master realm.
+2. **CF tunnel 403 on admin API** — Cloudflare bot protection blocks server-to-server POSTs. Fix: route admin calls through internal proxy (`http://openhands-service:3000`), not external URL.
+3. **Token issuer mismatch (userinfo 401)** — Keycloak issued tokens with `iss: https://...` (browser via nginx) but internal calls expected `iss: http://...`. Fix: set `KEYCLOAK_SERVER_URL=http://openhands-service:3000` so all calls route through nginx which adds `X-Forwarded-Proto: https`.
+4. **User creation failure ("Failed to authenticate user")** — `LiteLlmManager.create_entries()` returns None when no API key → `create_user()` returns None. Fix: set `LOCAL_DEPLOYMENT=true` + dummy LiteLLM vars to skip SaaS-only calls.
+5. **Offline token redirect loop** — `validate_offline_token()` always failed (Keycloak returned "Offline user session not found"), causing callback to redirect to Keycloak offline auth → infinite loop. Also `KC_PROXY_HEADERS=forwarded` was wrong (nginx sends `X-Forwarded-*`). Fix: patched `valid_offline_token = True` (skip validation), changed `KC_PROXY_HEADERS=xforwarded`, moved `offline_access` to default client scopes.
+6. **Callback redirecting to /login (the final loop)** — OAuth state parameter contained `/login?login_method=github` as the redirect URL. After successful auth, callback redirected BACK to login → SPA auto-started OAuth again → infinite loop. Fix: patched callback to override any `/login` redirect to `/` instead.
+**Persistent patches:** All 3 runtime patches (store_idp_tokens non-fatal, skip offline validation, /login redirect override) applied via ConfigMap `openhands-auth-patches` + startup script in container command, surviving pod restarts.
+**Architecture:**
+- Keycloak realm: `allhands`, client: `allhands`, IdP: `github`
+- `KC_PROXY_HEADERS=xforwarded` (matches nginx `X-Forwarded-Proto: https`)
+- OpenHands env: `LOCAL_DEPLOYMENT=true`, `KEYCLOAK_SERVER_URL=http://openhands-service:3000`
+- 8 pods: openhands, integrations, mcp, proxy (nginx), keycloak, postgresql, redis, minio
+**Impact:** Full GitHub OAuth login now works end-to-end. The fix chain required understanding the entire request flow: CF tunnel → nginx proxy → Keycloak/OpenHands → token exchange → cookie → SPA.

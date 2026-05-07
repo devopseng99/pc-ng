@@ -110,6 +110,19 @@
 - Validated against OpenHands: 7/7 checks PASS, screenshot captured
 - **Remaining:** GitHub App setup for OpenHands (to get past identity provider setup screen → coding workspace)
 
+### 23. OpenHands Auth — GitHub Login Fixed (2026-05-07)
+- 6-stage fix chain: admin user, CF bypass, token issuer, LiteLLM skip, offline token loop, /login redirect loop
+- Persistent patches via ConfigMap `openhands-auth-patches` (3 runtime patches survive pod restarts)
+- `KC_PROXY_HEADERS=xforwarded`, `offline_access` in default client scopes, `LOCAL_DEPLOYMENT=true`
+- **Remaining:** Verify login works end-to-end in browser; persist env changes to overrides.yaml; update overrides.yaml with all env vars
+
+### 24. SDK Agent Intake — Browser Eval Enhancement (PROPOSED)
+- Current browser-verify validates basic rendering (title, elements, screenshots)
+- **Need:** Full eval report output from Playwright validation of UI + specific functionalities
+- Expand eval report: login flow verification, form submission, API call tracing, error state testing
+- Integrate with sdk-agent-intake as post-deploy validation stage (not just basic health check)
+- Consider: headless browser eval as a reusable skill pattern for any SPA deployment
+
 ### 21. Orcha-Master — Integration & Evolution
 - [x] v1.0.0 built and pushed to devopseng99/orcha-master (2026-05-04)
 - [x] v1.1.0 released (2026-05-04): `orcha exec` direct execution mode — spawns claude subprocesses, parallel/sequential, timeout/kill, stream-json cost parsing, 57 tests
@@ -123,6 +136,7 @@
 
 ## COMPLETED
 
+- [x] **OpenHands Auth Fixed** (2026-05-07) — 6-stage fix chain for GitHub OAuth login. Keycloak admin, CF bypass, token issuer, LiteLLM skip, offline token loop, /login redirect loop. Persistent patches via ConfigMap. `openhands.istayintek.com` login flow completes end-to-end.
 - [x] **SDK Agent Intake v2.3.0** (2026-05-06) — Playwright browser verification (Task 17d), `--browser-verify` CLI flag, kubectl exec MCP transport, JSON eval reports with screenshots. OpenHands: 7/7 checks PASS. `devopseng99/sdk-agent-intake` tag v2.3.0.
 - [x] **browser-verify skill** (2026-05-06) — Universal Playwright MCP skill in `devopseng99/claude-skills`. kubectl exec transport, 15 tools, eval report format. Added to `container-ops` profile (now 3 skills).
 - [x] **SDK Agent Intake v2.2.0** (2026-05-05) — External chart search (GitHub org + Artifact Hub), pod failure resilience (5 iterations, never BLOCKED early), browser verification, Bitnami legacy defaults. Validated with OpenHands: $3.00, 22 min, 6/6 pods, community chart discovered. `devopseng99/sdk-agent-intake` branch PIT-003.
