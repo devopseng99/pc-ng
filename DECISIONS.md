@@ -516,3 +516,14 @@
 - `manifests/` — Exported all K8s resources (keycloak, proxy, auth-patches ConfigMap)
 - `overrides.yaml` updated with LOCAL_DEPLOYMENT, LITE_LLM_API_KEY, LITE_LLM_API_URL
 **Impact:** The auth chain is now verified at all 3 network layers (internal, nginx, CF tunnel). Rate-limited requests no longer break the login flow.
+
+### OpenHands Auth — 8th Issue: WEB_HOST Empty → web_url=None (2026-05-07)
+**Decision:** Discovered and fixed an 8th auth issue: the `WEB_HOST` env var was set to empty string, causing `web_url=None` in `AppServerConfig`.
+**Root cause:** `get_default_web_url()` reads `os.getenv('WEB_HOST')` — empty string is falsy → returns `None`. This cascades to:
+- `get_cookie_domain()` returns `None` (no domain on cookie)
+- `get_cookie_samesite()` returns `lax` instead of `strict` (production mode)
+- `get_web_url(request)` falls back to guessing from `request.url.netloc` which varies by network layer
+**Fix:** Set `WEB_HOST=openhands.istayintek.com` on the openhands deployment. Now `web_url='https://openhands.istayintek.com'`, `cookie_domain='openhands.istayintek.com'`, `cookie_samesite='strict'`.
+**Key discovery:** The env var is `WEB_HOST` (read by `get_default_web_url()`), NOT `AUTH_WEB_HOST` (which is a different config). Both were needed but only `AUTH_WEB_HOST` was set.
+**Verification:** 15 concurrent curl requests through CF tunnel: 10×200 + 5×429 (correct rate limiting, no cookie deletion).
+**Impact:** Cookie now has proper domain and SameSite=strict. The `get_web_url()` function returns deterministic `https://openhands.istayintek.com` instead of guessing from the request.

@@ -136,7 +136,7 @@
 
 ## COMPLETED
 
-- [x] **OpenHands Auth Fixed** (2026-05-07) — 6-stage fix chain for GitHub OAuth login. Keycloak admin, CF bypass, token issuer, LiteLLM skip, offline token loop, /login redirect loop. Persistent patches via ConfigMap. `openhands.istayintek.com` login flow completes end-to-end.
+- [x] **OpenHands Auth Fixed — 8-stage chain** (2026-05-07) — Full GitHub OAuth login fix chain: (1) store_idp_tokens non-fatal, (2) offline_token forced true, (3) /login redirect override, (4) LOCAL_DEPLOYMENT=true, (5) KC_PROXY_HEADERS=xforwarded, (6) WARN-level logging, (7) RateLimitException separate 429 handler, (8) WEB_HOST env var empty → web_url=None → cookie domain/samesite wrong. All verified: 15 concurrent requests → 10×200 + 5×429. `devopseng99/openhands` repo created.
 - [x] **SDK Agent Intake v2.3.0** (2026-05-06) — Playwright browser verification (Task 17d), `--browser-verify` CLI flag, kubectl exec MCP transport, JSON eval reports with screenshots. OpenHands: 7/7 checks PASS. `devopseng99/sdk-agent-intake` tag v2.3.0.
 - [x] **browser-verify skill** (2026-05-06) — Universal Playwright MCP skill in `devopseng99/claude-skills`. kubectl exec transport, 15 tools, eval report format. Added to `container-ops` profile (now 3 skills).
 - [x] **SDK Agent Intake v2.2.0** (2026-05-05) — External chart search (GitHub org + Artifact Hub), pod failure resilience (5 iterations, never BLOCKED early), browser verification, Bitnami legacy defaults. Validated with OpenHands: $3.00, 22 min, 6/6 pods, community chart discovered. `devopseng99/sdk-agent-intake` branch PIT-003.
