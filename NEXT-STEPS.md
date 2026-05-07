@@ -110,11 +110,13 @@
 - Validated against OpenHands: 7/7 checks PASS, screenshot captured
 - **Remaining:** GitHub App setup for OpenHands (to get past identity provider setup screen → coding workspace)
 
-### 23. OpenHands Auth — GitHub Login Fixed (2026-05-07)
-- 6-stage fix chain: admin user, CF bypass, token issuer, LiteLLM skip, offline token loop, /login redirect loop
-- Persistent patches via ConfigMap `openhands-auth-patches` (3 runtime patches survive pod restarts)
-- `KC_PROXY_HEADERS=xforwarded`, `offline_access` in default client scopes, `LOCAL_DEPLOYMENT=true`
-- **Remaining:** Verify login works end-to-end in browser; persist env changes to overrides.yaml; update overrides.yaml with all env vars
+### 23. ~~OpenHands Auth — 10-Stage Fix Chain~~ — RESOLVED (2026-05-07)
+- 10 cascading auth issues fixed across CF tunnel, nginx, Keycloak, Python backend, SPA frontend
+- 7 runtime patches in ConfigMap `openhands-auth-patches` (auth.py ×4, url_utils.py ×1, token_manager.py ×2)
+- Root cause: GitHub OAuth doesn't return `refresh_token` → KeyError in `store_idp_tokens()` → IDP tokens never stored → git-info/suggested-tasks return 401 → SPA global interceptor triggers logout
+- Discovery method: Chrome DevTools fetch trace showed /authenticate returning 200 but /git-info returning 401
+- `KC_PROXY_HEADERS=xforwarded`, `WEB_HOST=openhands.istayintek.com`, `LOCAL_DEPLOYMENT=true`
+- **Remaining:** Browser verification of full login flow (user offered 2FA code for Playwright test)
 
 ### 24. SDK Agent Intake — Browser Eval Enhancement (PROPOSED)
 - Current browser-verify validates basic rendering (title, elements, screenshots)
@@ -136,7 +138,7 @@
 
 ## COMPLETED
 
-- [x] **OpenHands Auth Fixed — 8-stage chain** (2026-05-07) — Full GitHub OAuth login fix chain: (1) store_idp_tokens non-fatal, (2) offline_token forced true, (3) /login redirect override, (4) LOCAL_DEPLOYMENT=true, (5) KC_PROXY_HEADERS=xforwarded, (6) WARN-level logging, (7) RateLimitException separate 429 handler, (8) WEB_HOST env var empty → web_url=None → cookie domain/samesite wrong. All verified: 15 concurrent requests → 10×200 + 5×429. `devopseng99/openhands` repo created.
+- [x] **OpenHands Auth Fixed — 10-stage chain** (2026-05-07) — Full GitHub OAuth login fix chain: (1) store_idp_tokens non-fatal, (2) offline_token forced true, (3) /login redirect override, (4) RateLimitException 429 handler, (5) SameSite=Lax for OAuth, (6) GitHub refresh_token KeyError fix, (7) token refresh path KeyError fix, (8) WEB_HOST env var, (9) KC_PROXY_HEADERS=xforwarded, (10) PostHog try/except. 7 ConfigMap patches across 3 files. Root cause discovered via Chrome DevTools fetch trace. `devopseng99/openhands` repo.
 - [x] **SDK Agent Intake v2.3.0** (2026-05-06) — Playwright browser verification (Task 17d), `--browser-verify` CLI flag, kubectl exec MCP transport, JSON eval reports with screenshots. OpenHands: 7/7 checks PASS. `devopseng99/sdk-agent-intake` tag v2.3.0.
 - [x] **browser-verify skill** (2026-05-06) — Universal Playwright MCP skill in `devopseng99/claude-skills`. kubectl exec transport, 15 tools, eval report format. Added to `container-ops` profile (now 3 skills).
 - [x] **SDK Agent Intake v2.2.0** (2026-05-05) — External chart search (GitHub org + Artifact Hub), pod failure resilience (5 iterations, never BLOCKED early), browser verification, Bitnami legacy defaults. Validated with OpenHands: $3.00, 22 min, 6/6 pods, community chart discovered. `devopseng99/sdk-agent-intake` branch PIT-003.
@@ -163,7 +165,8 @@
 - [x] **CF Pages cleanup** (2026-05-03) — Deleted 95 duplicate CF Pages projects (all had nginx equivalents). 5 remaining: sui, pc-showroom, tech-showroom + 2 beauty apps added as CRDs.
 - [x] **pc-v4 scaled up** (2026-05-03) — pc-v4 running (1/1 app + 1/1 PG, 336 companies). Ready for invest-bots Phase B.
 - [x] **811 total CRDs** (2026-05-03) — Added pb-60316-znb (ZR Nail Beauty) + pb-60317-zbs (Zuzu Beauty Salon) to ecom pipeline.
-- [x] **OpenHands auth rate-limit fix + E2E tests** (2026-05-07) — 7th auth issue: RateLimitException caused cookie deletion → 401 loop. Fixed with separate 429 handling. Created smoke-test-auth.py + e2e-auth-playwright.py. All K8s manifests exported to overrides repo. All 6 core auth tests pass (login page, OAuth redirect, curl×3 levels, token refresh).
+- [x] **OpenHands auth rate-limit fix + E2E tests** (2026-05-07) — RateLimitException caused cookie deletion → 401 loop. Fixed with separate 429 handling. Created smoke-test-auth.py + e2e-auth-playwright.py. All K8s manifests exported. 6 core auth tests pass.
+- [x] **OpenHands auth SameSite + IDP token fix** (2026-05-07) — Issues 9-10: SameSite=Strict blocks OAuth redirects (forced Lax via regex patch), GitHub OAuth missing refresh_token causes KeyError in store_idp_tokens → IDP tokens never stored → git-info/suggested-tasks 401 → SPA logout loop. Chrome DevTools fetch trace was the breakthrough diagnostic.
 - [x] **OpenFile & Direct File APIs LIVE** (2026-04-13) — Both IRS tax apps fully running on pc-v7. Spring Boot API + React + PG + Redis + LocalStack per namespace. Factgraph disabled (upstream fix needed), all 4 URLs returning 200.
 - [x] **invest-bots Phase A complete** (2026-04-13) — 19th pipeline, 15 AI trading bots. All 15/15 code on GitHub, all Deploying. 809 total CRDs.
 - [x] **pc-v7 provisioned + populated** (2026-04-13) — Instance at https://pc-v7.istayintek.com. Hosts OpenFile + Direct File (2 companies). NOT for pipeline apps.

@@ -203,6 +203,24 @@
 - `invest-bots` (15 apps) — Trading bots with accuracy tracking, RSS sentiment, and specialized CMS
 **Result:** Phase A completed 2026-04-13. All 15/15 code on GitHub. All 15 at Deploying — awaiting Phase B.
 
+### OpenHands Auth — 10-Stage Fix Chain with Chrome Trace Root Cause (2026-05-07)
+**Decision:** Fixed GitHub OAuth login loop through 10 cascading issues spanning CF tunnel → nginx proxy → Keycloak → OpenHands Python backend → SPA frontend.
+**Root cause discovery method:** Chrome DevTools Network tab → Copy as Fetch on failing requests → revealed that `/api/v1/users/git-info` and `/api/v1/git/suggested-tasks/search` returned 401 while `/authenticate` returned 200. The SPA's global error interceptor treats ANY 401 from ANY endpoint as auth failure → triggers logout → redirect loop.
+**The 10 issues (order of discovery):**
+1. `store_idp_tokens()` crashes on broker 403 → try/except wrapper (Patch 1)
+2. `validate_offline_token()` redirect loop → forced True (Patch 2)
+3. OAuth callback redirects back to /login → override to / (Patch 3)
+4. RateLimitException caught by generic except → deletes cookie → 401 loop → catch separately, return 429 (Patch 4)
+5. SameSite=Strict blocks OAuth redirect cookies → force SameSite=Lax (Patch 5, regex-based)
+6. GitHub OAuth returns no `refresh_token` → `data['refresh_token']` KeyError → `data.get('refresh_token', '')` (Patch 6)
+7. Token refresh path same KeyError → `token_data.get('refresh_token', '')` (Patch 7)
+8. WEB_HOST env var empty → web_url=None → cookie_domain=None, samesite wrong (env fix)
+9. KC_PROXY_HEADERS=forwarded vs xforwarded mismatch (env fix)
+10. PostHog API key missing → already try/except (no patch needed)
+**ConfigMap patches:** 7 patches across 3 files (auth.py ×4, url_utils.py ×1, token_manager.py ×2), applied at startup before uvicorn.
+**YAML gotcha:** Triple-quoted Python strings inside YAML `|` blocks lose indentation — must use `re.compile()` regex for multi-line matching (Patch 5).
+**Key insight:** App logs showed all /authenticate returning 200, but nginx proxy logs showed /git-info and /suggested-tasks returning 401. Different endpoints have different auth middleware — the authenticate endpoint doesn't call `get_idp_tokens()`, but git-info and suggested-tasks do. The Chrome fetch trace was the breakthrough — showed exactly which requests triggered the logout.
+
 ### Versioned Skill Registry (2026-05-02)
 **Decision:** Extracted all Claude Code skills into a dedicated GitHub repo (`devopseng99/claude-skills`) with version pinning, a sync CLI, and per-project manifests.
 **Problem:** Skills were flat files scoped to one project directory. No versioning, no sharing across projects, no rollback.
