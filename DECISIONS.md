@@ -504,3 +504,15 @@
 - OpenHands env: `LOCAL_DEPLOYMENT=true`, `KEYCLOAK_SERVER_URL=http://openhands-service:3000`
 - 8 pods: openhands, integrations, mcp, proxy (nginx), keycloak, postgresql, redis, minio
 **Impact:** Full GitHub OAuth login now works end-to-end. The fix chain required understanding the entire request flow: CF tunnel → nginx proxy → Keycloak/OpenHands → token exchange → cookie → SPA.
+
+### OpenHands Auth — 7th Issue: Rate Limiter Cookie Deletion (2026-05-07)
+**Decision:** Discovered and fixed a 7th auth issue: the built-in rate limiter (10 req/sec/user) was causing cookie deletion during SPA page load.
+**Root cause:** The SPA fires 10+ parallel API calls on page load (authenticate, settings, git-info, conversations, suggested-tasks). When the rate limiter tripped, `RateLimitException` was caught by the authenticate endpoint's generic `except Exception` block, which returned 401 AND deleted the `keycloak_auth` cookie. Once the cookie was deleted, ALL subsequent requests failed → SPA redirected to /login.
+**Fix:** Patched the authenticate endpoint to catch `RateLimitException` separately and return 429 (not 401) WITHOUT deleting the cookie. Added to ConfigMap `openhands-auth-patches` as patch #4.
+**Verification:** Playwright E2E test + curl rapid-fire test (15 concurrent requests: 10×200 + 5×429, no cookie deletion).
+**Artifacts created:**
+- `scripts/smoke-test-auth.py` — API-level auth chain validation (Keycloak tokens → signed cookie → 3-level endpoint test)
+- `scripts/e2e-auth-playwright.py` — Browser E2E test (login page, OAuth redirect, curl at 3 levels, token refresh)
+- `manifests/` — Exported all K8s resources (keycloak, proxy, auth-patches ConfigMap)
+- `overrides.yaml` updated with LOCAL_DEPLOYMENT, LITE_LLM_API_KEY, LITE_LLM_API_URL
+**Impact:** The auth chain is now verified at all 3 network layers (internal, nginx, CF tunnel). Rate-limited requests no longer break the login flow.
